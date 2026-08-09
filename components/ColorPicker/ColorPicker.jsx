@@ -1,10 +1,46 @@
+import PropTypes from 'prop-types';
 import tinycolor from 'tinycolor2';
 
-import Square from './color-picker/color-picker-square';
-import Slider from './color-picker/color-picker-slider';
-import Palette from './color-picker/color-picker-palette';
+import Square from './color-picker-square';
+import Slider from './color-picker-slider';
+import Palette from './color-picker-palette';
 
 export default class ColorPicker extends React.Component {
+
+  static propTypes = {
+    name: PropTypes.string,
+    initialValue: PropTypes.string,
+    palette: PropTypes.array,
+    onValueChange: PropTypes.func,
+    updateColor: PropTypes.func
+  };
+
+  static defaultProps = {
+    name: 'color',
+    initialValue: '#FFFFFF',
+    palette: [
+      '#F06060', '#60AAF0', '#60F06E', '#F0D860',
+      '#60D8F0', '#CCCCCC', '#F0B460', '#9060F0',
+      '#4A90E2', '#50E3C2', '#9B9B9B', '#000000'
+    ],
+    onValueChange: () => {}
+  };
+
+  constructor(props) {
+    super(props);
+    this.hexInput = React.createRef();
+    this.panelHexInput = React.createRef();
+
+    this.showPanel = this.showPanel.bind(this);
+    this.hidePanel = this.hidePanel.bind(this);
+    this.handleHexChange = this.handleHexChange.bind(this);
+    this.handleHueChange = this.handleHueChange.bind(this);
+    this.handleSaturationChange = this.handleSaturationChange.bind(this);
+    this.handleLightnessChange = this.handleLightnessChange.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.preventPanelEventBubble = this.preventPanelEventBubble.bind(this);
+    this.handleSwatchSelect = this.handleSwatchSelect.bind(this);
+  }
 
   // getInitialState() {
   //   hex: null
@@ -45,7 +81,7 @@ export default class ColorPicker extends React.Component {
     if (this.props.updateColor)
       this.props.updateColor(hex.toUpperCase());
 
-    hsl = tinycolor(hex).toHsl();
+    const hsl = tinycolor(hex).toHsl();
     this.setState({
       hue: hsl.h,
       saturation: hsl.s * 100,
@@ -111,7 +147,7 @@ export default class ColorPicker extends React.Component {
   // # Convenience method to coerce a value to be a number or null instead of NaN
   numericOrNull(value) {
     value = parseFloat(value);
-    if (!$.isNumeric(value)) value = null;
+    if (Number.isNaN(value)) value = null;
     return value;
   }
 
@@ -125,9 +161,9 @@ export default class ColorPicker extends React.Component {
     document.addEventListener("click", this.hidePanel);
 
     // # Pretty sure this is not the best way to wait for panel node to render
-    this.refs.hex.getDOMNode().blur();
-    input = this.refs.panelHex.getDOMNode();
-    helpers.selectRange(input, 1, 7);
+    this.hexInput.current.blur();
+    const input = this.panelHexInput.current;
+    input.setSelectionRange(1, 7);
     setTimeout(() => {
       input.focus();
     }, 400);
@@ -154,9 +190,9 @@ export default class ColorPicker extends React.Component {
 
 
   render() {
-    blotStyle = { backgroundColor: this.state.hex };
+    const blotStyle = { backgroundColor: this.state.hex };
 
-    inputProps = {
+    const inputProps = {
       type: "text",
       className: "txt",
       onKeyPress: this.handleKeyPress
@@ -165,8 +201,8 @@ export default class ColorPicker extends React.Component {
     return (
       <div className="cpr">
         <div className="cpr_blot" style={blotStyle} onClick={this.showPanel}></div>
-        <input className="txt cpr_input" ref="hex" value={this.state.hex} onChange={this.handleHexChange} onClick={this.showPanel} name={this.props.name} />
-        <div className="cpr_panel ddn #{if this.state.visible then 'is-visible' else ''}" onClick={this.preventPanelEventBubble}>
+        <input className="txt cpr_input" ref={this.hexInput} value={this.state.hex} onChange={this.handleHexChange} onClick={this.showPanel} name={this.props.name} />
+        <div className={`cpr_panel ddn ${this.state.visible ? 'is-visible' : ''}`} onClick={this.preventPanelEventBubble}>
           <section>
             <Square
               onSaturationChange={this.setSaturation}
@@ -182,7 +218,7 @@ export default class ColorPicker extends React.Component {
           </section>
           <aside>
             <div className="cpr_blot is-small" style={blotStyle}></div>
-            <input className="txt cpr_input" ref="panelHex" value={this.state.hex} onChange={this.handleHexChange} onKeyPress={this.handleKeyPress} />
+            <input className="txt cpr_input" ref={this.panelHexInput} value={this.state.hex} onChange={this.handleHexChange} onKeyPress={this.handleKeyPress} />
             <ul className="cpr_hsb">
               <li>
                 <input value={this.state.hue} onChange={this.handleHueChange} {...inputProps} />
@@ -206,28 +242,3 @@ export default class ColorPicker extends React.Component {
   }
 }
 
-// propTypes:
-//   name: React.PropTypes.string
-//   initialValue: React.PropTypes.string
-//   palette: React.PropTypes.array
-//   onValueChange: React.PropTypes.func
-//
-//
-// getDefaultProps() {
-//   name: 'color'
-//   initialValue: '#FFFFFF'
-//   palette: [
-//     '#F06060'
-//     '#60AAF0'
-//     '#60F06E'
-//     '#F0D860'
-//     '#60D8F0'
-//     '#CCCCCC'
-//     '#F0B460'
-//     '#9060F0'
-//     '#4A90E2'
-//     '#50E3C2'
-//     '#9B9B9B'
-//     '#000000'
-//   ]
-//   onValueChange() {
