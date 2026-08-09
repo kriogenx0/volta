@@ -1,0 +1,28 @@
+.group {
+  > * {
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+}
+
+.group-left {
+  text-align: left;
+
+  > * {
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+}
+
+.group-right {
+  text-align: right;
+
+  > * {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+}

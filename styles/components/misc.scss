@@ -1,0 +1,72 @@
+@use "../../mixins" as *;
+// Horiontal Rule
+hr {
+  margin-top: 60px;
+  margin-bottom: 60px;
+  border: 0 none;
+  border-top: 1px solid #ccc;
+}
+//
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+* html .clearfix {
+  zoom: 1;
+}
+/* IE6 */
+*:first-child+html .clearfix {
+  zoom: 1;
+}
+/* IE7 */
+.panel {
+  border-radius: 5px;
+  padding: 30px;
+  background-color: $color_base;
+  border: 1px solid $color_base_subtle;
+  @include dark {
+    background-color: $color_base_dark;
+    border-color: $color_base_subtle_dark;
+  }
+
+  & + .panel {
+    margin-top: 20px;
+  }
+
+  > .panel-heading {
+    padding-top: 0;
+    margin-top: 0;
+  }
+}
+
+
+.clickable {
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    background-color: $color_base_subtle;
+    @include dark {
+      background-color: $color_base_subtle_dark;
+    }
+  }
+
+  &.pressed {
+    background-color: $color_active;
+    @include dark {
+      background-color: $color_active_dark;
+    }
+
+    &:hover {
+      background-color: $color_active_subtle;
+      @include dark {
+        background-color: $color_active_subtle_dark;
+      }
+    }
+  }
+}

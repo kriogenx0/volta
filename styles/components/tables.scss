@@ -1,0 +1,225 @@
+@use "../../mixins" as *;
+
+tr {
+  &.linked {
+    cursor: pointer;
+    @include no-select;
+  }
+
+  &.disabled {
+    color: $color_inactive;
+    img,
+    .icon {
+      opacity: 0.5;
+    }
+  }
+}
+
+
+tr.grouper {
+  border-left: 1px solid #f3f3f3;
+  border-right: 1px solid #f3f3f3;
+}
+
+th,
+td {
+  &.sortable {
+    cursor: pointer;
+    @include no-select;
+  }
+}
+
+.table-list {
+  font-size: 14px;
+  width: 100%;
+  border-spacing: 0;
+
+  th,
+  td {
+    border-bottom: 1px solid $color_base_subtle;
+    @include dark {
+      border-bottom-color: $color_base_subtle_dark;
+    }
+
+    transition: padding $resize_transition;
+    padding: 15px;
+    @include mobile {
+      padding: 5px;
+    }
+    @include large {
+      padding: 20px;
+    }
+  }
+
+  tr.table-header > *,
+  th {
+    text-align: left;
+    font-weight: 400;
+
+    border-bottom: 0 none;
+    &:first-child {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+
+    background-color: $color_base_more_subtle;
+    color: $color_trim_subtle;
+    @include dark {
+      background-color: $color_base_more_subtle_dark;
+      color: $color_trim_subtle_dark;
+    }
+  }
+
+  td {
+    color: $color_trim;
+    @include dark {
+      color: $color_trim_dark;
+    }
+
+    &.actions {
+      text-align: right;
+
+      .btn-toolbar .btn {
+        float: none;
+      }
+    }
+  }
+
+  tr {
+    transition: background-color 150ms, color 150ms;
+
+    &.collapsed {
+      display: none;
+    }
+
+    &.grouper td {
+      background-color: #fbfbfb;
+      color: #000;
+    }
+
+    .hover_actions {
+      visibility: hidden;
+    }
+
+    &:hover .hover_actions {
+      visibility: visible;
+    }
+
+    &.disabled td {
+      &,
+      a {
+        color: #ccc;
+      }
+    }
+
+    // linked
+    // &:not(.disabled) {
+    //   &.linked:hover,
+    //   &.linked.active {
+    //     background-color: $color_active_subtle;
+    //     color: #000;
+    //   }
+    // }
+
+    &.linked:hover td {
+      cursor: pointer;
+      @include no-select;
+      background-color: $color_active_subtle;
+      color: $color_trim;
+
+      @include dark {
+        background-color: $color_active_subtle_dark;
+        color: $color_trim_dark;
+      }
+    }
+
+    &.selected td,
+    &.active td {
+      background-color: $color_active_subtle;
+      color: $color_trim;
+
+      @include dark {
+        background-color: $color_active_subtle_dark;
+        color: $color_trim_dark;
+      }
+    }
+
+    &.disabled:hover td {
+      background-color: inherit;
+    }
+  }
+}
+
+.table-multi-select {
+  border-collapse: separate;
+
+  border-spacing: 0 10px;
+
+  @include large {
+    border-spacing: 0 15px;
+  }
+
+  th {
+    border-style: none;
+
+    padding: 10px;
+    padding-bottom: 0;
+
+    @include large {
+      padding: 15px;
+      padding-bottom: 0;
+    }
+  }
+
+  td {
+    border: solid 1px #d6d6d6;
+    border-style: solid none solid none;
+
+    padding: 10px;
+
+    @include large {
+      padding: 15px;
+    }
+
+    &:first-child {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      border-left-style: solid;
+    }
+
+    &:last-child {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      border-right-style: solid;
+    }
+  }
+
+  tr {
+    &.linked:hover td {
+      cursor: pointer;
+      @include no-select;
+      background-color: #f6f6f6;
+      color: #000;
+    }
+
+    &.selected td {
+      border-color: #0070c9;
+      background-color: #f6f6f6;
+      color: #000;
+    }
+
+    &.disabled:hover td {
+      background-color: inherit;
+    }
+  }
+}
+
+.table-header {
+  font-weight: 600;
+  color: #686868;
+}

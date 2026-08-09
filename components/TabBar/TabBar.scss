@@ -1,3 +1,4 @@
+@use '../../mixins' as *;
 .c-tab_bar
 {
   border-bottom: 1px solid #ccc;
@@ -13,7 +14,7 @@
   cursor: pointer;
   color: #bbb;
   margin-bottom: -1px;
-  transition: color 150ms, border-color 150ms;
+  transition: color $anim-speed-normal, border-color $anim-speed-normal;
 
   &:hover
   {

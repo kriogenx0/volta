@@ -1,0 +1,225 @@
+// Colors
+//
+// Runtime-themeable design tokens. Every color below resolves to a CSS
+// custom property, so:
+// - accent color is settable at runtime (see components/theme.js) via
+//   `--v-accent` on :root, without a rebuild
+// - light/dark mode is driven by the same variables: they flip value
+//   under `[data-theme='dark']` or `(prefers-color-scheme: dark)`, so a
+//   component only needs to reference the token once (no separate "_dark"
+//   rule needed going forward, though the "_dark"-suffixed Sass variables
+//   below are kept as aliases for existing component styles)
+
+:root {
+  --v-accent: #4A90E2;
+  --v-accent-hover: #2F90FB;
+  --v-accent-subtle: #E5F0FC;
+
+  --v-color-base: #ffffff;
+  --v-color-base-subtle: #e6e6e6;
+  --v-color-base-less-subtle: #cccccc;
+  --v-color-base-more-subtle: #f2f2f2;
+
+  --v-color-trim: #111111;
+  --v-color-trim-subtle: #4d4d4d;
+  --v-color-trim-less-subtle: #808080;
+  --v-color-trim-more-subtle: #1a1a1a;
+
+  --v-color-inactive: #a1a5a9;
+  --v-color-danger: #e30000;
+  --v-color-success: #03a10e;
+
+  // Global animation speed. Override via components/theme.js's
+  // setAnimationSpeed(), or the --v-anim-speed custom property directly.
+  --v-anim-speed: 150ms;
+  --v-anim-ease: ease-in-out;
+}
+
+@mixin dark-palette {
+  --v-color-base: #050505;
+  --v-color-base-subtle: #292929;
+  --v-color-base-less-subtle: #404040;
+  --v-color-base-more-subtle: #1c1c1c;
+
+  --v-color-trim: #f1f1f1;
+  --v-color-trim-subtle: #c2c2c2;
+  --v-color-trim-less-subtle: #999999;
+  --v-color-trim-more-subtle: #e6e6e6;
+
+  --v-accent-subtle: #234A78;
+  --v-color-inactive: #7c7f82;
+}
+
+// Follows the OS preference until an explicit [data-theme] is set
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    @include dark-palette;
+  }
+}
+
+// Explicit override, set by components/theme.js's setColorScheme()
+:root[data-theme='dark'] {
+  @include dark-palette;
+}
+
+// Add "_dark" to the end of each color for dark mode
+// The primary colors start with color_ followed by:
+// - base
+//   - soft - subtle
+//   - softer - more_subtle
+//   - loud - less_subtle
+// - trim
+//   - soft - subtle
+//   - softer - more subtle
+//   - loud - less subtle
+// - active
+//   - soft - subtle
+// - inactive
+//
+// NOTE: the "_dark" variants below intentionally point at the SAME CSS
+// custom property as their light counterpart. The property itself changes
+// value under [data-theme='dark'] / prefers-color-scheme, so both names
+// always resolve consistently -- components that already wrap dark-mode
+// overrides in `@include dark { ... }` keep working unchanged.
+
+// BASE
+$base: var(--v-color-base);
+$base_soft: var(--v-color-base-subtle);
+$base_softer: var(--v-color-base-more-subtle);
+$base_loud: var(--v-color-base-less-subtle);
+$base_louder: var(--v-color-base-less-subtle);
+
+$base_dark: $base;
+$base_soft_dark: $base_soft;
+$base_softer_dark: $base_softer;
+$base_loud_dark: $base_loud;
+$base_louder_dark: $base_louder;
+
+// TRIM
+$trim: var(--v-color-trim);
+$trim_soft: var(--v-color-trim-subtle);
+$trim_softer: var(--v-color-trim-more-subtle);
+$trim_loud: var(--v-color-trim-less-subtle);
+$trim_louder: var(--v-color-trim-less-subtle);
+
+$trim_dark: $trim;
+$trim_soft_dark: $trim_soft;
+$trim_softer_dark: $trim_softer;
+$trim_loud_dark: $trim_loud;
+$trim_louder_dark: $trim_louder;
+
+//////////
+// DEPRECATED
+
+// Base
+$color_base: var(--v-color-base);
+$color_base_dark: $color_base;
+
+// Subtle - Used for borders, backgrounds, soft text
+$color_base_subtle: var(--v-color-base-subtle);
+$color_base_subtle_dark: $color_base_subtle;
+
+// Less Subtle
+$color_base_less_subtle: var(--v-color-base-less-subtle);
+$color_base_less_subtle_dark: $color_base_less_subtle;
+
+// More Subtle
+$color_base_more_subtle: var(--v-color-base-more-subtle);
+$color_base_more_subtle_dark: $color_base_more_subtle;
+
+//////////
+
+// Trim - Used for contrasting components such as text
+$color_trim: var(--v-color-trim);
+$color_trim_dark: $color_trim;
+
+// Trim Subtle - Softer texts
+$color_trim_subtle: var(--v-color-trim-subtle);
+$color_trim_subtle_dark: $color_trim_subtle;
+
+// Less Subtle
+$color_trim_less_subtle: var(--v-color-trim-less-subtle);
+$color_trim_less_subtle_dark: $color_trim_less_subtle;
+
+// Trim More Subtle - Even Softer texts
+$color_trim_more_subtle: var(--v-color-trim-more-subtle);
+$color_trim_more_subtle_dark: $color_trim_more_subtle;
+
+//////////
+
+// Active - Used for links, buttons, active tabs. Settable at runtime via
+// components/theme.js's setAccentColor()
+$color_active: var(--v-accent);
+$color_active_dark: $color_active;
+
+// Subtle Active
+$color_active_subtle: var(--v-accent-subtle);
+$color_active_subtle_dark: $color_active_subtle;
+
+// Disabled
+$color_inactive: var(--v-color-inactive);
+$color_inactive_dark: $color_inactive;
+
+//////////
+
+$color_white: #fff;
+
+// Semantic Colors
+$color_danger: var(--v-color-danger);
+$color_danger_subtle: #fff2f4;
+$color_success: var(--v-color-success);
+
+// LEGACY
+$color_border: $color_base_subtle; // Legacy
+$active_color: $color_active; // Legacy
+$active_over_color: var(--v-accent-hover);
+$select_color: var(--v-accent);
+
+$active_background: $color_active_subtle; // Legacy
+
+
+$colors: (
+  base: $color_base,
+  base_dark: $color_base_dark,
+
+  base_subtle: $color_base_subtle,
+  base_subtle_dark: $color_base_subtle_dark,
+
+  base_less_subtle: $color_base_less_subtle,
+  base_less_subtle_dark: $color_base_less_subtle_dark,
+
+  base_more_subtle: $color_base_more_subtle,
+  base_more_subtle_dark: $color_base_more_subtle_dark,
+
+  trim: $color_trim,
+  trim_dark: $color_trim_dark,
+
+  trim_subtle: $color_trim_subtle,
+  trim_subtle_dark: $color_trim_subtle_dark,
+
+  trim_more_subtle: $color_trim_more_subtle,
+  trim_more_subtle_dark: $color_trim_more_subtle_dark,
+
+  active: $color_active,
+  active_dark: $color_active_dark,
+
+  active_subtle: $color_active_subtle,
+  active_subtle_dark: $color_active_subtle_dark,
+);
+
+
+@mixin property-color($property, $color_name) {
+  #{$property}: map-get($colors, $color_name);
+
+  @include dark {
+    #{$property}: map-get($colors, $color_name + '_dark');
+  }
+}
+
+@mixin text-color($color_name) {
+  @include property-color(color, $color_name);
+}
+
+@mixin bg-color($color_name) {
+  @include property-color(background-color, $color_name);
+}

@@ -1,0 +1,69 @@
+// Margins
+// m2 means twice the margin
+// m_2 means half the margin
+// m-y2 means twice the margin, vertically only
+// m0 means no margin
+
+$m: 20px;
+$m2: $m * 2;
+$m_2: calc($m / 2);
+
+$sizes: (
+  "0": 0,
+  "_2": 10px,
+  "_3": 5px,
+  "": 20px,
+  "2": 40px
+);
+
+@each $name, $size in $sizes {
+  // Margins
+  .m#{$name} {
+    margin: $size;
+  }
+
+  .m-l#{$name},
+  .m-x#{$name} {
+    margin-left: $size;
+  }
+
+  .m-r#{$name},
+  .m-x#{$name} {
+    margin-right: $size;
+  }
+
+  .m-y#{$name},
+  .m-t#{$name} {
+    margin-top: $size;
+  }
+
+  .m-y#{$name},
+  .m-b#{$name} {
+    margin-bottom: $size;
+  }
+
+  // Paddings
+  .p#{$name} {
+    padding: $size;
+  }
+
+  .p-l#{$name},
+  .p-x#{$name} {
+    padding-left: $size;
+  }
+
+  .p-r#{$name},
+  .p-x#{$name} {
+    padding-right: $size;
+  }
+
+  .p-y#{$name},
+  .p-t#{$name} {
+    padding-top: $size;
+  }
+
+  .p-y#{$name},
+  .p-b#{$name} {
+    padding-bottom: $size;
+  }
+}

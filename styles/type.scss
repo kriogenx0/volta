@@ -1,0 +1,90 @@
+// type.scss
+@use '../mixins' as *;
+
+body {
+  font-family: "SF Pro Text", "SF Hello", "SF Pro Display", "SF Pro", "SF Pro Icons", "San Francisco", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+}
+
+// Headings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.heading {
+  font-family: "SF Pro Display", "SF Hello", "SF Pro Text", "SF Pro", "SF Pro Icons", "San Francisco", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+}
+
+// Primitive Tags
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  white-space: pre;
+  color: #666;
+  background-color: #f1f1f1;
+  padding: 15px;
+  display: block;
+
+  font-size: 10pt;
+  background-color: $color_base_subtle;
+  color: $color_base_subtle_dark;
+  @include dark {
+    background-color: $color_base_subtle_dark;
+    color: $color_base_subtle;
+  }
+
+  &.error {
+    background-color: #f9f2f4;
+    color: #c7254e;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: #444;
+  transition: color 100ms;
+
+  &:hover {
+    text-decoration: underline;
+    color: $color_active;
+  }
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.1;
+  transition: font-size $resize_transition; // window resizing
+  @include mobile {
+    font-size: 26px;
+  }
+}
+
+h2 {
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+h3 {
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 1.1;
+}
+
+h4 {
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.page-heading {
+  margin: 0 0 20px;
+}
+
+.t-center {
+  text-align: center;
+}
+
+.error {
+  color: #900;
+}

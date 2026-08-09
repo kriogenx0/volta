@@ -1,0 +1,53 @@
+@use '../../mixins' as *;
+
+// Layout
+.l-l {
+  float: left;
+}
+
+.l-width {
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+
+  transition: padding 150ms;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  @include mobile {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  @include large {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+// Layout widths
+
+.l-1of1,
+.l-full {
+    width: 100%;
+}
+
+.l-1of2 {
+  width: 50%;
+}
+
+.l-page_header {
+  margin-bottom: 40px;
+}
+
+.l-hidden {
+  display: none;
+}
+
+.vertical_center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}

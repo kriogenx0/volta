@@ -1,3 +1,4 @@
+@use '../../mixins' as *;
 $inactive: #888;
 
 .c-audio_track
@@ -9,7 +10,7 @@ $inactive: #888;
   border-radius: 3px;
   border: 1px solid #e1e1e1;
   overflow: hidden; // BORDER CORNERS
-  transition: border-color 150ms;
+  transition: border-color $anim-speed-normal;
   min-height: 50px;
   line-height: 50px;
   box-sizing: border-box;
@@ -41,7 +42,7 @@ $inactive: #888;
     .rail-elapsed_percent
     {
       background: rgba(0,0,0,0.2);
-      transition: background-color 150ms;
+      transition: background-color $anim-speed-normal;
       width: 0%;
     }
 
@@ -68,7 +69,7 @@ $inactive: #888;
     .control
     {
       cursor: pointer;
-      transition: background-color 150ms, color, 150ms;
+      transition: background-color $anim-speed-normal, color, $anim-speed-normal;
 
       &:hover
       {
