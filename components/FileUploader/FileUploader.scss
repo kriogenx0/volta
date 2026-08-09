@@ -1,0 +1,96 @@
+@use '../../mixins' as *;
+.ui-file_uploader
+{
+  cursor: pointer;
+  user-select: none;
+
+  display: flex;
+  line-height: 35px;
+
+  > *
+  {
+    vertical-align: middle;
+    box-sizing: border-box;
+  }
+
+  .box
+  {
+    flex-grow: 1;
+    margin-right: 10px;
+
+    background-color: #fff;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    height: 35px;
+    position: relative; // for percent
+
+    width: 75%;
+    min-height: 37px;
+    min-width: 200px;
+
+    &.box-hover,
+    &:hover
+    {
+      background-color: #FAFAFA;
+    }
+
+    .text
+    {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+
+      line-height: 36px;
+      padding-left: 10px;
+      padding-right: 10px;
+      border-radius: 4px;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .percent
+    {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+
+      // background-color: #E7F3F9;
+      background-color: #64AAD7;
+      border-radius: 4px;
+
+      transition: width $anim-speed-normal;
+    }
+
+    &.complete
+    {
+      background-color: #FAFAFA;
+
+      &.box-hover,
+      &:hover
+      {
+        background-color: #f1f1f1;
+      }
+    }
+  }
+
+  .action
+  {
+    width: 20%;
+  }
+
+  > input
+  {
+    // width: 0.1px;
+  	// height: 0.1px;
+  	// opacity: 0;
+  	// overflow: hidden;
+  	// position: absolute;
+  	// z-index: -1;
+  }
+}

@@ -1,41 +1,24 @@
-export default class Checkbox extends React.Component {
+import PropTypes from 'prop-types';
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      checked: props.checked
-    }
-  }
+import "./Checkbox.scss";
 
-  componentWillReceiveProps(props) {
-    if (props.checked === !!props.checked)
-      this.setState({ checked: props.checked });
-  }
-
-  handleChange(event) {
-    const checked = event.target.checked;
-    this.setState({ checked: checked });
-    if (this.props.onChange) this.props.onChange(checked);
-  }
-
-  render() {
-    let className = 'c-checkbox ' + this.props.className;
-    if (this.props.flush) className += ' checkbox-flush';
-
-    return (
-      <label className={className}>
-        <input type="checkbox" checked={this.state.checked} onChange={this.handleChange.bind(this)} />
-        <span className="checkbox-indicator"></span>
-      </label>
-    );
-  }
-}
+const Checkbox = ({ label, disabled, ...props}) => {
+  return (
+    <label className={`soda-checkbox${disabled ? ' checkbox-disabled' : ''}`} title={label}>
+      <input
+        type="checkbox"
+        label={label}
+        disabled={disabled}
+        {...props}
+      />
+      <span>{label}</span>
+    </label>
+  );
+};
 
 Checkbox.propTypes = {
-  onChange: React.PropTypes.func,
-  checked: React.PropTypes.bool
+  label: PropTypes.string,
+  disabled: PropTypes.bool
 };
 
-Checkbox.getDefaultProps = {
-  checked: false
-};
+export default Checkbox;

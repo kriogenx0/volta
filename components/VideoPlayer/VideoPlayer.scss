@@ -1,0 +1,56 @@
+@use "../../mixins" as *;
+
+.soda-video_player {
+  border: 1px solid #ccc;
+  @include dark {
+    border-color: #333;
+  }
+  position: relative;
+
+  @include no_select;
+
+  .full {
+    text-align: center;
+    min-height: 100px;
+    cursor: default;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+
+    $icon_height: 50px;
+
+    .soda-loader, i {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      margin-top: $icon_height * -0.5;
+      line-height: $icon_height;
+      color: #888;
+      font-size: 36px;
+      text-align: center;
+    }
+    .soda-loader {
+      margin: -30px auto;
+      padding: 0;
+    }
+  }
+
+  .video-failed {
+    .full {
+      font-size: 24px;
+    }
+  }
+
+  video {
+    width: 100%;
+    display: block;
+    margin: 0;
+  }
+}

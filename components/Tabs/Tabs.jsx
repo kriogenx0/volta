@@ -1,56 +1,43 @@
-import { Link } from 'react-router';
+import { map } from 'lodash';
 
 import './Tabs.scss';
 
-export default class Tabs extends React.Component {
-  constructor() {
-    super(...arguments);
+const Tabs = ({ tabs, selectedTabKey, onSelect, align }) => {
 
-    this.state = {
-      tabIndex: 0
-    };
-    // this.selectTab = this.selectTab.bind(this);
-  }
+  const handleSelect = (tab, key) => {
+    onSelect && onSelect(key, tab);
+  };
 
-  selectTab(tabIndex) {
-    // console.log('tabIndex', tabIndex);
-    this.setState({ tabIndex });
-    if (this.props.onTabSelect) this.props.onTabSelect(tabIndex);
-  }
-
-  render() {
-    // console.log('this.props.children', this.props.children);
-    const tabIndex = this.state.tabIndex || 0;
-    const selectedTab = this.props.children[tabIndex];
-
-    return (
-      <div className='c-tabs'>
-        <div className='tabs-bar'>
-          { _.map(this.props.children, (tabComponent, i) => {
-            return (
-              <Tabs.Link key={i} label={tabComponent.props.label} active={tabIndex === i} onClick={this.selectTab.bind(this, i)} />
-            );
-          })}
-        </div>
-        <div className='tabs-content'>
-          { selectedTab }
-        </div>
-      </div>
-    );
-  }
-}
-
-Tabs.propTypes = {
-  tabs: PropTypes.array,
-  onTabSelect: PropTypes.func
+  return (
+    <div className={'soda-tabs tab-align-' + align.toLowerCase()}>
+      <nav>
+        <ul>
+          {map(tabs, (tab, key) => (
+            <li
+              key={tab}
+              onClick={handleSelect.bind(null, tab, key)}
+              className={'tab' + (key === selectedTabKey ? ' tab-selected' : '')}
+            >
+              {tab}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  );
 };
 
-Tabs.Item = class TabItem extends React.Component {
-  render() {
-    return (
-      <div className='tabs-tab_item'>
-        {this.props.children}
-      </div>
-    );
-  }
-}
+Tabs.propTypes = {
+  tabs: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  selectedTabKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onSelect: PropTypes.func,
+  align: PropTypes.string,
+  activeClassName: PropTypes.string
+};
+
+Tabs.defaultProps = {
+  align: 'left',
+  activeClassName: 'current'
+};
+
+export default Tabs;

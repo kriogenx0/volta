@@ -1,0 +1,29 @@
+@use '../../mixins' as *;
+
+$padding: 15px;
+
+.control-card
+{
+  // margin: 80px auto;
+  display: inline-block;
+  text-align: center;
+  color: #ccc;
+  font-size: 150%;
+  border: 1px solid #f0f0f0;
+  padding: $padding;
+  overflow: hidden;
+  transition: border-color $anim-speed-normal, padding $anim-speed-normal;
+
+  &.control-card-selectable
+  {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  &.control-card-selected
+  {
+    border-width: 2px;
+    border-color: #0070C9;
+    padding: $padding - 1;
+  }
+}

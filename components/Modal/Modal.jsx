@@ -1,101 +1,31 @@
-import ReactDOM from 'react-dom';
+import Overlay from "../Overlay";
 
 import './Modal.scss';
 
-export default class Modal extends React.Component {
+const Modal = ({ show, onHide, children, className, headerTitle, ...otherProps }) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: props.isOpen
-    };
+  return (
+    <Overlay showing={show}>
+      <div className={'soda-modal' + (className ? ' ' + className : '')} show={show} size="lg" onHide={onHide} {...otherProps}>
 
-    this.handleClose = this.handleClose.bind(this);
-  }
+        <div className="modal-dialog">
 
-  componentWillMount() {
-    this.loadProps(this.props);
-    if (this.props.outterOverlay) this.buildOverlay();
-  }
+          {headerTitle && <div className="modal-header" closeButton>
+            <div className="modal-title">{headerTitle}</div>
+          </div>}
 
-  componentWillReceiveProps(props) {
-    this.loadProps(props);
-  }
-
-  loadProps(props) {
-    if (props.isOpen !== null) {
-      props.isOpen ? this.show() : this.hide();
-    }
-  }
-
-  componentWillUnount() {
-    this.removeOverlay();
-  }
-
-  buildOverlay() {
-    this.overlay = document.createElement('div');
-    this.overlay.className = 'modal-overlay';
-    document.body.appendChild(this.overlay);
-
-    if (this.props.closeOnOverlayClick) {
-      $(this.overlay).click(()=>{
-        this.hide();
-      });
-    }
-  }
-
-  removeOverlay() {
-    if (!this.overlay) return;
-    ReactDOM.unmountComponentAtNode(this.overlay);
-    document.body.removeChild(this.overlay);
-    delete this.overlay;
-  }
-
-  show() {
-    if (this.state.isOpen) return;
-    this.setState({ isOpen: true });
-    if (this.overlay)
-      this.overlay.className = 'modal-overlay';
-  }
-
-  hide() {
-    if (this.state.isOpen === false) return;
-    this.setState({ isOpen: false });
-    if (this.overlay)
-      this.overlay.className = 'modal-overlay hidden';
-    // this.removeOverlay();
-  }
-
-  handleClose() {
-    if (this.props.onClose) {
-      this.props.onClose();
-    }
-    this.hide();
-  }
-
-  render() {
-    const modalClass = `c-modal ${this.state.isOpen ? ' modal-open' : ''} ${this.props.className}`;
-
-    return (
-      <div className={modalClass} tabIndex="-1" role="dialog">
-        <div className='modal-inner-overlay' onClick={this.handleClose}></div>
-        <div className="modal-box" role="document">
-          <div className="modal-content">
-            {this.props.children}
+          <div className="modal-body modal-insides">
+            <div className="modal-inside">
+              {children}
+            </div>
           </div>
         </div>
-      </div>
-    );
-  }
-}
 
-Modal.defaultProps = {
-  outterOverlay: false,
-  // Start open or closed
-  isOpen: null,
-  // Clone when clicking overlay
-  closeOnOverlayClick: true,
-  // Callback for closing dialog
-  onClose: null,
-  className: null
+      </div>
+    </Overlay>
+  );
 };
+
+Modal.inside = ({ children }) => <div className="modal-inside--padding">{children}</div>;
+
+export default Modal;

@@ -1,0 +1,117 @@
+@use "../../mixins" as *;
+@use "sass:color";
+
+$toggle-height: 25px;
+$toggle-width: 45px;
+$switch-size: 25px;
+// $toggle-pod: $toggle-width - math.div($switch-size, 2);
+$toggle-pod: $toggle-width - 12.5;
+
+.soda-toggle {
+  position: relative;
+  display: inline-block;
+  height: $toggle-height;
+  cursor: pointer;
+  @include transform(translateZ(0));
+
+  > input {
+    position: absolute;
+    opacity: 0;
+    z-index: -1; /* Put the input behind the label so it doesn't overlay text */
+    visibility: hidden;
+  }
+
+  .toggle-body {
+    width: $toggle-width;
+    height: $toggle-height;
+    background: $color_base;
+    border: 1px solid $color_border;
+    display: inline-block;
+    position: relative;
+    border-radius: 50px;
+    transition: border-color $anim-speed-normal;
+  }
+
+  .toggle-switch {
+    width: $toggle-height;
+    height: $toggle-height;
+    display: inline-block;
+    background-color: $color_white;
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, $color_border 100%, black 5%);
+    @include box-shadow(0 2px 2px rgba(0,0,0,.13));
+    @include transition(left $anim-slight-bounce $anim-speed-normal, transform $anim-slight-bounce $anim-speed-normal);
+    z-index: $z-content + 1;
+    @include transform(translateZ(0));
+  }
+
+  .toggle-track {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    @include transform(translateZ(0));
+    overflow: hidden;
+    border-radius: 50px;
+  }
+
+  .toggle-bg {
+    position: absolute;
+    left: -1 * $toggle-pod;
+    top: 0;
+    bottom: 0;
+    width: $toggle-pod + 10; // 10 compensates for animation bounce
+    @include transition(left $anim-slight-bounce $anim-speed-normal);
+    background: $color_active;
+    // background: $color_active url('images/tgl_check.png') center center no-repeat;
+    // @include image-2x('images/2x/tgl_check.png', image-width('../../assets/images/tgl_check.png'), image-height('../../assets/images/tgl_check.png'));
+  }
+
+  .toggle-bg-negative {
+    left: auto;
+    right: -10px;
+    @include transition(right $anim-slight-bounce $anim-speed-normal);
+    background: $color_white;
+    // background: $color_white url('images/tgl_x.png') center center no-repeat;
+    // @include image-2x('images/2x/tgl_x.png', image-width('../../assets/images/tgl_x.png'), image-height('../../assets/images/tgl_x.png'));
+  }
+
+  &:hover {
+    .toggle-switch {
+      border-color: color-mix(in srgb, $color_border 100%, black 13%);
+      @include transform(scale(1.06));
+    }
+  }
+
+  &:active {
+    .toggle-switch {
+      @include transform(scale(.95));
+    }
+  }
+
+  > :checked ~ .toggle-body {
+    border-color: $color_active;
+
+    > .toggle-switch {
+      left: $toggle-width - $switch-size;
+    }
+
+    .toggle-bg {
+      left: -10px;
+
+      &.toggle-bg-negative {
+        left: auto;
+        right: -1 * $toggle-pod;
+      }
+    }
+  }
+
+  &.toggle-disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+}

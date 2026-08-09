@@ -1,9 +1,30 @@
-import fileTyper from '../_utilities/filetyper';
-import Button from '../Button/Button';
+import fileTyper from './filetyper';
+import Button from '../Button';
+import Icon from '../Icon';
 
 import './FilePicker.scss';
 
 export default class FilePicker extends React.Component {
+  static propTypes = {
+    className: PropTypes.string,
+    defaultValue: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object,
+      PropTypes.array
+    ]),
+    onChange: PropTypes.func,
+    fileType: PropTypes.string,
+    multiple: PropTypes.bool,
+    buttonLabel: PropTypes.string
+  };
+
+  static defaultProps = {
+    className: null,
+    defaultValue: null,
+    onChange: (fileBlob, imageUrl) => {},
+    fileType: null,
+    multiple: false
+  };
 
   constructor(p, c) {
     super(p, c);
@@ -20,19 +41,16 @@ export default class FilePicker extends React.Component {
     this.loadDefaultValue(this.props.defaultValue);
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     if (props.defaultValue && props.defaultValue !== this.props.defaultValue)
       this.loadDefaultValue(props.defaultValue);
   }
 
   loadDefaultValue(value) {
     let files;
-    if (!value)
-      files = null
-    else if (Array.isArray(value))
-      files = value;
-    else
-      files = [value];
+    if (!value) files = null;
+    else if (Array.isArray(value)) files = value;
+    else files = [value];
 
     _.each(files, (file, i) => {
       if (typeof file == 'string') {
@@ -71,10 +89,10 @@ export default class FilePicker extends React.Component {
     if (accept) input.accept = accept;
 
     const component = this;
-    const handleFileSelect = (event) => {
+    const handleFileSelect = event => {
       component.selectFileCallback(event.target.files);
       input.removeEventListener('change', handleFileSelect);
-    }
+    };
     input.addEventListener('change', handleFileSelect);
     input.click();
   }
@@ -83,8 +101,7 @@ export default class FilePicker extends React.Component {
     let files;
     if (this.props.multiple) {
       files = this.state.files || [];
-      _.each(newFiles, (file) => {
-        console.log('selectFileCallback', file);
+      _.each(newFiles, file => {
         file.typeClass = this.detectTypeClass(file.type);
         files.push(file);
       });
@@ -95,10 +112,10 @@ export default class FilePicker extends React.Component {
     this.updateFiles(files);
   }
 
-  readFile(file, callback = ()=>{}) {
+  readFile(file, callback = () => {}) {
     // Read file properties
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = e => {
       // console.log('FileReader event', e);
       // this.props.onChange(file, e.target.result);
       // this.setState({ fileReaderTarget: e.target.result });
@@ -110,7 +127,7 @@ export default class FilePicker extends React.Component {
 
   loadIcon(file) {
     if (!file || typeof file !== 'object') {
-      return 'file'
+      return 'file';
     } else if (file.typeClass == 'audio') {
       return 'volume-up';
     } else if (file.typeClass == 'image') {
@@ -180,25 +197,35 @@ export default class FilePicker extends React.Component {
   */
 
   render() {
-    const buttonLabel = !this.props.multiple && this.state.files && this.state.files.length ? 'Change File' : 'Select File';
+    const buttonLabel =
+      this.props.buttonLabel ||
+      (!this.props.multiple && this.state.files && this.state.files.length
+        ? 'Change File'
+        : 'Select File');
+
     return (
-      <div className={`c-file_picker${this.props.className ? ' ' + this.props.className : ''}`}>
+      <div
+        className={`c-file_picker${
+          this.props.className ? ' ' + this.props.className : ''
+        }`}
+      >
         {/*<input type='file' onChange={this.handleFileSelect} accept={this.props.accept} />*/}
-        <Button className='file_picker-select' onClick={this.handleButtonFileSelect}>
+        <Button
+          className="file_picker-select"
+          onClick={this.handleButtonFileSelect}
+        >
           {buttonLabel}
         </Button>
         {_.map(this.state.files, (file, i) => {
           const fileIcon = this.loadIcon(file);
           return (
-            <div className='file_picker-file' key={i}>
-              <div className='file-icon'>
-                <i className={`fa fa-${fileIcon}`} />
+            <div className="file_picker-file" key={i}>
+              <div className="file-icon">
+                <Icon type={fileIcon} />
               </div>
-              <div className='file-name'>
-                {file.name}
-              </div>
+              <div className="file-name">{file.name}</div>
               <Button onClick={this.handleRemoveFile.bind(this, file)}>
-                <i className='fa fa-times' />
+                <Icon type="xmark" />
               </Button>
             </div>
           );
@@ -207,19 +234,3 @@ export default class FilePicker extends React.Component {
     );
   }
 }
-
-FilePicker.propTypes = {
-  className: PropTypes.string,
-  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]),
-  onChange: PropTypes.func,
-  fileType: PropTypes.string,
-  multiple: PropTypes.bool
-};
-
-FilePicker.defaultProps = {
-  className: null,
-  defaultValue: null,
-  onChange: (fileBlob, imageUrl) => {},
-  fileType: null,
-  multiple: false
-};

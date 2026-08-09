@@ -1,0 +1,37 @@
+@use "../../mixins" as *;
+
+$spacing: 15px;
+
+dl.c-list_definitions {
+  display: flex;
+  flex-wrap: wrap;
+
+  > dt {
+    width: 33%;
+    color: #6E6E73;
+    font-weight: 400;
+    margin-top: $spacing;
+    margin-bottom: $spacing;
+    padding-right: $spacing;
+  }
+
+  > dd {
+    width: 67%;
+    flex-grow: 1;
+    margin-top: $spacing;
+    margin-bottom: $spacing;
+  }
+}
+
+dl.line {
+  > dt {
+    min-width: 150px;
+    float: left;
+    clear: both;
+  }
+
+  > dd {
+    margin: 10px 0;
+    min-height: 20px;
+  }
+}

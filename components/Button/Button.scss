@@ -1,0 +1,102 @@
+@use "../../mixins" as *;
+
+.soda-button {
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  @include no_select;
+
+  font-size: 14px;
+  padding: 7px 12px;
+  transition: all $anim-speed-normal;
+
+  // Default style
+  &.button-default {
+    background-color: $color_base;
+    color: $color_trim_subtle;
+    border-color: $color_base_subtle;
+    @include dark {
+      background-color: $color_base_dark;
+      color: $color_trim_subtle_dark;
+      border-color: $color_base_subtle_dark;
+    }
+    &:hover {
+      background-color: $color_base_more_subtle;
+      color: $color_trim;
+      border-color: $color_base_less_subtle;
+      @include dark {
+        background-color: $color_base_more_subtle_dark;
+        color: $color_trim_dark;
+        border-color: $color_base_less_subtle_dark;
+      }
+    }
+  }
+
+  // Variants
+  &.button-link {
+    border-color: transparent;
+    &:hover {
+      background-color: $color_base_more_subtle;
+      @include dark {
+        background-color: $color_base_more_subtle_dark;
+      }
+    }
+  }
+
+  &.button-primary {
+    background-color: $color_active;
+    color: $color_base;
+    border-color: transparent;
+    &:hover {
+      background-color: #2F90FB;
+    }
+
+    &[disabled],
+    &.button-disabled {
+      background-color: #C4DEFD;
+    }
+  }
+
+  &.button-danger {
+    background-color: #f00;
+    color: #fff;
+    border-color: transparent;
+
+    &:hover {
+      background-color: #c00;
+    }
+
+    &[disabled],
+    &.button-disabled {
+      background-color: #900;
+    }
+  }
+
+  // Sizes
+  &.button-small {
+    font-size: 10pt;
+    padding: 5px 10px;
+  }
+
+  &.button-large {
+    font-size: 14pt;
+    padding: 10px 20px;
+  }
+
+  &.button-tiny {
+    font-size: 10pt;
+    padding: 2px 3px;
+  }
+
+  // Disabled
+  &.button-disabled {
+    cursor: not-allowed;
+  }
+
+  &.button-full {
+    width: auto;
+    display: block;
+    text-align: center;
+  }
+}

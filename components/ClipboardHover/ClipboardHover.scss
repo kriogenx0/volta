@@ -1,0 +1,16 @@
+.soda-clipboard_hover {
+  position: relative;
+
+  &:hover {
+    .clipboard_hover-icon {
+      display: block;
+    }
+  }
+
+  .clipboard_hover-icon {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 5px;
+  }
+}

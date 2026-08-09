@@ -1,0 +1,37 @@
+@use "../../mixins" as *;
+
+.soda-checkbox {
+  @include no_select;
+
+  > * {
+    vertical-align: middle;
+  }
+
+  input {
+    margin: 0 7px 0 0;
+  }
+
+  span {
+    display: inline-block;
+  }
+
+  &:not(.checkbox-disabled) {
+    cursor: pointer;
+
+    &:hover {
+      color: $color_active;
+
+      input {
+        border-color: $color_active;
+      }
+    }
+  }
+
+  &.checkbox-disabled {
+    cursor: not-allowed;
+
+    span {
+      color: #c5c5c5;
+    }
+  }
+}

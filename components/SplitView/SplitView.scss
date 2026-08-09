@@ -1,0 +1,26 @@
+@use '../../mixins' as *;
+.c-split_view {
+  display: flex;
+
+  &.split_view-open {
+    .split_view-side {
+      width: auto;
+    }
+  }
+
+  > * {
+    overflow-y: auto;
+  }
+
+  .split_view-main {
+    flex-grow: 1;
+  }
+
+  .split_view-side {
+    transition: width $anim-speed-normal;
+    word-wrap: break-word;
+
+    // closed
+    width: 0;
+  }
+}

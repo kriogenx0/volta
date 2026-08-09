@@ -1,15 +1,25 @@
+import PropTypes from 'prop-types';
+
 import './ProgressBar.scss';
 
-export default class ProgressBar extends React.Component {
-  render() {
-    return (
-      <div className='c-progress_bar'>
-        <div className='percent' style={{width: this.props.percent + '%'}} />
-      </div>
-    );
-  }
-}
+const ProgressBar = ({ percent, variant }) => {
+  const percentDefined = typeof percent == 'number' || percent > 0;
+  return (
+    <div className={'soda-progress_bar' + (variant ? (' progress_bar-' + variant) : '') + (percentDefined ? '' : (' progress_bar-indeterminate'))}>
+      <div className='percent' style={{width: percentDefined ? (percent + '%') : ''}} />
+    </div>
+  );
+};
+
+ProgressBar.variants = ['bouncing', 'flowing'];
 
 ProgressBar.defaultProps = {
-  percent: 0
+  variant: ProgressBar.variants[0]
 };
+
+ProgressBar.propTypes = {
+  variant: PropTypes.oneOf(ProgressBar.variants),
+  percent: PropTypes.any // Strings are permitted, but will show as indeterminate.
+};
+
+export default ProgressBar;

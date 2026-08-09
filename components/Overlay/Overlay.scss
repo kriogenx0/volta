@@ -1,5 +1,4 @@
-.c-overlay
-{
+.soda-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -8,8 +7,7 @@
   background: rgba(0,0,0,0.4);
   display: none;
 
-  &.showing
-  {
+  &.showing {
     display: block;
   }
 }

@@ -1,0 +1,27 @@
+.c-text_editable
+{
+  display: inline-block;
+  border-radius: 5px;
+
+  &:focus,
+  &:hover
+  {
+    // background-color: #f1f1f1;
+  }
+
+  &:hover
+  {
+    cursor: pointer;
+    background-color: #f1f1f1;
+
+    &:focus
+    {
+      background-color: inherit;
+    }
+  }
+
+  &:focus
+  {
+    cursor: inherit;
+  }
+}

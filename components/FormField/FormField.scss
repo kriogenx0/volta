@@ -1,0 +1,52 @@
+@use '../../mixins' as *;
+
+.control-form_field
+{
+  display: flex;
+  align-items: flex-start;
+
+  &.form_field-centered
+  {
+    align-items: center;
+  }
+
+  padding: 20px;
+  padding: 20px;
+
+  @include mobile {
+    display: block;
+  }
+
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-collapse: collapse;
+  margin-bottom: -1px;
+
+  @include dark {
+    border-color: #333;
+  }
+
+  .form_field-label
+  {
+    width: 25%;
+    min-width: 150px;
+    max-width: 280px;
+    min-height: 1px;
+    padding-right: 10px;
+    font-weight: 400;
+
+    @include mobile {
+      width: auto;
+      min-width: auto;
+      max-width: none;
+      min-height: auto;
+      padding-right: 0;
+      margin-bottom: 5px;
+    }
+  }
+
+  .form_field-body
+  {
+    flex-grow: 1;
+  }
+}

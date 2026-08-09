@@ -1,0 +1,33 @@
+@use "../../mixins" as *;
+
+.soda-tag {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 20px;
+  user-select: none;
+  font-size: 85%;
+
+  background-color: $color_base_subtle;
+  color: $color_trim_more_subtle;
+  transition: background-color $anim-speed-normal;
+
+  @include dark {
+    background-color: $color_base_subtle_dark;
+    color: $color_trim_more_subtle_dark;
+  }
+
+  // X icon
+  .soda-icon {
+    margin-left: 5px;
+  }
+
+  .clickable:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+
+    @include dark {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}

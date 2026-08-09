@@ -1,0 +1,43 @@
+@use "../../mixins" as *;
+
+.soda-tag_input {
+  input {
+    max-width: 200px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 6px 10px;
+    margin: 5px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.05);
+    user-select: none;
+
+    @include dark {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+
+      @include dark {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+
+    &.deletable {
+      cursor: pointer;
+    }
+
+    .control-icon {
+      color: #ccc;
+      margin-left: 5px;
+    }
+
+    &:hover {
+      .control-icon {
+        color: #000;
+      }
+    }
+  }
+}

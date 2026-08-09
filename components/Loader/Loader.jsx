@@ -1,32 +1,35 @@
-import './Loader.scss';
+import React from "react";
+import PropTypes from "prop-types";
 
-export default class Loader extends React.Component {
-  static defaultProps = {
-    size: null,
-    block: false,
-    fullScreen: false
-  };
+import "./Loader.scss";
 
-  static propTypes = {
-    block: PropTypes.bool
-  }
+const Loader = ({ message, size, small, tiny, inline }) => {
 
-  render() {
-    return (
-      <div className={`c-loader ${this.props.blocking ? 'loader-full' : 'loader-block'}`}>
-        <div className='loader-container'>
-          <div className='loader-message-ctn'>
-            <i className='fa fa-spinner fa-spin fa-4x' />
-            {(() => {
-              if (this.props.children) {
-                return (
-                  <span className='loader-message'>{this.props.children}</span>
-                );
-              }
-            })()}
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+  if (small) size = 'small';
+  if (tiny) size = 'tiny';
+
+  const containerClass = "soda-loader" +
+    (typeof size !== 'undefined' ? (' loader-' + size) : '') +
+    (inline ? ' loader-inline' : '')
+    ;
+
+  return (
+    <div className={containerClass}>
+      <div className="loader" />
+      {typeof message !== 'undefined' ? (<div className="message">{message}</div>) : null}
+    </div>
+  );
+};
+
+Loader.sizes = ['page', 'small', 'large', 'tiny'];
+
+Loader.propTypes = {
+  size: PropTypes.oneOf(Loader.sizes),
+  small: PropTypes.bool
+};
+
+Loader.defaultProps = {
+  size: 'page'
+};
+
+export default Loader;

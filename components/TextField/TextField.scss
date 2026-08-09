@@ -1,0 +1,75 @@
+@use '../../mixins' as *;
+
+.soda-textfield {
+  input,
+  textarea {
+    align-items: center;
+    font-size: 14px;
+    border-radius: $border_radius;
+    background-clip: padding-box;
+    padding-left: 10px;
+    padding-right: 10px;
+    transition: all $anim-speed-normal;
+
+    // Theme
+    background-color: transparent;
+    border: 1px solid $color_base_subtle;
+    color: $color_trim_subtle;
+
+    @include dark {
+      border-color: $color_base_subtle_dark;
+      color: $color_trim_subtle_dark;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $color_base_more_subtle;
+      color: $color_trim;
+
+      @include dark {
+        background-color: $color_base_more_subtle_dark;
+        color: $color_trim_dark;
+      }
+    }
+
+    &:hover {
+      border-color: $color_base_less_subtle;
+      @include dark {
+        border-color: $color_base_less_subtle_dark;
+      }
+    }
+
+    &:focus {
+      border-color: $color_active;
+
+      @include dark {
+        border-color: $color_active_dark;
+      }
+
+      outline: 0;
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:hover {
+      border-color: $active_color;
+      -webkit-text-fill-color: $active_color;
+      -webkit-box-shadow: 0 0 0 1000px $color_active_subtle inset;
+
+      @include dark {
+        -webkit-box-shadow: 0 0 0 1000px $color_active_subtle_dark inset;
+      }
+
+      transition: background-color 0s ease-in-out 0s; // Hack to stop background-color
+    }
+  }
+
+  &.textfield-disabled input {
+    cursor: not-allowed;
+  }
+
+  textarea {
+    resize: none;
+    box-sizing: border-box;
+  }
+}

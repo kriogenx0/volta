@@ -1,0 +1,96 @@
+@use '../../mixins' as *;
+$height: 100px;
+$videoExistsHeight: 35px;
+
+.ui-video_upload_player
+{
+  cursor: pointer;
+  user-select: none;
+
+  > *
+  {
+    vertical-align: middle;
+    box-sizing: border-box;
+  }
+
+  .box
+  {
+    background-color: #fff;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    height: $height;
+    min-height: $height;
+    line-height: $height;
+    position: relative; // for percent
+
+    text-align: center;
+
+    &.box-dragging,
+    &:hover
+    {
+      background-color: #FAFAFA;
+    }
+
+    &.video_exists
+    {
+      height: $videoExistsHeight;
+      min-height: $videoExistsHeight;
+      line-height: $videoExistsHeight;
+    }
+
+    .label
+    {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+
+      padding-left: 10px;
+      padding-right: 10px;
+      border-radius: 4px;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .percent
+    {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+
+      // background-color: #E7F3F9;
+      background-color: #64AAD7;
+      border-radius: 4px;
+
+      transition: width $anim-speed-normal;
+    }
+
+    &.complete
+    {
+      background-color: #FAFAFA;
+
+      &.box-dragging,
+      &:hover
+      {
+        background-color: #f1f1f1;
+      }
+    }
+  }
+
+  /*
+  > input
+  {
+    width: 0.1px;
+  	height: 0.1px;
+  	opacity: 0;
+  	overflow: hidden;
+  	position: absolute;
+  	z-index: -1;
+  }
+  */
+}

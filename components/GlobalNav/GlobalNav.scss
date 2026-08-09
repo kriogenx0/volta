@@ -1,0 +1,80 @@
+@use '../../mixins' as *;
+
+$global_nav_height: 48px;
+
+.soda-global_nav {
+  height: $global_nav_height;
+  background: #333;
+  color: #fff;
+
+  > .l-width {
+    display: flex;
+    max-width: none;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .header-left {
+    font-size: 20px;
+    line-height: $global_nav_height;
+
+    .apple-logo {
+      margin-right: 15px;
+      display: inline-block;
+
+      img {
+        vertical-align: text-top;
+      }
+    }
+
+    .app_name {
+      font-size: 20px;
+      line-height: $global_nav_height;
+
+      // subtitle
+      small {
+        display: inline-block;
+        color: #888;
+        margin-left: 8px;
+        font-size: 70%;
+        vertical-align: middle;
+      }
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+
+  nav {
+    flex-grow: 1;
+    text-align: right;
+
+    @include no_select;
+
+    > * {
+      display: inline-block;
+      color: #aaa;
+      padding: 0 40px;
+      transition: all $anim-speed-normal;
+      line-height: $global_nav_height;
+      text-decoration: none;
+      cursor: pointer;
+
+      @media (max-width: 1000px) {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      &:hover {
+        text-decoration: none;
+        color: #fff;
+      }
+
+      &.active {
+        color: #fff;
+      }
+    }
+  }
+}

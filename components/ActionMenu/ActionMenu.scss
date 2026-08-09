@@ -1,0 +1,16 @@
+@use "../../mixins" as *;
+
+.soda-action_menu {
+  .dropdown-contents {
+    max-height: 400px;
+    overflow: auto;
+    background-color: $color_base_subtle;
+    border-color: $color_base_less_subtle;
+    color: $color_trim_subtle;
+    @include dark {
+      background-color: $color_base_subtle_dark;
+      border-color: $color_base_less_subtle_dark;
+      color: $color_trim_subtle_dark;
+    }
+  }
+}

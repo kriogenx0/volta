@@ -1,0 +1,26 @@
+@use "../../mixins" as *;
+
+.soda-dropdown_list_item {
+  @include no_select;
+  padding: 5px 10px;
+  text-align: left;
+
+  &.dropdown_list_item-has_action {
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0,0,0,0.05);
+    }
+  }
+
+  &.dropdown_list_item-disabled {
+    &, &:hover {
+      color: $color_base_less_subtle;
+      background-color: $color_base;
+      @include dark {
+        color: $color_base_less_subtle_dark;
+        background-color: $color_base_dark;
+      }
+    }
+  }
+}

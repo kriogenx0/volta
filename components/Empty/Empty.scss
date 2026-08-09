@@ -1,18 +1,13 @@
-.c-empty
-{
-  position: relative;
+@use '../../mixins' as *;
 
-  .empty-contents
-  {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
+.soda-empty {
+  margin: 0 auto;
+  text-align: center;
+  font-size: 150%;
+  padding: 100px 20px;
 
-  .empty-title
-  {
-    font-size: 30px;
+  color: #ccc;
+  @include dark {
+    color: #333;
   }
 }

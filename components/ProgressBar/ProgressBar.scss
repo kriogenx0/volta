@@ -1,12 +1,68 @@
-.c-progress_bar
-{
-  background-color: #fff;
-  border: 1px solid #eee;
-  border-radius: 3px;
+@use "../../mixins" as *;
 
-  .percent
-  {
-    background-color: #900;
-    height: 10px;
+.soda-progress_bar {
+  // background-color: #fff;
+  border: 1px solid $color_base_subtle;
+  border-radius: 4px;
+  position: relative;
+  height: 5px;
+  overflow: hidden;
+
+  @include dark {
+    border-color: $color_base_subtle_dark;
+  }
+
+  .percent {
+    background-color: $color_active;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  // Animations to show if the progress is unknown
+  &.progress_bar-indeterminate {
+
+    &.progress_bar-bouncing {
+      .percent {
+        width: 100%;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+        animation-name: progress-bar-bouncing;
+      }
+    }
+
+    @keyframes progress-bar-bouncing {
+      0% {
+        left: -100%;
+      }
+      50% {
+        left: 100%;
+      }
+      100% {
+        left: -100%;
+      }
+    }
+
+    // Always moving right
+    &.progress_bar-flowing {
+      .percent {
+        width: 100%;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-name: indeterminate-progress-bar;
+      }
+    }
+
+    @keyframes progress-bar-flowing {
+      0% {
+        left: -100%;
+      }
+      100% {
+        left: 100%;
+      }
+    }
   }
 }

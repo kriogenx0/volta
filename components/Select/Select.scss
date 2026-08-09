@@ -1,74 +1,44 @@
-@import '../_shared/all';
+@use '../../mixins' as *;
 
-.c-select
-{
-  position: relative;
-
-  // label
-  > a,
-  > .select-label
-  {
-    display: block;
+.soda-select {
+  > select {
+    font-size: 16px;
+    border-radius: $border_radius;
     padding: 10px;
-    text-decoration: none;
+    min-width: 100px;
+    transition: all $anim-speed-normal;
 
-    border: 1px solid #eee;
-    border-radius: 3px;
-    color: #666;
-    background-color: #fff;
-    transition: border-color $transition_time, color $transition_time, background-color $transition_time;
+    // Hide the arrow
+    -webkit-appearance: none;
+    -moz-appearance: none;
 
-    &:hover
-    {
-      border-color: #ccc;
-      background-color: #fafafa;
-      color: #000;
+    // Theme
+    background-color: transparent;
+    border: 1px solid $color_base_subtle;
+    color: $color_trim_subtle;
+    @include dark {
+      border-color: $color_base_subtle_dark;
+      color: $color_trim_subtle_dark;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $color_base_more_subtle;
+      border-color: $color_base_less_subtle;
+      color: $color_trim;
+      @include dark {
+        background-color: $color_base_more_subtle_dark;
+        border-color: $color_base_less_subtle_dark;
+        color: $color_trim_dark;
+      }
+    }
+
+    &:focus {
+      border-color: $color_active;
+      @include dark {
+        border-color: $color_active_dark;
+      }
+      outline: 0;
     }
   }
-
-  > .dropdown-contents
-  {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    // padding: 10px;
-  }
-
-  &.is-open > .dropdown-contents
-  {
-    display: block;
-  }
-
-  .select-option
-  {
-    cursor: pointer;
-    background-color: #fafafa;
-    padding: 5px;
-    font-size: 14px;
-
-    // transition: background-color $transition_time, color $transition_time;
-
-    &:hover
-    {
-      color: $active_color;
-      background-color: #f1f1f1;
-    }
-  }
-}
-
-.dropdown-overlay
-{
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.2);
 }

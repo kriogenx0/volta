@@ -1,0 +1,26 @@
+.soda-icon {
+  // font-family: SF_Symbol, "SF Pro", "SF Pro Text";
+  font-family: "Apple Icons";
+
+  // alt: '';
+  font-style: inherit;
+  // &.active:before
+  // {
+  //   color: black;
+  // }
+
+  &.icon-unicode {
+    // font-family: "Apple Icons";
+    font-family: SF_Symbol, "SF Pro";
+  }
+
+  &.icon-small {
+    font-size: 80%;
+  }
+}
+// .c-icon-${type}:before,
+// .c-icon-${type}.active:before {
+//   color: ${color || colors.icons};
+//   display: inline-block;
+//   content: "${ICONS[type]}";
+// }
