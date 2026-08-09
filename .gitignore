@@ -50,5 +50,6 @@ npm-debug.log*
 /compiled
 /public/compiled
 public/app-compiled.js*
+components/compiled
 
 __*

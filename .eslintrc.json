@@ -1,0 +1,36 @@
+{
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": ["@babel/preset-react", "@babel/preset-flow"]
+    },
+    "ecmaVersion": 2022,
+    "sourceType": "module",
+    "ecmaFeatures": { "jsx": true }
+  },
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "node": true,
+    "jest": true
+  },
+  "globals": {
+    "React": "readonly",
+    "PropTypes": "readonly",
+    "_": "readonly"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "plugins": ["react", "jsx-a11y", "import"],
+  "settings": {
+    "react": { "version": "18.3" }
+  },
+  "rules": {
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-unused-vars": "warn"
+  }
+}
