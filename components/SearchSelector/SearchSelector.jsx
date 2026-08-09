@@ -1,5 +1,5 @@
-import TextBox from 'lib/TextBox/TextBox';
-import PopOver from 'lib/PopOver/PopOver';
+import TextBox from '../TextBox';
+import PopOver from '../PopOver/PopOver';
 
 import './SearchSelector.scss';
 

@@ -11,11 +11,11 @@ const CalendarYear = React.createClass({
   mixins: [StylePropable],
 
   propTypes: {
-    displayDate: React.PropTypes.object.isRequired,
-    onYearTouchTap: React.PropTypes.func,
-    selectedDate: React.PropTypes.object.isRequired,
-    minDate: React.PropTypes.object,
-    maxDate: React.PropTypes.object,
+    displayDate: PropTypes.object.isRequired,
+    onYearTouchTap: PropTypes.func,
+    selectedDate: PropTypes.object.isRequired,
+    minDate: PropTypes.object,
+    maxDate: PropTypes.object,
   },
 
   componentDidMount() {

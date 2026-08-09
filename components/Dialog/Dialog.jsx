@@ -1,7 +1,7 @@
 // Dialog
 // Interactive Modal with header and buttons
 
-import PopOver from 'lib/PopOver/PopOver';
+import PopOver from '../PopOver/PopOver';
 
 import './Dialog.scss';
 
@@ -107,6 +107,6 @@ Dialog.defaultProps = {
 };
 
 Dialog.propTypes = {
-  handleSave: React.PropTypes.func,
-  handleClose: React.PropTypes.func
+  handleSave: PropTypes.func,
+  handleClose: PropTypes.func
 };

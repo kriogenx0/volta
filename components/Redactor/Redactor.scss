@@ -1,3 +1,5 @@
+@use "../_shared/legacy-colors" as *;
+
 // this controls the rich text editor component. Basically a rewrite of
 // redactor
 
@@ -31,14 +33,14 @@ $toolbar-height: 36px;
     content: '';
     height: 80%;
     width: 1px;
-    background: color('border');
+    background: legacy-color('border');
   }
 }
 
 .c-redactor
 {
   .redactor-box {
-    border: 1px solid color('border');
+    border: 1px solid legacy-color('border');
     border-radius: 5px;
     position: relative;
     padding-bottom: $toolbar-height;
@@ -54,9 +56,9 @@ $toolbar-height: 36px;
     overflow: auto;
     outline: none;
     border: none;
-    background-color: color('dark-gray');
+    background-color: legacy-color('dark-gray');
     box-shadow: none;
-    color: color('light-gray');
+    color: legacy-color('light-gray');
     font-size: 12px;
     font-family: Menlo, Monaco, monospace, sans-serif;
     resize: none;
@@ -123,7 +125,7 @@ $toolbar-height: 36px;
     }
 
     a {
-      color: color('blue');
+      color: legacy-color('blue');
     }
   }
 
@@ -136,8 +138,8 @@ $toolbar-height: 36px;
     bottom: 0;
     list-style: none;
     font-size: 14px;
-    background: color('tint-gray');
-    border-top: 1px solid color('border');
+    background: legacy-color('tint-gray');
+    border-top: 1px solid legacy-color('border');
     // @include border-radius(0 0 4px 4px);
     // @include box-shadow(none);
     height: $toolbar-height;
@@ -170,7 +172,7 @@ $toolbar-height: 36px;
         zoom: 1;
 
         &.redactor-act {
-          // background: darken(color('light-gray'), 5%) !important;
+          // background: darken(legacy-color('light-gray'), 5%) !important;
 
           &:after {
             // @extend .icn-bold-selected;
@@ -178,8 +180,8 @@ $toolbar-height: 36px;
         }
 
         &:hover {
-          background: color('light-gray');
-          border-color: color('light-gray');
+          background: legacy-color('light-gray');
+          border-color: legacy-color('light-gray');
         }
 
         &:after {
@@ -271,7 +273,7 @@ $toolbar-height: 36px;
     top: $input-padding;
     left: $input-padding;
     // content: attr(placeholder);
-    color: color('gray');
+    color: legacy-color('gray');
   }
 
   .redactor .focused {
@@ -307,13 +309,13 @@ $toolbar-height: 36px;
     text-decoration: none;
     border-left:1px solid transparent;
     border-right:1px solid transparent;
-    color: color('text');
+    color: legacy-color('text');
 
     &:hover {
-      background: color(link);
-      // border-left-color: darken(color(link), 8%);
-      // border-right-color: darken(color(link), 8%);
-      color: color('white');
+      background: legacy-color(link);
+      // border-left-color: darken(legacy-color(link), 8%);
+      // border-right-color: darken(legacy-color(link), 8%);
+      color: legacy-color('white');
     }
   }
 
@@ -332,10 +334,10 @@ $toolbar-height: 36px;
 .redactor-toolbar-tooltip {
   position: absolute;
   max-width: 200px;
-  background: color('dark-gray');
+  background: legacy-color('dark-gray');
   // @include border-radius($base-border-radius);
   line-height: 1.2;
-  color: color('white');
+  color: legacy-color('white');
   z-index: $z-modal + 10;
   display: none;
   font-size: 12px;
@@ -351,7 +353,7 @@ $toolbar-height: 36px;
     width: 0;
     height: 0;
     content: "";
-    border: 4px solid color('dark-gray');
+    border: 4px solid legacy-color('dark-gray');
     border-bottom: none;
     border-left-color: transparent;
     border-right-color: transparent;

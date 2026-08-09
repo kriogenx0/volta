@@ -34,25 +34,25 @@ const DatePickerDialog = React.createClass({
   },
 
   contextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: PropTypes.object,
   },
 
   propTypes: {
-    disableYearSelection: React.PropTypes.bool,
-    initialDate: React.PropTypes.object,
-    maxDate: React.PropTypes.object,
-    minDate: React.PropTypes.object,
-    onAccept: React.PropTypes.func,
-    onClickAway: React.PropTypes.func,
-    onDismiss: React.PropTypes.func,
-    onShow: React.PropTypes.func,
-    shouldDisableDate: React.PropTypes.func,
-    showYearSelector: React.PropTypes.bool,
+    disableYearSelection: PropTypes.bool,
+    initialDate: PropTypes.object,
+    maxDate: PropTypes.object,
+    minDate: PropTypes.object,
+    onAccept: PropTypes.func,
+    onClickAway: PropTypes.func,
+    onDismiss: PropTypes.func,
+    onShow: PropTypes.func,
+    shouldDisableDate: PropTypes.func,
+    showYearSelector: PropTypes.bool,
   },
 
   //for passing default theme context to children
   childContextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: PropTypes.object,
   },
 
   getChildContext () {

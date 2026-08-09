@@ -11,19 +11,19 @@ const DayButton = React.createClass({
   mixins: [StylePropable],
 
   contextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: PropTypes.object,
   },
 
   propTypes: {
-    date: React.PropTypes.object,
-    onTouchTap: React.PropTypes.func,
-    selected: React.PropTypes.bool,
-    disabled: React.PropTypes.bool,
+    date: PropTypes.object,
+    onTouchTap: PropTypes.func,
+    selected: PropTypes.bool,
+    disabled: PropTypes.bool,
   },
 
   //for passing default theme context to children
   childContextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: PropTypes.object,
   },
 
   getChildContext () {

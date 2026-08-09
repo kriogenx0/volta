@@ -91,12 +91,12 @@ export default class ImageUploader extends React.Component {
 }
 
 // propTypes:
-//   cropWidth: React.PropTypes.number
-//   cropHeight: React.PropTypes.number
-//   bleedWidth: React.PropTypes.number
-//   onImagePick: React.PropTypes.func
-//   className: React.PropTypes.string
-//   shouldPick: React.PropTypes.bool
+//   cropWidth: PropTypes.number
+//   cropHeight: PropTypes.number
+//   bleedWidth: PropTypes.number
+//   onImagePick: PropTypes.func
+//   className: PropTypes.string
+//   shouldPick: PropTypes.bool
 //
 // getDefaultProps: ->
 //   cropWidth: 640

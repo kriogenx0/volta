@@ -1,3 +1,5 @@
+@use "../_shared/legacy-colors" as *;
+
 $base-padding: 10px;
 $base-line-height: 24px;
 $input-stroke: 1px;
@@ -24,9 +26,9 @@ $controlHeight: 50px;
     right: 0;
     left: 0;
     text-align: center;
-    color: color('red');
+    color: legacy-color('red');
     z-index: 0;
-    border: 1px solid color('red');
+    border: 1px solid legacy-color('red');
   }
 }
 
@@ -49,7 +51,7 @@ $controlHeight: 50px;
   right: 0;
   bottom: 0;
   z-index: $z-fixed;
-  background: color(bg);
+  background: legacy-color(bg);
   opacity: 0;
   transform: translateZ(0);
 
@@ -82,7 +84,7 @@ $controlHeight: 50px;
     h3 {
       font-weight: normal;
       margin-bottom: $base-padding * 3;
-      color: color(slate-gray);
+      color: legacy-color(slate-gray);
     }
   }
 
@@ -102,14 +104,14 @@ $controlHeight: 50px;
       content: "";
       width: 100%;
       height: 1px;
-      background-color: color(medium-gray);
+      background-color: legacy-color(medium-gray);
       // @include transition-property(background-color);
       // @include transition-duration(.2s);
       // @include transition-timing-function(ease-in);
     }
 
     &:hover:after, &:hover:before {
-      background-color: color(dark-gray);
+      background-color: legacy-color(dark-gray);
     }
 
     &:before {
@@ -213,7 +215,7 @@ $controlHeight: 50px;
     position: relative;
     width: 100%;
     height: 6px;
-    background: color(light-gray);
+    background: legacy-color(light-gray);
     // @include box-shadow(inset 0 0 4px rgba(0,0,0,.2));
     // @include border-radius($base-border-radius);
   }
@@ -226,7 +228,7 @@ $controlHeight: 50px;
     height: 12px;
     width: 12px;
     margin-left: -6px;
-    background: color(light-gray);
+    background: legacy-color(light-gray);
     // @include box-shadow(inset 0 6px 6px -6px rgba(0,0,0,.2), inset 0 -6px 6px -6px rgba(0,0,0,.2));
     // @include border-radius(50%);
 
@@ -254,8 +256,8 @@ $controlHeight: 50px;
     height: $base-padding;
     width: $base-padding;
     margin-left: $base-padding / 2 * -1;
-    background: color('white');
-    border: solid 1px color('border');
+    background: legacy-color('white');
+    border: solid 1px legacy-color('border');
     // @include box-shadow(0 2px 2px rgba(0,0,0,.13));
     cursor: pointer;
     // @include border-radius(50%);
@@ -263,7 +265,7 @@ $controlHeight: 50px;
     // @include transition(transform $anim-slight-bounce $anim-speed-normal);
 
     &:hover {
-      // border-color: darken(color('border'), 13%);
+      // border-color: darken(legacy-color('border'), 13%);
       // @include transform(scale(1.08));
     }
   }
@@ -340,8 +342,8 @@ $controlHeight: 50px;
   .frame
   {
     position: relative;
-    background-color: color(light-gray);
-    background-image: linear-gradient(45deg, color(light-gray) 25%, transparent 25%, transparent 75%, color(light-gray) 75%, color(light-gray)), linear-gradient(45deg, color(light-gray) 25%, transparent 25%, transparent 75%, color(light-gray) 75%, color(light-gray));
+    background-color: legacy-color(light-gray);
+    background-image: linear-gradient(45deg, legacy-color(light-gray) 25%, transparent 25%, transparent 75%, legacy-color(light-gray) 75%, legacy-color(light-gray)), linear-gradient(45deg, legacy-color(light-gray) 25%, transparent 25%, transparent 75%, legacy-color(light-gray) 75%, legacy-color(light-gray));
     background-size:40px 40px;
     background-position:0 0, 20px 20px;
     margin: auto;

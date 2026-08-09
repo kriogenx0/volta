@@ -19,12 +19,12 @@ const Calendar = React.createClass({
   mixins: [StylePropable, WindowListenable],
 
   contextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: PropTypes.object,
   },
 
   //for passing default theme context to children
   childContextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: PropTypes.object,
   },
 
   getChildContext () {
@@ -34,13 +34,13 @@ const Calendar = React.createClass({
   },
 
   propTypes: {
-    disableYearSelection: React.PropTypes.bool,
-    initialDate: React.PropTypes.object,
-    isActive: React.PropTypes.bool,
-    minDate: React.PropTypes.object,
-    maxDate: React.PropTypes.object,
-    onDayTouchTap: React.PropTypes.func,
-    shouldDisableDate: React.PropTypes.func,
+    disableYearSelection: PropTypes.bool,
+    initialDate: PropTypes.object,
+    isActive: PropTypes.bool,
+    minDate: PropTypes.object,
+    maxDate: PropTypes.object,
+    onDayTouchTap: PropTypes.func,
+    shouldDisableDate: PropTypes.func,
   },
 
   windowListeners: {

@@ -13,12 +13,12 @@ const DatePicker = React.createClass({
   mixins: [StylePropable, WindowListenable],
 
   contextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: PropTypes.object,
   },
 
   //for passing default theme context to children
   childContextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: PropTypes.object,
   },
 
   getChildContext () {
@@ -28,22 +28,22 @@ const DatePicker = React.createClass({
   },
 
   propTypes: {
-    autoOk: React.PropTypes.bool,
-    defaultDate: React.PropTypes.object,
-    formatDate: React.PropTypes.func,
-    hideToolbarYearChange: React.PropTypes.bool,
-    maxDate: React.PropTypes.object,
-    minDate: React.PropTypes.object,
-    mode: React.PropTypes.oneOf(['portrait', 'landscape', 'inline']),
-    onDismiss: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    onFocus: React.PropTypes.func,
-    onShow: React.PropTypes.func,
-    onTouchTap: React.PropTypes.func,
-    shouldDisableDate: React.PropTypes.func,
-    showYearSelector: React.PropTypes.bool,
-    style: React.PropTypes.object,
-    textFieldStyle: React.PropTypes.object,
+    autoOk: PropTypes.bool,
+    defaultDate: PropTypes.object,
+    formatDate: PropTypes.func,
+    hideToolbarYearChange: PropTypes.bool,
+    maxDate: PropTypes.object,
+    minDate: PropTypes.object,
+    mode: PropTypes.oneOf(['portrait', 'landscape', 'inline']),
+    onDismiss: PropTypes.func,
+    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+    onShow: PropTypes.func,
+    onTouchTap: PropTypes.func,
+    shouldDisableDate: PropTypes.func,
+    showYearSelector: PropTypes.bool,
+    style: PropTypes.object,
+    textFieldStyle: PropTypes.object,
   },
 
   windowListeners: {

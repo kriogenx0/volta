@@ -12,19 +12,19 @@ const DateDisplay = React.createClass({
   mixins: [StylePropable],
 
   contextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: PropTypes.object,
   },
 
   propTypes: {
-    disableYearSelection: React.PropTypes.bool,
-    monthDaySelected: React.PropTypes.bool,
-    selectedDate: React.PropTypes.object.isRequired,
-    weekCount: React.PropTypes.number,
+    disableYearSelection: PropTypes.bool,
+    monthDaySelected: PropTypes.bool,
+    selectedDate: PropTypes.object.isRequired,
+    weekCount: PropTypes.number,
   },
 
   //for passing default theme context to children
   childContextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: PropTypes.object,
   },
 
   getChildContext () {

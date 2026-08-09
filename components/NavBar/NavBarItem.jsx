@@ -1,4 +1,4 @@
-import { Link }  from 'react-router';
+import { Link }  from 'react-router-dom';
 import ClassNames from 'classnames';
 
 export default class NavBarItem extends React.Component {

@@ -1,0 +1,31 @@
+// Legacy color lookup used by a handful of pre-existing component styles.
+// NOTE: plain `color(...)` collides with CSS's native color() function
+// syntax in modern Sass, hence the `legacy-color` name.
+@use "sass:map";
+
+$legacy-colors: (
+  'red': #e30000,
+  'white': #ffffff,
+  'border': var(--v-color-base-less-subtle),
+  'dark-gray': #333333,
+  'light-gray': #eeeeee,
+  'blue': var(--v-accent),
+  'gray': #888888,
+  'shadow-gray': #cccccc,
+  'medium-gray': #666666,
+  'tint-gray': #f5f5f5,
+  'text': var(--v-color-trim),
+  'bg': var(--v-color-base-subtle),
+  'slate-gray': #708090,
+  'link': var(--v-accent),
+);
+
+@function legacy-color($name) {
+  @return map.get($legacy-colors, $name);
+}
+
+// Vertical-rhythm helper used by a couple of legacy component styles
+// (margins expressed in multiples of the base line-height)
+@function rhythm($lines: 1) {
+  @return $lines * 24px;
+}

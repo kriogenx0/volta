@@ -2,7 +2,7 @@
 
 import ImageCrop from '../ImageCrop/ImageCrop';
 
-import './ImagePicker.scss';
+import './_image-crop.scss';
 
 export default class ImagePicker extends React.Component {
 

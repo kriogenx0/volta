@@ -9,18 +9,18 @@ const YearButton = React.createClass({
   mixins: [StylePropable],
 
   contextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: PropTypes.object,
   },
 
   propTypes: {
-    year: React.PropTypes.number,
-    onTouchTap: React.PropTypes.func,
-    selected: React.PropTypes.bool,
+    year: PropTypes.number,
+    onTouchTap: PropTypes.func,
+    selected: PropTypes.bool,
   },
 
   //for passing default theme context to children
   childContextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: PropTypes.object,
   },
 
   getChildContext () {

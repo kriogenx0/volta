@@ -11,12 +11,12 @@ const DefaultRawTheme = require('../styles/raw-themes/light-raw-theme');
 
 const CalendarToolbar = React.createClass({
   contextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: PropTypes.object,
   },
 
   //for passing default theme context to children
   childContextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: PropTypes.object,
   },
 
   getChildContext () {
@@ -26,10 +26,10 @@ const CalendarToolbar = React.createClass({
   },
 
   propTypes: {
-    displayDate: React.PropTypes.object.isRequired,
-    nextMonth: React.PropTypes.bool,
-    onMonthChange: React.PropTypes.func,
-    prevMonth: React.PropTypes.bool,
+    displayDate: PropTypes.object.isRequired,
+    nextMonth: PropTypes.bool,
+    onMonthChange: PropTypes.func,
+    prevMonth: PropTypes.bool,
   },
 
   getDefaultProps() {
