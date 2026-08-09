@@ -1,71 +1,62 @@
-// moment = require 'moment'
+import { useState } from 'react';
 
-import TextBox from 'lib/TextBox/TextBox';
+import TextBox from '../TextBox';
 
 import Calendar from './Calendar';
 
-class DatePickerDialog extends React.Component {
-  render() {
-    if (!this.props || !this.props.open) return null;
+const DatePickerDialog = (props) => {
+  if (!props || !props.open) return null;
 
-    // console.log('this.props.date', this.props.date);
+  return (
+    <div className='c-date_picker_dialog'>
+      <Calendar {...props} />
+    </div>
+  );
+};
 
-    return (
-      <div className='c-date_picker_dialog'>
-        <Calendar {...this.props} />
-      </div>
-    );
-  }
-}
+const DatePicker = () => {
+  const [state, setState] = useState({
+    open: false,
+    date: null,
+    dateValue: null
+  });
 
-export default class DatePicker extends React.Component {
+  const handleFocus = () => {
+    setState((prev) => ({ ...prev, open: true }));
+  };
 
-  constructor(props) {
-    super(props);
-    this.state = {
+  const handleBlur = () => {
+    // setState((prev) => ({ ...prev, open: false }));
+  };
+
+  const onDateSelect = (date) => {
+    setState({
       open: false,
-      date: null,
-      dateValue: null
-    };
-  }
-
-  handleFocus() {
-    this.setState({ open: true });
-  }
-
-  handleBlur() {
-    // this.setState({ open: false });
-  }
-
-  onDateSelect(date) {
-    // console.log('date', date);
-    this.setState({
-      open: false,
-      date: date,
+      date,
       dateValue: date.mdy()
     });
-  }
+  };
 
-  render() {
-    return (
-      <div className='c-date_picker'>
-        <TextBox
-          onFocus={this.handleFocus.bind(this)}
-          onBlur={this.handleBlur.bind(this)}
-          value={this.state.dateValue}
-        />
-        <DatePickerDialog
-          open={this.state.open}
-          date={this.state.date}
-          onDateSelect={this.onDateSelect.bind(this)}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className='c-date_picker'>
+      <TextBox
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        value={state.dateValue}
+      />
+      <DatePickerDialog
+        open={state.open}
+        date={state.date}
+        onDateSelect={onDateSelect}
+      />
+    </div>
+  );
+};
 
 DatePicker.defaultProps = {
   selectDateRange: false,
   dateFormat: null,
   timeFormat: null
-}
+};
+
+export default DatePicker;

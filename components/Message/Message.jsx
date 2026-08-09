@@ -1,13 +1,9 @@
-export default class Message extends React.Component {
-  render() {
-    return (
-      <div className={`c-message ${Message.typeDetails[this.props.type].className}`}>
-        <i className={`fa fa-${Message.typeDetails[this.props.type].icon}`} aria-hidden="true"></i>
-        {this.props.message || this.props.children}
-      </div>
-    );
-  }
-}
+const Message = ({ type, message, children }) => (
+  <div className={`c-message ${Message.typeDetails[type].className}`}>
+    <i className={`fa fa-${Message.typeDetails[type].icon}`} aria-hidden="true"></i>
+    {message || children}
+  </div>
+);
 
 Message.typeDetails = {
   success: {
@@ -19,3 +15,5 @@ Message.typeDetails = {
     icon: 'times-circle'
   }
 };
+
+export default Message;

@@ -1,0 +1,47 @@
+.ui-field
+{
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+
+  > .field-label
+  {
+    padding-right: 10px;
+    padding-top: 10px;
+
+    margin-bottom: 5px;
+    cursor: default;
+    user-select: none;
+  }
+
+  &.field-split
+  {
+    .field-label
+    {
+      float: left;
+      width: 140px;
+
+      @media (max-width: 640px) {
+        float: none;
+        width: auto;
+      }
+    }
+    /*
+    .field-child
+    {
+      float: left;
+      width: 400px;
+
+      @media (max-width: 640px) {
+        float: none;
+        width: auto;
+      }
+    }
+    */
+  }
+
+  .field-clear
+  {
+    clear: both;
+  }
+}

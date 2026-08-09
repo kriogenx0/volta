@@ -1,92 +1,70 @@
-import TextBox from '../TextBox/TextBox';
-// import DropdownList from '../DropdownList/DropdownList';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+
+import TextBox from '../TextBox';
 import DropdownListItem from '../DropdownList/DropdownListItem';
-// import Overlay from '../Overlay/Overlay';
 
 import './ComboBox.scss';
 
-export default class ComboBox extends React.Component {
+const ComboBox = ({ open: openProp, defaultValue, items, onSelect, onChange }) => {
+  const [value, setValue] = useState(null);
+  const [open, setOpen] = useState(openProp || false);
 
-  constructor(props) {
-    super(...arguments);
-    this.state = {
-      value: null,
-      open: props.open || false
-    };
+  const show = () => setOpen(true);
+  const hide = () => setOpen(false);
 
-    this.show = this.show.bind(this);
-    this.hide = this.hide.bind(this);
-    this.handleTextChange = this.handleTextChange.bind(this);
-    this.handleTextPress = this.handleTextPress.bind(this);
-    this.delayedHide = this.delayedHide.bind(this);
-  }
-
-  show() {
-    this.setState({ open: true });
-  }
-
-  hide() {
-    this.setState({ open: false });
-  }
-
-  delayedHide() {
+  const delayedHide = () => {
     setTimeout(() => {
-      this.hide();
+      hide();
     }, 50);
-  }
+  };
 
-  handleTextChange(e) {
-    const value = e.target.value;
-    this.setState({ value });
-    this.props.onChange(value);
-  }
+  const handleAnySelect = (selected) => {
+    setValue(selected);
+    onSelect(selected);
+    hide();
+  };
 
-  handleTextPress(e) {
+  const handleTextChange = (e) => {
+    const newValue = e.target.value;
+    setValue(newValue);
+    onChange(newValue);
+  };
+
+  const handleTextPress = (e) => {
     // ENTER
-    if (e.which == 13) {
-      this.handleAnySelect(e.target.value);
+    if (e.which === 13) {
+      handleAnySelect(e.target.value);
     }
     // ESC
-    else if (e.which == 27) {
-      this.hide();
+    else if (e.which === 27) {
+      hide();
     }
-    else if (!this.state.open) {
-      this.show();
+    else if (!open) {
+      show();
     }
-  }
+  };
 
-  handleAnySelect(value) {
-    this.setState({ value });
-    this.props.onSelect(value);
-    this.hide();
-  }
+  const textBoxProps = {
+    value: value !== null ? value : defaultValue,
+    onChange: handleTextChange,
+    onKeyPress: handleTextPress,
+    onClick: show,
+    onFocus: show,
+    onBlur: delayedHide
+  };
 
-  render() {
-    /*<DropdownList onSelect={this.onSelect} items={this.props.items} open={this.state.open} /> */
-
-    const textBoxProps = {
-      value: this.state.value !== null ? this.state.value : this.props.defaultValue,
-      onChange: this.handleTextChange,
-      onKeyPress: this.handleTextPress,
-      onClick: this.show,
-      onFocus: this.show,
-      onBlur: this.delayedHide
-    };
-
-    return (
-      <div className={'c-combo_box' + (this.state.open ? ' is_open' : '')}>
-        <TextBox {...textBoxProps} />
-        <div className='contents'>
-          {_.map(this.props.items, (item, key) => {
-            return (
-              <DropdownListItem key={key} label={item} onSelect={ this.handleAnySelect.bind(this, item) } />
-            );
-          })}
-        </div>
+  return (
+    <div className={'c-combo_box' + (open ? ' is_open' : '')}>
+      <TextBox {...textBoxProps} />
+      <div className='contents'>
+        {_.map(items, (item, key) => (
+          <DropdownListItem key={key} label={item} onSelect={() => handleAnySelect(item)} />
+        ))}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 ComboBox.defaultProps = {
   defaultValue: '',
@@ -102,3 +80,5 @@ ComboBox.propTypes = {
   // WHEN ENTERING A VALUE
   onChange: PropTypes.func
 };
+
+export default ComboBox;

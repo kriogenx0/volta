@@ -1,27 +1,28 @@
-export default class Label extends React.Component {
+import PropTypes from 'prop-types';
 
-  render() {
-    if (this.props.text && this.props.children) {
-      return (
-        <div className="c-label">
-          <label>
-            <div>{this.props.text}</div>
-            <div>{this.props.children}</div>
-          </label>
-        </div>
-      );
-    } else {
-      return (
-        <div className="c-label">
-          <label>
-            {this.props.children}
-          </label>
-        </div>
-      );
-    }
+const Label = ({ text, children }) => {
+  if (text && children) {
+    return (
+      <div className="c-label">
+        <label>
+          <div>{text}</div>
+          <div>{children}</div>
+        </label>
+      </div>
+    );
   }
-}
+
+  return (
+    <div className="c-label">
+      <label>
+        {children}
+      </label>
+    </div>
+  );
+};
 
 Label.propTypes = {
   text: PropTypes.string
 };
+
+export default Label;

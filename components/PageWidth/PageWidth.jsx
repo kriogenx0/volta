@@ -1,14 +1,14 @@
 import './PageWidth.scss';
 
-export default class PageWidth extends React.Component {
-  render() {
-    let className = 'c-page_width';
-    if (this.props.className) className += ' ' + this.props.className;
+const PageWidth = ({ className, children }) => {
+  let pageWidthClassName = 'c-page_width';
+  if (className) pageWidthClassName += ' ' + className;
 
-    return (
-      <div className={className}>
-        {this.props.children}
-      </div>
-    );
-  }
-}
+  return (
+    <div className={pageWidthClassName}>
+      {children}
+    </div>
+  );
+};
+
+export default PageWidth;

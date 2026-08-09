@@ -1,47 +1,38 @@
-import { Link } from 'react-router';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import './TabBar.scss';
 
-export default class TabBar extends React.Component {
+const TabBar = ({ tabs, onChange, selectedTabIndex: selectedTabIndexProp }) => {
+  const [selectedTabIndex, setSelectedTabIndex] = useState(selectedTabIndexProp || 0);
 
-  constructor(props) {
-    super(...arguments);
+  const handleTabSelect = (index, label) => {
+    setSelectedTabIndex(index);
+    if (onChange) onChange(index, label);
+  };
 
-    this.state = {
-      selectedTabIndex: props.selectedTabIndex || 0
-    };
+  return (
+    <div className='c-tab_bar'>
+      {_.map(tabs, (tab, i) => {
+        const tabProps = {
+          key: i,
+          active: selectedTabIndex === i
+        };
+        if (tab instanceof React.Component) {
+          tabProps.label = tabComponent.props.label;
+        }
+        else if (typeof tab == 'string') {
+          tabProps.label = tab;
+        }
 
-    this.handleTabSelect = this.handleTabSelect.bind(this);
-  }
-
-  handleTabSelect(selectedTabIndex, label) {
-    this.setState({ selectedTabIndex });
-    if (this.props.onChange) this.props.onChange(selectedTabIndex, label);
-  }
-
-  render() {
-    return (
-      <div className='c-tab_bar'>
-        { _.map(this.props.tabs, (tab, i) => {
-          const tabProps = {
-            key: i,
-            active: this.state.selectedTabIndex === i
-          };
-          if (tab instanceof React.Component) {
-            tabProps.label = tabComponent.props.label;
-          }
-          else if (typeof tab == 'string') {
-            tabProps.label = tab;
-          }
-
-          return (
-            <TabBar.Link {...tabProps} onClick={this.handleTabSelect.bind(this, i, tabProps.label)} />
-          );
-        })}
-      </div>
-    );
-  }
-}
+        return (
+          <TabBar.Link {...tabProps} onClick={() => handleTabSelect(i, tabProps.label)} />
+        );
+      })}
+    </div>
+  );
+};
 
 TabBar.propTypes = {
   tabs: PropTypes.array,
@@ -49,10 +40,8 @@ TabBar.propTypes = {
   selectedTabIndex: PropTypes.number
 };
 
-TabBar.Link = class TabLink extends React.Component {
-  render() {
-    return (
-      <Link className={`c-tab_bar-link${this.props.active ? ' tab-active' : ''}`} key={this.props.label} activeClassName='tab-active' onClick={this.props.onClick}>{this.props.label}</Link>
-    );
-  }
-}
+TabBar.Link = ({ active, label, onClick }) => (
+  <Link className={`c-tab_bar-link${active ? ' tab-active' : ''}`} key={label} activeClassName='tab-active' onClick={onClick}>{label}</Link>
+);
+
+export default TabBar;

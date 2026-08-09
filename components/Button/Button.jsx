@@ -1,20 +1,44 @@
-export default class Button extends React.Component {
-  render() {
-    const label = this.props.label || this.props.children;
+import React from 'react';
+import PropTypes from 'prop-types';
 
-    let className = 'btn';
-    if (this.props.className)
-      className += ' ' + this.props.className;
+import './Button.scss';
 
-    return (
-      <button className={className}
-              onClick={this.props.onClick}
-              ref="buttonElement">{label} {caret}</button>
-    );
-  }
-}
+const Button = ({ onClick, children, className, variant, type, bsStyle, size, disabled, full, tiny, label, ...otherProps }) => {
+  const displayLabel = label || children;
+  const variantClass = variant || type || bsStyle || Button.variantTypes[0];
+
+  let sz = size;
+  if (tiny) sz = 'tiny';
+
+  const buttonProps = {
+    className: 'soda-button button-' + variantClass +
+      (className ? ' ' + className : '') +
+      (sz ? ' button-' + sz : '') +
+      (disabled ? ' button-disabled' : '') +
+      (full ? ' button-full' : '')
+    ,
+    onClick,
+    ...otherProps
+  };
+
+  return (
+    <div {...buttonProps}>
+      {displayLabel}
+    </div>
+  );
+};
+
+Button.variantTypes = ['default', 'primary', 'link', 'danger'];
+Button.sizes = ['small', 'large', 'tiny'];
 
 Button.propTypes = {
-  className: React.PropTypes.string,
-  label: React.PropTypes.string
+  className: PropTypes.string,
+  label: PropTypes.string,
+  variant: PropTypes.oneOf(Button.variantTypes),
+  // type: PropTypes.oneOf(Button.variantTypes),
+  // bsStyle temporary react-bootstrap compatibility
+  size: PropTypes.oneOf(Button.sizes),
+  disabled: PropTypes.bool
 };
+
+export default Button;

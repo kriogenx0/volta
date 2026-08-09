@@ -1,26 +1,33 @@
-export default class ContentEditable extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    return nextProps.html !== this.getDOMNode().innerHTML;
-  }
+import { useRef, useEffect } from 'react';
 
-  handleChange() {
-    const value = this.getDOMNode().innerHTML;
-    if (this.props.onChange && value !== this.lastHtml) {
+const ContentEditable = ({ html, onChange }) => {
+  const ref = useRef(null);
+  const lastHtml = useRef(html);
 
-      this.props.onChange({
-        target: {
-          value
-        }
-      });
+  useEffect(() => {
+    if (ref.current && html !== lastHtml.current) {
+      ref.current.innerHTML = html;
+      lastHtml.current = html;
     }
-    this.lastHtml = value;
-  }
+  }, [html]);
 
-  render() {
-    return <div
-      onInput={this.handleChange}
-      onBlur={this.handleChange}
+  const handleChange = () => {
+    const value = ref.current.innerHTML;
+    if (onChange && value !== lastHtml.current) {
+      onChange({ target: { value } });
+    }
+    lastHtml.current = value;
+  };
+
+  return (
+    <div
+      ref={ref}
+      onInput={handleChange}
+      onBlur={handleChange}
       contentEditable
-      dangerouslySetInnerHTML={{__html: this.props.html}} />;
-  }
-}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+};
+
+export default ContentEditable;

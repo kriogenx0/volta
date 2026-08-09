@@ -1,95 +1,56 @@
-import ReactDOM from 'react-dom';
-import $ from 'jquery';
+import { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 
 import './PopOver.scss';
 
-export default class PopOver extends React.Component {
+const PopOver = ({ open, fullSize, closeOnOverlayClick, handleClose, className, children }) => {
+  const overlay = useRef(null);
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.handleClose = this.handleClose.bind(this);
-  }
+  const closeModal = () => {
+    if (handleClose) handleClose();
+  };
 
-  componentWillMount() {
-    this.loadProps(this.props);
-  }
+  useEffect(() => {
+    if (!open) return undefined;
 
-  componentWillReceiveProps(props) {
-    this.loadProps(props);
-  }
+    const el = document.createElement('div');
+    el.className = 'overlay';
+    document.body.appendChild(el);
+    overlay.current = el;
 
-  loadProps(props) {
-    this.setState({
-      open: props.open
-    });
+    const onOverlayClick = () => {
+      if (closeOnOverlayClick) closeModal();
+    };
 
-    if (props.open !== this.props.open) {
-      if (props.open) {
-        this.buildOverlay();
-      } else {
-        this.removeOverlay();
-      }
+    if (closeOnOverlayClick) {
+      el.addEventListener('click', onOverlayClick);
     }
-  }
 
-  buildOverlay() {
-    this.overlay = document.createElement('div');
-    this.overlay.className = 'overlay';
-    document.body.appendChild(this.overlay);
+    return () => {
+      el.removeEventListener('click', onOverlayClick);
+      document.body.removeChild(el);
+      overlay.current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, closeOnOverlayClick]);
 
-    if (this.props.closeOnOverlayClick) {
-      $(this.overlay).click(() => {
-        this.closeModal();
-      });
-    }
-  }
+  const handleOverlayClick = () => {
+    if (closeOnOverlayClick) closeModal();
+  };
 
-  removeOverlay() {
-    if (!this.overlay) return;
-    ReactDOM.unmountComponentAtNode(this.overlay);
-    document.body.removeChild(this.overlay);
-    delete this.overlay;
-  }
+  const modalClass = `c-pop_over${fullSize ? ' pop_over-full' : ''}${open ? ' pop_over-open in' : ''} ${className}`;
 
-  closeModal() {
-    this.setState({
-      open: false
-    });
-    this.removeOverlay();
-  }
-
-  handleClose() {
-    if (this.props.handleClose) {
-      this.props.handleClose();
-    }
-    this.closeModal();
-  }
-
-  handleOverlayClick() {
-    if (this.props.closeOnOverlayClick)
-      this.handleClose();
-  }
-
-  render() {
-    let modalClass = `c-pop_over${this.props.fullSize ? ' pop_over-full' : ''}${this.state.open ? ' pop_over-open in' : ''} ${this.props.className}`;
-
-    return (
-      <div className={modalClass} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-        {(() => {
-          if (!this.props.fullSize) {
-            return (
-              <div className="inner-overlay" onClick={this.handleOverlayClick}></div>
-            );
-          }
-        })()}
-        <div className="dialog content" role="document">
-          {this.props.children}
-        </div>
+  return (
+    <div className={modalClass} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+      {!fullSize && (
+        <div className="inner-overlay" onClick={handleOverlayClick}></div>
+      )}
+      <div className="dialog content" role="document">
+        {children}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 PopOver.defaultProps = {
   // Start open or closed
@@ -104,9 +65,11 @@ PopOver.defaultProps = {
 };
 
 PopOver.propTypes = {
-  open: React.PropTypes.bool,
-  closeOnOverlayClick: React.PropTypes.bool,
-  handleClose: React.PropTypes.func,
-  className: React.PropTypes.string,
-  children: React.PropTypes.array
+  open: PropTypes.bool,
+  closeOnOverlayClick: PropTypes.bool,
+  handleClose: PropTypes.func,
+  className: PropTypes.string,
+  children: PropTypes.array
 };
+
+export default PopOver;

@@ -1,0 +1,34 @@
+.ui-indicator_dot
+{
+  display: inline-block;
+  font-size: 11pt;
+  padding: 5px;
+  color: #999;
+  vertical-align: middle;
+
+  &.indicator_dot-small
+  {
+    font-size: 8pt;
+    padding: 3px;
+  }
+
+  &.indicator_dot-exported
+  {
+    color: #03A10E;
+  }
+
+  &.indicator_dot-complete
+  {
+    color: #289A00;
+  }
+
+  &.indicator_dot-incomplete
+  {
+    color: #0088CC;
+  }
+
+  &.indicator_dot-deleted
+  {
+    color: #eee;
+  }
+}

@@ -1,35 +1,29 @@
 // REQUIRES PACKAGE
 // "react-tinymce": "^0.5.1"
 
+import PropTypes from 'prop-types';
 import TinyMCE from 'react-tinymce';
 
-export default class RichTextTinyMCE extends React.Component {
+const RichTextTinyMCE = ({ value, onChange }) => {
+  const handleEditorChange = (e) => {
+    onChange(e.target.getContent());
+  };
 
-  constructor(props) {
-    super(props);
-
-    this.handleEditorChange = this.handleEditorChange.bind(this);
-  }
-
-  handleEditorChange(e) {
-    this.props.onChange(e.target.getContent());
-  }
-
-  render() {
-    return (
-      <TinyMCE
-        content={this.props.value}
-        config={{
-          plugins: 'link image code',
-          toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
-        }}
-        onChange={this.handleEditorChange}
-      />
-    );
-  }
-}
+  return (
+    <TinyMCE
+      content={value}
+      config={{
+        plugins: 'link image code',
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+      }}
+      onChange={handleEditorChange}
+    />
+  );
+};
 
 RichTextTinyMCE.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func
-}
+};
+
+export default RichTextTinyMCE;
