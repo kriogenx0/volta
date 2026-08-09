@@ -1,3 +1,5 @@
-import { render } from 'react-dom';
-import StyleGuide from './StyleGuide';
-render(<StyleGuide />, document.getElementById('app'));
+import { createRoot } from 'react-dom/client';
+import SodaDocs from '../styleguide/SodaDocs';
+
+const root = createRoot(document.getElementById('app'));
+root.render(<SodaDocs />);

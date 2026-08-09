@@ -1,18 +1,14 @@
-require('es6-promise').polyfill();
-
 const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: {
     app: './app/app.jsx'
   },
   output: {
     path: path.resolve(__dirname, '../public/compiled'),
-    // publicPath: '/',
     filename: '[name].js'
-    // filename: '[name].[chunkhash].js',
-    // chunkFilename: '[name].[chunkhash].chunk.js'
   },
   module: {
     rules: [
@@ -20,29 +16,25 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
-          // options: options.babelQuery,
+          loader: 'babel-loader'
         }
-        // loader: 'babel-loader',
-        // query: {
-        //   presets: ['react', 'es2015']
-        // }
       },
       {
         test: /\.scss$/,
-        loaders: ["style-loader", "css-loader", "sass-loader"]
+        use: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
   },
   plugins: [
     new webpack.ProvidePlugin({
-      React: 'react'
+      React: 'react',
+      PropTypes: 'prop-types'
     })
   ],
   resolve: {
-    extensions: [".webpack.js", ".web.js", ".jsx", ".js"],
+    extensions: ['.jsx', '.js'],
     alias: {
-      components: path.resolve(__dirname, "../components")
+      components: path.resolve(__dirname, '../components')
     }
   }
 };

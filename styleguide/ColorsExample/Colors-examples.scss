@@ -1,0 +1,136 @@
+@use "../../mixins" as *;
+
+.view-colors {
+  .theme-toggle {
+    flex-shrink: 0;
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1px solid $color_base_subtle;
+    background: $color_base;
+    color: $color_trim;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 120ms;
+    @include dark {
+      background: $color_base_dark;
+      color: $color_trim_dark;
+      border-color: $color_base_subtle_dark;
+    }
+
+    &:hover {
+      border-color: $color_active;
+      color: $color_active;
+    }
+
+    &.dark-active {
+      background: #111;
+      color: #fff;
+      border-color: #333;
+    }
+  }
+
+  .usage-note {
+    background: $color_base_more_subtle;
+    border: 1px solid $color_base_subtle;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    @include dark {
+      background: $color_base_more_subtle_dark;
+      border-color: $color_base_subtle_dark;
+    }
+
+    strong { font-size: 13px; }
+
+    code {
+      display: inline;
+      padding: 3px 8px;
+      font-size: 12px;
+      background: $color_base_subtle;
+      @include dark { background: $color_base_subtle_dark; }
+    }
+  }
+
+  .color-group {
+    margin-bottom: 36px;
+
+    .color-group-header {
+      margin-bottom: 16px;
+      h3 { margin: 0 0 4px; }
+      p { margin: 0; font-size: 13px; color: $color_trim_subtle;
+        @include dark { color: $color_trim_subtle_dark; }
+      }
+    }
+  }
+
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .color-token {
+    border: 1px solid $color_base_subtle;
+    border-radius: 10px;
+    overflow: hidden;
+    @include dark { border-color: $color_base_subtle_dark; }
+
+    .color-swatch {
+      height: 80px;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .copy-hint {
+        opacity: 0;
+        font-size: 11px;
+        font-weight: 600;
+        background: rgba(0,0,0,0.6);
+        color: #fff;
+        padding: 4px 10px;
+        border-radius: 20px;
+        transition: opacity 120ms;
+        pointer-events: none;
+      }
+
+      &:hover .copy-hint,
+      &:active .copy-hint {
+        opacity: 1;
+      }
+    }
+
+    .color-info {
+      padding: 10px 12px 12px;
+      background: $color_base;
+      @include dark { background: $color_base_dark; }
+
+      .color-hex {
+        font-family: source-code-pro, Menlo, Monaco, monospace;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        margin-bottom: 3px;
+      }
+
+      .color-variable {
+        font-family: source-code-pro, Menlo, Monaco, monospace;
+        font-size: 11px;
+        color: $color_trim_subtle;
+        margin-bottom: 4px;
+        @include dark { color: $color_trim_subtle_dark; }
+      }
+
+      .color-use {
+        font-size: 12px;
+        color: $color_trim_subtle;
+        @include dark { color: $color_trim_subtle_dark; }
+      }
+    }
+  }
+}
