@@ -1,34 +1,44 @@
+import React, { useId } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import './Select.scss';
 
-const Select = ({ options, value, onChange, className, ...otherProps }) => {
-  const selectProps = {
-    value,
-    onChange,
-    ...otherProps
-  };
+const SIZE_CLASS = { sm: 'rounded-md px-2.5 py-1.5 text-sm', md: 'rounded-lg px-3 py-2' };
 
+const Select = ({ options, value, onChange, className = '', label, optional, fieldSize = 'sm', id, children, ...otherProps }) => {
+  const generatedId = useId();
+  const fieldId = id || generatedId;
+  const control = (
+    <select
+      id={label ? fieldId : id}
+      value={value}
+      onChange={onChange}
+      className={`w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-900 ${SIZE_CLASS[fieldSize]} ${className}`.trim()}
+      {...otherProps}
+    >
+      {children || (options || []).map((option, index) => <option key={index} value={option.value}>{option.label}</option>)}
+    </select>
+  );
+
+  const wrapped = <div className="v-select">{control}</div>;
+  if (!label) return wrapped;
   return (
-    <div className={`v-select ${className || ''}`}>
-      <select {...selectProps}>
-        {_.map(options, (option, i) => (
-          <option key={i} value={option.value}>{option.label}</option>
-        ))}
-      </select>
+    <div>
+      <label htmlFor={fieldId} className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+        {label}{optional && <span className="font-normal text-gray-400"> (optional)</span>}
+      </label>
+      {wrapped}
     </div>
   );
 };
 
 Select.propTypes = {
-  value: PropTypes.string,
-  name: PropTypes.any.isRequired,
-  options: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    value: PropTypes.any
-  })),
-  onChange: PropTypes.func
+  value: PropTypes.any,
+  name: PropTypes.any,
+  options: PropTypes.array,
+  onChange: PropTypes.func,
+  fieldSize: PropTypes.oneOf(['sm', 'md'])
 };
 
+export { Select };
 export default Select;

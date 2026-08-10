@@ -2,23 +2,29 @@ import PropTypes from 'prop-types';
 
 import './Card.scss';
 
-const Card = ({ selected, selectable, children, className, onClick }) => {
-  let cardClassName = 'control-card';
-  if (className) cardClassName += ' ' + className;
-  if (selectable) cardClassName += ' control-card-selectable';
-  if (selected) cardClassName += ' control-card-selected';
+const PADDING_CLASS = { none: '', sm: 'p-3', md: 'p-4' };
 
-  return (
-    <div className={cardClassName} onClick={onClick}>
-      {children}
-    </div>
-  );
+const Card = ({ selected, selectable, children, className = '', onClick, padding, ...otherProps }) => {
+  const classes = [
+    'control-card',
+    selectable && 'control-card-selectable',
+    selected && 'control-card-selected',
+    padding && 'rounded-lg border border-gray-200 dark:border-gray-800',
+    padding && PADDING_CLASS[padding],
+    className
+  ].filter(Boolean).join(' ');
+
+  return <div className={classes} onClick={onClick} {...otherProps}>{children}</div>;
 };
 
 Card.propTypes = {
   selected: PropTypes.bool,
   selectable: PropTypes.bool,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  padding: PropTypes.oneOf(['none', 'sm', 'md'])
 };
 
+Card.defaultProps = { padding: 'md' };
+
+export { Card };
 export default Card;
