@@ -1,8 +1,13 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
+
 export default class Map extends React.Component {
 
   constructor() {
     super(...arguments);
 
+    this.mapEl = React.createRef();
     this.googleMap = null;
     this.geocoder = null;
     this.marker = null;
@@ -68,7 +73,7 @@ export default class Map extends React.Component {
       center: new google.maps.LatLng(this.props.lat, this.props.lng)
     };
 
-    this.googleMap = new google.maps.Map(this.refs.map, initialPosition);
+    this.googleMap = new google.maps.Map(this.mapEl.current, initialPosition);
     this.googleMap.setMapTypeId(google.maps.MapTypeId.ROADMAP);
     this.marker = new google.maps.Marker({ map: this.googleMap });
 
@@ -82,7 +87,7 @@ export default class Map extends React.Component {
   }
 
   configureAutoComplete() {
-    const addressInput = this.refs.address || this.props.addressInput;
+    const addressInput = this.props.addressInput;
 
     if (!this.autocomplete)
       this.autocomplete = new google.maps.places.Autocomplete(addressInput, { types: ['geocode'] });
@@ -152,8 +157,7 @@ export default class Map extends React.Component {
   render() {
     return (
       <div className='c-map'>
-        {/* <input type='text' ref='address' /> */}
-        <div ref="map" style={{height: this.props.height}} className="l-v-top-half-spaced l-bordered" />
+        <div ref={this.mapEl} style={{height: this.props.height}} className="l-v-top-half-spaced l-bordered" />
       </div>
     );
   }

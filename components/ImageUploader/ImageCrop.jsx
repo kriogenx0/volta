@@ -1,6 +1,8 @@
 // Image Crop Component
 // Takes a file, returns a file (cropped)
 
+import React from 'react';
+
 import Tooltip from '../Tooltip/Tooltip';
 
 import './canvas_toblob';

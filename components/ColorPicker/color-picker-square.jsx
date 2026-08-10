@@ -4,6 +4,7 @@
 //
 // Note, internally this component uses HSV, externally we use HSL
 
+import React from 'react';
 import PropTypes from 'prop-types';
 import tinycolor from 'tinycolor2';
 

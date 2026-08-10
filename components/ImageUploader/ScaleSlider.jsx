@@ -1,6 +1,7 @@
 // Scale Slider Component
 // UI for changing the scale of an image to crop. Mimics input[type=range]
 
+import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class ScaleSlider extends React.Component {

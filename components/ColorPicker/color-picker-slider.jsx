@@ -2,6 +2,7 @@
 // Slide handle to change HUE (0-360)
 // Expects an initial hex value and a callback for hue changes
 
+import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class ColorPickerSlider extends React.Component {

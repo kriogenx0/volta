@@ -1,43 +1,41 @@
 // lrt - aLeRT!
 
-$alertWidth: 500px;
-
-@include module ("lrt") {
+.lrt {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255,255,255,.85);
+  background: rgba(255, 255, 255, 0.85);
   text-align: center;
   max-width: none;
-  z-index: $z-modal + 1;
+  z-index: 1001;
+}
 
-  @include element ("container") {
-    width: $alertWidth;
-    @include border-radius($base-border-radius);
-    @include box-shadow(0 2px 4px rgba(0, 0, 0, 0.14));
-    z-index: $z-content-over;
-    background: color('white');
-    border: 1px solid rgba(0,0,0,.2);
-    padding: $base-padding;
-  }
+.lrt_container {
+  width: 500px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.14);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin: 10vh auto 0;
+}
 
-  @include element ("title") {
-    @extend %xlarge-font;
-    font-weight: normal;
-    margin-bottom: $base-padding;
-  }
+.lrt_title {
+  font-size: 20px;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
 
-  @include element ("buttons") {
-    @extend %l-flex-row;
+.lrt_buttons {
+  display: flex;
 
-    > .btn {
-      @extend %l-flex-grow-1;
+  > .btn {
+    flex-grow: 1;
 
-      & + .btn {
-        margin-left: 20px;
-      }
+    & + .btn {
+      margin-left: 20px;
     }
   }
 }

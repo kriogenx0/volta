@@ -8,7 +8,7 @@ export default {
     {
       name: 'API reference',
       code: `// npm install pikaday classnames
-import DateTime from 'soda/components/DateTime';
+import DateTime from 'volta/components/DateTime';
 
 <DateTime
   value="2026-01-15T09:00"
