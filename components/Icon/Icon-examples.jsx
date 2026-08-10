@@ -24,7 +24,7 @@ const IconGrid = () => (
 
 export default {
   name: 'Icon',
-  description: 'SF Symbols icons via the @apple/sf-symbols-web package.',
+  description: 'Icon font powered by a symbol library, referenced by name.',
   examples: [
     {
       name: 'Icon grid',

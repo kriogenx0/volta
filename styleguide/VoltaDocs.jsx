@@ -9,9 +9,9 @@ import Colors from './ColorsExample/Colors-examples';
 import TypeExamples from './TypeExamples/Type-examples';
 import Layout from './Layout/Layout-examples';
 
-import './SodaDocs.scss';
+import './VoltaDocs.scss';
 
-const SodaDocs = () => {
+const VoltaDocs = () => {
   const defaultPage = 'Components';
   const [pageKey, setPageKey] = useState(defaultPage);
 
@@ -31,19 +31,19 @@ const SodaDocs = () => {
   const Page = pages[pageKey || defaultPage];
 
   return (
-    <div className="v-soda_docs">
+    <div className="v-docs">
       <GlobalNav
-        appName="Soda"
+        appName="Volta"
         links={pages}
         onLinkClick={handleLinkClick}
         activeLinkKey={pageKey}
       />
       <ThemeSwitcher />
-      <main className="soda-docs-main">
+      <main className="v-docs-main">
         <Page />
       </main>
     </div>
   );
 };
 
-export default SodaDocs;
+export default VoltaDocs;

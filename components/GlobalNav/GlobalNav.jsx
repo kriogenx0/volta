@@ -1,7 +1,6 @@
 import { map } from "lodash";
 import PropTypes from "prop-types";
 
-import Icon from "../Icon";
 import "./GlobalNav.scss";
 
 const GlobalNav = ({
@@ -21,14 +20,9 @@ const GlobalNav = ({
   };
 
   return (
-    <header className="soda-global_nav">
+    <header className="v-global_nav">
       <div className="l-width">
         <div className="header-left">
-          <a href={homeLink} className="apple-logo">
-            <span className="logo">
-              <Icon type="applelogo" />
-            </span>
-          </a>
           {appName ? (
             <a href={homeLink} className="app_name heading">
               {appName}

@@ -1,10 +1,10 @@
 @use "../mixins" as *;
 
-.v-soda_docs {
+.v-docs {
   min-height: 100vh;
 }
 
-.soda-docs-main {
+.v-docs-main {
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px 32px 60px;

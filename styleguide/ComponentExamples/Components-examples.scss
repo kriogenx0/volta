@@ -18,29 +18,45 @@
       border-color: $color_base_subtle_dark;
     }
 
-    > div {
-      padding: 8px 16px;
-      font-size: 13px;
-      cursor: pointer;
-      border-radius: 4px;
-      margin: 1px 6px;
-      transition: background-color 100ms;
+    .component_examples-group {
+      margin-bottom: 8px;
 
-      &:hover {
-        background-color: $color_base_subtle;
-        @include dark {
-          background-color: $color_base_subtle_dark;
+      > div.clickable {
+        padding: 8px 16px;
+        font-size: 13px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin: 1px 6px;
+        transition: background-color 100ms;
+
+        &:hover {
+          background-color: $color_base_subtle;
+          @include dark {
+            background-color: $color_base_subtle_dark;
+          }
+        }
+
+        &.pressed {
+          background-color: $color_active_subtle;
+          color: $color_active;
+          font-weight: 500;
+          @include dark {
+            background-color: $color_active_subtle_dark;
+            color: $color_active_dark;
+          }
         }
       }
+    }
 
-      &.pressed {
-        background-color: $color_active_subtle;
-        color: $color_active;
-        font-weight: 500;
-        @include dark {
-          background-color: $color_active_subtle_dark;
-          color: $color_active_dark;
-        }
+    .component_examples-group_label {
+      padding: 12px 16px 4px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: $color_trim_more_subtle;
+      @include dark {
+        color: $color_trim_more_subtle_dark;
       }
     }
   }

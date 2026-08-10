@@ -2,7 +2,7 @@
 
 $global_nav_height: 48px;
 
-.soda-global_nav {
+.v-global_nav {
   height: $global_nav_height;
   background: #333;
   color: #fff;
@@ -17,15 +17,6 @@ $global_nav_height: 48px;
   .header-left {
     font-size: 20px;
     line-height: $global_nav_height;
-
-    .apple-logo {
-      margin-right: 15px;
-      display: inline-block;
-
-      img {
-        vertical-align: text-top;
-      }
-    }
 
     .app_name {
       font-size: 20px;

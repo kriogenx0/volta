@@ -8,7 +8,7 @@ export default {
     {
       name: 'API reference',
       code: `// npm install react-select classnames
-import MultiSelect from 'soda/components/MultiSelect';
+import MultiSelect from 'volta/components/MultiSelect';
 
 <MultiSelect
   name="tags"

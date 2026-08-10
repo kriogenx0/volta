@@ -4,10 +4,10 @@ import { createRoot } from "react-dom/client";
 // Libs
 import "../node_modules/@apple/sf-symbols-web/src/_sf-symbols.scss";
 
-// Load Soda styles how intended
+// Load Volta styles
 import "../styles.scss";
 
-import SodaDocs from "./SodaDocs";
+import VoltaDocs from "./VoltaDocs";
 
 const root = createRoot(document.getElementById("app"));
-root.render(React.createElement(SodaDocs));
+root.render(React.createElement(VoltaDocs));

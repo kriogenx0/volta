@@ -79,7 +79,7 @@ const ColorsExample = () => {
       <header className="section-header">
         <div>
           <h2>Colors</h2>
-          <p>Soda's color system is built for automatic dark mode. Every token has a light and dark variant.</p>
+          <p>Volta's color system is built for automatic dark mode. Every token has a light and dark variant.</p>
         </div>
         <button
           className={`theme-toggle ${showDark ? 'dark-active' : ''}`}

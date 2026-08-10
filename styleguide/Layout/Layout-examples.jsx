@@ -3,7 +3,7 @@ const Layout = () => (
     <header className="section-header">
       <div>
         <h2>Layout</h2>
-        <p>Soda provides utility classes and layout components for consistent page structure.</p>
+        <p>Volta provides utility classes and layout components for consistent page structure.</p>
       </div>
     </header>
 
@@ -26,7 +26,7 @@ const Layout = () => (
 
     <div className="panel">
       <h3>Spacing</h3>
-      <p>Use <code>.m-y</code> for vertical margin, <code>.p-y</code> for vertical padding. Soda uses a base spacing unit of 8px.</p>
+      <p>Use <code>.m-y</code> for vertical margin, <code>.p-y</code> for vertical padding. Volta uses a base spacing unit of 8px.</p>
     </div>
 
     <div className="panel">

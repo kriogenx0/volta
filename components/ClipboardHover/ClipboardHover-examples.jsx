@@ -6,8 +6,8 @@ export default {
   examples: [
     {
       name: 'Clipboard hover',
-      code: '<ClipboardHover>npm install soda</ClipboardHover>',
-      output: <ClipboardHover>npm install soda</ClipboardHover>
+      code: '<ClipboardHover>npm install volta</ClipboardHover>',
+      output: <ClipboardHover>npm install volta</ClipboardHover>
     },
     {
       name: 'Copy an email address',

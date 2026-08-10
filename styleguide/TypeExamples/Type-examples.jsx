@@ -5,7 +5,7 @@ const typeScale = [
   { tag: 'h2', label: 'H2 — Heading',   size: '21px', weight: '500', sample: 'The quick brown fox jumps' },
   { tag: 'h3', label: 'H3 — Subheading', size: '21px', weight: '500', sample: 'The quick brown fox jumps over' },
   { tag: 'h4', label: 'H4 — Title',     size: '16px', weight: '500', sample: 'The quick brown fox jumps over the lazy dog' },
-  { tag: 'p',  label: 'Body',           size: '14px', weight: '400', sample: 'The quick brown fox jumps over the lazy dog. Soda provides consistent typography for all web applications.' },
+  { tag: 'p',  label: 'Body',           size: '14px', weight: '400', sample: 'The quick brown fox jumps over the lazy dog. Volta provides consistent typography for all web applications.' },
   { tag: 'small', label: 'Small / Caption', size: '12px', weight: '400', sample: 'Small text used for captions, metadata, and helper text.' },
 ];
 
@@ -15,7 +15,7 @@ const TypeExamples = () => (
   <section className="view-type">
     <header className="section-header">
       <h2>Typography</h2>
-      <p>Soda uses SF Pro — Apple's system font — with intelligent fallbacks for non-Apple platforms.</p>
+      <p>Volta uses SF Pro with intelligent fallbacks for non-Apple platforms.</p>
     </header>
 
     <div className="panel type-section">
@@ -91,14 +91,14 @@ const TypeExamples = () => (
       <p>
         Inline code appears like <code>this.value</code> with a subtle background.
       </p>
-      <code>{`const greeting = "Hello, Soda!";
+      <code>{`const greeting = "Hello, Volta!";
 console.log(greeting);`}</code>
     </div>
 
     <div className="panel type-section">
       <h3>Paragraph Spacing</h3>
       <p>
-        Soda sets a base font size of <strong>14px</strong> with <code>-webkit-font-smoothing: antialiased</code> for crisp rendering on retina displays.
+        Volta sets a base font size of <strong>14px</strong> with <code>-webkit-font-smoothing: antialiased</code> for crisp rendering on retina displays.
       </p>
       <p>
         Line heights default to the browser standard. For headings, <code>line-height: 1.1</code> creates tight, modern display text.
