@@ -1,38 +1,26 @@
-import ReactDOM from 'react-dom';
+import { useEffect } from 'react';
 
 import './Overlay.scss';
 
-const Overlay = ({ showing, onClick, children }) => {
-  const buildOverlay = () => {
-    if (Overlay.overlay) return;
+const Overlay = ({ showing = null, onClick, children }) => {
+  useEffect(() => {
+    if (!showing) return undefined;
 
-    Overlay.overlay = document.createElement('div');
-    Overlay.overlay.className = Overlay.defaultClassName + ' showing';
-    document.body.appendChild(Overlay.overlay);
+    const el = document.createElement('div');
+    el.className = `${Overlay.defaultClassName} showing`;
+    document.body.appendChild(el);
 
-    if (onClick) {
-      Overlay.overlay.addEventListener('click', onClick);
-    }
-  }
+    if (onClick) el.addEventListener('click', onClick);
 
-  const removeOverlay = () => {
-    if (Overlay.overlay) {
-      Overlay.overlay.className = Overlay.defaultClassName;
-      ReactDOM.unmountComponentAtNode(Overlay.overlay);
-      document.body.removeChild(Overlay.overlay);
-      Overlay.overlay = null;
-    }
-  }
-
-  showing ? buildOverlay() : removeOverlay();
+    return () => {
+      if (onClick) el.removeEventListener('click', onClick);
+      document.body.removeChild(el);
+    };
+  }, [showing, onClick]);
 
   return null;
 };
 
-Overlay.defaultClassName = 'soda-overlay';
-
-Overlay.defaultProps = {
-  showing: null
-};
+Overlay.defaultClassName = 'v-overlay';
 
 export default Overlay;

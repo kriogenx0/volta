@@ -1,3 +1,6 @@
+import React from 'react';
+import _ from 'lodash';
+
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
 import ComboBox from '../ComboBox/ComboBox';
 

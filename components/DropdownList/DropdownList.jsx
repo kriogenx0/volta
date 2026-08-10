@@ -88,7 +88,7 @@ const DropdownList = ({
 
   return (
     <Dropdown
-      className='soda-dropdown_list'
+      className='v-dropdown_list'
       label={dropdownLabel}
       open={open}
       onClick={handleButtonClick}

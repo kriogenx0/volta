@@ -11,7 +11,7 @@ const Button = ({ onClick, children, className, variant, type, bsStyle, size, di
   if (tiny) sz = 'tiny';
 
   const buttonProps = {
-    className: 'soda-button button-' + variantClass +
+    className: 'v-button button-' + variantClass +
       (className ? ' ' + className : '') +
       (sz ? ' button-' + sz : '') +
       (disabled ? ' button-disabled' : '') +

@@ -3,7 +3,7 @@ import React from 'react';
 import './Empty.scss';
 
 const Empty = (props) => (
-  <div className='soda-empty'>
+  <div className='v-empty'>
     {props.children}
   </div>
 );

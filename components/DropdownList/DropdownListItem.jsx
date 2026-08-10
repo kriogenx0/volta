@@ -12,7 +12,7 @@ const DropdownListItem = ({
         onSelect && onSelect(null, label);
     };
 
-    let className = 'soda-dropdown_list_item';
+    let className = 'v-dropdown_list_item';
     if (onSelect) className += " dropdown_list_item-has_action";
     if (isActive) className += " dropdown_list_item-active";
     if (disabled) className += " dropdown_list_item-disabled";

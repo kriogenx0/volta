@@ -40,7 +40,7 @@ const Dropdown = ({
 
   const handleContentsClick = onClose;
 
-  const cls = 'soda-dropdown'
+  const cls = 'v-dropdown'
     + (className ? ` ${className}` : '')
     + (open ? ' is-open' : '')
     + (constrainWidth ? ' dropdown-constrain_width' : '');

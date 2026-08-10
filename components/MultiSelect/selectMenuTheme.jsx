@@ -88,7 +88,7 @@ export function initTheme(theme) {
 
 export const MultiValueRemove = (props) => (
   <components.MultiValueRemove {...props}>
-    <span style={{ fontFamily: 'Apple Icons', color: colors.multiselect.iconColor }}>{'\uF049'}</span>
+    <span style={{ fontFamily: 'Volta Icons', color: colors.multiselect.iconColor }}>{'\uF049'}</span>
   </components.MultiValueRemove>
 )
 
@@ -98,7 +98,7 @@ export const DropdownIndicator = (props) =>
       <span
         style={{
           color: colors.multiselect.text,
-          fontFamily: 'Apple Icons',
+          fontFamily: 'Volta Icons',
           fontSize: 21,
           marginRight: 7,
         }}

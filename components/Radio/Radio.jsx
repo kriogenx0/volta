@@ -4,7 +4,7 @@ import "./Radio.scss";
 
 const Radio = ({ title, disabled, ...props}) => {
   return (
-    <label className={`soda-radio${disabled ? ' radio-disabled' : ''}`} title={title}>
+    <label className={`v-radio${disabled ? ' radio-disabled' : ''}`} title={title}>
       <input
         type="radio"
         label={title}

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import './Select.scss';
 
@@ -10,7 +11,7 @@ const Select = ({ options, value, onChange, className, ...otherProps }) => {
   };
 
   return (
-    <div className={`soda-select ${className || ''}`}>
+    <div className={`v-select ${className || ''}`}>
       <select {...selectProps}>
         {_.map(options, (option, i) => (
           <option key={i} value={option.value}>{option.label}</option>

@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import Icon from "../Icon";
 import Loader from "../Loader";
@@ -68,7 +69,7 @@ const VideoPlayer = ({
   }
 
   return (
-    <div className={'soda-video_player' + (className ? ' ' + className : '')}>
+    <div className={'v-video_player' + (className ? ' ' + className : '')}>
       { icon ? <div className='full'>{icon}</div> : null }
 
       <video ref={video} autoPlay loop={false} key={src} {...otherProps} onClick={handleClick}>

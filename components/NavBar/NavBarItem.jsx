@@ -1,75 +1,65 @@
-import { Link }  from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import ClassNames from 'classnames';
+import _ from 'lodash';
 
-export default class NavBarItem extends React.Component {
-  handleToggle(event) {
-    this.props.onToggle(this.props.navItem, event);
+const toRoute = (navItem) => ({
+  pathname: navItem.linkTo,
+  search: navItem.query ? `?${new URLSearchParams(navItem.query).toString()}` : ''
+});
+
+const NavBarItem = ({ navItem, navLevel, onToggle, onActiveState }) => {
+  const location = useLocation();
+
+  const handleToggle = (event) => {
+    onToggle(navItem, event);
+  };
+
+  const isActive = navItem.hasLink() && location.pathname === navItem.linkTo;
+
+  if (onActiveState && isActive) {
+    onActiveState(navItem);
   }
 
-  handleLink(event) {
-    // to prevent Link from processing click
-    event.preventDefault();
+  let cls = ClassNames({
+    'component-navbar-item': true,
+    'has-link': navItem.hasLink(),
+    'has-children': navItem.hasChildren(),
+    'is-active': isActive
+  });
 
-    // Navigate to linkTo
-    this.context.router.push({pathname: this.props.navItem.linkTo, query: this.props.navItem.query});
+  cls += navLevel ? ` navlevel-indent-${navLevel}` : ' navlevel-indent-0';
+
+  if (_.isPresent(navItem.extraClass)) {
+    cls += ` ${navItem.extraClass}`;
   }
 
-  render() {
-    var el = "";
-    var navItem = this.props.navItem;
-    var isActive = navItem.hasLink() && this.context.router.isActive({pathname: navItem.linkTo});
-
-    if (this.props.onActiveState && isActive) {
-      this.props.onActiveState(navItem);
-    }
-
-    var cls = ClassNames({
-      'component-navbar-item': true,
-      'has-link': navItem.hasLink(),
-      'has-children': navItem.hasChildren(),
-      'is-active': isActive
-    });
-
-    if (this.props.navLevel) {
-      cls += " navlevel-indent-" + this.props.navLevel;
-    } else {
-      cls += " navlevel-indent-0";
-    }
-
-    // Add extraClass if provided
-    if (_.isPresent(navItem.extraClass)) {
-      cls += " " + navItem.extraClass;
-    }
-
-    if (navItem.isExpanded()) {
-      cls += ' is-expanded';
-    }
-
-    if (navItem.hasLink()) {
-      // Build Link
-      el = (
-        <div className={cls} onClick={this.handleLink.bind(this)}>
-          <Link to={{pathname: navItem.linkTo, query: navItem.query}} onClick={this.handleLink.bind(this)} className="navTitle">{navItem.title}</Link>
-        </div>);
-    } else {
-      if (navItem.hasChildren()) {
-        // Build Toggle
-        el = (
-          <div className={cls + " toggle-expand"} onClick={this.handleToggle.bind(this)}>
-            <span>{navItem.isExpanded() ? String.fromCharCode(0x25be) : String.fromCharCode(0x25b8)}</span>
-            <span className="navTitle">{navItem.title}</span>
-          </div>);
-      } else {
-        // Build Label
-        el = (
-          <div className={cls + " navTitle"}>
-            {navItem.title}
-          </div>);
-      }
-    }
-
-    return (el);
+  if (navItem.isExpanded()) {
+    cls += ' is-expanded';
   }
+
+  if (navItem.hasLink()) {
+    return (
+      <div className={cls}>
+        <Link to={toRoute(navItem)} className="navTitle">{navItem.title}</Link>
+      </div>
+    );
+  }
+
+  if (navItem.hasChildren()) {
+    return (
+      <div className={`${cls} toggle-expand`} onClick={handleToggle}>
+        <span>{navItem.isExpanded() ? String.fromCharCode(0x25be) : String.fromCharCode(0x25b8)}</span>
+        <span className="navTitle">{navItem.title}</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`${cls} navTitle`}>
+      {navItem.title}
+    </div>
+  );
 };
 
 NavBarItem.defaultProps = {
@@ -81,6 +71,4 @@ NavBarItem.propTypes = {
   onActiveState: PropTypes.func,
 };
 
-NavBarItem.contextTypes = {
-  router: PropTypes.object.isRequired
-};
+export default NavBarItem;

@@ -1,5 +1,7 @@
 // Render a spinner image (ie: loading)
 
+import _ from 'lodash';
+
 import './LoaderSpinner.scss';
 
 const LoaderSpinner = ({ size, fullscreen, className }) => {

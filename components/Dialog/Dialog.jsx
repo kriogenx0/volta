@@ -1,6 +1,9 @@
 // Dialog
 // Interactive Modal with header and buttons
 
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import PopOver from '../PopOver/PopOver';
 
 import './Dialog.scss';

@@ -1,6 +1,9 @@
 // ModalDialog
 // Interactive Modal with header and buttons
 
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import Modal from '../Modal/Modal';
 
 import './ModalDialog.scss';
@@ -82,8 +85,8 @@ export default class ModalDialog extends React.Component {
               {(()=>{
                 if (this.props.closeX) {
                   return (
-                    <a className='modal-x' aria-label="Close" onClick={this.onCancel}>
-                      <i class="fa fa-times" aria-hidden="true"></i>
+                    <a className='modal-x' aria-label="Close" onClick={this.handleCancel}>
+                      <i className="fa fa-times" aria-hidden="true"></i>
                     </a>
                   );
                 }

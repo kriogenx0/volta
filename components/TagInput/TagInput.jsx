@@ -29,7 +29,7 @@ const TagInput = ({ tags, value, onChange, ...props }) => {
     updateTags(newTags);
   }
 
-  handleRemoveTag = tag => {
+  const handleRemoveTag = tag => {
     const newTags = _.without(tagState, tag);
     updateTags(newTags);
   };
@@ -40,7 +40,7 @@ const TagInput = ({ tags, value, onChange, ...props }) => {
   };
 
   return (
-    <div className='soda-tag_input'>
+    <div className='v-tag_input'>
       <TextField name='tags' value={inputText} onChange={handleInputChange} onKeyPress={handleInputKeyPress} {...props} />
       <div className="tag_input-tags">
         {_.map(tagState, tag => (

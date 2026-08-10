@@ -1,6 +1,6 @@
 @use "../../mixins" as *;
 
-.soda-video_player {
+.v-video_player {
   border: 1px solid #ccc;
   @include dark {
     border-color: #333;
@@ -25,7 +25,7 @@
 
     $icon_height: 50px;
 
-    .soda-loader, i {
+    .v-loader, i {
       position: absolute;
       top: 50%;
       left: 0;
@@ -36,7 +36,7 @@
       font-size: 36px;
       text-align: center;
     }
-    .soda-loader {
+    .v-loader {
       margin: -30px auto;
       padding: 0;
     }

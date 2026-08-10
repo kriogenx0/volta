@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+
 import Button from '../Button';
 import Icon from '../Icon';
 
@@ -5,7 +7,7 @@ import "./ClipboardHover.scss";
 
 const ClipboardHover = ({ children }) => {
 
-  const text = React.createRef();
+  const text = useRef(null);
 
   const handleClick = (e) => {
     const el = text.current;
@@ -21,7 +23,7 @@ const ClipboardHover = ({ children }) => {
   };
 
   return (
-    <div className='soda-clipboard_hover'>
+    <div className='v-clipboard_hover'>
       <div className='clipboard_hover-text' ref={text}>
         {children}
       </div>

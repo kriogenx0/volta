@@ -1,3 +1,8 @@
+import React from 'react';
+import _ from 'lodash';
+
+import TextBox from '../TextBox';
+
 import './ColorPalettePicker.scss';
 
 export default class ColorPalettePicker extends React.Component {
@@ -62,7 +67,7 @@ export default class ColorPalettePicker extends React.Component {
   render() {
     return (
       <div className='c-color_palette_picker'>
-        <ui.TextBox value={this.state.value} onFocus={this.handleFocus} onBlur={this.handleBlur} onChange={this.handleTextChange} />
+        <TextBox value={this.state.value} onFocus={this.handleFocus} onBlur={this.handleBlur} onChange={this.handleTextChange} />
         <div className='color-current' style={{backgroundColor: this.state.value}} onClick={this.toggle} />
         <div className={`colors clearfix${this.state.showing ? ' showing' : ''}`} onMouseDown={this.dontBlur}>
           {_.map(ColorPalettePicker.colors, (color) => {

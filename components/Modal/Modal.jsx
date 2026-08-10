@@ -6,7 +6,7 @@ const Modal = ({ show, onHide, children, className, headerTitle, ...otherProps }
 
   return (
     <Overlay showing={show}>
-      <div className={'soda-modal' + (className ? ' ' + className : '')} show={show} size="lg" onHide={onHide} {...otherProps}>
+      <div className={'v-modal' + (className ? ' ' + className : '')} show={show} size="lg" onHide={onHide} {...otherProps}>
 
         <div className="modal-dialog">
 

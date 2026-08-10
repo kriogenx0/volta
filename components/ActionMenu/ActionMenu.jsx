@@ -41,7 +41,7 @@ const ActionMenu = ({ onToggle, items, onSelect }) => {
   ));
 
   const props = {
-    className: 'soda-action_menu',
+    className: 'v-action_menu',
     buttonComponent,
     onClick: handleButtonClick,
     onClose: handleButtonClick,

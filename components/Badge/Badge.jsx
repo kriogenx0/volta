@@ -18,7 +18,7 @@ const Badge = ({ variant, size, style, ...otherProps }) => {
   style || (style = {});
   style['color'] = color;
 
-  return <Icon className={"soda-badge badge-" + size} type={icon} style={style} {...otherProps} />
+  return <Icon className={"v-badge badge-" + size} type={icon} style={style} {...otherProps} />
 };
 
 Badge.variants = {

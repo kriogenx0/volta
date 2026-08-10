@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { map } from 'lodash';
 
 import './Tabs.scss';
@@ -9,7 +10,7 @@ const Tabs = ({ tabs, selectedTabKey, onSelect, align }) => {
   };
 
   return (
-    <div className={'soda-tabs tab-align-' + align.toLowerCase()}>
+    <div className={'v-tabs tab-align-' + align.toLowerCase()}>
       <nav>
         <ul>
           {map(tabs, (tab, key) => (

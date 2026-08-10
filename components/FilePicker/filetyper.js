@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const fileTypes = {
   audio: [
     'mp3',
@@ -59,4 +61,4 @@ const fileType = (fileName) => {
   };
 };
 
-if (module) module.exports = fileType;
+export default fileType;

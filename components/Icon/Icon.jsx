@@ -14,9 +14,9 @@ const Icon = ({ type, className, size, ...otherProps }) => {
     icon = unicodeIcons[type];
   }
 
-  if (!icon) console.warn("Soda Icon type not recognized. type: " + type)
+  if (!icon) console.warn("Icon type not recognized. type: " + type)
 
-  let clsName = 'soda-icon icon' +
+  let clsName = 'v-icon icon' +
     (useUnicode ? ' icon-unicode sf-symbol' : '') +
     (className ? ' ' + className : '') +
     (type && !useUnicode ? ` icon-${type}` : '') +

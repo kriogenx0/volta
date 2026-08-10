@@ -8,7 +8,7 @@ const Loader = ({ message, size, small, tiny, inline }) => {
   if (small) size = 'small';
   if (tiny) size = 'tiny';
 
-  const containerClass = "soda-loader" +
+  const containerClass = "v-loader" +
     (typeof size !== 'undefined' ? (' loader-' + size) : '') +
     (inline ? ' loader-inline' : '')
     ;

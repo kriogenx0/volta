@@ -1,3 +1,7 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
+
 import VideoPlayer from '../VideoPlayer';
 import ProgressBar from '../ProgressBar';
 

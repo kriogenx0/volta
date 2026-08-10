@@ -1,6 +1,6 @@
 @use "../../mixins" as *;
 
-.soda-checkbox {
+.v-checkbox {
   @include no_select;
 
   > * {

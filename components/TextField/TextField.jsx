@@ -20,7 +20,7 @@ const TextField = ({
     inputProps.onKeyUp = handleKeyUp;
   }
 
-  const className = 'soda-textfield' + 
+  const className = 'v-textfield' + 
     (error ? ' textfield-error' : '') + 
     (disabled ? ' textfield-disabled' : '') +
     (multiline ? ' textfield-multiline' : '')

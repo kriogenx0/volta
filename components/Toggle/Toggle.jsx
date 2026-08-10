@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Toggle.scss';
 
 export default function Toggle({ name, checked, onChange, className, isDisabled, value, ...otherProps }) {
-  const toggleClass = `soda-toggle ${className || ''} ${isDisabled ? 'toggle-disabled' : ''} ${checked ? 'toggle-checked' : ''}`;
+  const toggleClass = `v-toggle ${className || ''} ${isDisabled ? 'toggle-disabled' : ''} ${checked ? 'toggle-checked' : ''}`;
 
   const inputProps = {
     name,

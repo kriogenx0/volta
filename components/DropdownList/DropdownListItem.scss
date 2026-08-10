@@ -1,6 +1,6 @@
 @use "../../mixins" as *;
 
-.soda-dropdown_list_item {
+.v-dropdown_list_item {
   @include no_select;
   padding: 5px 10px;
   text-align: left;

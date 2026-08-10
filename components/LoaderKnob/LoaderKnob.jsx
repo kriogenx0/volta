@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import './LoaderKnob.scss';
 
 const LoaderKnob = ({ className }) => (

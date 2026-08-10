@@ -1,6 +1,6 @@
 @use "../../mixins" as *;
 
-.soda-radio {
+.v-radio {
   @include no_select;
 
   > * {
