@@ -1,3 +1,7 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
+
 import fileTyper from './filetyper';
 import Button from '../Button';
 import Icon from '../Icon';
