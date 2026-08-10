@@ -1,4 +1,3 @@
-// @flow
 export const localeMessages = {
   approveRemove: 'Once approved, individual locales cannot be removed.',
 }
@@ -20,7 +19,7 @@ export const ambientMessages = {
 }
 
 export const publishMessages = {
-  republish(type: string): string {
+  republish(type) {
     return `The ${type} has tried to publish for the maximum amount of time and is now marked as a permanent failure.`
   },
 }

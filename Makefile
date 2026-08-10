@@ -7,6 +7,9 @@ install:
 start: install
 	npm start
 
+dev: install
+	npm run dev
+
 build: install
 	npm run build
 
@@ -31,7 +34,8 @@ clean:
 help:
 	@echo "Available targets:"
 	@echo "  install     Install npm dependencies"
-	@echo "  start       Build components + styleguide, then serve the styleguide (default)"
+	@echo "  start       Build components, then serve the styleguide (default)"
+	@echo "  dev         Vite dev server for the styleguide, with HMR"
 	@echo "  build       Build the component library bundle"
 	@echo "  build-app   Build the styleguide app bundle"
 	@echo "  watch       Rebuild the component library on change"
@@ -40,4 +44,4 @@ help:
 	@echo "  lint        Lint components/"
 	@echo "  clean       Remove build artifacts (compiled/, node_modules/.cache)"
 
-.PHONY: install start build build-app watch watch-app test lint clean help
+.PHONY: install start dev build build-app watch watch-app test lint clean help

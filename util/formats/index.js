@@ -1,5 +1,4 @@
-// @flow
-export function toMinAndSec(durationInSeconds: number = 0): string {
+export function toMinAndSec(durationInSeconds = 0) {
   let minutes = Math.floor(durationInSeconds / 60).toString()
   let seconds = Math.round(durationInSeconds % 60).toString()
 
@@ -9,13 +8,7 @@ export function toMinAndSec(durationInSeconds: number = 0): string {
   return minutes + ':' + seconds
 }
 
-type TestIdType = {
-  componentId?: string,
-  parentId?: string,
-  useId?: string,
-}
-
 // Used to format data-qa-id
-export function toQaId({ parentId, componentId, useId }: TestIdType = {}): string {
+export function toQaId({ parentId, componentId, useId } = {}) {
   return [parentId, componentId, useId].filter(Boolean).join('_')
 }
