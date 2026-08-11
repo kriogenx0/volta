@@ -21,11 +21,12 @@ export default defineConfig({
     })
   ],
   server: {
+    host: true,
     port: 8888,
-    open: true
+    open: false
   },
   build: {
-    outDir: '../public/compiled',
+    outDir: 'dist',
     emptyOutDir: true
   },
   resolve: {

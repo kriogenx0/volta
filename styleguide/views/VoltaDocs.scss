@@ -1,0 +1,166 @@
+@use "../mixins" as *;
+
+.v-docs {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% -10%, color-mix(in srgb, $color_active 9%, transparent), transparent 30rem),
+    $color_base;
+  @include dark { background-color: $color_base_dark; }
+}
+
+.v-docs-header {
+  position: sticky;
+  z-index: 100;
+  top: 0;
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) auto minmax(180px, 1fr);
+  align-items: center;
+  min-height: 68px;
+  padding: 0 28px;
+  border-bottom: 1px solid color-mix(in srgb, $color_base_subtle 82%, transparent);
+  background: color-mix(in srgb, $color_base 88%, transparent);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 2%);
+  backdrop-filter: blur(18px) saturate(160%);
+  @include dark {
+    border-color: color-mix(in srgb, $color_base_subtle_dark 70%, transparent);
+    background: color-mix(in srgb, $color_base_dark 88%, transparent);
+  }
+}
+
+.v-docs-brand {
+  display: inline-flex;
+  justify-self: start;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+
+  .v-docs-brand_mark {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: $color_active;
+    color: white;
+    box-shadow: 0 6px 16px color-mix(in srgb, $color_active 28%, transparent);
+    font-size: 15px;
+    font-weight: 750;
+    place-items: center;
+  }
+
+  strong, small { display: block; }
+  strong { font-size: 14px; letter-spacing: -0.01em; }
+  small { margin-top: 1px; color: $color_trim_subtle; font-size: 10px; }
+}
+
+.v-docs-nav {
+  display: flex;
+  gap: 3px;
+  padding: 4px;
+  border: 1px solid $color_base_subtle;
+  border-radius: 12px;
+  background: color-mix(in srgb, $color_base-more-subtle 78%, transparent);
+  @include dark {
+    border-color: $color_base-subtle_dark;
+    background: color-mix(in srgb, $color_base-more-subtle_dark 72%, transparent);
+  }
+
+  button {
+    padding: 7px 12px;
+    border: 0;
+    border-radius: 8px;
+    color: $color_trim-subtle;
+    background: transparent;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 560;
+    cursor: pointer;
+    transition: color var(--v-anim-speed), background var(--v-anim-speed), box-shadow var(--v-anim-speed);
+
+    &:hover { color: $color_trim; }
+    &.active {
+      color: $color_trim;
+      background: $color_base;
+      box-shadow: 0 1px 2px rgb(0 0 0 / 8%), 0 0 0 1px rgb(0 0 0 / 3%);
+      @include dark { background: $color_base_less_subtle_dark; }
+    }
+  }
+}
+
+.v-docs-main {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 32px 40px 72px;
+
+  &--components {
+    max-width: 1480px;
+    padding-top: 0;
+  }
+
+  @include mobile {
+    padding: 20px 16px 48px;
+  }
+}
+
+@media (max-width: 900px) {
+  .v-docs-header {
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    padding: 10px 16px;
+  }
+  .v-docs-nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .v-docs-brand small { display: none; }
+  .v-docs-nav button { padding-inline: 10px; }
+}
+
+// Shared section header used by Colors, Type, Layout
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 0 24px;
+  border-bottom: 1px solid $color_base_subtle;
+  margin-bottom: 32px;
+  @include dark { border-color: $color_base_subtle_dark; }
+
+  h2 { margin: 0 0 6px; }
+  p {
+    margin: 0;
+    color: $color_trim_subtle;
+    font-size: 14px;
+    @include dark { color: $color_trim_subtle_dark; }
+  }
+}
+
+// Shared panel card
+.panel {
+  border: 1px solid $color_base_subtle;
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  background: color-mix(in srgb, $color_base 92%, transparent);
+  box-shadow: 0 8px 30px rgb(0 0 0 / 3%);
+  @include dark { border-color: $color_base_subtle_dark; }
+
+  h3 {
+    margin: 0 0 16px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $color_trim_subtle;
+    @include dark { color: $color_trim_subtle_dark; }
+  }
+}

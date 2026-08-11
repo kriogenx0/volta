@@ -3,7 +3,7 @@
 // index.js: it depends on 'jquery' and the datetimepicker plugin itself,
 // neither of which are dependencies here (jQuery was removed from this
 // repo entirely -- see README "Known gaps"). Kept for reference/future
-// rewrite; DatePicker/DatePicker.jsx (Pikaday-based) is the maintained,
+// rewrite; DatePicker/DatePicker.jsx is the maintained,
 // working date picker in this library.
 import { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';

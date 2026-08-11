@@ -1,125 +1,73 @@
-import React, { PureComponent, Fragment } from 'react'
-import Pikaday from 'pikaday'
-import Moment from 'moment'
-import { format as formatDate } from 'date-fns'
+import PropTypes from 'prop-types';
+import { format as formatDate } from 'date-fns';
 
-import PropTypes from 'prop-types'
-import { toQaId } from '../../util/formats'
-import Readonly from '../DateTime/Readonly/Readonly'
-import { dateFormat, isDate } from '../../util/dateTimeUtils'
-import Icon from '../Icon/Icon';
+import { toQaId } from '../../util/formats';
+import { dateFormat, isDate } from '../../util/dateTimeUtils';
+import Readonly from '../DateTime/Readonly/Readonly';
 import TextInput from '../TextField/TextField';
 
 import './DateInput.scss';
 
-const parseDate = str =>
-  Moment(str)
-    .tz('UTC')
-    .toDate()
+const nativeDateFormat = 'yyyy-MM-dd';
 
-export default class DateInput extends PureComponent {
-  static propTypes = {
-    'data-qa-id': PropTypes.string,
-    format: PropTypes.string,
-    maxDate: PropTypes.instanceOf(Date),
-    minDate: PropTypes.instanceOf(Date),
-    onChange: PropTypes.func,
-    position: PropTypes.string,
-    readonly: PropTypes.bool,
-    required: PropTypes.bool,
-    value: PropTypes.instanceOf(Date),
+const toNativeValue = (value) => (isDate(value) ? formatDate(value, nativeDateFormat) : '');
+
+// Parse a native yyyy-MM-dd value in local time. Using new Date(value) would
+// interpret it as UTC and can shift the selected day in western time zones.
+const fromNativeValue = (value) => {
+  if (!value) return null;
+  const [year, month, day] = value.split('-').map(Number);
+  const date = new Date(year, month - 1, day);
+  return isDate(date) ? date : null;
+};
+
+const DateInput = ({
+  'data-qa-id': parentQaId,
+  disabled,
+  format = dateFormat,
+  maxDate,
+  minDate,
+  onChange,
+  readonly,
+  required,
+  value,
+  ...inputProps
+}) => {
+  const qaId = toQaId({ parentId: parentQaId, componentId: 'DateInput' });
+
+  if (readonly) {
+    return (
+      <Readonly data-qa-id={qaId}>
+        {isDate(value) ? formatDate(value, format) : ''}
+      </Readonly>
+    );
   }
 
-  static defaultProps = {
-    format: dateFormat,
-    position: 'bottom left',
-  }
+  return (
+    <TextInput
+      {...inputProps}
+      type="date"
+      data-qa-id={qaId}
+      disabled={disabled}
+      required={required}
+      min={toNativeValue(minDate)}
+      max={toNativeValue(maxDate)}
+      value={toNativeValue(value)}
+      onChange={(event) => onChange?.(fromNativeValue(event.target.value))}
+    />
+  );
+};
 
-  state = {
-    value: this.props.value,
-    hasContent: !!this.props.value,
-  }
+DateInput.propTypes = {
+  'data-qa-id': PropTypes.string,
+  disabled: PropTypes.bool,
+  format: PropTypes.string,
+  maxDate: PropTypes.instanceOf(Date),
+  minDate: PropTypes.instanceOf(Date),
+  onChange: PropTypes.func,
+  readonly: PropTypes.bool,
+  required: PropTypes.bool,
+  value: PropTypes.instanceOf(Date),
+};
 
-  get qaId() {
-    return toQaId({
-      parentId: this.props['data-qa-id'],
-      componentId: 'DateInput',
-    })
-  }
-
-  componentWillUnmount() {
-    if (this.pikaday) {
-      this.pikaday.destroy()
-    }
-  }
-
-  onChange = (value) => {
-    const { onChange } = this.props
-
-    this.setState(
-      () => {
-        return isDate(value)
-          ? {
-            hasContent: !!value,
-            value,
-          }
-          : {
-            hasContent: false,
-            value: null,
-          }
-      },
-      () => {
-        if (onChange) {
-          onChange(this.state.value)
-        }
-      },
-    )
-  }
-
-  showCalendar = (se) => {
-    const field = se.target
-    const { format, minDate, maxDate, position } = this.props
-    const { value } = this.state
-
-    if (this.pikaday) {
-      this.pikaday.destroy()
-    }
-
-    this.pikaday = new Pikaday({
-      field,
-      format,
-      position,
-      onSelect: (value) => {
-        this.onChange(value)
-      },
-      maxDate: maxDate && parseDate(maxDate),
-      minDate: minDate && parseDate(minDate),
-      value: value && parseDate(value),
-    })
-  }
-
-  render() {
-    const { disabled, format, readonly, required } = this.props
-
-    const { value, hasContent } = this.state
-    const formattedValue = value ? formatDate(value, format) : ''
-
-    return readonly ? (
-      <Readonly data-qa-id={this.qaId}>{formatDate(value, format)}</Readonly>
-    ) : (
-      <Fragment>
-        <TextInput
-          data-qa-id={this.qaId}
-          disabled={disabled}
-          required={required}
-          onChange={this.onChange}
-          onFocus={this.showCalendar}
-          placeholder="Choose a date"
-          prefix={<Icon type="calendar" />}
-          suffix={required && !hasContent && <div className="date-error" />}
-          value={formattedValue}
-        />
-      </Fragment>
-    )
-  }
-}
+export default DateInput;

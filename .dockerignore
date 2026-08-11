@@ -1,0 +1,9 @@
+.git
+.gitignore
+node_modules
+npm-debug.log*
+components/compiled
+public/compiled
+styleguide/dist
+static
+coverage

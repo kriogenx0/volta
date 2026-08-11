@@ -1,0 +1,195 @@
+@use "../../mixins" as *;
+
+.v-component_examples {
+  display: flex;
+  align-items: stretch;
+  min-height: calc(100vh - 60px);
+
+  .component_examples-list {
+    width: 224px;
+    min-width: 224px;
+    border-right: 1px solid $color_base_subtle;
+    padding: 22px 14px 32px 0;
+    position: sticky;
+    top: 69px;
+    max-height: calc(100vh - 69px);
+    overflow-y: auto;
+    @include dark {
+      border-color: $color_base_subtle_dark;
+    }
+
+    .component_examples-group {
+      margin-bottom: 8px;
+
+      > .clickable {
+        display: block;
+        width: 100%;
+        padding: 8px 12px;
+        border: 0;
+        font: inherit;
+        font-size: 12px;
+        text-align: left;
+        color: inherit;
+        background: transparent;
+        cursor: pointer;
+        border-radius: 8px;
+        margin: 1px 0;
+        transition: background-color 100ms;
+
+        &:hover {
+          background-color: $color_base_subtle;
+          @include dark {
+            background-color: $color_base_subtle_dark;
+          }
+        }
+
+        &.pressed {
+          background-color: $color_active_subtle;
+          color: $color_active;
+          font-weight: 500;
+          @include dark {
+            background-color: $color_active_subtle_dark;
+            color: $color_active_dark;
+          }
+        }
+      }
+    }
+
+    .component_examples-group_label {
+      padding: 12px 16px 4px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: $color_trim_more_subtle;
+      @include dark {
+        color: $color_trim_more_subtle_dark;
+      }
+    }
+  }
+
+  .component_examples-detail {
+    flex: 1;
+    min-width: 0;
+    padding: 0 0 56px 40px;
+    overflow: auto;
+  }
+}
+
+// Component doc layout
+.component-doc {
+  padding-top: 8px;
+
+  .component-doc-header {
+    padding: 34px 0 22px;
+    border-bottom: 1px solid $color_base_subtle;
+    margin-bottom: 24px;
+    @include dark {
+      border-color: $color_base_subtle_dark;
+    }
+
+    h2 {
+      margin: 0 0 6px;
+      font-size: 32px;
+      letter-spacing: -0.035em;
+    }
+
+    .component-doc-description {
+      margin: 0;
+      color: $color_trim_subtle;
+      font-size: 14px;
+      @include dark {
+        color: $color_trim_subtle_dark;
+      }
+    }
+  }
+}
+
+.component-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.style_guide-example {
+  border: 1px solid $color_base_subtle;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgb(0 0 0 / 3%);
+  overflow: hidden;
+  @include dark {
+    border-color: $color_base_subtle_dark;
+  }
+
+  .example-header {
+    padding: 12px 18px;
+    background-color: $color_base_subtle;
+    border-bottom: 1px solid $color_base_less_subtle;
+    @include dark {
+      background-color: $color_base_subtle_dark;
+      border-color: $color_base_less_subtle_dark;
+    }
+
+    .example-name {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: $color_trim_subtle;
+      @include dark {
+        color: $color_trim_subtle_dark;
+      }
+    }
+  }
+
+  .example-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .example-output {
+    min-height: 80px;
+    padding: 32px;
+    background-color: $color_base;
+    @include dark {
+      background-color: $color_base_dark;
+    }
+  }
+
+  .example-code {
+    border-top: 1px solid $color_base_subtle;
+    @include dark {
+      border-color: $color_base_subtle_dark;
+    }
+
+    pre {
+      margin: 0 !important;
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  .v-component_examples {
+    display: block;
+
+    .component_examples-list {
+      position: static;
+      display: flex;
+      width: auto;
+      min-width: 0;
+      max-height: none;
+      padding: 14px 0;
+      overflow-x: auto;
+      border-right: 0;
+      border-bottom: 1px solid $color_base-subtle;
+    }
+
+    .component_examples-group { display: contents; }
+    .component_examples-group_label { display: none; }
+    .component_examples-list .component_examples-group > .clickable {
+      width: auto;
+      flex: 0 0 auto;
+      padding-inline: 12px;
+    }
+    .component_examples-detail { padding-left: 0; }
+  }
+}

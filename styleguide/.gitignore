@@ -1,0 +1,9 @@
+# Styleguide build output
+/dist/
+
+# Local tooling cache
+/.vite/
+
+# Local dependencies and logs
+/node_modules/
+npm-debug.log*

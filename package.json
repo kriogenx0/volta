@@ -4,6 +4,9 @@
   "version": "2.0.0",
   "description": "React UI Library",
   "main": "components/compiled/components.js",
+  "exports": {
+    ".": "./components/compiled/components.js"
+  },
   "license": "MIT",
   "scripts": {
     "prestart": "npm install",
@@ -28,7 +31,6 @@
     "luxon": "^3.7.2",
     "moment": "^2.30.1",
     "numeral": "^2.0.6",
-    "pikaday": "^1.8.2",
     "prop-types": "^15.8.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

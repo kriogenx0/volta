@@ -10,6 +10,10 @@ start: install
 dev: install
 	npm run dev
 
+# Dependencies are installed while building the styleguide image.
+run:
+	npm run dev
+
 build: install
 	npm run build
 
@@ -29,13 +33,14 @@ lint: install
 	npm run lint
 
 clean:
-	rm -rf components/compiled public/compiled node_modules/.cache
+	rm -rf components/compiled public/compiled styleguide/dist node_modules/.cache
 
 help:
 	@echo "Available targets:"
 	@echo "  install     Install npm dependencies"
 	@echo "  start       Build components, then serve the styleguide (default)"
 	@echo "  dev         Vite dev server for the styleguide, with HMR"
+	@echo "  run         Start the styleguide without installing dependencies"
 	@echo "  build       Build the component library bundle"
 	@echo "  build-app   Build the styleguide app bundle"
 	@echo "  watch       Rebuild the component library on change"
@@ -44,4 +49,4 @@ help:
 	@echo "  lint        Lint components/"
 	@echo "  clean       Remove build artifacts (compiled/, node_modules/.cache)"
 
-.PHONY: install start dev build build-app watch watch-app test lint clean help
+.PHONY: install start dev run build build-app watch watch-app test lint clean help

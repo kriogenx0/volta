@@ -46,10 +46,16 @@ node_modules
 node_modules/*
 npm-debug.log*
 
-# Webpack
+# Build output
 /compiled
+/build
+/dist
+/coverage
+/.vite
 /public/compiled
-public/app-compiled.js*
-components/compiled
+/public/app-compiled.js*
+/components/compiled
+/styleguide/dist
+*.tsbuildinfo
 
 __*

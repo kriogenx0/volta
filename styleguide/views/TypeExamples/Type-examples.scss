@@ -1,0 +1,97 @@
+@use "../../mixins" as *;
+
+.view-type {
+  .type-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+
+    th {
+      text-align: left;
+      padding: 8px 12px;
+      background: $color_base_subtle;
+      font-weight: 600;
+      @include dark { background: $color_base_subtle_dark; }
+    }
+
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid $color_base_subtle;
+      vertical-align: middle;
+      @include dark { border-color: $color_base_subtle_dark; }
+
+      code {
+        display: inline;
+        padding: 2px 6px;
+        font-size: 11px;
+        white-space: nowrap;
+      }
+    }
+
+    tr:last-child td { border-bottom: none; }
+  }
+
+  .type-scale {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .type-scale-row {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid $color_base_subtle;
+      @include dark { border-color: $color_base_subtle_dark; }
+
+      &:last-child { border-bottom: none; padding-bottom: 0; }
+
+      .type-scale-meta {
+        min-width: 160px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        flex-shrink: 0;
+
+        .type-tag {
+          font-size: 12px;
+          font-weight: 600;
+          color: $color_active;
+          @include dark { color: $color_active_dark; }
+        }
+
+        .type-specs {
+          font-size: 11px;
+          color: $color_trim_subtle;
+          font-family: source-code-pro, Menlo, monospace;
+          @include dark { color: $color_trim_subtle_dark; }
+        }
+      }
+
+      .type-scale-sample {
+        margin: 0;
+        line-height: 1.3;
+      }
+    }
+  }
+
+  .type-weights {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .type-weight-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      .weight-label {
+        min-width: 40px;
+        font-size: 11px;
+        font-family: source-code-pro, Menlo, monospace;
+        color: $color_trim_subtle;
+        @include dark { color: $color_trim_subtle_dark; }
+      }
+    }
+  }
+}
