@@ -9,7 +9,7 @@ export default [
       'BaseInput', 'FormRow', 'Label', 'MultiSelect', 'NumericField',
       'Radio', 'RadioGroup', 'Select', 'Slider', 'TagInput', 'TextBox',
       'Textarea', 'TextEditable', 'TextField', 'TimePicker', 'Toggle',
-      'AutoComplete', 'SearchSelector', 'SegmentedControl', 'ColorPicker',
+      'AutoComplete', 'SearchSelector', 'SegmentedControl', 'SegmentedControlMini', 'ColorPicker',
       'ColorPalettePicker',
     ],
   },

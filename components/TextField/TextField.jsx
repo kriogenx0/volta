@@ -8,7 +8,7 @@ const SIZE_CLASS = {
   md: 'rounded-lg px-3 py-2'
 };
 
-const TextField = ({ disabled, multiline, validate, error, label, optional, fieldSize = 'sm', className = '', id, ...inputProps }) => {
+const TextField = ({ disabled, multiline, validate, error, label, optional, fieldSize = 'sm', className = '', wrapperClassName = '', id, ...inputProps }) => {
   const generatedId = useId();
   const fieldId = id || generatedId;
   const handleKeyUp = validate ? (event) => validate(event.target.value) : inputProps.onKeyUp;
@@ -17,7 +17,7 @@ const TextField = ({ disabled, multiline, validate, error, label, optional, fiel
   const control = multiline ? <textarea {...controlProps} /> : <input type={inputProps.type || 'text'} {...controlProps} />;
 
   const field = (
-    <div className={`volta-textfield${error ? ' textfield-error' : ''}${disabled ? ' textfield-disabled' : ''}${multiline ? ' textfield-multiline' : ''}`}>
+    <div className={`volta-textfield${wrapperClassName ? ` ${wrapperClassName}` : ''}${error ? ' textfield-error' : ''}${disabled ? ' textfield-disabled' : ''}${multiline ? ' textfield-multiline' : ''}`}>
       {control}
     </div>
   );

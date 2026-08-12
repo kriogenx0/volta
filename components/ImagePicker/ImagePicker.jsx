@@ -64,7 +64,8 @@ const ImagePicker = ({ height, className, defaultImageUrl, accept, onChange }) =
   };
 
   return (
-    <div className={'volta-image_picker' + (className ? ` ${className}` : '')} >
+    // ironyoung-compat: c-image_picker is the class name its own view-level scss targets directly.
+    <div className={'volta-image_picker c-image_picker' + (className ? ` ${className}` : '')} >
       { imageUrl ?
         <div className='image_picker-remove' onClick={handleRemove}>
           <i className='fa fa-trash' />

@@ -70,6 +70,7 @@ import RichTextQuillExamples from '../../../examples/RichTextQuill/RichTextQuill
 import RichTextTinyMCEExamples from '../../../examples/RichTextTinyMCE/RichTextTinyMCE-examples';
 import SearchSelectorExamples from '../../../examples/SearchSelector/SearchSelector-examples';
 import SegmentedControlExamples from '../../../examples/SegmentedControl/SegmentedControl-examples';
+import SegmentedControlMiniExamples from '../../../examples/SegmentedControlMini/SegmentedControlMini-examples';
 import SelectExamples from '../../../examples/Select/Select-examples';
 import SliderExamples from '../../../examples/Slider/Slider-examples';
 import SplitViewExamples from '../../../examples/SplitView/SplitView-examples';
@@ -163,6 +164,7 @@ const curated = [
   RichTextTinyMCEExamples,
   SearchSelectorExamples,
   SegmentedControlExamples,
+  SegmentedControlMiniExamples,
   SelectExamples,
   SliderExamples,
   SplitViewExamples,

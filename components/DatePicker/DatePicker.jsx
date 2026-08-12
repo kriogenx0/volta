@@ -62,9 +62,10 @@ const DatePicker = ({
   );
 
   return (
+    // ironyoung-compat: c-date_picker is the class name its own view-level scss targets directly.
     <Dropdown
       buttonComponent={input}
-      className={`volta-date_picker ${className}`.trim()}
+      className={`volta-date_picker c-date_picker ${className}`.trim()}
       open={open}
       onClose={() => setOpen(false)}
       showOverlay={open}

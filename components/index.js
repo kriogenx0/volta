@@ -74,6 +74,7 @@ import RichTextQuill from './RichTextQuill/RichTextQuill';
 import RichTextTinyMCE from './RichTextTinyMCE/RichTextTinyMCE';
 import SearchSelector from './SearchSelector/SearchSelector';
 import SegmentedControl from './SegmentedControl/SegmentedControl';
+import SegmentedControlMini from './SegmentedControlMini/SegmentedControlMini';
 import Select from './Select/Select';
 import Slider from './Slider/Slider';
 import SplitView from './SplitView/SplitView';
@@ -175,6 +176,7 @@ export {
   RichTextTinyMCE,
   SearchSelector,
   SegmentedControl,
+  SegmentedControlMini,
   Select,
   Slider,
   SplitView,
