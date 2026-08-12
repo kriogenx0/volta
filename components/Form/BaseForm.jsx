@@ -66,7 +66,7 @@ const BaseForm = ({
   }, [shouldSubmit]);
 
   return (
-    <form method="POST" ref={formRef} action={action} onSubmit={handleSubmit}>
+    <form method="POST" ref={formRef} action={action} onSubmit={handleSubmit} className="volta-base_form">
       <ErrorList errors={formErrors} />
 
       <div className="form">

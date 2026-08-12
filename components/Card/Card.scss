@@ -2,7 +2,7 @@
 
 $padding: 15px;
 
-.control-card
+.volta-card
 {
   // margin: 80px auto;
   display: inline-block;
@@ -14,13 +14,13 @@ $padding: 15px;
   overflow: hidden;
   transition: border-color $anim-speed-normal, padding $anim-speed-normal;
 
-  &.control-card-selectable
+  &.volta-card-selectable
   {
     cursor: pointer;
     user-select: none;
   }
 
-  &.control-card-selected
+  &.volta-card-selected
   {
     border-width: 2px;
     border-color: #0070C9;

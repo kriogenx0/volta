@@ -83,7 +83,7 @@ export default class TextEditable extends React.Component {
       {
         ...props,
         ref: (el) => { this.el = el; },
-        className: `c-text_editable ${this.props.className || ''}`,
+        className: `volta-text_editable ${this.props.className || ''}`,
         // onKeyUp: this.handleKeyChange,
         onKeyDown: this.handleKeyDown,
         onInput: this.handleChange,

@@ -38,7 +38,7 @@ const PopOver = ({ open, fullSize, closeOnOverlayClick, handleClose, className, 
     if (closeOnOverlayClick) closeModal();
   };
 
-  const modalClass = `c-pop_over${fullSize ? ' pop_over-full' : ''}${open ? ' pop_over-open in' : ''} ${className}`;
+  const modalClass = `volta-pop_over${fullSize ? ' pop_over-full' : ''}${open ? ' pop_over-open in' : ''} ${className}`;
 
   return (
     <div className={modalClass} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">

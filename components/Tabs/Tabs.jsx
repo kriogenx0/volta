@@ -10,7 +10,7 @@ const Tabs = ({ tabs, selectedTabKey, onSelect, align }) => {
   };
 
   return (
-    <div className={'v-tabs tab-align-' + align.toLowerCase()}>
+    <div className={'volta-tabs tab-align-' + align.toLowerCase()}>
       <nav>
         <ul>
           {map(tabs, (tab, key) => (

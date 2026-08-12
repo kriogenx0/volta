@@ -65,7 +65,7 @@ export default class Slider extends React.Component {
     const markerStyle = { left: `${(this.props.value / this.props.max) * 100}%` };
 
     return (
-      <div className='c-slider icr_slide_wrap'>
+      <div className='volta-slider icr_slide_wrap'>
         <div className="icr_slide" ref={this.slide} onMouseDown={this.handleMouseDown}>
           <div className="icr_tick is-left"></div>
           <div className="icr_tick is-mid"></div>

@@ -1,36 +1,10 @@
-import React from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-export default class ImageDropZone extends React.Component {
+const ImageDropZone = ({ height, className, selectFileOnMount, defaultImageUrl, onChange }) => {
+  const [imageUrl, setImageUrl] = useState(defaultImageUrl || null);
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-
-    this.handleFileSelect = this.handleFileSelect.bind(this);
-    this.selectFileCallback = this.selectFileCallback.bind(this);
-  }
-
-  componentWillMount() {
-    this.loadProps(this.props);
-    if (this.props.defaultImageUrl) this.setState({ imageUrl: this.props.defaultImageUrl });
-  }
-
-  componentWillReceiveProps(props) {
-    this.loadProps(props);
-  }
-
-  loadProps(props) {
-    if (props.selectFileOnMount) {
-      this.handleFileSelect();
-    }
-  }
-
-  handleFileSelect() {
-    this.selectFile(this.selectFileCallback, { accept: 'image/*' });
-  }
-
-  selectFile(callback, options) {
+  const selectFile = (callback, options) => {
     options = options || { multiple: false, accept: null };
 
     // Create Input
@@ -39,45 +13,46 @@ export default class ImageDropZone extends React.Component {
     if (options.multiple) input.multiple = true;
     if (options.accept) input.accept = options.accept;
 
-    const handleFileSelect = (event) => {
+    const handleChange = (event) => {
       if (typeof callback == 'function') {
         callback(options.multiple ? event.target.files : event.target.files[0]);
       }
-      input.removeEventListener('change', handleFileSelect);
+      input.removeEventListener('change', handleChange);
     }
-    input.addEventListener('change', handleFileSelect);
+    input.addEventListener('change', handleChange);
     input.click();
-  }
+  };
 
-  selectFileCallback(file) {
-    // console.log('selected file', file);
-
+  const selectFileCallback = useCallback((file) => {
     // Read file properties
     var reader = new FileReader();
     reader.onload = (e) => {
-      // console.log('FileReader event', e);
-      this.props.onChange(file, e.target.result);
-      this.setState({ imageUrl: e.target.result });
+      onChange(file, e.target.result);
+      setImageUrl(e.target.result);
     };
-    const fileData = reader.readAsDataURL(file);
-    // console.log('fileData', fileData);
+    reader.readAsDataURL(file);
+  }, [onChange]);
 
-    this.setState({ file, fileData });
-  }
+  const handleFileSelect = useCallback(() => {
+    selectFile(selectFileCallback, { accept: 'image/*' });
+  }, [selectFileCallback]);
 
-  render() {
-    const imageStyle = {
-      backgroundImage: this.state.imageUrl ? `url(${this.state.imageUrl})` : null,
-      height: this.props.height
-    };
+  useEffect(() => {
+    if (selectFileOnMount) handleFileSelect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectFileOnMount]);
 
-    return (
-      <div className={'c-image_drop ' + this.props.className} onClick={this.handleFileSelect}>
-        <div className='image_background' style={imageStyle} />
-      </div>
-    );
-  }
-}
+  const imageStyle = {
+    backgroundImage: imageUrl ? `url(${imageUrl})` : null,
+    height
+  };
+
+  return (
+    <div className={'volta-image_drop_zone ' + className} onClick={handleFileSelect}>
+      <div className='image_background' style={imageStyle} />
+    </div>
+  );
+};
 
 ImageDropZone.propTypes = {
   height: PropTypes.number,
@@ -94,3 +69,5 @@ ImageDropZone.defaultProps = {
   defaultImageUrl: null,
   onChange: (fileBlob, imageUrl) => {}
 };
+
+export default ImageDropZone;

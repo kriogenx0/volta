@@ -1,35 +1,44 @@
-import React from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
-
-import Button from '../Button/Button';
 
 import './ImagePicker.scss';
 
-export default class ImagePicker extends React.Component {
+const ImagePicker = ({ height, className, defaultImageUrl, accept, onChange }) => {
+  const [imageUrl, setImageUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const imageSelected = useRef(false);
 
-  constructor() {
-    super(...arguments);
-    this.state = {};
-    this.imageSelected = false;
-    this.handleFileSelect = this.handleFileSelect.bind(this);
-    this.handleRemove = this.handleRemove.bind(this);
-  }
+  // fileBlob or imageUrl or base64
+  const loadImage = useCallback((fileBlob) => {
+    if (typeof fileBlob == 'object') {
+      setImageUrl('');
+      setLoading(true);
 
-  componentWillMount() {
-    this.loadProps(this.props);
-  }
+      if (!FileReader) {
+        console.error('Browser not supported.');
+        setLoading(false);
+        return;
+      }
 
-  componentWillReceiveProps(props) {
-    this.loadProps(props);
-  }
-
-  loadProps(props) {
-    if (props.defaultImageUrl && !this.imageSelected) {
-      this.loadImage(props.defaultImageUrl);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const imageEncoded = e.target.result;
+        setImageUrl(imageEncoded);
+        setLoading(false);
+      };
+      reader.readAsDataURL(fileBlob);
+    } else {
+      setImageUrl(fileBlob);
     }
-  }
+  }, []);
 
-  handleFileSelect(event) {
+  useEffect(() => {
+    if (defaultImageUrl && !imageSelected.current) {
+      loadImage(defaultImageUrl);
+    }
+  }, [defaultImageUrl, loadImage]);
+
+  const handleFileSelect = (event) => {
     let file = event.target.files;
     // TODO support for multiple
     if (file instanceof FileList) {
@@ -37,73 +46,40 @@ export default class ImagePicker extends React.Component {
     }
     if (!file) return;
 
-    this.imageSelected = true;
-    this.loadImage(file);
-    this.props.onChange(file);
-  }
+    imageSelected.current = true;
+    loadImage(file);
+    onChange(file);
+  };
 
-  // fileBlob or imageUrl or base64
-  loadImage(fileBlob) {
-    if (typeof fileBlob == 'object') {
-      this.setState({ imageUrl: '', loading: true });
-
-      if (!FileReader) {
-        console.error('Browser not supported.');
-        this.setState({ loading: false });
-        return;
-      }
-
-      const reader = new FileReader();
-      // const timeout = setTimeout(function() {
-      //      alert('FileReader not functioning');
-      // }, 500);
-      reader.onload = (e) => {
-        // clearTimeout(timeout);
-        const imageEncoded = e.target.result;
-        this.setState({ imageUrl: imageEncoded, loading: false });
-        // console.log('FileReader event', e);
-        // console.log('imageEncoded', imageEncoded);
-      };
-      const fileData = reader.readAsDataURL(fileBlob);
-    } else {
-      this.setState({ imageUrl: fileBlob });
-    }
-  }
-
-  handleRemove(e) {
+  const handleRemove = (e) => {
     if (e) e.preventDefault();
-    this.imageSelected = false;
-    this.setState({ imageUrl: null });
-    this.props.onChange(null);
-  }
+    imageSelected.current = false;
+    setImageUrl(null);
+    onChange(null);
+  };
 
-  render() {
-    const { imageUrl, loading } = this.state;
+  const imageStyle = {
+    backgroundImage: imageUrl ? `url('${imageUrl}')` : '',
+    height
+  };
 
-    const imageStyle = {
-      backgroundImage: imageUrl ? `url('${imageUrl}')` : '',
-      height: this.props.height
-    };
-
-    return (
-      <div className={'c-image_picker' + (this.props.className ? ` ${this.props.className}` : '')} >
-        { imageUrl ?
-          <div className='image_picker-remove' onClick={this.handleRemove}>
-            <i className='fa fa-trash' />
-          </div>
-          : null
-        }
-        <input type='file' onChange={this.handleFileSelect} accept={this.props.accept} />
-        <div className='image_background' style={imageStyle}>
-          {(()=>{
-            if (loading) return (<i className='fa fa-circle-o-notch' />);
-            else if (!imageUrl) return (<i className='icon fa fa-cloud-upload' />);
-          })()}
+  return (
+    <div className={'volta-image_picker' + (className ? ` ${className}` : '')} >
+      { imageUrl ?
+        <div className='image_picker-remove' onClick={handleRemove}>
+          <i className='fa fa-trash' />
         </div>
+        : null
+      }
+      <input type='file' onChange={handleFileSelect} accept={accept} />
+      <div className='image_background' style={imageStyle}>
+        {loading
+          ? (<i className='fa fa-circle-o-notch' />)
+          : (!imageUrl ? (<i className='icon fa fa-cloud-upload' />) : null)}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 ImagePicker.propTypes = {
   height: PropTypes.number,
@@ -119,3 +95,5 @@ ImagePicker.defaultProps = {
   accept: 'image/*',
   onChange: (fileBlob, imageUrl) => {}
 };
+
+export default ImagePicker;

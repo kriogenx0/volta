@@ -18,13 +18,13 @@ const Tooltip = ({ title, gravity, className, children, margin, ...rest }) => {
   return (
     <span
       {...rest}
-      className={classnames('c-tooltip_wrap', className)}
+      className={classnames('volta-tooltip_wrap', className)}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >
       {children}
       {visible && title && (
-        <div className={classnames('c-tooltip', gravity)} style={{ '--v-tooltip-gap': `${margin}px` }}>
+        <div className={classnames('volta-tooltip', gravity)} style={{ '--v-tooltip-gap': `${margin}px` }}>
           <div className="tooltip-body">{title}</div>
         </div>
       )}

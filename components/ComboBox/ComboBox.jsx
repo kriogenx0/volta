@@ -36,7 +36,7 @@ const ComboBox = ({ value: controlledValue, defaultValue = '', options, items = 
   };
 
   return (
-    <div ref={containerRef} className={`c-combo_box relative ${open ? 'is_open' : ''} ${className}`.trim()}>
+    <div ref={containerRef} className={`volta-combo_box relative ${open ? 'is_open' : ''} ${className}`.trim()}>
       <input type="text" value={value} disabled={disabled} placeholder={placeholder} onFocus={() => setOpen(true)} onChange={(event) => { update(event.target.value); setHighlightedIndex(-1); }} onBlur={(event) => { if (onCommit) onCommit(event.target.value); setOpen(false); }} onKeyDown={(event) => {
         if (event.key === 'Escape') setOpen(false);
         if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {

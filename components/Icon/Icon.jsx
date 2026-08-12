@@ -16,7 +16,7 @@ const Icon = ({ type, className, size, ...otherProps }) => {
 
   if (!icon) console.warn("Icon type not recognized. type: " + type)
 
-  let clsName = 'v-icon icon' +
+  let clsName = 'volta-icon icon' +
     (useUnicode ? ' icon-unicode sf-symbol' : '') +
     (className ? ' ' + className : '') +
     (type && !useUnicode ? ` icon-${type}` : '') +

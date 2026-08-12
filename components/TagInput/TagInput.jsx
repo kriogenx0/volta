@@ -40,7 +40,7 @@ const TagInput = ({ tags, value, onChange, ...props }) => {
   };
 
   return (
-    <div className='v-tag_input'>
+    <div className='volta-tag_input'>
       <TextField name='tags' value={inputText} onChange={handleInputChange} onKeyPress={handleInputKeyPress} {...props} />
       <div className="tag_input-tags">
         {_.map(tagState, tag => (

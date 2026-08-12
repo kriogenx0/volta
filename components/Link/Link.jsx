@@ -1,23 +1,20 @@
-import React from 'react';
+const Link = ({ to, params, className, children, ...rest }) => {
+  const buildHref = () => {
+    let href = to;
 
-export default class Link extends React.Component {
-
-  buildHref() {
-    let href = this.props.to;
-
-    if (this.props.params) {
-      for (let param in this.props.params) {
-        href = href.replace(new RegExp(":${param}\\b", 'ig'), this.props.params[param]);
+    if (params) {
+      for (let param in params) {
+        href = href.replace(new RegExp(`:${param}\\b`, 'ig'), params[param]);
       }
     }
     return href;
-  }
+  };
 
-  render() {
-    return (
-      <a href={this.buildHref()} {...this.props}>
-        {this.props.children}
-      </a>
-    );
-  }
-}
+  return (
+    <a href={buildHref()} {...rest} className={['volta-link', className].filter(Boolean).join(' ')}>
+      {children}
+    </a>
+  );
+};
+
+export default Link;

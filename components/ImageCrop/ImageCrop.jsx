@@ -271,7 +271,7 @@ export default class ImageCrop extends React.Component {
     const ghostStyle = { ...imageStyle, backgroundImage: `url(${this.state.element.src})` };
 
     const wrapClassName = [
-      'icr',
+      'volta-image_crop',
       this.state.visible && 'is_visible',
       this.props.width < 400 && 'is_small'
     ].filter(Boolean).join(' ');

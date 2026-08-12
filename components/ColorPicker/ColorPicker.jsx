@@ -200,7 +200,7 @@ export default class ColorPicker extends React.Component {
     };
 
     return (
-      <div className="cpr">
+      <div className="volta-color_picker">
         <div className="cpr_blot" style={blotStyle} onClick={this.showPanel}></div>
         <input className="txt cpr_input" ref={this.hexInput} value={this.state.hex} onChange={this.handleHexChange} onClick={this.showPanel} name={this.props.name} />
         <div className={`cpr_panel ddn ${this.state.visible ? 'is-visible' : ''}`} onClick={this.preventPanelEventBubble}>

@@ -8,6 +8,7 @@ const RichTextTinyMCE = ({ value, onChange }) => (
     // no tiny.cloud API key needed. TinyMCE is a legacy global-registering
     // script, not an ES module, so it has to be loaded this way rather
     // than imported directly.
+    className="volta-rich_text_tinymce"
     tinymceScriptSrc="tinymce/tinymce.min.js"
     licenseKey="gpl"
     value={value}

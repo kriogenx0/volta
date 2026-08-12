@@ -9,7 +9,7 @@ const CheckboxGroup = ({ name, options, value, onChange, className, ...otherProp
   };
 
   return (
-    <div className={`ui-checkboxgroup${className ? ' ' + className : ''}`}>
+    <div className={`volta-checkboxgroup${className ? ' ' + className : ''}`}>
       {_.map(options, (option, i) => (
         <Checkbox key={i}
           name={name}

@@ -49,10 +49,6 @@ import ListCard, { ListCardRow } from './ListCard/ListCard';
 import ListDefinitions from './ListDefinitions/ListDefinitions';
 import List, { ListHeader, FilterSectionListItem } from './List';
 import Loader from './Loader/Loader';
-import LoaderBars from './LoaderBars/LoaderBars';
-import LoaderClock from './LoaderClock/LoaderClock';
-import LoaderKnob from './LoaderKnob/LoaderKnob';
-import LoaderSpinner from './LoaderSpinner/LoaderSpinner';
 import Map from './Map/Map';
 import MapSelector from './MapSelector/MapSelector';
 import Message from './Message/Message';
@@ -150,10 +146,6 @@ export {
   ListHeader,
   FilterSectionListItem,
   Loader,
-  LoaderBars,
-  LoaderClock,
-  LoaderKnob,
-  LoaderSpinner,
   Map,
   MapSelector,
   Message,

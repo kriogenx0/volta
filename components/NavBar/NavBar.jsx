@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
@@ -6,29 +6,21 @@ import NavBarItem from "./NavBarItem.jsx";
 
 import './NavBar.scss';
 
-export default class NavBar extends React.Component {
-  componentWillMount() {
-    this.loadProps(this.props);
-  }
+const NavBar = ({ navItems, onActiveState }) => {
+  const [items, setItems] = useState(navItems);
 
-  componentWillReceiveProps(props) {
-    this.loadProps(props);
-  }
+  useEffect(() => {
+    setItems(navItems);
+  }, [navItems]);
 
-  loadProps(props) {
-    this.setState({
-      navItems: props.navItems
-    });
-  }
-
-  handleToggle(navItem) {
+  const handleToggle = (navItem) => {
     navItem.setExpanded(!navItem.isExpanded());
 
     // force to render
-    this.setState({});
-  }
+    setItems((prev) => [...prev]);
+  };
 
-  buildNavItemElements(navItems, navLevel) {
+  const buildNavItemElements = (navItems, navLevel) => {
     var navItemElements = [];
     navLevel = navLevel || 0;
 
@@ -36,30 +28,28 @@ export default class NavBar extends React.Component {
       var navBarItem = (<NavBarItem navLevel={navLevel}
                                     navItem={navItem}
                                     key={navItem.key}
-                                    onToggle={this.handleToggle.bind(this)}
-                                    onActiveState={this.props.onActiveState} />);
+                                    onToggle={handleToggle}
+                                    onActiveState={onActiveState} />);
 
       navItemElements.push(navBarItem);
 
       // Build children
       if (navItem.isExpanded() && navItem.hasChildren()) {
-        navItemElements = navItemElements.concat(this.buildNavItemElements(navItem.children, ++navLevel))
+        navItemElements = navItemElements.concat(buildNavItemElements(navItem.children, ++navLevel))
         navLevel--;
       }
     });
 
     return navItemElements;
-  }
+  };
 
-  render() {
-    var navItemElements = this.buildNavItemElements(this.state.navItems);
+  var navItemElements = buildNavItemElements(items);
 
-    return (
-      <div className="component-navbar no-select">
-        {navItemElements}
-      </div>
-    );
-  }
+  return (
+    <div className="volta-navbar no-select">
+      {navItemElements}
+    </div>
+  );
 };
 
 NavBar.propTypes = {
@@ -70,3 +60,5 @@ NavBar.propTypes = {
 NavBar.defaultProps = {
   navItems: []
 };
+
+export default NavBar;

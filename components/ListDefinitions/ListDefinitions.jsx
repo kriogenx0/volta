@@ -5,7 +5,7 @@ import "./ListDefinitions.scss";
 
 const ListDefinitions = ({ data }) => {
   return (
-    <dl className='c-list_definitions'>
+    <dl className='volta-list_definitions'>
       {map(data, (value, key) => (
         <React.Fragment key={key}>
           <dt>{key}</dt>

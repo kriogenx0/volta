@@ -40,7 +40,7 @@ const Dropdown = ({
 
   const handleContentsClick = onClose;
 
-  const cls = 'v-dropdown'
+  const cls = 'volta-dropdown'
     + (className ? ` ${className}` : '')
     + (open ? ' is-open' : '')
     + (constrainWidth ? ' dropdown-constrain_width' : '');

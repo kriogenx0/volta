@@ -2,7 +2,7 @@ import "./Tag.scss";
 
 const Tag = ({ children, deletable, onClick }) => {
 
-  let className = 'v-tag';
+  let className = 'volta-tag';
   if (deletable) className += ' deletable';
   if (onClick) className += ' clickable';
   return (

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 const Label = ({ text, children }) => {
   if (text && children) {
     return (
-      <div className="c-label">
+      <div className="volta-label">
         <label>
           <div>{text}</div>
           <div>{children}</div>
@@ -13,7 +13,7 @@ const Label = ({ text, children }) => {
   }
 
   return (
-    <div className="c-label">
+    <div className="volta-label">
       <label>
         {children}
       </label>

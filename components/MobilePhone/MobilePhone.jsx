@@ -4,7 +4,7 @@ const MobilePhone = ({ children }) => {
   const date = new Date();
 
   return (
-    <div className='c-mobile_phone'>
+    <div className='volta-mobile_phone'>
       <div className='phone-outside'>
         <div className='phone-speaker' />
         <div className='phone-status_bar'>

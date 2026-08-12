@@ -6,7 +6,7 @@ const BaseInput = ({ autoSelect, inputType, fieldName, centered, displayName }) 
   };
 
   return (
-    <div>
+    <div className="volta-base_input">
       <input
         ref={inputRef}
         type={inputType}

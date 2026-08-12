@@ -1,67 +1,53 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import _ from 'lodash';
 
 import Dater from './Dater';
 
 import './Calendar.scss';
 
-export default class Calendar extends React.Component {
+const Calendar = ({ date, onDateSelect }) => {
+  const [dater, setDater] = useState(null);
+  const [currentDay, setCurrentDay] = useState(null);
+  const [currentMonth, setCurrentMonth] = useState(null);
+  const [currentYear, setCurrentYear] = useState(null);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      days: null,
-      dater: null,
-      currentMonth: null,
-      currentYear: null
-    };
-  }
-
-  componentWillMount() {
-    this.loadDater(new Dater(this.props.date || null));
-  }
-
-  handlePreviousClick() {
-    this.loadDater(this.state.dater.previousMonth());
-  }
-
-  handleNextClick() {
-    this.loadDater(this.state.dater.nextMonth());
-  }
-
-  handleMonthClick() {
-    this.loadDater(this.state.dater.now());
-  }
-
-  selectDay(dayNumber) {
-    const dater = this.state.dater.day(dayNumber);
-    this.loadDater(dater);
-
-    if (this.props.onDateSelect) {
-      this.props.onDateSelect(dater);
+  const loadDater = (nextDater) => {
+    if (nextDater) {
+      setDater(nextDater);
+      setCurrentDay(nextDater.day());
+      setCurrentMonth((nextDater.monthName() + '').substr(0, 3));
+      setCurrentYear((nextDater.year() + '').substr(2));
     }
-  }
+  };
 
-  loadDater(dater) {
-    if (dater)
-      this.setState({
-        dater: dater,
-        currentDay: dater.day(),
-        currentMonth: (dater.monthName() + '').substr(0,3),
-        currentYear: (dater.year() + '').substr(2)
-      });
-  }
+  useEffect(() => {
+    loadDater(new Dater(date || null));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  renderCalendarMonth() {
+  const handlePreviousClick = () => loadDater(dater.previousMonth());
+  const handleNextClick = () => loadDater(dater.nextMonth());
+  const handleMonthClick = () => loadDater(dater.now());
+
+  const selectDay = (dayNumber) => {
+    const newDater = dater.day(dayNumber);
+    loadDater(newDater);
+
+    if (onDateSelect) {
+      onDateSelect(newDater);
+    }
+  };
+
+  const renderCalendarMonth = () => {
+    if (!dater) return null;
+
     const days = [];
 
-    let clone = this.state.dater.clone().lastDayOfMonth();
-    let firstDayOfWeek = this.state.dater.clone().firstDayOfMonth().dayOfWeek();
-
-    let daysInMonth = this.state.dater.daysInMonth();
+    let firstDayOfWeek = dater.clone().firstDayOfMonth().dayOfWeek();
+    let daysInMonth = dater.daysInMonth();
 
     // POPULATE PREVIOUS DAYS
-    for (var i = 0; i < firstDayOfWeek; i++) {
+    for (let i = 0; i < firstDayOfWeek; i++) {
       days.push({
         value: null,
         active: false
@@ -69,41 +55,41 @@ export default class Calendar extends React.Component {
     }
 
     // POPULATE MONTH DAYS
-    for (var i = 1; i <= daysInMonth; i++) {
+    for (let i = 1; i <= daysInMonth; i++) {
       days.push({
         value: i,
         active: true,
-        current: this.state.currentDay === i
+        current: currentDay === i
       });
     }
 
     return _.map(days, (day, i) => {
       let dayClassName = `calendar-day ${day.active ? 'day-active' : 'day-inactive'}${day.current ? ' day-current' : ''}`;
       return (
-        <div className={dayClassName} key={i} onClick={( () => { return this.selectDay(day.value); } )}>
+        <div className={dayClassName} key={i} onClick={( () => { return selectDay(day.value); } )}>
           {day.value}
         </div>
       );
     });
-  }
+  };
 
-  render() {
-    return (
-      <div className='c-calendar'>
-        <div>
-          <div className='btn cal-prev' onClick={this.handlePreviousClick.bind(this)}>
-            &larr;
-          </div>
-          <div className='btn cal-next' onClick={this.handleNextClick.bind(this)}>
-            &rarr;
-          </div>
-          <div className='btn cal-month' onClick={this.handleMonthClick.bind(this)}>
-            {this.state.currentMonth} {this.state.currentYear}
-          </div>
+  return (
+    <div className='volta-calendar'>
+      <div>
+        <div className='btn cal-prev' onClick={handlePreviousClick}>
+          &larr;
         </div>
-        {this.renderCalendarMonth()}
-        <div className='clear' />
+        <div className='btn cal-next' onClick={handleNextClick}>
+          &rarr;
+        </div>
+        <div className='btn cal-month' onClick={handleMonthClick}>
+          {currentMonth} {currentYear}
+        </div>
       </div>
-    );
-  }
-}
+      {renderCalendarMonth()}
+      <div className='clear' />
+    </div>
+  );
+};
+
+export default Calendar;

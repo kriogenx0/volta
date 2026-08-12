@@ -38,7 +38,7 @@ const SplitView = ({ side, open, children, setScrollHeight }) => {
   //  style={{ display: "flex", flexDirection: "row" }}
 
   return (
-    <div className={'c-split_view' + (open ? ' split_view-open' : '')} ref={containerRef} style={{ height }}>
+    <div className={'volta-split_view' + (open ? ' split_view-open' : '')} ref={containerRef} style={{ height }}>
       <div className='split_view-main'>
         {children}
       </div>

@@ -5,7 +5,7 @@ import './ProgressBar.scss';
 const ProgressBar = ({ percent, variant }) => {
   const percentDefined = typeof percent == 'number' || percent > 0;
   return (
-    <div className={'v-progress_bar' + (variant ? (' progress_bar-' + variant) : '') + (percentDefined ? '' : (' progress_bar-indeterminate'))}>
+    <div className={'volta-progress_bar' + (variant ? (' progress_bar-' + variant) : '') + (percentDefined ? '' : (' progress_bar-indeterminate'))}>
       <div className='percent' style={{width: percentDefined ? (percent + '%') : ''}} />
     </div>
   );

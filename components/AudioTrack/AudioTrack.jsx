@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Howl } from 'howler';
 
-import LoaderBars from '../LoaderBars/LoaderBars';
+import Loader from '../Loader/Loader';
 
 import './AudioTrack.scss';
 
@@ -147,7 +147,7 @@ export default class AudioTrack extends React.Component {
 
   render() {
     return (
-      <div className='c-audio_track no_select'>
+      <div className='volta-audio_track no_select'>
         {(()=>{
           if (this.state.error) {
             return (
@@ -157,7 +157,7 @@ export default class AudioTrack extends React.Component {
               </div>
             );
           } else if (this.state.loading) {
-            return <LoaderBars />;
+            return <Loader variant="bars" />;
           } else {
             let railStyle = {};
             if (this.props.waveform) railStyle.backgroundImage = `url('${this.props.waveform}')`;

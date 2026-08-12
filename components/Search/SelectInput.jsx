@@ -15,7 +15,7 @@ const SelectInput = ({ options, initialText, defaultValue, onChange, value: valu
   };
 
   return (
-    <select onChange={handleChange} defaultValue={defaultValue} value={value} className="txt inp inp-select l-full-width">
+    <select onChange={handleChange} defaultValue={defaultValue} value={value} className="volta-search txt inp inp-select l-full-width">
       {initialText && <option value="" key={0}>{initialText}</option>}
       {options && options.map((option, index) => (
         <option value={option.value || option} key={index + 1}>{option.label || option}</option>

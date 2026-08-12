@@ -41,7 +41,7 @@ const ActionMenu = ({ onToggle, items, onSelect }) => {
   ));
 
   const props = {
-    className: 'v-action_menu',
+    className: 'volta-action_menu',
     buttonComponent,
     onClick: handleButtonClick,
     onClose: handleButtonClick,

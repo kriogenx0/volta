@@ -12,6 +12,7 @@ const Layer = ({ children }) => {
 
   useEffect(() => {
     const el = document.createElement('div');
+    el.className = 'volta-layer';
     document.body.appendChild(el);
     layerEl.current = el;
     forceUpdate((n) => n + 1);

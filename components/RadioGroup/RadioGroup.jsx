@@ -9,7 +9,7 @@ const RadioGroup = ({ options, value, onChange, name, className }) => {
   };
 
   return (
-    <div className={`ui-radiogroup ${className || ''}`}>
+    <div className={`volta-radiogroup ${className || ''}`}>
       {_.map(options, (option, i) => (
         <label key={i} className='radiogroup-option'>
           <input type='radio' name={name} value={option.value} onChange={handleSelect} checked={option.value === value} />

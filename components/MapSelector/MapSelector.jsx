@@ -105,7 +105,7 @@ export default class MapSelector extends React.Component {
   render() {
     // onClick={/this.state.searchBoxValue ? this.clearAddress : () => {}}
     return (
-      <div className='c-map_selector'>
+      <div className='volta-map_selector'>
         <div className='clearfix'>
           <div className='l-r'>
             <Button onClick={this.search}>Search</Button>

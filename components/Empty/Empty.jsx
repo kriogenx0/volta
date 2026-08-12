@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Empty.scss';
 
-const Empty = ({ children }) => <div className="v-empty">{children}</div>;
+const Empty = ({ children }) => <div className="volta-empty">{children}</div>;
 
 const EmptyState = ({ children }) => (
   <div className="flex min-h-[55vh] items-center justify-center px-4 text-center">

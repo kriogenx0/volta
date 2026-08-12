@@ -14,7 +14,7 @@ const TabBar = ({ tabs, onChange, selectedTabIndex: selectedTabIndexProp }) => {
   };
 
   return (
-    <div className='c-tab_bar'>
+    <div className='volta-tab_bar'>
       {_.map(tabs, (tab, i) => {
         const tabProps = {
           key: i,
@@ -42,7 +42,7 @@ TabBar.propTypes = {
 };
 
 TabBar.Link = ({ active, label, onClick }) => (
-  <Link className={`c-tab_bar-link${active ? ' tab-active' : ''}`} key={label} activeClassName='tab-active' onClick={onClick}>{label}</Link>
+  <Link className={`volta-tab_bar-link${active ? ' tab-active' : ''}`} key={label} activeClassName='tab-active' onClick={onClick}>{label}</Link>
 );
 
 export default TabBar;

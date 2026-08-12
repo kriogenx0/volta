@@ -1,6 +1,6 @@
 import React from 'react'
 import { components } from 'react-select'
-import colors from '../_shared/colors';
+import colors from '../../styles/_shared/colors';
 
 // https://react-select.com/styles#overriding-the-theme
 export const customStyles = {

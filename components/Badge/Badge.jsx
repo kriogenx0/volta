@@ -14,13 +14,13 @@ const TONE_CLASS = {
 const Badge = ({ variant, size, style = {}, tone, children, ...otherProps }) => {
   if (children || tone) {
     const selectedTone = tone || 'neutral';
-    return <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${TONE_CLASS[selectedTone]}`} {...otherProps}>{children}</span>;
+    return <span className={`volta-badge rounded-full px-2 py-0.5 text-xs font-semibold ${TONE_CLASS[selectedTone]}`} {...otherProps}>{children}</span>;
   }
 
   const variantObj = Badge.variants[variant];
   if (!variantObj) return null;
   const selectedSize = size || Badge.sizes[1];
-  return <Icon className={`v-badge badge-${selectedSize}`} type={variantObj.icon} style={{ ...style, color: variantObj.color }} {...otherProps} />;
+  return <Icon className={`volta-badge badge-${selectedSize}`} type={variantObj.icon} style={{ ...style, color: variantObj.color }} {...otherProps} />;
 };
 
 Badge.variants = {

@@ -156,7 +156,7 @@ export default class Map extends React.Component {
 
   render() {
     return (
-      <div className='c-map'>
+      <div className='volta-map'>
         <div ref={this.mapEl} style={{height: this.props.height}} className="l-v-top-half-spaced l-bordered" />
       </div>
     );

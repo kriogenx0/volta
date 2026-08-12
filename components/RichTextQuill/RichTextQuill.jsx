@@ -4,7 +4,7 @@ import 'react-quill-new/dist/quill.snow.css';
 import './RichTextQuill.scss';
 
 const RichTextQuill = (props) => (
-  <ReactQuill {...props} modules={RichTextQuill.modules} />
+  <ReactQuill {...props} modules={RichTextQuill.modules} className={`volta-rich_text_quill${props.className ? ` ${props.className}` : ''}`} />
 );
 
 RichTextQuill.modules = {

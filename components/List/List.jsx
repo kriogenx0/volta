@@ -13,7 +13,7 @@ const List = ({ items }) => {
   if (!items) return null;
 
   return (
-    <ul className="lst">
+    <ul className="volta-list">
       {items.map((item, index) => (
         <li className="lst_row" key={index}>
           {typeof item.action === 'function'

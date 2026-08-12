@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import _ from 'lodash';
 
 import TextBox from '../TextBox';
@@ -6,90 +6,77 @@ import PopOver from '../PopOver/PopOver';
 
 import './SearchSelector.scss';
 
-export default class SearchSelector extends React.Component {
+const SearchSelector = ({ open: openProp, onType }) => {
+  const [open, setOpen] = useState(openProp);
+  const [query, setQuery] = useState(undefined);
+  const [resultItems, setResultItems] = useState(undefined);
+  const [tags, setTags] = useState(undefined);
+  const [inside] = useState(undefined);
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  useEffect(() => {
+    setOpen(openProp);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openProp]);
 
-  componentWillMount() {
-    this.loadProps(this.props);
-  }
-
-  componentWillReceiveProps(props) {
-    this.loadProps(props);
-  }
-
-  loadProps(props) {
-    this.setState({ open: props.open });
-    if (props.open) {
-      // FOCUS ON TEXTBOX
-    }
-  }
-
-  handleOnType(e) {
+  const handleOnType = (e) => {
     if (!e.target) return;
-    let resultItems;
+    let items;
     let val = e.target.value;
-    if (this.props.onType)
-      resultItems = this.props.onType(val);
+    if (onType) items = onType(val);
 
-    // console.log('resultItems', resultItems);
+    setQuery(val);
+    setResultItems(items);
+  };
 
-    this.setState({ query: val, resultItems: resultItems });
-  }
-
-  handleResultItemClick(val) {
-    let tags = this.state.tags;
-    if (tags instanceof Array) {
-      if (tags.indexOf(val) == -1)
-        tags.push(val);
+  const handleResultItemClick = (val) => {
+    let newTags = tags;
+    if (newTags instanceof Array) {
+      if (newTags.indexOf(val) == -1)
+        newTags.push(val);
     } else {
-      tags = [val];
+      newTags = [val];
     }
 
-    this.setState({ tags: tags });
-    // console.log('tags', tags);
-  }
+    setTags(newTags);
+  };
 
-  renderResultItems(items) {
-    if (this.state.inside) {
-      return this.state.inside;
-    } else if (this.state.resultItems) {
-      return _.map(this.state.resultItems, (item, index) => {
+  const renderResultItems = () => {
+    if (inside) {
+      return inside;
+    } else if (resultItems) {
+      return _.map(resultItems, (item, index) => {
         return (
-          <div className='result_item no_select' key={index} onClick={(() => { return this.handleResultItemClick(item); })}>{item}</div>
+          <div className='result_item no_select' key={index} onClick={(() => { return handleResultItemClick(item); })}>{item}</div>
         );
       });
     }
-  }
+  };
 
-  render() {
-    return (
-      <div className='c-search_selector'>
-        <PopOver open={this.state.open}>
-          <div className='search_selector-query'>
-            <TextBox value={this.state.query} onChange={this.handleOnType.bind(this)} />
-          </div>
-          <div className='search_selector-tags'>
-            {_.map(this.state.tags, (tag, index) => {
-              return (
-                <div className='tag' key={index}>{tag}</div>
-              );
-            })}
-          </div>
-          <div className='search_selector-content'>
-            {this.renderResultItems()}
-          </div>
-        </PopOver>
-      </div>
-    );
-  }
-}
+  return (
+    <div className='volta-search_selector'>
+      <PopOver open={open}>
+        <div className='search_selector-query'>
+          <TextBox value={query} onChange={handleOnType} />
+        </div>
+        <div className='search_selector-tags'>
+          {_.map(tags, (tag, index) => {
+            return (
+              <div className='tag' key={index}>{tag}</div>
+            );
+          })}
+        </div>
+        <div className='search_selector-content'>
+          {renderResultItems()}
+        </div>
+      </PopOver>
+    </div>
+  );
+};
 
 SearchSelector.defaultProps = {
   open: false,
   multipleItems: true,
   uniqueItems: true
 }
+
+export default SearchSelector;

@@ -15,7 +15,7 @@ const FileManager = ({ files, loadingFiles, onFileSelect, onPathBack, path }) =>
   const pathComponents = (typeof path === 'string') ? path.split('/') : path;
 
   return (
-    <div className="c-file_manager">
+    <div className="volta-file_manager">
       <div className='l-row'>
         <Button onClick={onPathBack}>
           <Icon type='chevron.backward.circle.fill' />

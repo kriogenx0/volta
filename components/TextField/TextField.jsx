@@ -17,7 +17,7 @@ const TextField = ({ disabled, multiline, validate, error, label, optional, fiel
   const control = multiline ? <textarea {...controlProps} /> : <input type={inputProps.type || 'text'} {...controlProps} />;
 
   const field = (
-    <div className={`v-textfield${error ? ' textfield-error' : ''}${disabled ? ' textfield-disabled' : ''}${multiline ? ' textfield-multiline' : ''}`}>
+    <div className={`volta-textfield${error ? ' textfield-error' : ''}${disabled ? ' textfield-disabled' : ''}${multiline ? ' textfield-multiline' : ''}`}>
       {control}
     </div>
   );

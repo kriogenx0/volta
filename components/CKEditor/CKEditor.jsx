@@ -28,12 +28,12 @@ const CKEditor = ({ fieldName, fieldValue }) => {
   if (state.showWYSIWYG) {
     initEditor(fieldName);
     return (
-      <textarea name='editor' cols="100" rows="6" defaultValue={unescape(state.fieldValue)}></textarea>
+      <textarea name='editor' cols="100" rows="6" className="volta-ckeditor" defaultValue={unescape(state.fieldValue)}></textarea>
     );
   }
 
   return (
-    <p className='description_field' onClick={beginEdit}>{unescape(state.fieldValue)}</p>
+    <p className='volta-ckeditor description_field' onClick={beginEdit}>{unescape(state.fieldValue)}</p>
   );
 };
 

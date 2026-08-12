@@ -1,5 +1,5 @@
 const Message = ({ type, message, children }) => (
-  <div className={`c-message ${Message.typeDetails[type].className}`}>
+  <div className={`volta-message ${Message.typeDetails[type].className}`}>
     <i className={`fa fa-${Message.typeDetails[type].icon}`} aria-hidden="true"></i>
     {message || children}
   </div>
@@ -7,11 +7,11 @@ const Message = ({ type, message, children }) => (
 
 Message.typeDetails = {
   success: {
-    className: 'ui-message-success',
+    className: 'volta-message-success',
     icon: 'check-circle'
   },
   error: {
-    className: 'ui-message-error',
+    className: 'volta-message-error',
     icon: 'times-circle'
   }
 };

@@ -1,21 +1,13 @@
 // Image Picker Component ties together File Picker and Image Crop components
-import React from 'react';
+import { useState, useEffect } from 'react';
 
 import Layer from '../Layer/Layer';
 import ImageCrop from './ImageCrop';
 
-export default class ImageUploader extends React.Component {
+const ImageUploader = ({ shouldPick, cropWidth, cropHeight, bleedWidth, onImagePick, className, children }) => {
+  const [file, setFile] = useState(null);
 
-  constructor(props) {
-    super(props);
-    this.state = { file: null };
-
-    this.handleFileSelect = this.handleFileSelect.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleCrop = this.handleCrop.bind(this);
-  }
-
-  selectFile(callback, options) {
+  const selectFile = (callback, options) => {
     options = options || { multiple: false, accept: null };
     const input = document.createElement('input');
     input.type = "file";
@@ -34,29 +26,28 @@ export default class ImageUploader extends React.Component {
     input.addEventListener('change', handleFileSelect);
 
     input.click();
-  }
+  };
 
-  componentDidUpdate(prevProps) {
-    if (this.props.shouldPick && !prevProps.shouldPick) {
-      this.handleFileSelect();
-    }
-  }
-
-  handleFileSelect() {
-    this.selectFile(
+  const handleFileSelect = () => {
+    selectFile(
       (file) => {
-        this.setState({ file });
+        setFile(file);
       },
       { accept: 'image/*' }
     );
-  }
+  };
 
-  handleClose() {
-    this.setState({ file: null });
-  }
+  useEffect(() => {
+    if (shouldPick) handleFileSelect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldPick]);
+
+  const handleClose = () => {
+    setFile(null);
+  };
 
   // ImageCrop returns a file blob.
-  handleCrop(blob) {
+  const handleCrop = (blob) => {
     // Create an object URL so we can see the image
     const newImg = document.createElement('img');
     const url = URL.createObjectURL(blob);
@@ -70,27 +61,27 @@ export default class ImageUploader extends React.Component {
     newImg.src = url;
 
     // Return blob and URL for convenience
-    this.props.onImagePick(blob, url);
-    this.handleClose();
-  }
+    onImagePick(blob, url);
+    handleClose();
+  };
 
-  render() {
-    return (
-      <div onClick={this.handleFileSelect} className={this.props.className} style={{ backgroundColor: '#f00', height: '200px' }}>
-        {this.props.children}
-        {this.state.file && (
-          <Layer>
-            <ImageCrop
-              image={this.state.file}
-              width={this.props.cropWidth}
-              height={this.props.cropHeight}
-              bleedWidth={this.props.bleedWidth}
-              onClose={this.handleClose}
-              onCrop={this.handleCrop}
-            />
-          </Layer>
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div onClick={handleFileSelect} className={['volta-image_uploader', className].filter(Boolean).join(' ')}>
+      {children}
+      {file && (
+        <Layer>
+          <ImageCrop
+            image={file}
+            width={cropWidth}
+            height={cropHeight}
+            bleedWidth={bleedWidth}
+            onClose={handleClose}
+            onCrop={handleCrop}
+          />
+        </Layer>
+      )}
+    </div>
+  );
+};
+
+export default ImageUploader;

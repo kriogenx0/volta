@@ -88,7 +88,7 @@ const DropdownList = ({
 
   return (
     <Dropdown
-      className='v-dropdown_list'
+      className='volta-dropdown_list'
       label={dropdownLabel}
       open={open}
       onClick={handleButtonClick}

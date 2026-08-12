@@ -1,94 +1,82 @@
-import React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import numeral from 'numeral';
 
 import './NumericField.scss';
 
-export default class NumericField extends React.Component {
+const NumericField = (props) => {
+  const previousValue = useRef(null);
+  const whenTypingFormatFunction = useRef(
+    NumericField.loadFormatFunction(props.whenTypingFormat || NumericField.defaultWhenTypingFormatFunction)
+  );
+  const format = useRef(NumericField.loadFormatFunction(props.format || props.onBlurFormat));
+  const [value, setValue] = useState(() => format.current(props.value));
 
-  constructor(props) {
-    super(props);
+  useEffect(() => {
+    whenTypingFormatFunction.current = NumericField.loadFormatFunction(props.whenTypingFormat || NumericField.defaultWhenTypingFormatFunction);
+    format.current = NumericField.loadFormatFunction(props.format || props.onBlurFormat);
 
-    this.previousValue = null;
-  }
+    setValue(format.current(props.value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.value, props.whenTypingFormat, props.format, props.onBlurFormat]);
 
-  componentWillMount() {
-    this.loadProps(this.props);
-  }
-
-  componentWillReceiveProps(props) {
-    this.loadProps(props);
-  }
-
-  loadProps(props) {
-    this.whenTypingFormatFunction = NumericField.loadFormatFunction(props.whenTypingFormat || NumericField.defaultWhenTypingFormatFunction);
-    this.format = NumericField.loadFormatFunction(props.format || props.onBlurFormat);
-
-    this.setState({
-      value: this.format(props.value)
-    });
-  }
-
-  handleOnChange(event) {
+  const handleOnChange = (event) => {
     if (!event.target) { return; }
 
     var val = event.target.value;
 
-    val = this.whenTypingFormatFunction(val);
+    val = whenTypingFormatFunction.current(val);
 
     if (val !== null) {
-      this.setState({ value: val });
+      setValue(val);
 
-      if (this.props.onChange) {
-        this.props.onChange(val);
+      if (props.onChange) {
+        props.onChange(val);
       }
     }
-  }
+  };
 
-  handleOnFocus(e) {
+  const handleOnFocus = (e) => {
     var val;
     // ONLY FIRST TIME
-    if (this.previousValue === null && this.props.focusValue !== null) {
-      val = this.props.focusValue;
-      this.setState({ value: val });
+    if (previousValue.current === null && props.focusValue !== null) {
+      val = props.focusValue;
+      setValue(val);
     } else {
       val = e.target.value;
     }
 
-    if (this.props.onFocus) {
-      this.props.onFocus(e.target.value, this.previousValue);
+    if (props.onFocus) {
+      props.onFocus(e.target.value, previousValue.current);
     }
 
-    this.previousValue = val;
-  }
+    previousValue.current = val;
+  };
 
-  handleOnBlur(event) {
-    var val = this.state.value;
-    val = this.format(val);
-    this.setState({ value: val });
+  const handleOnBlur = () => {
+    var val = value;
+    val = format.current(val);
+    setValue(val);
 
-    if (this.props.onBlur) {
-      this.props.onBlur(val);
+    if (props.onBlur) {
+      props.onBlur(val);
     }
-    if (this.props.onBlurChange && this.previousValue !== val) {
-      this.props.onBlurChange(val, this.previousValue);
+    if (props.onBlurChange && previousValue.current !== val) {
+      props.onBlurChange(val, previousValue.current);
     }
-  }
+  };
 
-  render() {
-    return (
-      <div className="component-numericfield">
-        <input type="text" {...this.props}
-               onChange={(e)=>{this.handleOnChange(e)}}
-               onFocus={(e)=>{this.handleOnFocus(e)}}
-               onBlur={(e)=>{this.handleOnBlur(e)}}
-               value={this.state.value}
-        />
-      </div>
-    );
-  }
-
-}
+  return (
+    <div className="volta-numericfield">
+      <input type="text" {...props}
+             onChange={handleOnChange}
+             onFocus={handleOnFocus}
+             onBlur={handleOnBlur}
+             value={value}
+      />
+    </div>
+  );
+};
 
 NumericField.formats = {
   integer: (v) => {
@@ -154,3 +142,5 @@ NumericField.propTypes = {
   // format is an alias for onBlurFormat, it has been deprecated
   format: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.func])
 };
+
+export default NumericField;

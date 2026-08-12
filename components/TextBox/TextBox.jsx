@@ -1,50 +1,36 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 
 import './TextBox.scss';
 
-export default class TextBox extends React.Component {
+const TextBox = (props) => {
+  const { value, onChange, multiline, ...rest } = props;
+  const [internalValue, setInternalValue] = useState(value || '');
 
-  componentWillMount() {
-    this.loadProps(this.props);
-  }
+  useEffect(() => {
+    setInternalValue(value || '');
+  }, [value]);
 
-  componentWillReceiveProps(props) {
-    this.loadProps(props);
-  }
-
-  loadProps(props) {
-    this.setState({
-      value: props.value || ''
-    });
-  }
-
-  handleChange(e) {
-    if (e && e.target && this.props.onChange) {
-      this.props.onChange(e);
+  const handleChange = (e) => {
+    if (e && e.target && onChange) {
+      onChange(e);
     }
-  }
+  };
 
-  render() {
-    let props = Object.assign({}, this.props, {
-      onChange: this.handleChange.bind(this),
-      value: this.state.value
-    });
-    delete props.multiline;
+  const fieldProps = { ...rest, onChange: handleChange, value: internalValue };
 
-    const { multiline } = this.props;
-
-    return (
-      <div className="c-text_box">
-        {multiline ?
-          <textarea {...props}></textarea>
-          :
-          <input type="text" {...props} />
-        }
-      </div>
-    );
-  }
-}
+  return (
+    <div className="volta-text_box">
+      {multiline ?
+        <textarea {...fieldProps}></textarea>
+        :
+        <input type="text" {...fieldProps} />
+      }
+    </div>
+  );
+};
 
 TextBox.defaultProps = {
   multiline: false
 };
+
+export default TextBox;

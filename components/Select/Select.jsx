@@ -20,7 +20,7 @@ const Select = ({ options, value, onChange, className = '', label, optional, fie
     </select>
   );
 
-  const wrapped = <div className="v-select">{control}</div>;
+  const wrapped = <div className="volta-select">{control}</div>;
   if (!label) return wrapped;
   return (
     <div>

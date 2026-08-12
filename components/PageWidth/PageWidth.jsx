@@ -1,7 +1,7 @@
 import './PageWidth.scss';
 
 const PageWidth = ({ className, children }) => {
-  let pageWidthClassName = 'c-page_width';
+  let pageWidthClassName = 'volta-page_width';
   if (className) pageWidthClassName += ' ' + className;
 
   return (

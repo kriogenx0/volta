@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Field.scss';
 
 const Field = ({ className, type, stack, label, children }) => {
-  let fieldClassName = 'ui-field' + (className ? ' ' + className : '');
+  let fieldClassName = 'volta-field' + (className ? ' ' + className : '');
   if (type) fieldClassName += ' field-' + type;
   if (stack) fieldClassName += ' field-stack';
 

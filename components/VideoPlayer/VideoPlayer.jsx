@@ -54,6 +54,7 @@ const VideoPlayer = ({
     }, failTimeout);
 
     return () => {
+      if (!video.current) return;
       video.current.removeEventListener('loadeddata', videoLoadEvent);
       video.current.removeEventListener('error', videoLoadEvent);
       video.current.removeEventListener('loadstart', videoLoadEvent);
@@ -69,7 +70,7 @@ const VideoPlayer = ({
   }
 
   return (
-    <div className={'v-video_player' + (className ? ' ' + className : '')}>
+    <div className={'volta-video_player' + (className ? ' ' + className : '')}>
       { icon ? <div className='full'>{icon}</div> : null }
 
       <video ref={video} autoPlay loop={false} key={src} {...otherProps} onClick={handleClick}>

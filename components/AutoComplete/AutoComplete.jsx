@@ -184,7 +184,7 @@ const AutoComplete = ({
     setOpen(false);
   };
 
-  const classes = ['twd twd-short autocomplete l-full-width', className];
+  const classes = ['volta-auto_complete twd twd-short autocomplete l-full-width', className];
   if (open && (filteredOptions.length > 0 || value !== '')) classes.push('is-open');
   if (limit === 1) classes.push('is-single');
 

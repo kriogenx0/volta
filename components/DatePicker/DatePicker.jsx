@@ -8,7 +8,7 @@ const DatePickerDialog = (props) => {
   if (!props || !props.open) return null;
 
   return (
-    <div className='c-date_picker_dialog'>
+    <div className='volta-date_picker_dialog'>
       <Calendar {...props} />
     </div>
   );
@@ -38,7 +38,7 @@ const DatePicker = () => {
   };
 
   return (
-    <div className='c-date_picker'>
+    <div className='volta-date_picker'>
       <TextBox
         onFocus={handleFocus}
         onBlur={handleBlur}

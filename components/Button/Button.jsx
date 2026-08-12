@@ -26,7 +26,7 @@ const Button = ({ onClick, children, className = '', variant, type = 'button', b
   if (tiny) legacySize = 'tiny';
 
   const classes = [
-    'v-button',
+    'volta-button',
     `button-${variantClass}`,
     legacySize && `button-${legacySize}`,
     disabled && 'button-disabled',

@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 
 const FormRow = ({ label, optionalText, helperText, isFlush, errors, showError, className, children }) => (
-  <div className={`frm_row ${showError ? 'is-error' : ''} ${className}`}>
+  <div className={`volta-form_row ${showError ? 'is-error' : ''} ${className}`}>
     <div className="frm_row_description">
       <p className={`frm_label ${isFlush ? 'frm_label-flush' : ''}`}>{label}</p>
       {optionalText && <p className="frm_details deemphasized">{optionalText}</p>}

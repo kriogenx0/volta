@@ -1,6 +1,6 @@
 @use "../../mixins" as *;
 
-.v-video_player {
+.volta-video_player {
   border: 1px solid #ccc;
   @include dark {
     border-color: #333;

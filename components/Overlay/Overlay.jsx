@@ -21,6 +21,6 @@ const Overlay = ({ showing = null, onClick, children }) => {
   return null;
 };
 
-Overlay.defaultClassName = 'v-overlay';
+Overlay.defaultClassName = 'volta-overlay';
 
 export default Overlay;

@@ -1,6 +1,6 @@
 @use "../../mixins" as *;
 
-.v-radio {
+.volta-radio {
   @include no_select;
 
   > * {

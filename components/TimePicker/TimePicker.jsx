@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import _ from 'lodash';
 
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
@@ -6,133 +6,118 @@ import ComboBox from '../ComboBox/ComboBox';
 
 import './TimePicker.scss';
 
-export default class TimePicker extends React.Component {
+const generateTimes = (minuteInterval) => {
+  const hours = _.times(12, n => String(n + 1));
 
-  constructor() {
-    super(...arguments);
-    this.state = {
-      hour: 0,
-      minute: 0,
-      pm: false
-    };
-
-    this.handleHourChange = this.handleHourChange.bind(this);
-    this.handleMinuteChange = this.handleMinuteChange.bind(this);
-    this.handlePmChange = this.handlePmChange.bind(this);
-
-    this.generateTimes();
+  const minutes = [];
+  let time = 0;
+  while (time < 60) {
+    minutes.push(time ? String(time) : '00');
+    time += minuteInterval;
   }
 
-  generateTimes() {
-    this.hours = _.times(12, n => n + 1);
+  return { hours, minutes };
+};
 
-    this.minutes = [];
-    let time = 0;
-    while (time < 60) {
-      this.minutes.push(time || '00');
-      time += this.props.minuteInterval;
-    }
-  }
+const TimePicker = ({ value, twentyFourHour, minuteInterval, onChange }) => {
+  const [hourState, setHourState] = useState(0);
+  const [minuteState, setMinuteState] = useState(0);
+  const [pmState, setPmState] = useState(false);
 
-  componentWillMount() {
-    this.loadValue(this.props);
-  }
+  const hour = useRef(0);
+  const minute = useRef(0);
+  const pm = useRef(false);
 
-  componentWillReceiveProps(props) {
-    this.loadValue(props);
-  }
+  const { hours, minutes } = generateTimes(minuteInterval);
 
-  loadValue(props) {
-    if (props.value === null) return;
-    console.log('loadValue', props.value);
+  const fullDate = () => {
+    const h = parseInt(hour.current);
+    const hourVal = (pm.current ? (h + 12) : h) % 24;
+    return hourVal + ':' + minute.current;
+  };
 
-    let { value } = props;
-    if (typeof(value) === 'object' && value.fullDate) value = value.fullDate;
-    const split = value.split(':');
-    // console.log('loadValue split', props.value, split);
-    const fullHour = parseInt(split[0]);
-    // console.log('fullHour', fullHour);
-    let hour = fullHour % 12;
-    if (!hour) hour = 12;
-
-    this.hour = hour;
-    this.minute = !split[1] || split[1] == 'undefined' ? '00' : split[1];
-    this.pm = fullHour > 11;
-
-    this.updateState();
-  }
-
-  exportValue() {
-    let { hour, pm } = this;
-    if (!this.props.twentyFourHour) {
-      hour = parseInt(hour) % 12;
-      if (!hour) hour = 12;
-      pm = ' ' + (this.pm || this.hour > 11 ? 'pm' : 'am');
+  const exportValue = () => {
+    let h = hour.current;
+    let pmSuffix;
+    if (!twentyFourHour) {
+      h = parseInt(h) % 12;
+      if (!h) h = 12;
+      pmSuffix = ' ' + (pm.current || hour.current > 11 ? 'pm' : 'am');
     } else {
-      pm = '';
+      pmSuffix = '';
     }
-    return hour + ':' + this.minute + pm;
-  }
+    return h + ':' + minute.current + pmSuffix;
+  };
 
-  fullDate() {
-    // console.log('fullDate this', this.hour, this.minute, this.pm);
-    const h = parseInt(this.hour);
-    const hour = (this.pm ? (h + 12) : h) % 24;
-    return hour + ':' + this.minute;
-  }
+  const updateState = () => {
+    setHourState(hour.current);
+    setMinuteState(minute.current);
+    setPmState(pm.current);
+  };
 
-  handleHourChange(hour) {
-    this.hour = parseInt(hour);
-    this.updateStateAndChange();
-  }
+  const loadValue = (val) => {
+    if (val === null) return;
 
-  handleMinuteChange(minute) {
-    this.minute = parseInt(minute);
-    this.updateStateAndChange();
-  }
+    if (typeof(val) === 'object' && val.fullDate) val = val.fullDate;
+    const split = val.split(':');
+    const fullHour = parseInt(split[0]);
+    let h = fullHour % 12;
+    if (!h) h = 12;
 
-  handlePmChange(tabIndex) {
-    this.pm = !!tabIndex;
-    this.updateStateAndChange();
-  }
+    hour.current = h;
+    minute.current = !split[1] || split[1] == 'undefined' ? '00' : split[1];
+    pm.current = fullHour > 11;
 
-  updateStateAndChange() {
-    const { hour, minute, pm } = this;
+    updateState();
+  };
+
+  useEffect(() => {
+    loadValue(value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  const updateStateAndChange = () => {
+    updateState();
 
     const timeObject = {
-      hour,
-      minute,
-      pm,
-      fullDate: this.fullDate(),
-      formatted: this.exportValue()
+      hour: hour.current,
+      minute: minute.current,
+      pm: pm.current,
+      fullDate: fullDate(),
+      formatted: exportValue()
     };
 
-    // console.log('timeObject', timeObject);
-    this.setState(timeObject);
-    this.props.onChange(timeObject);
-  }
+    onChange(timeObject);
+  };
 
-  updateState() {
-    const { hour, minute, pm } = this;
-    this.setState({ hour, minute, pm });
-  }
+  const handleHourChange = (h) => {
+    hour.current = parseInt(h);
+    updateStateAndChange();
+  };
 
-  render() {
-    return (
-      <div className='c-time_picker'>
-        <div className='time_picker-hour'>
-          <ComboBox name='time_hour' items={this.hours} defaultValue={this.state.hour} onSelect={this.handleHourChange} onChange={this.handleHourChange} />
-        </div>
-        <div className='time_picker-div'>:</div>
-        <div className='time_picker-minute'>
-          <ComboBox name='time_minute' items={this.minutes} defaultValue={this.state.minute || '00'} onSelect={this.handleMinuteChange} onChange={this.handleMinuteChange} />
-        </div>
-        <SegmentedControl tabs={TimePicker.pmSelections} onChange={this.handlePmChange} selectedTabIndex={this.state.pm ? 1 : 0} />
+  const handleMinuteChange = (m) => {
+    minute.current = parseInt(m);
+    updateStateAndChange();
+  };
+
+  const handlePmChange = (tabIndex) => {
+    pm.current = !!tabIndex;
+    updateStateAndChange();
+  };
+
+  return (
+    <div className='volta-time_picker'>
+      <div className='time_picker-hour'>
+        <ComboBox name='time_hour' items={hours} defaultValue={String(hourState)} onSelect={handleHourChange} onChange={handleHourChange} />
       </div>
-    );
-  }
-
-}
+      <div className='time_picker-div'>:</div>
+      <div className='time_picker-minute'>
+        <ComboBox name='time_minute' items={minutes} defaultValue={minuteState || '00'} onSelect={handleMinuteChange} onChange={handleMinuteChange} />
+      </div>
+      <SegmentedControl tabs={TimePicker.pmSelections} onChange={handlePmChange} selectedTabIndex={pmState ? 1 : 0} />
+    </div>
+  );
+};
 
 TimePicker.defaultProps = {
   twentyFourHour: false,
@@ -145,3 +130,5 @@ TimePicker.defaultProps = {
 }
 
 TimePicker.pmSelections = ['am', 'pm'];
+
+export default TimePicker;

@@ -1,163 +1,127 @@
-import React from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import VideoPlayer from '../VideoPlayer';
-import ProgressBar from '../ProgressBar';
 
 import './VideoUploadPlayer.scss';
 
-export default class VideoUploadPlayer extends React.Component {
-  static propTypes = {
-    fileName: PropTypes.string,
-    percent: PropTypes.number,
-    onChange: PropTypes.func,
-    onCancel: PropTypes.func,
-    allowDragAndDrop: PropTypes.bool
-  };
+const VideoUploadPlayer = ({
+  url, onChange, percent, onCancel, complete, fileName, allowDragAndDrop, multiple
+}) => {
+  const [draggingIn, setDraggingIn] = useState(false);
 
-  static defaultProps = {
-    allowDragAndDrop: true
-  };
+  const selectFiles = useCallback((files) => {
+    onChange(files);
+  }, [onChange]);
 
-  state = {
-    draggingIn: false
-  };
-
-  /*
-  fileInput = React.createRef();
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.fileName != this.props.fileName) {
-      this.fileInput.current.value = null;
-    }
-  }
-  */
-
-  componentDidMount() {
-    if (this.props.allowDragAndDrop) this.addEventListeners();
-  }
-
-  componentWillUnmount() {
-    if (this.props.allowDragAndDrop) this.removeEventListeners();
-  }
-
-  addEventListeners = () => {
-    const el = window;
-    el.addEventListener('dragleave', this.handleWindowDragLeave);
-    el.addEventListener('dragover', this.handleWindowDrag);
-    el.addEventListener('drop', this.handleWindowDrop);
-  }
-
-  removeEventListeners() {
-    const el = window;
-    el.removeEventListener('dragleave', this.handleWindowDragLeave);
-    el.removeEventListener('dragover', this.handleWindowDrag);
-    el.removeEventListener('drop', this.handleWindowDrop);
-  };
-
-  selectFiles = files => {
-    this.props.onChange(files);
-  };
-
-  handleWindowDragLeave = e => {
+  const handleWindowDragLeave = useCallback((e) => {
     e.preventDefault && e.preventDefault();
-    this.setState({ draggingIn: false });
-  };
+    setDraggingIn(false);
+  }, []);
 
-  handleWindowDrag = e => {
-    const isFile = _.includes( _.get(e, 'dataTransfer.types'), 'Files');
+  const handleWindowDrag = useCallback((e) => {
+    const isFile = _.includes(_.get(e, 'dataTransfer.types'), 'Files');
     if (isFile) {
       e.preventDefault && e.preventDefault();
-      this.setState({ draggingIn: true });
+      setDraggingIn(true);
     }
-  };
+  }, []);
 
-  handleWindowDrop = e => {
+  const handleWindowDrop = useCallback((e) => {
     e.preventDefault && e.preventDefault();
-    this.setState({ draggingIn: false });
-  };
+    setDraggingIn(false);
+  }, []);
 
-  handleDragOver = e => {
+  useEffect(() => {
+    if (!allowDragAndDrop) return undefined;
+
+    const el = window;
+    el.addEventListener('dragleave', handleWindowDragLeave);
+    el.addEventListener('dragover', handleWindowDrag);
+    el.addEventListener('drop', handleWindowDrop);
+
+    return () => {
+      el.removeEventListener('dragleave', handleWindowDragLeave);
+      el.removeEventListener('dragover', handleWindowDrag);
+      el.removeEventListener('drop', handleWindowDrop);
+    };
+  }, [allowDragAndDrop, handleWindowDragLeave, handleWindowDrag, handleWindowDrop]);
+
+  const handleDragOver = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (this.state.draggingIn != 2) {
-      // console.log('handleDragOver', e);
-      this.setState({ draggingIn: 2 });
-    }
-  }
-
-  handleDrop = e => {
-    // console.log('handleDrop', e);
-    this.selectFiles(e.dataTransfer.files);
-    this.setState({ draggingIn: false });
+    setDraggingIn((prev) => (prev != 2 ? 2 : prev));
   };
 
-  handleFileSelect = () => {
-    // console.log('handleFileSelect', this.fileInput);
-    // this.fileInput.current.click();
+  const handleDrop = (e) => {
+    selectFiles(e.dataTransfer.files);
+    setDraggingIn(false);
+  };
 
+  const handleInputFileSelect = (input) => (e) => {
+    selectFiles(e.target.files);
+    input.removeEventListener('change', handleInputFileSelect);
+  };
+
+  const handleFileSelect = () => {
     const input = document.createElement('input');
     input.type = 'file';
-    input.multiple = this.props.multiple;
+    input.multiple = multiple;
     input.accept = 'video/*';
 
-    input.addEventListener('change', this.handleInputFileSelect);
+    const listener = handleInputFileSelect(input);
+    input.addEventListener('change', listener);
     input.click();
-    this.input = input;
-  }
-
-  handleInputFileSelect = e => {
-    this.selectFiles(e.target.files);
-    if (this.input) {
-      this.input.removeEventListener('change', this.handleInputFileSelect);
-      delete this.input;
-    }
   };
 
-  handleBoxClick = () => {
-    const inProgress = this.props.percent !== null && this.props.percent !== undefined;
-    if (inProgress)
-      this.props.onCancel();
-    else
-      this.handleFileSelect();
-  };
-
-  render() {
-    const { url, onChange, percent, onCancel, complete, fileName } = this.props;
-    const { draggingIn } = this.state;
-
+  const handleBoxClick = () => {
     const inProgress = percent !== null && percent !== undefined;
-    // const complete = fileName && !inProgress;
-    const readyToUpload = !fileName && !inProgress;
+    if (inProgress)
+      onCancel();
+    else
+      handleFileSelect();
+  };
 
-    const percentWidth = inProgress ? percent : 0;
+  const inProgress = percent !== null && percent !== undefined;
 
-    const dragging = draggingIn === 2;
+  const dragging = draggingIn === 2;
 
-    let label = fileName;
-    if (dragging) label = 'Drop It!';
-    else if (draggingIn) label = 'Drop Here';
-    if (!label) label = 'Upload';
+  let label = fileName;
+  if (dragging) label = 'Drop It!';
+  else if (draggingIn) label = 'Drop Here';
+  if (!label) label = 'Upload';
 
-    const videoExists = url && url.length;
+  const videoExists = url && url.length;
 
-    return (
-      <div className='ui-video_upload_player' onDragOver={this.handleDragOver} onDrop={this.handleDrop}>
-        { videoExists ? <div className='player'>
-            <VideoPlayer src={url} />
-          </div> : null
-        }
-        <div className={`box${complete ? ' complete' : ''}${dragging ? ' box-dragging' : ''}${videoExists ? ' video_exists' : ''}`} title={label} onClick={this.handleBoxClick}>
-          <div className='label'>
-            {label}
-          </div>
-          { !complete && inProgress ?
-            <div className='percent' style={{width: percent ? percent + '%' : 0}} /> : null
-          }
-          {/* <input accept={accept} type='file' onChange={onChange} ref={this.fileInput} /> */ }
+  return (
+    <div className='volta-video_upload_player' onDragOver={handleDragOver} onDrop={handleDrop}>
+      { videoExists ? <div className='player'>
+          <VideoPlayer src={url} />
+        </div> : null
+      }
+      <div className={`box${complete ? ' complete' : ''}${dragging ? ' box-dragging' : ''}${videoExists ? ' video_exists' : ''}`} title={label} onClick={handleBoxClick}>
+        <div className='label'>
+          {label}
         </div>
+        { !complete && inProgress ?
+          <div className='percent' style={{width: percent ? percent + '%' : 0}} /> : null
+        }
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+VideoUploadPlayer.propTypes = {
+  fileName: PropTypes.string,
+  percent: PropTypes.number,
+  onChange: PropTypes.func,
+  onCancel: PropTypes.func,
+  allowDragAndDrop: PropTypes.bool
+};
+
+VideoUploadPlayer.defaultProps = {
+  allowDragAndDrop: true
+};
+
+export default VideoUploadPlayer;

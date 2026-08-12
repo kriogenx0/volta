@@ -20,7 +20,7 @@ const GlobalNav = ({
   };
 
   return (
-    <header className="v-global_nav">
+    <header className="volta-global_nav">
       <div className="l-width">
         <div className="header-left">
           {appName ? (

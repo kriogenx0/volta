@@ -13,11 +13,11 @@ const BUTTON_CLASS = {
 
 const SegmentedControl = ({ value, onChange, options, size = 'md', disabled = false, ariaLabel, ...legacyProps }) => {
   if (!options) {
-    return <div className="c-segmented_control no_select"><TabBar {...legacyProps} /></div>;
+    return <div className="volta-segmented_control no_select"><TabBar {...legacyProps} /></div>;
   }
 
   return (
-    <div role="group" aria-label={ariaLabel} className={WRAPPER_CLASS[size]}>
+    <div role="group" aria-label={ariaLabel} className={`volta-segmented_control ${WRAPPER_CLASS[size]}`}>
       {options.map((option) => {
         const active = value === option.value;
         const stateClass = active

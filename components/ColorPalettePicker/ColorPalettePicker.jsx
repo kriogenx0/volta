@@ -1,85 +1,66 @@
-import React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import _ from 'lodash';
 
 import TextBox from '../TextBox';
 
 import './ColorPalettePicker.scss';
 
-export default class ColorPalettePicker extends React.Component {
+const ColorPalettePicker = ({ value: valueProp, onChange }) => {
+  const [showing, setShowing] = useState(false);
+  const [value, setValue] = useState(undefined);
+  const blurring = useRef(null);
 
-  constructor(props) {
-    super(...arguments);
-    this.state = {
-      showing: false
-    };
-
-    this.handleTextChange = this.handleTextChange.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-    this.dontBlur = this.dontBlur.bind(this);
-    this.toggle = this.toggle.bind(this);
-  }
-
-  componentWillMount() {
-    this.loadProps(this.props);
-  }
-
-  componentWillReceiveProps(props) {
-    this.loadProps(props);
-  }
-
-  loadProps(props) {
-    if (props.value !== null) {
-      this.setState({ value: props.value });
+  useEffect(() => {
+    if (valueProp !== null) {
+      setValue(valueProp);
     }
-  }
+  }, [valueProp]);
 
-  selectColor(color) {
-    this.setState({ value: color, showing: false });
-    this.props.onChange(color);
-  }
+  const selectColor = (color) => {
+    setValue(color);
+    setShowing(false);
+    onChange(color);
+  };
 
-  handleTextChange(e) {
-    this.setState({ value: e.target.value });
-  }
+  const handleTextChange = (e) => {
+    setValue(e.target.value);
+  };
 
-  handleFocus() {
-    this.setState({ showing: true });
-  }
+  const handleFocus = () => {
+    setShowing(true);
+  };
 
-  handleBlur() {
-    this.blurring = setTimeout(() => {
-      this.setState({ showing: false });
+  const handleBlur = () => {
+    blurring.current = setTimeout(() => {
+      setShowing(false);
     }, 200);
-  }
+  };
 
-  dontBlur() {
+  const dontBlur = () => {
     setTimeout(() => {
-      clearTimeout(this.blurring);
+      clearTimeout(blurring.current);
     }, 10);
-  }
+  };
 
-  toggle() {
+  const toggle = () => {
     // TODO focus on input if showing
-    this.setState({ showing: !this.state.showing });
-  }
+    setShowing((prev) => !prev);
+  };
 
-  render() {
-    return (
-      <div className='c-color_palette_picker'>
-        <TextBox value={this.state.value} onFocus={this.handleFocus} onBlur={this.handleBlur} onChange={this.handleTextChange} />
-        <div className='color-current' style={{backgroundColor: this.state.value}} onClick={this.toggle} />
-        <div className={`colors clearfix${this.state.showing ? ' showing' : ''}`} onMouseDown={this.dontBlur}>
-          {_.map(ColorPalettePicker.colors, (color) => {
-            return (
-              <div key={color} style={{backgroundColor: color}} title={color} onClick={this.selectColor.bind(this, color)} />
-            );
-          })}
-        </div>
+  return (
+    <div className='volta-color_palette_picker'>
+      <TextBox value={value} onFocus={handleFocus} onBlur={handleBlur} onChange={handleTextChange} />
+      <div className='color-current' style={{backgroundColor: value}} onClick={toggle} />
+      <div className={`colors clearfix${showing ? ' showing' : ''}`} onMouseDown={dontBlur}>
+        {_.map(ColorPalettePicker.colors, (color) => {
+          return (
+            <div key={color} style={{backgroundColor: color}} title={color} onClick={() => selectColor(color)} />
+          );
+        })}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 ColorPalettePicker.defaultProps = {
   value: null,
@@ -108,3 +89,5 @@ ColorPalettePicker.colors = [
   '#444444',
   '#000000'
 ];
+
+export default ColorPalettePicker;

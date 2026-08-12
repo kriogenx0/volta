@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Drawer.scss';
 
 const Drawer = ({ width, className, open, children, onClose }) => (
-  <div className={`v-drawer${className ? ' ' + className : ''}${open ? ' drawer-open' : ''}`}>
+  <div className={`volta-drawer${className ? ' ' + className : ''}${open ? ' drawer-open' : ''}`}>
     <div className='drawer-contents' style={{ width }}>
       {children}
     </div>

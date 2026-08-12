@@ -22,6 +22,7 @@ const ContentEditable = ({ html, onChange }) => {
   return (
     <div
       ref={ref}
+      className="volta-content_editable"
       onInput={handleChange}
       onBlur={handleChange}
       contentEditable

@@ -31,7 +31,7 @@ const Alert = ({ title, message, type, confirmTitle, cancelTitle, onCancel, onCo
   }, []);
 
   return (
-    <div className="lrt l-v-spaced v-centered-fixed-canvas">
+    <div className="volta-alert lrt l-v-spaced v-centered-fixed-canvas">
       <div className="lrt_container">
         <h2 className="lrt_title l-v-bottom-spaced">{title}</h2>
         <p className="lrt_message l-v-bottom-spaced">{message}</p>

@@ -1,13 +1,13 @@
-@use "../_shared/legacy-colors" as *;
+@use "../../styles/_shared/legacy-colors" as *;
 
 $zindex: 1000;
 
-.c-tooltip_wrap {
+.volta-tooltip_wrap {
   position: relative;
   display: inline-block;
 }
 
-.c-tooltip {
+.volta-tooltip {
   position: absolute;
   max-width: 200px;
   background: legacy-color('dark-gray');

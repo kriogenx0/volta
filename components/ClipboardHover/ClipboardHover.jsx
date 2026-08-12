@@ -23,7 +23,7 @@ const ClipboardHover = ({ children }) => {
   };
 
   return (
-    <div className='v-clipboard_hover'>
+    <div className='volta-clipboard_hover'>
       <div className='clipboard_hover-text' ref={text}>
         {children}
       </div>

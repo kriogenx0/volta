@@ -4,7 +4,7 @@ import "./Checkbox.scss";
 
 const Checkbox = ({ label, disabled, ...props}) => {
   return (
-    <label className={`v-checkbox${disabled ? ' checkbox-disabled' : ''}`} title={label}>
+    <label className={`volta-checkbox${disabled ? ' checkbox-disabled' : ''}`} title={label}>
       <input
         type="checkbox"
         label={label}

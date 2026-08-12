@@ -1,6 +1,6 @@
 @use "../../mixins" as *;
 
-.v-checkbox {
+.volta-checkbox {
   @include no_select;
 
   > * {
