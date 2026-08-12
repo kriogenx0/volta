@@ -39,7 +39,7 @@ export default [
     components: [
       'AudioTrack', 'Avatar', 'Calendar', 'FileManager', 'FilePicker', 'FileUploader',
       'ImageCrop', 'ImageDropZone', 'ImagePicker', 'ImageUploader',
-      'VideoPlayer', 'VideoUploadPlayer', 'MobilePhone', 'Map', 'MapSelector',
+      'VideoPlayer', 'VideoUploadPlayer', 'MobilePhone', 'Map', 'MapSelector', 'Thumb',
     ],
   },
   {

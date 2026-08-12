@@ -26,6 +26,11 @@ const Button = ({ onClick, children, className = '', variant, type = 'button', b
   if (tiny) legacySize = 'tiny';
 
   const classes = [
+    // ironyoung-compat: its Rails asset pipeline (backend/app/assets/stylesheets/ui/styles.scss)
+    // still owns the actual button look via a plain `.btn` class; callers there pass variant/size
+    // as literal className strings (e.g. `className='btn-primary'`), not through volta's variant/size
+    // props, so this is the only addition needed for full visual parity.
+    'btn',
     'volta-button',
     `button-${variantClass}`,
     legacySize && `button-${legacySize}`,

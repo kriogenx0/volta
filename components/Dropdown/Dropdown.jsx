@@ -30,7 +30,6 @@ const Dropdown = ({
     };
 
     handleButtonClick = (e) => {
-      console.log('handleButtonClick');
       setOpen(true);
       onClick(e);
     };

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import './Field.scss';
 
 const Field = ({ className, type, stack, label, children }) => {
-  let fieldClassName = 'volta-field' + (className ? ' ' + className : '');
+  // ironyoung-compat: c-field is the class name its own view-level scss targets directly.
+  let fieldClassName = 'volta-field c-field' + (className ? ' ' + className : '');
   if (type) fieldClassName += ' field-' + type;
   if (stack) fieldClassName += ' field-stack';
 

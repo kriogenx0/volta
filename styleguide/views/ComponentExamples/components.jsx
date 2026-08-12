@@ -82,6 +82,7 @@ import TextBoxExamples from '../../../examples/TextBox/TextBox-examples';
 import TextEditableExamples from '../../../examples/TextEditable/TextEditable-examples';
 import TextFieldExamples from '../../../examples/TextField/TextField-examples';
 import TextareaExamples from '../../../examples/Textarea/Textarea-examples';
+import ThumbExamples from '../../../examples/Thumb/Thumb-examples';
 import TimePickerExamples from '../../../examples/TimePicker/TimePicker-examples';
 import ToastMessageExamples from '../../../examples/ToastMessage/ToastMessage-examples';
 import ToggleExamples from '../../../examples/Toggle/Toggle-examples';
@@ -174,6 +175,7 @@ const curated = [
   TextEditableExamples,
   TextFieldExamples,
   TextareaExamples,
+  ThumbExamples,
   TimePickerExamples,
   ToastMessageExamples,
   ToggleExamples,

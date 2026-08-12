@@ -1,0 +1,17 @@
+.volta-thumb
+{
+  display: block;
+  flex: 0 0 auto;
+  border-radius: 6px;
+  object-fit: cover;
+  background: var(--v-color-base-subtle);
+}
+
+.volta-thumb-placeholder
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--v-color-trim-less-subtle);
+  border: 1px solid var(--v-color-base-less-subtle);
+}
