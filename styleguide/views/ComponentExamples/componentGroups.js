@@ -8,15 +8,16 @@ export default [
       'DatePicker', 'DateFormat', 'Field', 'FormField', 'BaseForm',
       'BaseInput', 'FormRow', 'Label', 'MultiSelect', 'NumericField',
       'Radio', 'RadioGroup', 'Select', 'Slider', 'TagInput', 'TextBox',
-      'TextEditable', 'TextField', 'TimePicker', 'Toggle', 'AutoComplete',
-      'SearchSelector', 'SegmentedControl', 'ColorPicker', 'ColorPalettePicker',
+      'Textarea', 'TextEditable', 'TextField', 'TimePicker', 'Toggle',
+      'AutoComplete', 'SearchSelector', 'SegmentedControl', 'ColorPicker',
+      'ColorPalettePicker',
     ],
   },
   {
     label: 'Navigation',
     components: [
       'GlobalNav', 'NavBar', 'TabBar', 'Tabs', 'TabsRouted', 'Link',
-      'PageHeading', 'PageWidth',
+      'ActionLink', 'PageHeading', 'PageWidth',
     ],
   },
   {
@@ -29,15 +30,14 @@ export default [
   {
     label: 'Feedback & Status',
     components: [
-      'Badge', 'Empty', 'IndicatorDot', 'Loader', 'LoaderBars', 'LoaderClock',
-      'LoaderKnob', 'LoaderSpinner', 'ProgressBar', 'Toast', 'Tooltip',
-      'Message', 'ErrorList',
+      'Badge', 'Empty', 'IndicatorDot', 'Loader', 'ProgressBar', 'Toast', 'Tooltip',
+      'Message', 'ErrorList', 'ErrorText',
     ],
   },
   {
     label: 'Media & Files',
     components: [
-      'AudioTrack', 'Calendar', 'FileManager', 'FilePicker', 'FileUploader',
+      'AudioTrack', 'Avatar', 'Calendar', 'FileManager', 'FilePicker', 'FileUploader',
       'ImageCrop', 'ImageDropZone', 'ImagePicker', 'ImageUploader',
       'VideoPlayer', 'VideoUploadPlayer', 'MobilePhone', 'Map', 'MapSelector',
     ],
@@ -45,7 +45,7 @@ export default [
   {
     label: 'Actions & Menus',
     components: [
-      'ActionMenu', 'ClipboardHover', 'CloseButton', 'Dropdown',
+      'ActionMenu', 'ClipboardHover', 'CloseButton', 'IconButton', 'Dropdown',
       'DropdownList', 'Tag',
     ],
   },
@@ -55,7 +55,7 @@ export default [
   },
   {
     label: 'Lists',
-    components: ['ListDefinitions', 'List', 'ListHeader', 'FilterSectionListItem'],
+    components: ['ListDefinitions', 'List', 'ListHeader', 'FilterSectionListItem', 'ListCard', 'ListCardRow'],
   },
   {
     label: 'Icons',

@@ -1,112 +1,183 @@
-import * as Volta from '../../../components';
-
-import ActionMenuExamples from '../../../components/ActionMenu/ActionMenu-examples';
-import BadgeExamples from '../../../components/Badge/Badge-examples';
-import ButtonExamples from '../../../components/Button/Button-examples';
-import CardExamples from '../../../components/Card/Card-examples';
-import CheckboxExamples from '../../../components/Checkbox/Checkbox-examples';
-import CheckboxGroupExamples from '../../../components/CheckboxGroup/CheckboxGroup-examples';
-import ClipboardHoverExamples from '../../../components/ClipboardHover/ClipboardHover-examples';
-import CloseButtonExamples from '../../../components/CloseButton/CloseButton-examples';
-import ComboBoxExamples from '../../../components/ComboBox/ComboBox-examples';
-import DateInputExamples from '../../../components/DateInput/DateInput-examples';
-import DrawerExamples from '../../../components/Drawer/Drawer-examples';
-import DropdownExamples from '../../../components/Dropdown/Dropdown-examples';
-import DropdownListExamples from '../../../components/DropdownList/DropdownList-examples';
-import EmptyExamples from '../../../components/Empty/Empty-examples';
-import FieldExamples from '../../../components/Field/Field-examples';
-import FileManagerExamples from '../../../components/FileManager/FileManager-examples';
-import FilePickerExamples from '../../../components/FilePicker/FilePicker-examples';
-import FileUploaderExamples from '../../../components/FileUploader/FileUploader-examples';
-import FormFieldExamples from '../../../components/FormField/FormField-examples';
-import FullViewExamples from '../../../components/FullView/FullView-examples';
-import GlobalNavExamples from '../../../components/GlobalNav/GlobalNav-examples';
-import IconExamples from '../../../components/Icon/Icon-examples';
-import IndicatorDotExamples from '../../../components/IndicatorDot/IndicatorDot-examples';
-import ListDefinitionsExamples from '../../../components/ListDefinitions/ListDefinitions-examples';
-import LoaderExamples from '../../../components/Loader/Loader-examples';
-import ModalExamples from '../../../components/Modal/Modal-examples';
-import MultiSelectExamples from '../../../components/MultiSelect/MultiSelect-examples';
-import OverlayExamples from '../../../components/Overlay/Overlay-examples';
-import ProgressBarExamples from '../../../components/ProgressBar/ProgressBar-examples';
-import RadioExamples from '../../../components/Radio/Radio-examples';
-import RadioGroupExamples from '../../../components/RadioGroup/RadioGroup-examples';
-import SelectExamples from '../../../components/Select/Select-examples';
-import SplitViewExamples from '../../../components/SplitView/SplitView-examples';
-import TabsExamples from '../../../components/Tabs/Tabs-examples';
-import TagExamples from '../../../components/Tag/Tag-examples';
-import TagInputExamples from '../../../components/TagInput/TagInput-examples';
-import TextEditableExamples from '../../../components/TextEditable/TextEditable-examples';
-import TextFieldExamples from '../../../components/TextField/TextField-examples';
-import ToggleExamples from '../../../components/Toggle/Toggle-examples';
-import VideoPlayerExamples from '../../../components/VideoPlayer/VideoPlayer-examples';
-import VideoUploadPlayerExamples from '../../../components/VideoUploadPlayer/VideoUploadPlayer-examples';
+import ActionLinkExamples from '../../../examples/ActionLink/ActionLink-examples';
+import ActionMenuExamples from '../../../examples/ActionMenu/ActionMenu-examples';
+import AutoCompleteExamples from '../../../examples/AutoComplete/AutoComplete-examples';
+import AudioTrackExamples from '../../../examples/AudioTrack/AudioTrack-examples';
+import AvatarExamples from '../../../examples/Avatar/Avatar-examples';
+import BadgeExamples from '../../../examples/Badge/Badge-examples';
+import ButtonExamples from '../../../examples/Button/Button-examples';
+import CalendarExamples from '../../../examples/Calendar/Calendar-examples';
+import CardExamples from '../../../examples/Card/Card-examples';
+import CheckboxExamples from '../../../examples/Checkbox/Checkbox-examples';
+import CheckboxGroupExamples from '../../../examples/CheckboxGroup/CheckboxGroup-examples';
+import CKEditorExamples from '../../../examples/CKEditor/CKEditor-examples';
+import ClipboardHoverExamples from '../../../examples/ClipboardHover/ClipboardHover-examples';
+import CloseButtonExamples from '../../../examples/CloseButton/CloseButton-examples';
+import ColorPalettePickerExamples from '../../../examples/ColorPalettePicker/ColorPalettePicker-examples';
+import ColorPickerExamples from '../../../examples/ColorPicker/ColorPicker-examples';
+import ComboBoxExamples from '../../../examples/ComboBox/ComboBox-examples';
+import ContentEditableExamples from '../../../examples/ContentEditable/ContentEditable-examples';
+import DateInputExamples from '../../../examples/DateInput/DateInput-examples';
+import DatePickerExamples from '../../../examples/DatePicker/DatePicker-examples';
+import DateFormatExamples from '../../../examples/DatePicker/DateFormat-examples';
+import DialogExamples from '../../../examples/Dialog/Dialog-examples';
+import DrawerExamples from '../../../examples/Drawer/Drawer-examples';
+import DropdownExamples from '../../../examples/Dropdown/Dropdown-examples';
+import DropdownListExamples from '../../../examples/DropdownList/DropdownList-examples';
+import EmptyExamples from '../../../examples/Empty/Empty-examples';
+import ErrorTextExamples from '../../../examples/ErrorText/ErrorText-examples';
+import FieldExamples from '../../../examples/Field/Field-examples';
+import FileManagerExamples from '../../../examples/FileManager/FileManager-examples';
+import FilePickerExamples from '../../../examples/FilePicker/FilePicker-examples';
+import FileUploaderExamples from '../../../examples/FileUploader/FileUploader-examples';
+import BaseFormExamples from '../../../examples/Form/BaseForm-examples';
+import FormFieldExamples from '../../../examples/FormField/FormField-examples';
+import FullViewExamples from '../../../examples/FullView/FullView-examples';
+import GlobalNavExamples from '../../../examples/GlobalNav/GlobalNav-examples';
+import IconExamples from '../../../examples/Icon/Icon-examples';
+import ImageCropExamples from '../../../examples/ImageCrop/ImageCrop-examples';
+import ImageDropZoneExamples from '../../../examples/ImageDropZone/ImageDropZone-examples';
+import ImagePickerExamples from '../../../examples/ImagePicker/ImagePicker-examples';
+import ImageUploaderExamples from '../../../examples/ImageUploader/ImageUploader-examples';
+import IconButtonExamples from '../../../examples/IconButton/IconButton-examples';
+import IndicatorDotExamples from '../../../examples/IndicatorDot/IndicatorDot-examples';
+import LabelExamples from '../../../examples/Label/Label-examples';
+import LayerExamples from '../../../examples/Layer/Layer-examples';
+import LinkExamples from '../../../examples/Link/Link-examples';
+import ListCardExamples from '../../../examples/ListCard/ListCard-examples';
+import ListDefinitionsExamples from '../../../examples/ListDefinitions/ListDefinitions-examples';
+import ListExamples from '../../../examples/List/List-examples';
+import LoaderExamples from '../../../examples/Loader/Loader-examples';
+import MapExamples from '../../../examples/Map/Map-examples';
+import MapSelectorExamples from '../../../examples/MapSelector/MapSelector-examples';
+import MessageExamples from '../../../examples/Message/Message-examples';
+import ErrorListExamples from '../../../examples/Message/ErrorList-examples';
+import MobilePhoneExamples from '../../../examples/MobilePhone/MobilePhone-examples';
+import ModalExamples from '../../../examples/Modal/Modal-examples';
+import AlertExamples from '../../../examples/ModalAlert/Alert-examples';
+import ModalDialogExamples from '../../../examples/ModalDialog/ModalDialog-examples';
+import MultiSelectExamples from '../../../examples/MultiSelect/MultiSelect-examples';
+import NavBarExamples from '../../../examples/NavBar/NavBar-examples';
+import NumericFieldExamples from '../../../examples/NumericField/NumericField-examples';
+import OverlayExamples from '../../../examples/Overlay/Overlay-examples';
+import PageHeadingExamples from '../../../examples/PageHeading/PageHeading-examples';
+import PageWidthExamples from '../../../examples/PageWidth/PageWidth-examples';
+import PopOverExamples from '../../../examples/PopOver/PopOver-examples';
+import ProgressBarExamples from '../../../examples/ProgressBar/ProgressBar-examples';
+import RadioExamples from '../../../examples/Radio/Radio-examples';
+import RadioGroupExamples from '../../../examples/RadioGroup/RadioGroup-examples';
+import RichTextQuillExamples from '../../../examples/RichTextQuill/RichTextQuill-examples';
+import RichTextTinyMCEExamples from '../../../examples/RichTextTinyMCE/RichTextTinyMCE-examples';
+import SearchSelectorExamples from '../../../examples/SearchSelector/SearchSelector-examples';
+import SegmentedControlExamples from '../../../examples/SegmentedControl/SegmentedControl-examples';
+import SelectExamples from '../../../examples/Select/Select-examples';
+import SliderExamples from '../../../examples/Slider/Slider-examples';
+import SplitViewExamples from '../../../examples/SplitView/SplitView-examples';
+import TabBarExamples from '../../../examples/TabBar/TabBar-examples';
+import TabsExamples from '../../../examples/Tabs/Tabs-examples';
+import TabsRoutedExamples from '../../../examples/TabsRouted/TabsRouted-examples';
+import TagExamples from '../../../examples/Tag/Tag-examples';
+import TagInputExamples from '../../../examples/TagInput/TagInput-examples';
+import TextBoxExamples from '../../../examples/TextBox/TextBox-examples';
+import TextEditableExamples from '../../../examples/TextEditable/TextEditable-examples';
+import TextFieldExamples from '../../../examples/TextField/TextField-examples';
+import TextareaExamples from '../../../examples/Textarea/Textarea-examples';
+import TimePickerExamples from '../../../examples/TimePicker/TimePicker-examples';
+import ToastExamples from '../../../examples/Toast/Toast-examples';
+import ToggleExamples from '../../../examples/Toggle/Toggle-examples';
+import TooltipExamples from '../../../examples/Tooltip/Tooltip-examples';
+import VideoPlayerExamples from '../../../examples/VideoPlayer/VideoPlayer-examples';
+import VideoUploadPlayerExamples from '../../../examples/VideoUploadPlayer/VideoUploadPlayer-examples';
 
 const curated = [
+  ActionLinkExamples,
   ActionMenuExamples,
+  AutoCompleteExamples,
+  AudioTrackExamples,
+  AvatarExamples,
   BadgeExamples,
   ButtonExamples,
+  CalendarExamples,
   CardExamples,
   CheckboxExamples,
   CheckboxGroupExamples,
+  CKEditorExamples,
   ClipboardHoverExamples,
   CloseButtonExamples,
+  ColorPalettePickerExamples,
+  ColorPickerExamples,
   ComboBoxExamples,
+  ContentEditableExamples,
   DateInputExamples,
+  DatePickerExamples,
+  DateFormatExamples,
+  DialogExamples,
   DrawerExamples,
   DropdownExamples,
   DropdownListExamples,
   EmptyExamples,
+  ErrorTextExamples,
   FieldExamples,
   FileManagerExamples,
   FilePickerExamples,
   FileUploaderExamples,
+  BaseFormExamples,
   FormFieldExamples,
   FullViewExamples,
   GlobalNavExamples,
   IconExamples,
+  ImageCropExamples,
+  ImageDropZoneExamples,
+  ImagePickerExamples,
+  ImageUploaderExamples,
+  IconButtonExamples,
   IndicatorDotExamples,
+  LabelExamples,
+  LayerExamples,
+  LinkExamples,
+  ListCardExamples,
   ListDefinitionsExamples,
+  ListExamples,
   LoaderExamples,
+  MapExamples,
+  MapSelectorExamples,
+  MessageExamples,
+  ErrorListExamples,
+  MobilePhoneExamples,
   ModalExamples,
+  AlertExamples,
+  ModalDialogExamples,
   MultiSelectExamples,
+  NavBarExamples,
+  NumericFieldExamples,
   OverlayExamples,
+  PageHeadingExamples,
+  PageWidthExamples,
+  PopOverExamples,
   ProgressBarExamples,
   RadioExamples,
   RadioGroupExamples,
+  RichTextQuillExamples,
+  RichTextTinyMCEExamples,
+  SearchSelectorExamples,
+  SegmentedControlExamples,
   SelectExamples,
+  SliderExamples,
   SplitViewExamples,
+  TabBarExamples,
   TabsExamples,
+  TabsRoutedExamples,
   TagExamples,
   TagInputExamples,
+  TextBoxExamples,
   TextEditableExamples,
   TextFieldExamples,
+  TextareaExamples,
+  TimePickerExamples,
+  ToastExamples,
   ToggleExamples,
+  TooltipExamples,
   VideoPlayerExamples,
   VideoUploadPlayerExamples,
 ];
 
-const curatedNames = curated.map((c) => c.name);
-
-// Everything the library exports that doesn't have a curated set of
-// examples yet gets a minimal default-props render instead, so the
-// styleguide always covers every component in components/index.js.
-const generic = Object.keys(Volta)
-  .filter((name) => name !== 'Theme' && !curatedNames.includes(name))
-  .sort()
-  .map((name) => {
-    const Component = Volta[name];
-    return {
-      name,
-      description: 'No curated examples yet -- showing a default instance.',
-      examples: [
-        {
-          name: 'Default',
-          code: `<${name} />`,
-          output: <Component />,
-        },
-      ],
-    };
-  });
-
-export default [...curated, ...generic].sort((a, b) => a.name.localeCompare(b.name));
+export default curated.slice().sort((a, b) => a.name.localeCompare(b.name));

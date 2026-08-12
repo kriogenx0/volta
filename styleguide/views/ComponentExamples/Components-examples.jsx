@@ -17,7 +17,7 @@ const ComponentExamples = () => {
 
   // Split view
   return (
-    <div className="v-component_examples">
+    <div className="view-components">
       <div className="component_examples-list">
         {componentGroups.map((group) => (
           <div className="component_examples-group" key={group.label}>

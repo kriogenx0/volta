@@ -1,5 +1,5 @@
 const Layout = () => (
-  <section className="view-colors">
+  <section className="view-layout">
     <header className="section-header">
       <div>
         <h2>Layout</h2>

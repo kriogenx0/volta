@@ -1,6 +1,6 @@
-@use "../../mixins" as *;
+@use "../../../mixins" as *;
 
-.v-component_examples {
+.view-components {
   display: flex;
   align-items: stretch;
   min-height: calc(100vh - 60px);
@@ -168,7 +168,7 @@
 }
 
 @media (max-width: 760px) {
-  .v-component_examples {
+  .view-components {
     display: block;
 
     .component_examples-list {
