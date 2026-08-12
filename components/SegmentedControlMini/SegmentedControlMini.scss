@@ -1,0 +1,33 @@
+.volta-segmented_control_mini {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 8px;
+  background: var(--v-color-base-more-subtle);
+
+  button {
+    padding: 4px 9px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--v-color-trim-less-subtle);
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 650;
+    line-height: 16px;
+    transition: background-color var(--v-anim-speed), box-shadow var(--v-anim-speed), color var(--v-anim-speed);
+
+    &:hover:not(.is-active) { color: var(--v-color-trim); }
+
+    &:focus-visible {
+      outline: 2px solid var(--v-accent);
+      outline-offset: 1px;
+    }
+
+    &.is-active {
+      background: var(--v-color-base);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
+      color: var(--v-color-trim);
+      cursor: default;
+    }
+  }
+}
