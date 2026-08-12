@@ -12,6 +12,7 @@ import CheckboxGroupExamples from '../../../examples/CheckboxGroup/CheckboxGroup
 import CKEditorExamples from '../../../examples/CKEditor/CKEditor-examples';
 import ClipboardHoverExamples from '../../../examples/ClipboardHover/ClipboardHover-examples';
 import CloseButtonExamples from '../../../examples/CloseButton/CloseButton-examples';
+import CodeExamples from '../../../examples/Code/Code-examples';
 import ColorPalettePickerExamples from '../../../examples/ColorPalettePicker/ColorPalettePicker-examples';
 import ColorPickerExamples from '../../../examples/ColorPicker/ColorPicker-examples';
 import ComboBoxExamples from '../../../examples/ComboBox/ComboBox-examples';
@@ -103,6 +104,7 @@ const curated = [
   CKEditorExamples,
   ClipboardHoverExamples,
   CloseButtonExamples,
+  CodeExamples,
   ColorPalettePickerExamples,
   ColorPickerExamples,
   ComboBoxExamples,

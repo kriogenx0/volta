@@ -1,0 +1,24 @@
+@use "../../mixins" as *;
+
+.volta-code {
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 12px;
+
+  pre {
+    margin: 0 !important;
+  }
+}
+
+.volta-code-inline {
+  display: inline;
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  font-size: 0.9em;
+  background-color: $color_base_subtle;
+  color: $color_trim;
+  @include dark {
+    background-color: $color_base_subtle_dark;
+    color: $color_trim_dark;
+  }
+}

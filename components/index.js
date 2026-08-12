@@ -14,6 +14,7 @@ import CheckboxGroup from './CheckboxGroup/CheckboxGroup';
 import CKEditor from './CKEditor/CKEditor';
 import ClipboardHover from './ClipboardHover/ClipboardHover';
 import CloseButton from './CloseButton';
+import Code from './Code/Code';
 import ColorPalettePicker from './ColorPalettePicker/ColorPalettePicker';
 import ColorPicker from './ColorPicker/ColorPicker';
 import ComboBox from './ComboBox/ComboBox';
@@ -106,6 +107,7 @@ export {
   CKEditor,
   ClipboardHover,
   CloseButton,
+  Code,
   ColorPalettePicker,
   ColorPicker,
   ComboBox,

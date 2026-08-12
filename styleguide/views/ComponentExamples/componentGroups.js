@@ -51,7 +51,7 @@ export default [
   },
   {
     label: 'Rich Text',
-    components: ['CKEditor', 'ContentEditable', 'RichTextQuill', 'RichTextTinyMCE'],
+    components: ['CKEditor', 'ContentEditable', 'RichTextQuill', 'RichTextTinyMCE', 'Code'],
   },
   {
     label: 'Lists',

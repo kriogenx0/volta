@@ -1,6 +1,6 @@
 import React from 'react';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
+import Code from '../../../components/Code';
 
 import ExampleErrorBoundary from './ExampleErrorBoundary';
 
@@ -29,13 +29,7 @@ const ComponentExample = ({ component }) => {
                 </ExampleErrorBoundary>
               </div>
               <div className="example-code">
-                <SyntaxHighlighter
-                  language="jsx"
-                  style={oneDark}
-                  customStyle={{ margin: 0, borderRadius: '0 0 6px 6px', fontSize: '12px' }}
-                >
-                  {example.code}
-                </SyntaxHighlighter>
+                <Code language="jsx">{example.code}</Code>
               </div>
             </div>
           </div>

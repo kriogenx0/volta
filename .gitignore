@@ -59,3 +59,6 @@ npm-debug.log*
 *.tsbuildinfo
 
 __*
+# Jest's mock convention needs to be trackable despite the __* rule above.
+!__mocks__
+!__mocks__/**
