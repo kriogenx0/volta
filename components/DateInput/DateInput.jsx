@@ -3,7 +3,7 @@ import { format as formatDate } from 'date-fns';
 
 import { toQaId } from '../../util/formats';
 import { dateFormat, isDate } from '../../util/dateTimeUtils';
-import Readonly from '../DateTime/Readonly/Readonly';
+import Readonly from './Readonly';
 import TextInput from '../TextField/TextField';
 
 import './DateInput.scss';
@@ -37,7 +37,7 @@ const DateInput = ({
 
   if (readonly) {
     return (
-      <Readonly data-qa-id={qaId}>
+      <Readonly data-qa-id={qaId} className="volta-date_input">
         {isDate(value) ? formatDate(value, format) : ''}
       </Readonly>
     );
@@ -46,6 +46,7 @@ const DateInput = ({
   return (
     <TextInput
       {...inputProps}
+      className="volta-date_input"
       type="date"
       data-qa-id={qaId}
       disabled={disabled}

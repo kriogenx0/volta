@@ -174,9 +174,9 @@ missing:
 - `DatePicker/DateTimeInput.jsx` / `DateTimeRange.jsx` — need `jquery` +
   the xdsoft jQuery datetimepicker plugin, and `formsy-react`. Use
   the maintained `DateInput` or `DatePicker/DatePicker.jsx` instead.
-- `Search/SearchStore.jsx` and `ListTable/ListTable.jsx` /
-  `ListTableRow.jsx` — expect Backbone-style collections/models
-  (`.get()`, `.models`, `.at()`, change listeners); `ListTable` also needs
+- `Search/SearchStore.jsx` and `TableList/TableList.jsx` /
+  `TableListRow.jsx` — expect Backbone-style collections/models
+  (`.get()`, `.models`, `.at()`, change listeners); `TableList` also needs
   `jquery-ui`'s sortable plugin for drag-to-reorder.
 - `Map/UserMap.jsx` — needs `leaflet` + `leaflet-draw` and Backbone-style
   models; unrelated to `Map/Map.jsx` (a Google Maps address-search
