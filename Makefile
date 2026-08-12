@@ -1,35 +1,41 @@
 .DEFAULT_GOAL := start
 
-install:
+# One-time (or as-needed) project setup: install npm dependencies.
+setup:
 	npm install
 
+# Kept as an alias for setup, for anyone used to the old target name.
+install: setup
+
 # Builds the component library + styleguide app, then serves the styleguide
-start: install
+start: setup
 	npm start
 
-dev: install
+# Vite dev server with HMR. Does NOT run setup -- run `make setup` yourself
+# first if node_modules isn't installed yet, so day-to-day `make dev` stays fast.
+dev:
 	npm run dev
 
 # Dependencies are installed while building the styleguide image.
 run:
 	npm run dev
 
-build: install
+build: setup
 	npm run build
 
-build-app: install
+build-app: setup
 	npm run build-app
 
-watch: install
+watch: setup
 	npm run watch
 
-watch-app: install
+watch-app: setup
 	npm run watch-app
 
-test: install
+test: setup
 	npm test
 
-lint: install
+lint: setup
 	npm run lint
 
 clean:
@@ -37,9 +43,10 @@ clean:
 
 help:
 	@echo "Available targets:"
-	@echo "  install     Install npm dependencies"
+	@echo "  setup       Install npm dependencies"
+	@echo "  install     Alias for setup"
 	@echo "  start       Build components, then serve the styleguide (default)"
-	@echo "  dev         Vite dev server for the styleguide, with HMR"
+	@echo "  dev         Vite dev server for the styleguide, with HMR (run 'make setup' first)"
 	@echo "  run         Start the styleguide without installing dependencies"
 	@echo "  build       Build the component library bundle"
 	@echo "  build-app   Build the styleguide app bundle"
@@ -49,4 +56,4 @@ help:
 	@echo "  lint        Lint components/"
 	@echo "  clean       Remove build artifacts (compiled/, node_modules/.cache)"
 
-.PHONY: install start dev run build build-app watch watch-app test lint clean help
+.PHONY: setup install start dev run build build-app watch watch-app test lint clean help
