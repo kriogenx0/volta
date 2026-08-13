@@ -47,6 +47,7 @@ import ListCardExamples from '../../../examples/ListCard/ListCard-examples';
 import ListDefinitionsExamples from '../../../examples/ListDefinitions/ListDefinitions-examples';
 import ListExamples from '../../../examples/List/List-examples';
 import LoaderExamples from '../../../examples/Loader/Loader-examples';
+import LoaderLinearProgressExamples from '../../../examples/LoaderLinearProgress/LoaderLinearProgress-examples';
 import MapExamples from '../../../examples/Map/Map-examples';
 import MapSelectorExamples from '../../../examples/MapSelector/MapSelector-examples';
 import MessageExamples from '../../../examples/Message/Message-examples';
@@ -82,7 +83,7 @@ import TextEditableExamples from '../../../examples/TextEditable/TextEditable-ex
 import TextFieldExamples from '../../../examples/TextField/TextField-examples';
 import TextareaExamples from '../../../examples/Textarea/Textarea-examples';
 import TimePickerExamples from '../../../examples/TimePicker/TimePicker-examples';
-import ToastExamples from '../../../examples/Toast/Toast-examples';
+import ToastMessageExamples from '../../../examples/ToastMessage/ToastMessage-examples';
 import ToggleExamples from '../../../examples/Toggle/Toggle-examples';
 import TooltipExamples from '../../../examples/Tooltip/Tooltip-examples';
 import VideoPlayerExamples from '../../../examples/VideoPlayer/VideoPlayer-examples';
@@ -138,6 +139,7 @@ const curated = [
   ListDefinitionsExamples,
   ListExamples,
   LoaderExamples,
+  LoaderLinearProgressExamples,
   MapExamples,
   MapSelectorExamples,
   MessageExamples,
@@ -173,7 +175,7 @@ const curated = [
   TextFieldExamples,
   TextareaExamples,
   TimePickerExamples,
-  ToastExamples,
+  ToastMessageExamples,
   ToggleExamples,
   TooltipExamples,
   VideoPlayerExamples,

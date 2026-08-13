@@ -30,7 +30,7 @@ export default [
   {
     label: 'Feedback & Status',
     components: [
-      'Badge', 'Empty', 'IndicatorDot', 'Loader', 'ProgressBar', 'Toast', 'Tooltip',
+      'Badge', 'Empty', 'IndicatorDot', 'Loader', 'LoaderLinearProgress', 'ProgressBar', 'ToastMessage', 'Tooltip',
       'Message', 'ErrorList', 'ErrorText',
     ],
   },

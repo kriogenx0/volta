@@ -1,0 +1,33 @@
+.volta-loader_linear_progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1200;
+  height: 3px;
+  background: var(--v-color-base-subtle);
+  overflow: hidden;
+
+  .volta-loader_linear_progress-bar {
+    height: 100%;
+    background: var(--v-accent);
+    transition: width calc(var(--v-anim-speed) * 2) var(--v-anim-ease);
+  }
+
+  &.is-indeterminate .volta-loader_linear_progress-bar {
+    width: 40%;
+    transform-origin: 0 0;
+    transition: none;
+    animation: volta-loader-linear-progress-indeterminate 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes volta-loader-linear-progress-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(350%);
+  }
+}

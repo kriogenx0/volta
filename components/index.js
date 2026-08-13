@@ -51,6 +51,7 @@ import ListCard, { ListCardRow } from './ListCard/ListCard';
 import ListDefinitions from './ListDefinitions/ListDefinitions';
 import List, { ListHeader, FilterSectionListItem } from './List';
 import Loader from './Loader/Loader';
+import LoaderLinearProgress from './LoaderLinearProgress/LoaderLinearProgress';
 import Map from './Map/Map';
 import MapSelector from './MapSelector/MapSelector';
 import Message from './Message/Message';
@@ -86,7 +87,7 @@ import TextEditable from './TextEditable/TextEditable';
 import TextField from './TextField/TextField';
 import Textarea from './Textarea/Textarea';
 import TimePicker from './TimePicker/TimePicker';
-import Toast from './Toast/Toast';
+import ToastMessage from './ToastMessage/ToastMessage';
 import Toggle from './Toggle/Toggle';
 import Tooltip from './Tooltip/Tooltip';
 import VideoPlayer from './VideoPlayer/VideoPlayer';
@@ -150,6 +151,7 @@ export {
   ListHeader,
   FilterSectionListItem,
   Loader,
+  LoaderLinearProgress,
   Map,
   MapSelector,
   Message,
@@ -185,7 +187,7 @@ export {
   TextField,
   Textarea,
   TimePicker,
-  Toast,
+  ToastMessage,
   Toggle,
   Tooltip,
   VideoPlayer,

@@ -1,0 +1,62 @@
+.volta-toast_message_container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 320px;
+  max-width: calc(100vw - 40px);
+}
+
+.volta-toast_message {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--v-color-base);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .16), 0 0 0 1px var(--v-color-base-subtle);
+  animation: volta-toast-message-enter var(--v-anim-speed) var(--v-anim-ease);
+
+  &.is-leaving {
+    animation: volta-toast-message-leave var(--v-anim-speed) var(--v-anim-ease) forwards;
+  }
+
+  .volta-icon {
+    flex: 0 0 auto;
+    margin-top: 1px;
+  }
+
+  .volta-toast_message-text {
+    flex: 1 1 auto;
+    color: var(--v-color-trim);
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .volta-close_button {
+    flex: 0 0 auto;
+    margin: -4px -4px 0 0;
+  }
+
+  &.volta-toast_message-info .volta-icon { color: var(--v-accent); }
+  &.volta-toast_message-success .volta-icon { color: var(--v-color-success); }
+  &.volta-toast_message-warning .volta-icon { color: var(--v-color-warning); }
+  &.volta-toast_message-error .volta-icon { color: var(--v-color-danger); }
+}
+
+@keyframes volta-toast-message-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(.98);
+  }
+}
+
+@keyframes volta-toast-message-leave {
+  to {
+    opacity: 0;
+    transform: translateX(24px) scale(.98);
+  }
+}
