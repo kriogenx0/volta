@@ -12,8 +12,20 @@
 }
 
 // Dark Mode
+//
+// Follows the OS preference until an explicit [data-theme] override is set
+// (Theme.setColorScheme('dark'|'light') in components/theme.js) - matches the
+// same dual-condition pattern _colors.scss uses for its own :root tokens, so
+// components using this mixin actually respond to setColorScheme() instead of
+// only ever following prefers-color-scheme.
 @mixin dark {
   @media (prefers-color-scheme: dark) {
+    @at-root :root:not([data-theme]) & {
+      @content;
+    }
+  }
+
+  @at-root :root[data-theme='dark'] & {
     @content;
   }
 }
