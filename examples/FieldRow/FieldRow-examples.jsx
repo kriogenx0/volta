@@ -1,48 +1,48 @@
-import FormField from '../../components/FormField/FormField';
+import FieldRow from '../../components/FieldRow/FieldRow';
 import TextField from '../../components/TextField/TextField';
 import Select from '../../components/Select/Select';
 
 export default {
-  name: 'FormField',
-  description: 'A labeled form field container with consistent spacing.',
+  name: 'FieldRow',
+  description: 'A labeled form row with a responsive side-by-side layout.',
   examples: [
     {
       name: 'Text input',
-      code: `<FormField label="First Name">
+      code: `<FieldRow label="First Name">
   <TextField placeholder="Enter first name" />
-</FormField>`,
+</FieldRow>`,
       output: (
-        <FormField label="First Name">
+        <FieldRow label="First Name">
           <TextField placeholder="Enter first name" />
-        </FormField>
+        </FieldRow>
       )
     },
     {
       name: 'Select input',
-      code: `<FormField label="Country">
+      code: `<FieldRow label="Country">
   <Select name="country" options={[
     { label: 'United States', value: 'us' },
     { label: 'Canada', value: 'ca' },
   ]} />
-</FormField>`,
+</FieldRow>`,
       output: (
-        <FormField label="Country">
+        <FieldRow label="Country">
           <Select name="country" options={[
             { label: 'United States', value: 'us' },
             { label: 'Canada', value: 'ca' },
           ]} />
-        </FormField>
+        </FieldRow>
       )
     },
     {
       name: 'Centered layout',
-      code: `<FormField label="Accept Terms" centered>
+      code: `<FieldRow label="Accept Terms" centered>
   <TextField placeholder="Type 'accept'" />
-</FormField>`,
+</FieldRow>`,
       output: (
-        <FormField label="Accept Terms" centered>
+        <FieldRow label="Accept Terms" centered>
           <TextField placeholder="Type 'accept'" />
-        </FormField>
+        </FieldRow>
       )
     },
   ]

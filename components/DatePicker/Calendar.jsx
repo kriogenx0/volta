@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import Dater from './Dater';
 
 import './Calendar.scss';
 
-const Calendar = ({ date, onDateSelect }) => {
+const Calendar = ({ date, minDate, maxDate, onDateSelect }) => {
   const [dater, setDater] = useState(null);
   const [currentDay, setCurrentDay] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(null);
@@ -22,19 +23,23 @@ const Calendar = ({ date, onDateSelect }) => {
 
   useEffect(() => {
     loadDater(new Dater(date || null));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [date]);
 
   const handlePreviousClick = () => loadDater(dater.previousMonth());
   const handleNextClick = () => loadDater(dater.nextMonth());
   const handleMonthClick = () => loadDater(dater.now());
 
   const selectDay = (dayNumber) => {
+    if (!dayNumber) return;
     const newDater = dater.day(dayNumber);
+    const selectedDate = newDater.cloneDate();
+
+    if ((minDate && selectedDate < minDate) || (maxDate && selectedDate > maxDate)) return;
+
     loadDater(newDater);
 
     if (onDateSelect) {
-      onDateSelect(newDater);
+      onDateSelect(selectedDate);
     }
   };
 
@@ -56,9 +61,11 @@ const Calendar = ({ date, onDateSelect }) => {
 
     // POPULATE MONTH DAYS
     for (let i = 1; i <= daysInMonth; i++) {
+      const candidate = dater.clone().day(i).cloneDate();
+      const disabled = (minDate && candidate < minDate) || (maxDate && candidate > maxDate);
       days.push({
         value: i,
-        active: true,
+        active: !disabled,
         current: currentDay === i
       });
     }
@@ -66,7 +73,7 @@ const Calendar = ({ date, onDateSelect }) => {
     return _.map(days, (day, i) => {
       let dayClassName = `calendar-day ${day.active ? 'day-active' : 'day-inactive'}${day.current ? ' day-current' : ''}`;
       return (
-        <div className={dayClassName} key={i} onClick={( () => { return selectDay(day.value); } )}>
+        <div className={dayClassName} key={i} onClick={() => day.active && selectDay(day.value)}>
           {day.value}
         </div>
       );
@@ -90,6 +97,13 @@ const Calendar = ({ date, onDateSelect }) => {
       <div className='clear' />
     </div>
   );
+};
+
+Calendar.propTypes = {
+  date: PropTypes.instanceOf(Date),
+  minDate: PropTypes.instanceOf(Date),
+  maxDate: PropTypes.instanceOf(Date),
+  onDateSelect: PropTypes.func,
 };
 
 export default Calendar;

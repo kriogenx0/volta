@@ -1,27 +1,21 @@
-.volta-text_editable
-{
-  display: inline-block;
+@use "../../mixins" as *;
+
+.volta-text_editable {
   border-radius: 5px;
+  display: inline-block;
+  transition: background-color $anim-speed-normal, color $anim-speed-normal;
 
-  &:focus,
-  &:hover
-  {
-    // background-color: #f1f1f1;
-  }
-
-  &:hover
-  {
+  &:hover:not(:focus) {
+    background-color: $color_base_more_subtle;
+    color: $color_trim;
     cursor: pointer;
-    background-color: #f1f1f1;
-
-    &:focus
-    {
-      background-color: inherit;
-    }
   }
 
-  &:focus
-  {
-    cursor: inherit;
+  &:focus {
+    background-color: transparent;
+    color: $color_trim;
+    cursor: text;
+    outline: 2px solid $color_active;
+    outline-offset: 2px;
   }
 }

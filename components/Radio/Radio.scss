@@ -3,12 +3,56 @@
 .volta-radio {
   @include no_select;
 
-  > * {
-    vertical-align: middle;
-  }
+  align-items: center;
+  color: $color_trim;
+  display: inline-flex;
+  gap: 8px;
+  line-height: 1.35;
 
   input {
-    margin: 0 7px 0 0;
+    appearance: none;
+    background: $color_base;
+    border: 1.5px solid $color_base_less_subtle;
+    border-radius: 50%;
+    box-sizing: border-box;
+    display: inline-grid;
+    flex: 0 0 auto;
+    height: 18px;
+    margin: 0;
+    place-content: center;
+    transition:
+      background-color $anim-speed-normal,
+      border-color $anim-speed-normal,
+      box-shadow $anim-speed-normal,
+      transform $anim-speed-normal;
+    width: 18px;
+
+    &::before {
+      background: $color_white;
+      border-radius: 50%;
+      content: '';
+      height: 8px;
+      opacity: 0;
+      transform: scale(.25);
+      transition: opacity $anim-speed-normal, transform $anim-slight-bounce $anim-speed-normal;
+      width: 8px;
+    }
+
+    &:checked {
+      background: $color_active;
+      border-color: $color_active;
+
+      &::before {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 3px $color_active_subtle;
+      outline: 2px solid $color_active;
+      outline-offset: 2px;
+    }
   }
 
   span {
@@ -23,15 +67,30 @@
 
       input {
         border-color: $color_active;
+        transform: translateY(-1px);
       }
+    }
+
+    &:active input {
+      transform: scale(.92);
     }
   }
 
   &.radio-disabled {
     cursor: not-allowed;
+    opacity: .55;
+
+    input {
+      background: $color_base_more_subtle;
+      border-color: $color_inactive;
+    }
+
+    input:checked {
+      background: $color_inactive;
+    }
 
     span {
-      color: #c5c5c5;
+      color: $color_inactive;
     }
   }
 }

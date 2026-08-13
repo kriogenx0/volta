@@ -7,7 +7,6 @@ const Radio = ({ title, disabled, ...props}) => {
     <label className={`volta-radio${disabled ? ' radio-disabled' : ''}`} title={title}>
       <input
         type="radio"
-        label={title}
         disabled={disabled}
         {...props}
       />

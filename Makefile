@@ -1,5 +1,8 @@
 .DEFAULT_GOAL := start
 
+DOCKER_IMAGE ?= volta-styleguide
+STYLEGUIDE_PORT ?= 8888
+
 # One-time (or as-needed) project setup: install npm dependencies.
 setup:
 	npm install
@@ -38,6 +41,12 @@ test: setup
 lint: setup
 	npm run lint
 
+docker-build:
+	docker build -f styleguide/Dockerfile -t $(DOCKER_IMAGE) .
+
+docker-run: docker-build
+	docker run --rm -p $(STYLEGUIDE_PORT):8888 $(DOCKER_IMAGE)
+
 clean:
 	rm -rf components/compiled public/compiled styleguide/dist node_modules/.cache
 
@@ -54,6 +63,8 @@ help:
 	@echo "  watch-app   Rebuild the styleguide app on change"
 	@echo "  test        Run the test suite"
 	@echo "  lint        Lint components/"
+	@echo "  docker-build  Build the styleguide Docker image"
+	@echo "  docker-run    Build and run the styleguide in Docker on port $(STYLEGUIDE_PORT)"
 	@echo "  clean       Remove build artifacts (compiled/, node_modules/.cache)"
 
-.PHONY: setup install start dev run build build-app watch watch-app test lint clean help
+.PHONY: setup install start dev run build build-app watch watch-app test lint docker-build docker-run clean help

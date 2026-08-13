@@ -6,7 +6,8 @@
   }
 
   .tag {
-    display: inline-block;
+    align-items: center;
+    display: inline-flex;
     padding: 6px 10px;
     margin: 5px;
     border-radius: 10px;
@@ -26,17 +27,53 @@
     }
 
     &.deletable {
+      padding-right: 6px;
+    }
+
+    .tag_input-remove {
+      align-items: center;
+      background: transparent;
+      border: 0;
+      border-radius: 50%;
+      color: $color_trim_less_subtle;
       cursor: pointer;
-    }
-
-    .control-icon {
-      color: #ccc;
+      display: inline-flex;
+      height: 20px;
+      justify-content: center;
       margin-left: 5px;
-    }
+      padding: 0;
+      transition: background-color $anim-speed-normal, color $anim-speed-normal;
+      width: 20px;
 
-    &:hover {
-      .control-icon {
-        color: #000;
+      span,
+      span::after {
+        background: currentColor;
+        border-radius: 1px;
+        content: '';
+        display: block;
+        height: 2px;
+        position: absolute;
+        transform: rotate(45deg);
+        width: 10px;
+      }
+
+      span {
+        position: relative;
+
+        &::after {
+          transform: rotate(90deg);
+        }
+      }
+
+      &:hover {
+        background: $color_base_less_subtle;
+        color: $color_trim;
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 3px $color_active_subtle;
+        outline: 2px solid $color_active;
+        outline-offset: 1px;
       }
     }
   }

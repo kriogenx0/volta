@@ -1,0 +1,41 @@
+@use '../../mixins' as *;
+
+.volta-field_row {
+  align-items: flex-start;
+  border-bottom: 1px solid $color_base_less_subtle;
+  border-collapse: collapse;
+  border-top: 1px solid $color_base_less_subtle;
+  display: flex;
+  margin-bottom: -1px;
+  padding: 20px;
+
+  &.field_row-centered {
+    align-items: center;
+  }
+
+  @include mobile {
+    display: block;
+  }
+
+  .field_row-label {
+    font-weight: 400;
+    max-width: 280px;
+    min-height: 1px;
+    min-width: 150px;
+    padding-right: 10px;
+    width: 25%;
+
+    @include mobile {
+      margin-bottom: 5px;
+      max-width: none;
+      min-height: auto;
+      min-width: auto;
+      padding-right: 0;
+      width: auto;
+    }
+  }
+
+  .field_row-body {
+    flex-grow: 1;
+  }
+}

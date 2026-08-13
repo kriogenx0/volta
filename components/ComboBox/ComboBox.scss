@@ -2,6 +2,13 @@
 {
   position: relative;
 
+  > input,
+  > .contents button
+  {
+    font-family: inherit;
+    font-size: 14px;
+  }
+
   > .contents
   {
     display: none;

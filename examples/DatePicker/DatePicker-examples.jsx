@@ -2,7 +2,7 @@ import DatePicker from '../../components/DatePicker/DatePicker';
 
 export default {
   name: 'DatePicker',
-  description: 'No curated examples yet -- showing a default instance.',
+  description: 'A formatted date field that opens CalendarMini in a Dropdown.',
   examples: [
     {
       name: 'Default',

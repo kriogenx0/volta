@@ -21,6 +21,7 @@ import ComboBox from './ComboBox/ComboBox';
 import ContentEditable from './ContentEditable/ContentEditable';
 import DateInput from './DateInput/DateInput';
 import DatePicker from './DatePicker/DatePicker';
+import CalendarMini from './DatePicker/CalendarMini';
 import DateFormat from './DatePicker/DateFormat';
 import Dialog from './Dialog/Dialog';
 import Drawer from './Drawer/Drawer';
@@ -33,7 +34,7 @@ import FileManager from './FileManager/FileManager';
 import FilePicker from './FilePicker/FilePicker';
 import FileUploader from './FileUploader/FileUploader';
 import { BaseForm, BaseInput, FormRow } from './Form';
-import FormField from './FormField/FormField';
+import FieldRow from './FieldRow/FieldRow';
 import FullView from './FullView/FullView';
 import GlobalNav from './GlobalNav/GlobalNav';
 import Icon from './Icon/Icon';
@@ -114,6 +115,7 @@ export {
   ContentEditable,
   DateInput,
   DatePicker,
+  CalendarMini,
   DateFormat,
   Dialog,
   Drawer,
@@ -128,7 +130,7 @@ export {
   BaseForm,
   BaseInput,
   FormRow,
-  FormField,
+  FieldRow,
   FullView,
   GlobalNav,
   Icon,

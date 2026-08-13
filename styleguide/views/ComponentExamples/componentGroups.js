@@ -5,7 +5,7 @@ export default [
     label: 'Forms & Inputs',
     components: [
       'Button', 'Checkbox', 'CheckboxGroup', 'ComboBox', 'DateInput',
-      'DatePicker', 'DateFormat', 'Field', 'FormField', 'BaseForm',
+      'DatePicker', 'Field', 'FieldRow', 'BaseForm',
       'BaseInput', 'FormRow', 'Label', 'MultiSelect', 'NumericField',
       'Radio', 'RadioGroup', 'Select', 'Slider', 'TagInput', 'TextBox',
       'Textarea', 'TextEditable', 'TextField', 'TimePicker', 'Toggle',

@@ -22,7 +22,7 @@ const InteractiveDateInput = () => {
 
 export default {
   name: 'DateInput',
-  description: 'A native, accessible date input with Date-based values and optional range constraints.',
+  description: 'Compatibility alias for DatePicker, with Date-based values and optional range constraints.',
   examples: [
     {
       name: 'Date with constraints',

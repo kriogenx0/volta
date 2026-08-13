@@ -3,7 +3,6 @@ import _ from "lodash";
 import PropTypes from 'prop-types';
 
 import TextField from '../TextField';
-import Icon from '../Icon';
 
 import './TagInput.scss';
 
@@ -22,7 +21,7 @@ const TagInput = ({ tags, value, onChange, ...props }) => {
     const tag = e.target.value;
     if (!tag.length) return;
 
-    const newTags = tagState || [];
+    const newTags = [...(tagState || [])];
     if (!_.includes(newTags, tag)) newTags.push(tag);
 
     setInputText('');
@@ -44,8 +43,16 @@ const TagInput = ({ tags, value, onChange, ...props }) => {
       <TextField name='tags' value={inputText} onChange={handleInputChange} onKeyPress={handleInputKeyPress} {...props} />
       <div className="tag_input-tags">
         {_.map(tagState, tag => (
-          <span className='tag deletable' key={tag} onClick={handleRemoveTag.bind(null, tag)}>
-            {tag} <Icon type='xmark' />
+          <span className='tag deletable' key={tag}>
+            <span>{tag}</span>
+            <button
+              type="button"
+              className="tag_input-remove"
+              aria-label={`Remove ${tag}`}
+              onClick={() => handleRemoveTag(tag)}
+            >
+              <span aria-hidden="true" />
+            </button>
           </span>
         ))}
       </div>

@@ -66,9 +66,16 @@ const NumericField = (props) => {
     }
   };
 
+  const inputProps = { ...props };
+  delete inputProps.focusValue;
+  delete inputProps.format;
+  delete inputProps.onBlurChange;
+  delete inputProps.onBlurFormat;
+  delete inputProps.whenTypingFormat;
+
   return (
     <div className="volta-numericfield">
-      <input type="text" {...props}
+      <input {...inputProps} type="number"
              onChange={handleOnChange}
              onFocus={handleOnFocus}
              onBlur={handleOnBlur}

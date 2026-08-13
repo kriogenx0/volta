@@ -19,7 +19,6 @@ import ComboBoxExamples from '../../../examples/ComboBox/ComboBox-examples';
 import ContentEditableExamples from '../../../examples/ContentEditable/ContentEditable-examples';
 import DateInputExamples from '../../../examples/DateInput/DateInput-examples';
 import DatePickerExamples from '../../../examples/DatePicker/DatePicker-examples';
-import DateFormatExamples from '../../../examples/DatePicker/DateFormat-examples';
 import DialogExamples from '../../../examples/Dialog/Dialog-examples';
 import DrawerExamples from '../../../examples/Drawer/Drawer-examples';
 import DropdownExamples from '../../../examples/Dropdown/Dropdown-examples';
@@ -31,7 +30,7 @@ import FileManagerExamples from '../../../examples/FileManager/FileManager-examp
 import FilePickerExamples from '../../../examples/FilePicker/FilePicker-examples';
 import FileUploaderExamples from '../../../examples/FileUploader/FileUploader-examples';
 import BaseFormExamples from '../../../examples/Form/BaseForm-examples';
-import FormFieldExamples from '../../../examples/FormField/FormField-examples';
+import FieldRowExamples from '../../../examples/FieldRow/FieldRow-examples';
 import FullViewExamples from '../../../examples/FullView/FullView-examples';
 import GlobalNavExamples from '../../../examples/GlobalNav/GlobalNav-examples';
 import IconExamples from '../../../examples/Icon/Icon-examples';
@@ -111,7 +110,6 @@ const curated = [
   ContentEditableExamples,
   DateInputExamples,
   DatePickerExamples,
-  DateFormatExamples,
   DialogExamples,
   DrawerExamples,
   DropdownExamples,
@@ -123,7 +121,7 @@ const curated = [
   FilePickerExamples,
   FileUploaderExamples,
   BaseFormExamples,
-  FormFieldExamples,
+  FieldRowExamples,
   FullViewExamples,
   GlobalNavExamples,
   IconExamples,

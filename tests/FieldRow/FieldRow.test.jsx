@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import FormField from '../../components/FormField/FormField';
+import FieldRow from '../../components/FieldRow/FieldRow';
 
-describe('FormField', () => {
+describe('FieldRow', () => {
   it('renders without crashing', () => {
-    const { container } = render(<FormField />);
+    const { container } = render(<FieldRow />);
     expect(container).toBeInTheDocument();
   });
 });

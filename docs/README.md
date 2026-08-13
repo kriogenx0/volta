@@ -122,12 +122,14 @@ everything else, plus a live accent color / light-dark / speed switcher
 Build and run the styleguide development app from the repository root:
 
 ```sh
-docker build -f styleguide/Dockerfile -t volta-styleguide .
-docker run --rm -p 8888:8888 volta-styleguide
+make docker-run
 ```
 
 Then open <http://localhost:8888>. The container runs `make run`; it does not
 build or publish the component-library bundle.
+
+Use `make docker-build` to build the image without starting it. Override the
+host port with `STYLEGUIDE_PORT=3000 make docker-run`.
 
 ## Build tooling
 
@@ -163,7 +165,7 @@ All were converted to plain JSX and wired into `components/index.js` where
 they're genuinely self-contained: `AutoComplete`, `List`/`ListHeader`/
 `FilterSectionListItem`, `ErrorList` (from `Message`), `BaseForm`/
 `BaseInput`/`FormRow` (from `Form`), `Alert` (from `ModalAlert`), and
-`DateFormat` (from `DatePicker`).
+`DateFormat` (from `DatePicker`) is exported as a plain formatting function.
 
 A few were faithfully translated but **not** wired into `index.js`,
 because they depend on packages or a Backbone-style data layer that don't
