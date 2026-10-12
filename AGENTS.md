@@ -18,6 +18,9 @@ Rules for any AI agent (or human) writing UI with Volta. Read `tokens.json` for 
 9. **Forms:** wrap controls in `Field` (label + hint + error). Errors use `danger` plus message text, shown via `ErrorText`.
 10. **New component checklist:** `components/<Name>/<Name>.jsx`, `<Name>.scss`, `index.js`, PropTypes, an `<Name>-examples.jsx` for the styleguide, export in `components/index.js`, a test if it has logic.
 
+11. **Hover everything interactive** with a subtle change (a step of `surface-muted`, `border-strong` or `accent-hover`), and keep animations to the global speed.
+12. **Document spacing.** Every margin and padding uses a `space-*` token; new values require adding a token first.
+
 ## 2. Never
 
 - Never use Tailwind classes (`bg-gradient-to-br from-lilac`, `rounded-lg`, `dark:`) in components. The repo has no Tailwind setup; those classes in `Button.jsx` are dead and should be removed.
