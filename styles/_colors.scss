@@ -28,6 +28,8 @@
   --v-color-inactive: #a1a5a9;
   --v-color-danger: #e30000;
   --v-color-success: #03a10e;
+  --v-color-danger-subtle: #fff2f4;
+  --v-on-accent: #ffffff;
 
   // Global animation speed. Override via components/theme.js's
   // setAnimationSpeed(), or the --v-anim-speed custom property directly.
@@ -48,6 +50,7 @@
 
   --v-accent-subtle: #234A78;
   --v-color-inactive: #7c7f82;
+  --v-color-danger-subtle: #3a1519;
 }
 
 // Follows the OS preference until an explicit [data-theme] is set
@@ -162,11 +165,11 @@ $color_inactive_dark: $color_inactive;
 
 //////////
 
-$color_white: #fff;
+$color_white: var(--v-on-accent);
 
 // Semantic Colors
 $color_danger: var(--v-color-danger);
-$color_danger_subtle: #fff2f4;
+$color_danger_subtle: var(--v-color-danger-subtle);
 $color_success: var(--v-color-success);
 
 // LEGACY

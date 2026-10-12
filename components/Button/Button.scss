@@ -2,7 +2,7 @@
 
 .v-button {
   display: inline-block;
-  border: 1px solid #ccc;
+  border: 1px solid $color_base_less_subtle;
   border-radius: 4px;
   cursor: pointer;
   @include no_select;
@@ -46,30 +46,31 @@
 
   &.button-primary {
     background-color: $color_active;
-    color: $color_base;
+    color: $color_white;
     border-color: transparent;
     &:hover {
-      background-color: #2F90FB;
+      background-color: var(--v-accent-hover);
     }
 
     &[disabled],
     &.button-disabled {
-      background-color: #C4DEFD;
+      background-color: var(--v-accent-subtle);
+      color: var(--v-color-inactive);
     }
   }
 
   &.button-danger {
-    background-color: #f00;
-    color: #fff;
+    background-color: $color_danger;
+    color: $color_white;
     border-color: transparent;
 
     &:hover {
-      background-color: #c00;
+      filter: brightness(0.85);
     }
 
     &[disabled],
     &.button-disabled {
-      background-color: #900;
+      filter: brightness(0.7);
     }
   }
 

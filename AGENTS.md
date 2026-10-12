@@ -21,6 +21,9 @@ Rules for any AI agent (or human) writing UI with Volta. Read `tokens.json` for 
 11. **Hover everything interactive** with a subtle change (a step of `surface-muted`, `border-strong` or `accent-hover`), and keep animations to the global speed.
 12. **Document spacing.** Every margin and padding uses a `space-*` token; new values require adding a token first.
 
+13. **Theme in one place.** A single theme file colours the whole UI and every component has light and dark. Typography lives in one file (`styles/type.scss`).
+14. **Prefer native elements** (`button`, `input`, `select`, checkbox, radio, popover) under the styling, kept functional but restyled. Every component is accessible: roles, labels, keyboard, focus.
+
 ## 2. Never
 
 - Never use Tailwind classes (`bg-gradient-to-br from-lilac`, `rounded-lg`, `dark:`) in components. The repo has no Tailwind setup; those classes in `Button.jsx` are dead and should be removed.
