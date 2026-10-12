@@ -10,7 +10,7 @@ Rules for any AI agent (or human) writing UI with Volta. Read `tokens.json` for 
 1. **Use tokens, never literals.** Every colour, space, radius, shadow and z-index comes from `tokens.json`. In SCSS use the `--v-*` custom properties (table in README). No hex, `rgb()`, `#f00`, `#ccc`, `#fff`.
 2. **One variable, two themes.** Colour tokens flip under `[data-theme='dark']` and `prefers-color-scheme`. Reference the token once. Do not add `@include dark { … }` blocks or `_dark` Sass variables to new code.
 3. **Reuse before you build.** Check `components/index.js` (92 exports) first. Compose existing components; add a variant or prop rather than a sibling component.
-4. **Variants are props.** `<Button variant="primary" size="sm">`. Not new CSS classes, not `bsStyle`, not `tiny`.
+4. **Variants are props.** `<Button variant="primary" size="small">`. Not new CSS classes, not `bsStyle`, not `tiny`.
 5. **Accent is runtime-set.** Anything "brand coloured" uses `--v-accent` / `--v-accent-hover` / `--v-accent-subtle`. Never hard-code the blue.
 6. **Keep contrast.** Body text 4.5:1 on its ground in both themes. `text-subtle` and `inactive` never carry essential information. Never convey state by colour alone.
 7. **Motion uses the global speed.** `transition: … var(--v-anim-speed) var(--v-anim-ease)`. Respect `prefers-reduced-motion`.
@@ -26,7 +26,7 @@ Rules for any AI agent (or human) writing UI with Volta. Read `tokens.json` for 
 
 ## 2. Never
 
-- Never use Tailwind classes (`bg-gradient-to-br from-lilac`, `rounded-lg`, `dark:`) in components. The repo has no Tailwind setup; those classes in `Button.jsx` are dead and should be removed.
+- Never use Tailwind classes (`bg-gradient-to-br from-lilac`, `rounded-lg`, `dark:`) in components. The repo has no Tailwind setup; they were removed from `Button.jsx`.
 - Never use `!important`, inline `style` for colour/spacing, or `z-index` numbers. Use the `z-*` tokens.
 - Never add gradients, glows, or decorative shadows beyond `shadow-sm/md/lg`.
 - Never use more than one `primary` button per view region.
@@ -39,8 +39,8 @@ Rules for any AI agent (or human) writing UI with Volta. Read `tokens.json` for 
 | Need | Use |
 | --- | --- |
 | Main action | `Button variant="primary"` |
-| Secondary action | `Button variant="default"` (or `secondary`) |
-| Low emphasis / toolbar | `Button variant="link"` (or `ghost`) |
+| Secondary action | `Button variant="default"` |
+| Low emphasis / toolbar | `Button variant="link"` |
 | Destructive | `Button variant="danger"`, behind a confirm `Dialog` |
 | On/off setting, applies immediately | `Toggle` |
 | On/off choice submitted with a form | `Checkbox` |
@@ -63,5 +63,5 @@ Rules for any AI agent (or human) writing UI with Volta. Read `tokens.json` for 
 1. Replace the ~130 hard-coded hexes in `components/**/*.scss` (most: `#ccc` ×33, `#fff` ×31, `#000`, `#333`, `#eee`, `#888`) with tokens.
 2. Change the `dark` mixin in `styles/_mixins.scss` to also honour `[data-theme='dark']`, or delete it as redundant.
 3. Remove `legacy-colors.scss`, the `_dark` alias variables and the duplicate `$spacing` / `$z-fixed` definitions.
-4. Delete the unused `styles/_common.scss` stub, Tailwind classes in `Button.jsx`, and `MODERN_*` maps.
+4. See `docs/backlog.md` for the full ordered list.
 5. Replace off-scale values: radii 3 / 5 / 50px, font sizes 10pt / 11px / 150%, custom blues (`#0070c9`, `#0055b7`, `#1274e0`) → `accent`.
