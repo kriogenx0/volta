@@ -1,4 +1,5 @@
-.volta-radiogroup
-{
-  
+@use '../../styles/mixins' as *;
+
+.volta-radiogroup {
+  @include option_group;
 }

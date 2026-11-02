@@ -42,3 +42,24 @@
     }
   }
 }
+
+// Sizes (fieldSize prop). Declared after the base rules so they win on
+// equal specificity.
+.volta-select--sm,
+.volta-select--md {
+  > select {
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
+
+.volta-select--sm > select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.volta-select--md > select {
+  padding: 8px 12px;
+  border-radius: 8px;
+}

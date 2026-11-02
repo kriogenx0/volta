@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 
 import Layer from '../Layer/Layer';
-import ImageCrop from './ImageCrop';
+import ImageCrop from '../ImageCrop/ImageCrop';
 
 const ImageUploader = ({ shouldPick, cropWidth, cropHeight, bleedWidth, onImagePick, className, children }) => {
   const [file, setFile] = useState(null);
@@ -75,6 +75,7 @@ const ImageUploader = ({ shouldPick, cropWidth, cropHeight, bleedWidth, onImageP
             width={cropWidth}
             height={cropHeight}
             bleedWidth={bleedWidth}
+            showScale
             onClose={handleClose}
             onCrop={handleCrop}
           />

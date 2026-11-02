@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import _ from 'lodash';
 
-import TextBox from '../TextBox';
+import { TextBox } from '../TextField/TextField';
 
 import './ColorPalettePicker.scss';
 

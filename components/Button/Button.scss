@@ -34,13 +34,28 @@
   }
 
   // Variants
+  // Looks like a link, not a button: no fill or border, accent-colored text,
+  // underlined on hover. Padding is kept so a link button lines up with (and
+  // doesn't resize next to) other buttons.
   &.button-link {
+    background-color: transparent;
     border-color: transparent;
-    &:hover {
-      background-color: $color_base_more_subtle;
-      @include dark {
-        background-color: $color_base_more_subtle_dark;
-      }
+    color: var(--v-accent);
+    text-decoration: none;
+
+    &:hover:not([disabled]):not(.button-disabled) {
+      color: var(--v-accent-hover);
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--v-accent);
+      outline-offset: 1px;
+    }
+
+    &[disabled],
+    &.button-disabled {
+      color: var(--v-color-inactive);
     }
   }
 

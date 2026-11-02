@@ -36,7 +36,7 @@ const ComboBox = ({ value: controlledValue, defaultValue = '', options, items = 
   };
 
   return (
-    <div ref={containerRef} className={`volta-combo_box relative ${open ? 'is_open' : ''} ${className}`.trim()}>
+    <div ref={containerRef} className={`volta-combo_box ${open ? 'is_open' : ''} ${className}`.trim()}>
       <input type="text" value={value} disabled={disabled} placeholder={placeholder} onFocus={() => setOpen(true)} onChange={(event) => { update(event.target.value); setHighlightedIndex(-1); }} onBlur={(event) => { if (onCommit) onCommit(event.target.value); setOpen(false); }} onKeyDown={(event) => {
         if (event.key === 'Escape') setOpen(false);
         if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
@@ -47,8 +47,8 @@ const ComboBox = ({ value: controlledValue, defaultValue = '', options, items = 
         }
         if (event.key === 'Enter' && highlightedIndex >= 0 && matches[highlightedIndex]) { event.preventDefault(); commit(matches[highlightedIndex]); }
       }} className={inputClassName} />
-      {open && !disabled && matches.length > 0 && <div className="contents absolute z-20 mt-1 max-h-48 w-full min-w-[10rem] overflow-y-auto rounded-md border border-gray-200 bg-white py-1 text-sm shadow-lg dark:border-gray-700 dark:bg-gray-800">
-        {matches.map((option, index) => <button key={option} ref={(node) => node ? optionRefs.current.set(index, node) : optionRefs.current.delete(index)} type="button" onMouseDown={(event) => event.preventDefault()} onClick={() => commit(option)} className={`block w-full px-3 py-2 text-left ${index === highlightedIndex ? 'bg-gray-100 dark:bg-gray-700' : 'hover:bg-gray-50 dark:hover:bg-gray-700'}`}>{option}</button>)}
+      {open && !disabled && matches.length > 0 && <div className="contents">
+        {matches.map((option, index) => <button key={option} ref={(node) => node ? optionRefs.current.set(index, node) : optionRefs.current.delete(index)} type="button" onMouseDown={(event) => event.preventDefault()} onClick={() => commit(option)} className={`volta-combo_box-option${index === highlightedIndex ? ' volta-combo_box-option--highlighted' : ''}`}>{option}</button>)}
       </div>}
     </div>
   );

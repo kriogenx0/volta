@@ -1,0 +1,30 @@
+.volta-icon_button {
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--v-color-inactive);
+  cursor: pointer;
+  line-height: 0;
+  transition: color var(--v-anim-speed);
+  -webkit-user-select: none;
+  user-select: none;
+
+  &:focus-visible {
+    outline: 2px solid var(--v-accent);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+}
+
+.volta-icon_button--ghost:hover:not(:disabled) {
+  color: var(--v-color-trim);
+}
+
+.volta-icon_button--danger:hover:not(:disabled) {
+  color: var(--v-color-danger);
+}

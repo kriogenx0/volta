@@ -1,0 +1,56 @@
+$thumb-size: 18px;
+
+// The whole padded box is the control, so hover and click areas match what
+// the user sees. touch-action lets a finger drag it without scrolling the page.
+.volta-slider {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px ($thumb-size * .5);
+  cursor: pointer;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+
+  .volta-slider-track {
+    position: relative;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--v-color-base-subtle);
+  }
+
+  .volta-slider-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: var(--v-accent);
+  }
+
+  // Hover and focus add a ring; the thumb itself never changes size or position
+  .volta-slider-thumb {
+    position: absolute;
+    top: 50%;
+    width: $thumb-size;
+    height: $thumb-size;
+    box-sizing: border-box;
+    border: 2px solid var(--v-accent);
+    border-radius: 50%;
+    background: var(--v-color-base);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+    transform: translate(-50%, -50%);
+    transition: box-shadow var(--v-anim-speed);
+
+    &:focus-visible {
+      outline: 0;
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--v-accent) 35%, transparent);
+    }
+  }
+
+  &:hover:not(.volta-slider--disabled) .volta-slider-thumb,
+  &.volta-slider--dragging .volta-slider-thumb {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--v-accent) 25%, transparent);
+  }
+
+  &.volta-slider--disabled {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+}

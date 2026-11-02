@@ -1,0 +1,27 @@
+.volta-avatar {
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.volta-avatar--sm {
+  width: 28px;
+  height: 28px;
+  font-size: .65rem;
+}
+
+.volta-avatar--md {
+  width: 36px;
+  height: 36px;
+  font-size: 12px;
+}
+
+// Initials shown when there's no photo
+.volta-avatar--initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--v-accent);
+  color: var(--v-on-accent);
+  font-weight: 600;
+}

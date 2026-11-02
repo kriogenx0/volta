@@ -1,13 +1,16 @@
-.volta-close_button {
+// Three classes so these win over the link variant's accent color regardless
+// of stylesheet order (CloseButton renders a Button with variant="link").
+.volta-button.button-link.volta-close_button {
   display: inline-block;
   text-align: left;
 
   line-height: 3rem;
   font-weight: lighter;
-  color: #888;
+  color: var(--v-color-trim-less-subtle);
   font-size: 30px;
 
-  &:hover {
+  &:hover:not([disabled]):not(.button-disabled) {
+    color: var(--v-color-trim);
     text-decoration: none;
   }
 }

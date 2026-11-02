@@ -73,3 +73,30 @@
     box-sizing: border-box;
   }
 }
+
+// Sizes (fieldSize prop). Declared after the base rules so they win on
+// equal specificity.
+.volta-textfield--sm,
+.volta-textfield--md {
+  input,
+  textarea {
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
+
+.volta-textfield--sm {
+  input,
+  textarea {
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+}
+
+.volta-textfield--md {
+  input,
+  textarea {
+    padding: 8px 12px;
+    border-radius: 8px;
+  }
+}

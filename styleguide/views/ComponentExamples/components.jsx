@@ -70,7 +70,6 @@ import RichTextQuillExamples from '../../../examples/RichTextQuill/RichTextQuill
 import RichTextTinyMCEExamples from '../../../examples/RichTextTinyMCE/RichTextTinyMCE-examples';
 import SearchSelectorExamples from '../../../examples/SearchSelector/SearchSelector-examples';
 import SegmentedControlExamples from '../../../examples/SegmentedControl/SegmentedControl-examples';
-import SegmentedControlMiniExamples from '../../../examples/SegmentedControlMini/SegmentedControlMini-examples';
 import SelectExamples from '../../../examples/Select/Select-examples';
 import SliderExamples from '../../../examples/Slider/Slider-examples';
 import SplitViewExamples from '../../../examples/SplitView/SplitView-examples';
@@ -79,7 +78,6 @@ import TabsExamples from '../../../examples/Tabs/Tabs-examples';
 import TabsRoutedExamples from '../../../examples/TabsRouted/TabsRouted-examples';
 import TagExamples from '../../../examples/Tag/Tag-examples';
 import TagInputExamples from '../../../examples/TagInput/TagInput-examples';
-import TextBoxExamples from '../../../examples/TextBox/TextBox-examples';
 import TextEditableExamples from '../../../examples/TextEditable/TextEditable-examples';
 import TextFieldExamples from '../../../examples/TextField/TextField-examples';
 import TextareaExamples from '../../../examples/Textarea/Textarea-examples';
@@ -164,7 +162,6 @@ const curated = [
   RichTextTinyMCEExamples,
   SearchSelectorExamples,
   SegmentedControlExamples,
-  SegmentedControlMiniExamples,
   SelectExamples,
   SliderExamples,
   SplitViewExamples,
@@ -173,7 +170,6 @@ const curated = [
   TabsRoutedExamples,
   TagExamples,
   TagInputExamples,
-  TextBoxExamples,
   TextEditableExamples,
   TextFieldExamples,
   TextareaExamples,

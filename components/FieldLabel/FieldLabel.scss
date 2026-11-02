@@ -1,0 +1,12 @@
+.volta-field_label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--v-color-trim-subtle);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.volta-field_label-optional {
+  color: var(--v-color-inactive);
+  font-weight: 400;
+}

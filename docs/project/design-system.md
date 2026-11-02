@@ -23,6 +23,7 @@ Rules for any AI agent (or human) writing UI with Volta. Read `tokens.json` for 
 
 13. **Theme in one place.** A single theme file colours the whole UI and every component has light and dark. Typography lives in one file (`styles/type.scss`).
 14. **Prefer native elements** (`button`, `input`, `select`, checkbox, radio, popover) under the styling, kept functional but restyled. Every component is accessible: roles, labels, keyboard, focus.
+15. **React Hooks are preferred.** Write new components as function components using hooks (`useState`, `useEffect`, `useRef`, `useId`, …), with default parameters instead of `defaultProps`. Don't add new class components. Existing class components are converted when you are already changing them and the conversion is low-risk (see `docs/README.md`, Known gaps); don't rewrite working code only to change its style. The one exception is an error boundary, which React still requires to be a class.
 
 ## 2. Never
 

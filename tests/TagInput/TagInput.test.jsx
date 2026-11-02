@@ -2,19 +2,44 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import TagInput from '../../components/TagInput/TagInput';
 
+const press = (input, key) => fireEvent.keyPress(input, { key, code: key, charCode: key === 'Enter' ? 13 : key.charCodeAt(0) });
+
 describe('TagInput', () => {
   it('renders without crashing', () => {
     const { container } = render(<TagInput />);
     expect(container).toBeInTheDocument();
   });
 
-  it('renders an accessible remove button for each tag', () => {
-    const onChange = jest.fn();
-    render(<TagInput tags={['Design', 'React']} onChange={onChange} />);
+  it('does not show a remove button on tags by default', () => {
+    const { container } = render(<TagInput tags={['Design', 'React']} />);
+    expect(screen.getByText('Design')).toBeInTheDocument();
+    expect(screen.queryByRole('button')).toBeNull();
+    expect(container.querySelector('.deletable')).toBeNull();
+  });
 
+  it('renders an accessible remove button for each tag when removable', () => {
+    const onChange = jest.fn();
+    render(<TagInput removable tags={['Design', 'React']} onChange={onChange} />);
+
+    expect(screen.getAllByRole('button')).toHaveLength(2);
     fireEvent.click(screen.getByRole('button', { name: 'Remove Design' }));
 
     expect(onChange).toHaveBeenCalledWith(['React']);
     expect(screen.queryByText('Design')).not.toBeInTheDocument();
+  });
+
+  it('does not pass removable on to the text input', () => {
+    render(<TagInput removable />);
+    expect(screen.getByRole('textbox')).not.toHaveAttribute('removable');
+  });
+
+  it('adds a tag when Enter is pressed', () => {
+    const onChange = jest.fn();
+    render(<TagInput onChange={onChange} />);
+    const input = screen.getByRole('textbox');
+    fireEvent.change(input, { target: { value: 'New' } });
+    press(input, 'Enter');
+    expect(onChange).toHaveBeenCalledWith(['New']);
+    expect(screen.getByText('New')).toBeInTheDocument();
   });
 });

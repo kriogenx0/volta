@@ -9,25 +9,79 @@
     font-size: 14px;
   }
 
+  // Themed like TextField, so the native input looks the same everywhere
+  > input
+  {
+    padding: 6px 10px;
+    border: 1px solid var(--v-color-base-subtle);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--v-color-trim);
+    transition: border-color var(--v-anim-speed), background-color var(--v-anim-speed);
+
+    &:hover
+    {
+      border-color: var(--v-color-base-less-subtle);
+    }
+
+    &:focus
+    {
+      border-color: var(--v-accent);
+      outline: 0;
+    }
+
+    &:disabled
+    {
+      cursor: not-allowed;
+      opacity: .5;
+    }
+  }
+
   > .contents
   {
     display: none;
     position: absolute;
-    top: 45px;
+    top: 100%;
     left: 0;
     right: 0;
     z-index: 1000;
-    background: #fff;
-    border: 1px solid #ccc;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    // padding: 10px;
-
-    max-height: 200px;
-    overflow: auto;
+    min-width: 10rem;
+    max-height: 192px;
+    margin-top: 4px;
+    padding: 4px 0;
+    overflow-y: auto;
+    background: var(--v-color-base);
+    border: 1px solid var(--v-color-base-subtle);
+    border-radius: 6px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -4px rgba(0, 0, 0, .1);
+    color: var(--v-color-trim);
   }
 
   &.is_open > .contents
   {
     display: block;
+  }
+}
+
+.volta-combo_box-option
+{
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+
+  &:hover
+  {
+    background: var(--v-color-base-more-subtle);
+  }
+
+  // Keyboard-highlighted option; two classes so it also wins over :hover
+  &.volta-combo_box-option--highlighted
+  {
+    background: var(--v-color-base-subtle);
   }
 }

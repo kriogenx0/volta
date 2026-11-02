@@ -22,15 +22,18 @@ const ComponentExample = ({ component }) => {
             <div className="example-header">
               <span className="example-name">{example.name}</span>
             </div>
-            <div className="example-body">
+            <div className={`example-body${example.code ? '' : ' example-body--output_only'}`}>
               <div className="example-output">
                 <ExampleErrorBoundary key={component.name}>
                   {example.output}
                 </ExampleErrorBoundary>
               </div>
-              <div className="example-code">
-                <Code language="jsx">{example.code}</Code>
-              </div>
+              {/* Focusable so keyboard users can scroll long code */}
+              {example.code && (
+                <div className="example-code" role="region" aria-label={`Code for ${example.name}`} tabIndex={0}>
+                  <Code language="jsx">{example.code}</Code>
+                </div>
+              )}
             </div>
           </div>
         ))}

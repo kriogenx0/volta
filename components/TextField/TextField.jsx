@@ -1,23 +1,19 @@
 import React, { useId } from 'react';
 import PropTypes from 'prop-types';
 
-import './TextField.scss';
+import FieldLabel from '../FieldLabel/FieldLabel';
 
-const SIZE_CLASS = {
-  sm: 'rounded-md px-2.5 py-1.5 text-sm',
-  md: 'rounded-lg px-3 py-2'
-};
+import './TextField.scss';
 
 const TextField = ({ disabled, multiline, validate, error, label, optional, fieldSize = 'sm', className = '', wrapperClassName = '', id, ...inputProps }) => {
   const generatedId = useId();
   const fieldId = id || generatedId;
   const handleKeyUp = validate ? (event) => validate(event.target.value) : inputProps.onKeyUp;
-  const controlClassName = `w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-900 ${SIZE_CLASS[fieldSize]} ${className}`.trim();
-  const controlProps = { ...inputProps, id: label ? fieldId : id, disabled, onKeyUp: handleKeyUp, className: controlClassName };
+  const controlProps = { ...inputProps, id: label ? fieldId : id, disabled, onKeyUp: handleKeyUp, className: className || undefined };
   const control = multiline ? <textarea {...controlProps} /> : <input type={inputProps.type || 'text'} {...controlProps} />;
 
   const field = (
-    <div className={`volta-textfield${wrapperClassName ? ` ${wrapperClassName}` : ''}${error ? ' textfield-error' : ''}${disabled ? ' textfield-disabled' : ''}${multiline ? ' textfield-multiline' : ''}`}>
+    <div className={`volta-textfield volta-textfield--${fieldSize}${wrapperClassName ? ` ${wrapperClassName}` : ''}${error ? ' textfield-error' : ''}${disabled ? ' textfield-disabled' : ''}${multiline ? ' textfield-multiline' : ''}`}>
       {control}
     </div>
   );
@@ -25,9 +21,7 @@ const TextField = ({ disabled, multiline, validate, error, label, optional, fiel
   if (!label) return field;
   return (
     <div>
-      <label htmlFor={fieldId} className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-        {label}{optional && <span className="font-normal text-gray-400"> (optional)</span>}
-      </label>
+      <FieldLabel htmlFor={fieldId} optional={optional}>{label}</FieldLabel>
       {field}
     </div>
   );
@@ -43,5 +37,9 @@ TextField.propTypes = {
   fieldSize: PropTypes.oneOf(['sm', 'md'])
 };
 
-export { TextField };
+// TextBox is retained as a compatibility name for TextField.
+// ironyoung-compat: c-text_box is the class name its own view-level scss targets directly.
+const TextBox = (props) => <TextField wrapperClassName="c-text_box" {...props} />;
+
+export { TextField, TextBox };
 export default TextField;

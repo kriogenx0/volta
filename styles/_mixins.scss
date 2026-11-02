@@ -61,3 +61,11 @@
   -o-transition: $args;
   transition: $args;
 }
+
+// A group of checkboxes / radios: items in a wrapping row with room between
+// them. Both are inline-flex, so without this the items sit flush together.
+@mixin option_group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}

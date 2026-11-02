@@ -1,13 +1,37 @@
+import { useState } from 'react';
+
 import TimePicker from '../../components/TimePicker/TimePicker';
+
+const Controlled = () => {
+  const [time, setTime] = useState(null);
+  return (
+    <div>
+      <TimePicker value={time ? time.fullDate : '14:30'} onChange={setTime} />
+      <p>{time ? `Picked ${time.formatted}` : 'Starts at 2:30 pm'}</p>
+    </div>
+  );
+};
 
 export default {
   name: 'TimePicker',
-  description: 'No curated examples yet -- showing a default instance.',
+  description: 'Pick an hour, minute and am/pm. Type a time or choose from the lists. onChange reports { hour, minute, pm, fullDate, formatted }.',
   examples: [
     {
-      name: 'Default',
-      code: '<TimePicker />',
+      name: 'TimePicker',
+      code: '<TimePicker onChange={(time) => console.log(time.formatted)} />',
       output: <TimePicker />
+    },
+    {
+      name: 'With a starting value',
+      code: `const [time, setTime] = useState(null);
+
+<TimePicker value={time ? time.fullDate : '14:30'} onChange={setTime} />`,
+      output: <Controlled />
+    },
+    {
+      name: '24-hour clock with 5-minute steps',
+      code: '<TimePicker twentyFourHour minuteInterval={5} value="18:45" />',
+      output: <TimePicker twentyFourHour minuteInterval={5} value="18:45" />
     }
   ]
 };

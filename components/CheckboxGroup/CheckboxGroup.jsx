@@ -3,6 +3,8 @@ import _ from 'lodash';
 
 import Checkbox from '../Checkbox';
 
+import './CheckboxGroup.scss';
+
 const CheckboxGroup = ({ name, options, value, onChange, className, ...otherProps }) => {
   const handleChange = (e) => {
     onChange(e);

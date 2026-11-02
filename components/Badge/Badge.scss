@@ -12,3 +12,35 @@
     font-size: 36px;
   }
 }
+
+// Text badge (tone prop). The two-class selector overrides the icon sizing
+// above, which the text badge also carries.
+.volta-badge.volta-badge--pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+// Tinted background plus a text color mixed toward the theme's text color, so
+// contrast holds in both light and dark mode without per-theme overrides.
+$tones: (
+  success: --v-color-success,
+  warning: --v-color-warning,
+  danger: --v-color-danger,
+  info: --v-accent
+);
+
+@each $tone, $token in $tones {
+  .volta-badge--#{$tone} {
+    background: color-mix(in srgb, var(#{$token}) 15%, transparent);
+    color: color-mix(in srgb, var(#{$token}) 65%, var(--v-color-trim));
+  }
+}
+
+.volta-badge--neutral {
+  background: var(--v-color-base-more-subtle);
+  color: var(--v-color-trim-subtle);
+}

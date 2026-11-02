@@ -30,3 +30,81 @@ $border-rad: 3px;
     }
   }
 }
+
+// Button-based control (the `options` prop, or `mini`). The TabBar-based
+// legacy form above is untouched.
+.volta-segmented_control--md,
+.volta-segmented_control--sm,
+.volta-segmented_control--mini {
+  border-radius: 6px;
+  background: var(--v-color-base-more-subtle);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.volta-segmented_control--md {
+  display: flex;
+  gap: 4px;
+  width: fit-content;
+  padding: 4px;
+  font-size: 14px;
+}
+
+.volta-segmented_control--sm {
+  display: inline-flex;
+  padding: 2px;
+}
+
+.volta-segmented_control-option {
+  padding: 4px 12px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--v-color-trim-less-subtle);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 500;
+  transition: background-color var(--v-anim-speed), box-shadow var(--v-anim-speed), color var(--v-anim-speed);
+
+  &:hover:not(:disabled):not(.volta-segmented_control-option--active) {
+    color: var(--v-color-trim);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--v-accent);
+    outline-offset: 1px;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: .5;
+  }
+
+  &.volta-segmented_control-option--active {
+    background: var(--v-color-base);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
+    color: var(--v-color-trim);
+    cursor: default;
+  }
+}
+
+.volta-segmented_control--sm .volta-segmented_control-option {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+// Mini: the compact look SegmentedControlMini had. Hover, focus, disabled and
+// active states come from .volta-segmented_control-option above.
+.volta-segmented_control--mini {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 8px;
+}
+
+.volta-segmented_control--mini .volta-segmented_control-option {
+  padding: 4px 9px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 16px;
+}

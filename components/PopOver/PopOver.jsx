@@ -38,10 +38,17 @@ const PopOver = ({ open, fullSize, closeOnOverlayClick, handleClose, className, 
     if (closeOnOverlayClick) closeModal();
   };
 
-  const modalClass = `volta-pop_over${fullSize ? ' pop_over-full' : ''}${open ? ' pop_over-open in' : ''} ${className}`;
+  // Full size: the popover's own root is the backdrop (the appended .overlay
+  // below has no styles, so it can't be clicked). Only clicks aimed at the
+  // backdrop itself count, not clicks inside the content.
+  const handleBackdropClick = (e) => {
+    if (fullSize && e.target === e.currentTarget) handleOverlayClick();
+  };
+
+  const modalClass = `volta-pop_over${fullSize ? ' pop_over-full' : ''}${open ? ' pop_over-open in' : ''}${className ? ` ${className}` : ''}`;
 
   return (
-    <div className={modalClass} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div className={modalClass} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" onClick={handleBackdropClick}>
       {!fullSize && (
         <div className="inner-overlay" onClick={handleOverlayClick}></div>
       )}

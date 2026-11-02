@@ -2,7 +2,7 @@ import TagInput from '../../components/TagInput/TagInput';
 
 export default {
   name: 'TagInput',
-  description: 'Textfield with tags',
+  description: 'Textfield with tags. Tags can\'t be removed unless you set removable.',
   examples: [
     {
       name: 'TagInput',
@@ -20,6 +20,15 @@ export default {
       ),
       output: (
         <TagInput placeholder="Enter tags here" tags={["tag1", "tag2"]} />
+      )
+    },
+    {
+      name: 'TagInput with removable tags (shows an x on each tag)',
+      code: (
+        '<TagInput removable placeholder="Enter tags here" tags={["tag1", "tag2"]} />'
+      ),
+      output: (
+        <TagInput removable placeholder="Enter tags here" tags={["tag1", "tag2"]} />
       )
     }
   ]

@@ -5,11 +5,11 @@ import './Modal.scss';
 const Modal = ({ show, onHide, onClose, children, className, headerTitle, title, ...otherProps }) => {
   if (title || onClose) {
     return (
-      <div className="volta-modal fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
-        <div className={`max-h-[85vh] w-full max-w-md overflow-y-auto rounded-lg bg-white p-5 shadow-xl dark:bg-gray-900 ${className || ''}`} onClick={(event) => event.stopPropagation()} {...otherProps}>
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-bold">{title}</h2>
-            <button type="button" onClick={onClose} aria-label="Close" className="text-gray-400 hover:text-gray-900 dark:hover:text-white">×</button>
+      <div className="volta-modal volta-modal--standalone" onClick={onClose}>
+        <div className={`volta-modal-panel${className ? ` ${className}` : ''}`} onClick={(event) => event.stopPropagation()} {...otherProps}>
+          <div className="volta-modal-header">
+            <h2 className="volta-modal-title">{title}</h2>
+            <button type="button" onClick={onClose} aria-label="Close" className="volta-modal-close">×</button>
           </div>
           {children}
         </div>

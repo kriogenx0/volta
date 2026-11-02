@@ -6,7 +6,7 @@ import TextField from '../TextField';
 
 import './TagInput.scss';
 
-const TagInput = ({ tags, value, onChange, ...props }) => {
+const TagInput = ({ tags, value, onChange, removable = false, ...props }) => {
 
   const [tagState, setTags] = useState(tags || []);
   const [inputText, setInputText] = useState(value || '');
@@ -43,16 +43,18 @@ const TagInput = ({ tags, value, onChange, ...props }) => {
       <TextField name='tags' value={inputText} onChange={handleInputChange} onKeyPress={handleInputKeyPress} {...props} />
       <div className="tag_input-tags">
         {_.map(tagState, tag => (
-          <span className='tag deletable' key={tag}>
+          <span className={`tag${removable ? ' deletable' : ''}`} key={tag}>
             <span>{tag}</span>
-            <button
-              type="button"
-              className="tag_input-remove"
-              aria-label={`Remove ${tag}`}
-              onClick={() => handleRemoveTag(tag)}
-            >
-              <span aria-hidden="true" />
-            </button>
+            {removable && (
+              <button
+                type="button"
+                className="tag_input-remove"
+                aria-label={`Remove ${tag}`}
+                onClick={() => handleRemoveTag(tag)}
+              >
+                <span aria-hidden="true" />
+              </button>
+            )}
           </span>
         ))}
       </div>
@@ -65,7 +67,9 @@ TagInput.submitKeys = ['Enter', ',', ' ', 'Space'];
 TagInput.propTypes = {
   tags: PropTypes.array,
   value: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  // Show an x on each tag to remove it
+  removable: PropTypes.bool
 };
 
 export default TagInput;

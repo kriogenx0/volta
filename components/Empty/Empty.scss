@@ -11,3 +11,19 @@
     color: #333;
   }
 }
+
+// EmptyState: a centered message that fills most of the viewport height
+.volta-empty_state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 55vh;
+  padding: 0 16px;
+  text-align: center;
+}
+
+.volta-empty_state-text {
+  margin: 0;
+  color: var(--v-color-inactive);
+  font-size: 14px;
+}

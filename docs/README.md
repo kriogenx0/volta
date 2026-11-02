@@ -47,8 +47,13 @@ import { Button, Checkbox, Theme } from 'volta';
 </script>
 ```
 
-Run `npm run build` (or `make build`) after cloning/updating — the compiled
-bundle isn't committed.
+`TextBox` is an alias for `TextField` (it adds a `c-text_box` wrapper class for
+ironyoung-web's own styles); both are exported. `SegmentedControlMini` is an
+alias for `<SegmentedControl mini />`; both are exported.
+
+Run `npm run build` (or `make build-prod`) after cloning/updating — the
+compiled bundle isn't committed. (`make build` produces the same bundle
+unminified with a sourcemap, for development.)
 
 `RichTextTinyMCE` self-hosts TinyMCE (no tiny.cloud API key needed): the
 build copies `node_modules/tinymce` to `components/compiled/tinymce/` and
@@ -96,11 +101,18 @@ tokens is the natural next step for full theme coverage.
 ## Development
 
 ```sh
-make            # install, build components, serve the styleguide (default)
-make build      # just the component library bundle
+make            # list every target, grouped by category (same as make help)
+make setup      # install dependencies
+make dev        # Vite dev server with HMR, opened in the browser
+make up         # build and run the styleguide in Docker (see below)
+make down       # stop it
+make running    # is the styleguide answering?
+make build      # component library bundle, unminified with a sourcemap
+make build-prod # the same bundle, minified
 make build-app  # just the styleguide app
 make test       # run the test suite
 make lint       # eslint components/
+make start      # build components, then serve the styleguide
 ```
 
 Or directly:
@@ -121,14 +133,21 @@ everything else, plus a live accent color / light-dark / speed switcher
 Build and run the styleguide development app from the repository root:
 
 ```sh
-make docker-run
+make up
 ```
 
-Then open <http://localhost:8888>. The container runs `make run`; it does not
-build or publish the component-library bundle.
+Then open <http://localhost:8888>. `make up` runs attached (Ctrl-C stops it)
+and stops any previous run first; `make down` stops and removes the container.
+The container runs `make run` with the source bind-mounted for HMR; it does not
+build or publish the component-library bundle. Its health check requests the
+dev server's root URL.
 
-Use `make docker-build` to build the image without starting it. Override the
-host port with `STYLEGUIDE_PORT=3000 make docker-run`.
+The Dockerfile and Compose file are in `styleguide/`. Use `make docker-build`
+to build the image without starting it. Override the host port with
+`STYLEGUIDE_PORT=3000 make up`.
+
+There is no database or other service, so there is nothing to seed and
+nothing that could reach a live service.
 
 ## Build tooling
 
@@ -196,7 +215,8 @@ missing:
   repo, so it never compiled standalone.
 - **ImageCrop** and **ColorPicker** work but come from heavily-patched
   legacy source — expect rough edges.
-- Most components are still class components; hooks conversion has only
+- Hooks are the preferred style (see `docs/project/design-system.md`), but
+  most components are still class components; hooks conversion has only
   been done for components with no refs and no lifecycle methods (~30 so
   far) to keep the risk of behavioral regressions low given there's no
   visual regression testing in place.

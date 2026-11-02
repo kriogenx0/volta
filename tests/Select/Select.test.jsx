@@ -25,4 +25,17 @@ describe('Select', () => {
     fireEvent.change(screen.getByRole('combobox'), { target: { value: '2' } });
     expect(onChange).toHaveBeenCalledTimes(1);
   });
+
+  it('labels the select and marks optional fields', () => {
+    render(<Select label="Plan" optional options={options} value="1" onChange={() => {}} />);
+    expect(screen.getByLabelText(/Plan/)).toBe(screen.getByRole('combobox'));
+    expect(screen.getByText('(optional)')).toBeInTheDocument();
+  });
+
+  it('defaults to the small size and accepts the medium one', () => {
+    const { container, rerender } = render(<Select options={options} value="1" onChange={() => {}} />);
+    expect(container.firstChild).toHaveClass('volta-select--sm');
+    rerender(<Select fieldSize="md" options={options} value="1" onChange={() => {}} />);
+    expect(container.firstChild).toHaveClass('volta-select--md');
+  });
 });

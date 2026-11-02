@@ -18,7 +18,8 @@
       background-color: rgba(255, 255, 255, 0.05);
     }
 
-    &:hover {
+    // Only removable tags are interactive, so only they react to the cursor
+    &.deletable:hover {
       background-color: rgba(0, 0, 0, 0.1);
 
       @include dark {

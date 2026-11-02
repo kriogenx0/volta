@@ -2,15 +2,12 @@ import PropTypes from 'prop-types';
 
 import './Card.scss';
 
-const PADDING_CLASS = { none: '', sm: 'p-3', md: 'p-4' };
-
 const Card = ({ selected, selectable, children, className = '', onClick, padding, ...otherProps }) => {
   const classes = [
     'volta-card',
     selectable && 'volta-card-selectable',
     selected && 'volta-card-selected',
-    padding && 'rounded-lg border border-gray-200 dark:border-gray-800',
-    padding && PADDING_CLASS[padding],
+    padding && `volta-card--${padding}`,
     className
   ].filter(Boolean).join(' ');
 

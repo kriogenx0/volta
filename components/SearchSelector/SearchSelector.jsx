@@ -1,82 +1,77 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import TextBox from '../TextBox';
+import { TextBox } from '../TextField/TextField';
 import PopOver from '../PopOver/PopOver';
 
 import './SearchSelector.scss';
 
-const SearchSelector = ({ open: openProp, onType }) => {
+// A popover with a search box. `onType(query)` returns the matching items;
+// clicking one adds it to the selected tags, reported through `onChange`.
+const SearchSelector = ({ open: openProp = false, onType, onChange, onClose, multipleItems = true, uniqueItems = true }) => {
   const [open, setOpen] = useState(openProp);
-  const [query, setQuery] = useState(undefined);
+  const [query, setQuery] = useState('');
   const [resultItems, setResultItems] = useState(undefined);
-  const [tags, setTags] = useState(undefined);
-  const [inside] = useState(undefined);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     setOpen(openProp);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openProp]);
 
   const handleOnType = (e) => {
     if (!e.target) return;
-    let items;
-    let val = e.target.value;
-    if (onType) items = onType(val);
+    const val = e.target.value;
 
     setQuery(val);
-    setResultItems(items);
+    setResultItems(onType ? onType(val) : undefined);
   };
 
-  const handleResultItemClick = (val) => {
-    let newTags = tags;
-    if (newTags instanceof Array) {
-      if (newTags.indexOf(val) == -1)
-        newTags.push(val);
-    } else {
-      newTags = [val];
-    }
+  const handleResultItemClick = (item) => {
+    if (multipleItems && uniqueItems && tags.includes(item)) return;
 
+    // A new array each time: React ignores a state update to the same array
+    const newTags = multipleItems ? [...tags, item] : [item];
     setTags(newTags);
+    if (onChange) onChange(newTags);
   };
 
-  const renderResultItems = () => {
-    if (inside) {
-      return inside;
-    } else if (resultItems) {
-      return _.map(resultItems, (item, index) => {
-        return (
-          <div className='result_item no_select' key={index} onClick={(() => { return handleResultItemClick(item); })}>{item}</div>
-        );
-      });
-    }
+  const handleClose = () => {
+    setOpen(false);
+    if (onClose) onClose();
   };
 
   return (
     <div className='volta-search_selector'>
-      <PopOver open={open}>
+      <PopOver open={open} handleClose={handleClose}>
         <div className='search_selector-query'>
           <TextBox value={query} onChange={handleOnType} />
         </div>
         <div className='search_selector-tags'>
-          {_.map(tags, (tag, index) => {
-            return (
-              <div className='tag' key={index}>{tag}</div>
-            );
-          })}
+          {_.map(tags, (tag, index) => (
+            <div className='tag' key={index}>{tag}</div>
+          ))}
         </div>
         <div className='search_selector-content'>
-          {renderResultItems()}
+          {_.map(resultItems, (item, index) => (
+            <button type='button' className='result_item no_select' key={index} onClick={() => handleResultItemClick(item)}>{item}</button>
+          ))}
         </div>
       </PopOver>
     </div>
   );
 };
 
-SearchSelector.defaultProps = {
-  open: false,
-  multipleItems: true,
-  uniqueItems: true
-}
+SearchSelector.propTypes = {
+  open: PropTypes.bool,
+  // (query) => array of items to show
+  onType: PropTypes.func,
+  // (tags) => called with the selected items whenever they change
+  onChange: PropTypes.func,
+  // Called when the popover is dismissed
+  onClose: PropTypes.func,
+  multipleItems: PropTypes.bool,
+  uniqueItems: PropTypes.bool
+};
 
 export default SearchSelector;

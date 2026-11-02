@@ -1,9 +1,9 @@
 import React, { useId } from 'react';
 import PropTypes from 'prop-types';
 
-import './Select.scss';
+import FieldLabel from '../FieldLabel/FieldLabel';
 
-const SIZE_CLASS = { sm: 'rounded-md px-2.5 py-1.5 text-sm', md: 'rounded-lg px-3 py-2' };
+import './Select.scss';
 
 const Select = ({ options, value, onChange, className = '', label, optional, fieldSize = 'sm', id, children, ...otherProps }) => {
   const generatedId = useId();
@@ -13,20 +13,18 @@ const Select = ({ options, value, onChange, className = '', label, optional, fie
       id={label ? fieldId : id}
       value={value}
       onChange={onChange}
-      className={`w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-900 ${SIZE_CLASS[fieldSize]} ${className}`.trim()}
+      className={className || undefined}
       {...otherProps}
     >
       {children || (options || []).map((option, index) => <option key={index} value={option.value}>{option.label}</option>)}
     </select>
   );
 
-  const wrapped = <div className="volta-select">{control}</div>;
+  const wrapped = <div className={`volta-select volta-select--${fieldSize}`}>{control}</div>;
   if (!label) return wrapped;
   return (
     <div>
-      <label htmlFor={fieldId} className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-        {label}{optional && <span className="font-normal text-gray-400"> (optional)</span>}
-      </label>
+      <FieldLabel htmlFor={fieldId} optional={optional}>{label}</FieldLabel>
       {wrapped}
     </div>
   );

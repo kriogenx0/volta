@@ -2,15 +2,21 @@
 // exist in components/index.js -- Components-examples.jsx asserts this.
 export default [
   {
-    label: 'Forms & Inputs',
+    // Anything you type into, plus the text around a field (label, hint, error)
+    label: 'Form Text',
     components: [
-      'Button', 'Checkbox', 'CheckboxGroup', 'ComboBox', 'DateInput',
-      'DatePicker', 'Field', 'FieldRow', 'BaseForm',
-      'BaseInput', 'FormRow', 'Label', 'MultiSelect', 'NumericField',
-      'Radio', 'RadioGroup', 'Select', 'Slider', 'TagInput', 'TextBox',
-      'Textarea', 'TextEditable', 'TextField', 'TimePicker', 'Toggle',
-      'AutoComplete', 'SearchSelector', 'SegmentedControl', 'SegmentedControlMini', 'ColorPicker',
-      'ColorPalettePicker',
+      'TextField', 'Textarea', 'TextEditable', 'NumericField',
+      'TagInput', 'ComboBox', 'AutoComplete', 'SearchSelector', 'DateInput',
+      'DatePicker', 'BaseInput', 'Label', 'Field', 'FieldRow', 'FormRow',
+    ],
+  },
+  {
+    // Anything you pick, toggle or press
+    label: 'Form Controls',
+    components: [
+      'Button', 'Checkbox', 'CheckboxGroup', 'Radio', 'RadioGroup', 'Select',
+      'MultiSelect', 'Slider', 'Toggle', 'SegmentedControl', 'TimePicker',
+      'ColorPicker', 'ColorPalettePicker', 'BaseForm',
     ],
   },
   {

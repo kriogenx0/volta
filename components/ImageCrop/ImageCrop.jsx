@@ -2,8 +2,10 @@
 // Takes a file, returns a file (cropped)
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Tooltip from '../Tooltip/Tooltip';
+import Slider from '../Slider/Slider';
 
 import '../_polyfills/canvas_to_blob';
 import './ImageCrop.scss';
@@ -285,7 +287,7 @@ export default class ImageCrop extends React.Component {
           <div ref={this.frame} className="icr_frame" style={frameStyle}>
             <div className="icr_ghost" style={ghostStyle} />
             <div className="icr_window">
-              <img className="icr_image" src={this.state.element.src} style={imageStyle} />
+              <img className="icr_image" src={this.state.element.src} alt="Image being cropped" style={imageStyle} />
               <div className="icr_screen" style={screenStyle} onMouseDown={this.startDrag} />
             </div>
             <div className="icr_guide is_vert is_left"></div>
@@ -299,6 +301,7 @@ export default class ImageCrop extends React.Component {
             <div className="icr_control_range">
               <i className="icn icn-image-size-small" />
               <i className="icn icn-image-size-large" />
+              {this.props.showScale && <Slider ariaLabel="Scale" min={0} max={2} value={this.state.scale} onChange={this.setScale} />}
             </div>
             <div className="icr_control_size">
               <Tooltip className="icr_control_size_button cursor-pointer" onClick={this.centerImage} title="Center image in the crop area." gravity="down">
@@ -320,3 +323,18 @@ export default class ImageCrop extends React.Component {
   }
 
 }
+
+ImageCrop.propTypes = {
+  image: PropTypes.object.isRequired,
+  width: PropTypes.number,
+  height: PropTypes.number,
+  bleedWidth: PropTypes.number,
+  // Show the drag-to-scale slider between the size icons (ImageUploader does)
+  showScale: PropTypes.bool,
+  onClose: PropTypes.func,
+  onCrop: PropTypes.func
+};
+
+ImageCrop.defaultProps = {
+  showScale: false
+};

@@ -24,4 +24,16 @@ describe('Card', () => {
     fireEvent.click(screen.getByText('Hello'));
     expect(onClick).toHaveBeenCalledTimes(1);
   });
+
+  it('defaults to medium padding', () => {
+    render(<Card>Hello</Card>);
+    expect(screen.getByText('Hello')).toHaveClass('volta-card--md');
+  });
+
+  it('applies the padding prop as a modifier class', () => {
+    const { rerender } = render(<Card padding="sm">Hello</Card>);
+    expect(screen.getByText('Hello')).toHaveClass('volta-card--sm');
+    rerender(<Card padding="none">Hello</Card>);
+    expect(screen.getByText('Hello')).toHaveClass('volta-card--none');
+  });
 });

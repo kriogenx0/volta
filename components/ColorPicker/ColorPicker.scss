@@ -68,12 +68,11 @@
     cursor: pointer;
     height: 30px;
     padding: 0;
-    transition: box-shadow $anim-speed-normal, transform $anim-speed-normal;
+    transition: box-shadow $anim-speed-normal;
     width: 30px;
 
     &:hover {
       box-shadow: 0 0 0 2px $color_active;
-      transform: scale(1.08);
     }
 
     &:focus-visible,

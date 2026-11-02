@@ -59,3 +59,64 @@
     }
   }
 }
+
+// Standalone modal (the `title` / `onClose` form): a dimmed backdrop with a
+// centered panel. The overlay-based form above is untouched.
+.volta-modal--standalone {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, .4);
+}
+
+.volta-modal-panel {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 28rem;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 20px;
+  border: 1px solid var(--v-color-base-subtle);
+  border-radius: 8px;
+  background: var(--v-color-base);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, .1), 0 8px 10px -6px rgba(0, 0, 0, .1);
+  color: var(--v-color-trim);
+}
+
+.volta-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.volta-modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 28px;
+}
+
+.volta-modal-close {
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--v-color-inactive);
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  transition: color var(--v-anim-speed);
+
+  &:hover {
+    color: var(--v-color-trim);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--v-accent);
+    outline-offset: 1px;
+  }
+}

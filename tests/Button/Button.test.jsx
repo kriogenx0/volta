@@ -24,6 +24,12 @@ describe('Button', () => {
     expect(screen.getByText('Go')).toHaveClass('button-primary');
   });
 
+  it('applies the link variant class, with no fill of its own', () => {
+    render(<Button variant="link">More</Button>);
+    expect(screen.getByText('More')).toHaveClass('volta-button', 'button-link');
+    expect(screen.getByText('More')).not.toHaveClass('button-default');
+  });
+
   it('calls onClick when clicked', () => {
     const onClick = jest.fn();
     render(<Button onClick={onClick}>Click me</Button>);

@@ -1,34 +1,29 @@
 .volta-time_picker
 {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 
-  > * {
-    display: inline-block;
-    float: left;
-  }
-  .time_picker-div
-  {
-    width: 20px;
-    text-align: center;
-    line-height: 42px;
-  }
-
-  .time_picker-hour
-  {
-    width: 50px;
-  }
+  .time_picker-hour,
   .time_picker-minute
   {
-    width: 50px;
+    width: 56px;
+
+    input
+    {
+      box-sizing: border-box;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .time_picker-div
+  {
+    text-align: center;
   }
 
   .volta-segmented_control
   {
-    margin-left: 20px;
-
-    a
-    {
-      line-height: 24px;
-    }
+    margin-left: 8px;
   }
 }
