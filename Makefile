@@ -66,5 +66,17 @@ help:
 	@echo "  docker-build  Build the styleguide Docker image"
 	@echo "  docker-run    Build and run the styleguide in Docker on port $(STYLEGUIDE_PORT)"
 	@echo "  clean       Remove build artifacts (compiled/, node_modules/.cache)"
+	@echo "  rules       Sync shared agent rules from agent-rules into docs/rules/"
+	@echo "  rules-check Show what \`make rules\` would change"
 
-.PHONY: setup install start dev run build build-app watch watch-app test lint docker-build docker-run clean help
+.PHONY: setup install start dev run build build-app watch watch-app test lint docker-build docker-run clean help rules rules-check
+
+##@ Agent rules
+
+AGENT_RULES ?= $(HOME)/Sites/agent-rules
+
+rules: ## Sync shared agent rules from agent-rules into docs/rules/
+	@$(AGENT_RULES)/bin/agent-rules sync "$(CURDIR)"
+
+rules-check: ## Show what `make rules` would change (exit 1 if anything)
+	@$(AGENT_RULES)/bin/agent-rules check "$(CURDIR)"

@@ -2,8 +2,7 @@
 
 A React 19 component library — 92 components covering forms, layout,
 feedback, navigation, media, and rich text editing, plus a runtime theming
-API and a styleguide. Built with Vite. No CoffeeScript remains anywhere in
-the codebase.
+API and a styleguide. Built with Vite.
 
 ## Install
 
@@ -157,17 +156,9 @@ modernization pass (`Button`, `Card`, `Select`, `Tooltip`, `PopOver`,
 `ContentEditable`, `Theme`) rather than all 92 — most of the others have no
 tests yet.
 
-## CoffeeScript
+## Unwired components
 
-The codebase originally shipped 27 `.cjsx` (CoffeeScript+JSX) files with no
-build step for that extension — they were dead source, never compiled.
-All were converted to plain JSX and wired into `components/index.js` where
-they're genuinely self-contained: `AutoComplete`, `List`/`ListHeader`/
-`FilterSectionListItem`, `ErrorList` (from `Message`), `BaseForm`/
-`BaseInput`/`FormRow` (from `Form`), `Alert` (from `ModalAlert`), and
-`DateFormat` (from `DatePicker`) is exported as a plain formatting function.
-
-A few were faithfully translated but **not** wired into `index.js`,
+A few components exist in the source but are **not** wired into `index.js`,
 because they depend on packages or a Backbone-style data layer that don't
 exist in this repo (same treatment as the already-excluded
 `ImageCropPicker`) — each file's header comment explains exactly what's
@@ -204,7 +195,7 @@ missing:
   framework (`module`/`element`/`state` mixins) that isn't part of this
   repo, so it never compiled standalone.
 - **ImageCrop** and **ColorPicker** work but come from heavily-patched
-  legacy (originally CoffeeScript-derived) source — expect rough edges.
+  legacy source — expect rough edges.
 - Most components are still class components; hooks conversion has only
   been done for components with no refs and no lifecycle methods (~30 so
   far) to keep the risk of behavioral regressions low given there's no
