@@ -1,96 +1,78 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import './TextEditable.scss';
 
-export default class TextEditable extends React.Component {
-  static propTypes = {
-    onFinish: PropTypes.func,
-  };
+export default function TextEditable({
+  tagName = 'div',
+  className = '',
+  disabled,
+  value: valueProp,
+  children,
+  onChange,
+  onBlur,
+  onFinish,
+  ...props
+}) {
+  const elRef = useRef(null);
+  const initialValue = useRef(null);
+  const lastHtml = useRef(null);
 
-  // el = typeof this.props.innerRef === 'function' ? { current: null } : React.createRef<HTMLElement>();
+  const getValue = () => (elRef.current ? elRef.current.innerHTML : null);
 
-  // getEl = () => (this.props.innerRef && typeof this.props.innerRef !== 'function' ? this.props.innerRef : this.el).current;
-  getEl = () => this.el;
+  useEffect(() => {
+    initialValue.current = getValue();
+  }, []);
 
-  value = () => {
-    const el = this.getEl();
-    if (!el) return null;
-    return el.innerHTML;
-  };
-
-  componentDidMount() {
-    this.initialValue = this.value();
-  }
-
-  // handleKeyChange = e => {
-  // console.log('e', e.target.innerHTML);
-  // this.props.onKeyChange && this.props.onKeyChange(e.target.innerHTML);
-  // };
-
-  handleKeyDown = (e) => {
+  const handleKeyDown = (e) => {
+    const el = elRef.current;
+    if (!el) return;
     if (e.key === 'Enter') {
-      const el = this.getEl();
-      if (el) el.blur();
+      el.blur();
     } else if (e.key === 'Escape') {
-      const el = this.getEl();
-      if (el) {
-        el.innerHTML = this.initialValue;
-        el.blur();
-      }
+      el.innerHTML = initialValue.current;
+      el.blur();
     }
   };
 
-  handleChange = (e) => {
-    const html = this.value();
+  const handleChange = (e) => {
+    const html = getValue();
     if (html === null) return;
 
-    if (this.props.onChange && html !== this.lastHtml) {
-      // Clone event with Object.assign to avoid
-      // "Cannot assign to read only property 'target' of object"
-      // const newEvent = Object.assign({}, e, {
-      //   target: {
-      //     value: html
-      //   }
-      // });
-      // this.props.onChange(newEvent);
-      this.props.onChange(html);
-    }
-    this.lastHtml = html;
+    if (onChange && html !== lastHtml.current) onChange(html, e);
+    lastHtml.current = html;
   };
 
-  handleBlur = (e) => {
-    const value = this.value();
-    this.initialValue = value;
-    this.props.onBlur && this.props.onBlur(value);
-    this.handleChange(e);
-    this.handleFinish(value);
+  const handleBlur = (e) => {
+    const value = getValue();
+    initialValue.current = value;
+    if (onBlur) onBlur(value, e);
+    handleChange(e);
+    if (onFinish) onFinish(value, e);
   };
 
-  handleFinish = (value) => {
-    this.props.onFinish && this.props.onFinish(value);
-  };
+  // Prefer what the user has typed so a re-render doesn't reset the content.
+  const html = getValue() || valueProp || children;
 
-  render() {
-    const {
-      tagName, children, onFinish, ...props
-    } = this.props;
-
-    const value = this.value() || this.props.value || this.props.children;
-
-    return React.createElement(
-      tagName || 'div',
-      {
-        ...props,
-        ref: (el) => { this.el = el; },
-        className: `volta-text_editable ${this.props.className || ''}`,
-        // onKeyUp: this.handleKeyChange,
-        onKeyDown: this.handleKeyDown,
-        onInput: this.handleChange,
-        onBlur: this.handleBlur,
-        contentEditable: !this.props.disabled,
-        dangerouslySetInnerHTML: { __html: value },
-      },
-    );
-  }
+  return React.createElement(tagName, {
+    ...props,
+    ref: elRef,
+    className: `volta-text_editable ${className}`,
+    onKeyDown: handleKeyDown,
+    onInput: handleChange,
+    onBlur: handleBlur,
+    contentEditable: !disabled,
+    dangerouslySetInnerHTML: { __html: html },
+  });
 }
+
+TextEditable.propTypes = {
+  tagName: PropTypes.string,
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  value: PropTypes.string,
+  children: PropTypes.node,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  onFinish: PropTypes.func,
+};
