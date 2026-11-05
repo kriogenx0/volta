@@ -35,7 +35,7 @@ const Icon = ({ type, className, size, ...otherProps }) => {
     iProps.style = {
       content: icon
     };
-  };
+  }
 
   return (
     <i {...iProps} />

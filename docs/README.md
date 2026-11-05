@@ -173,11 +173,33 @@ you're touching the build:
 
 ## Testing
 
-`npm test` runs Jest + React Testing Library against `components/**/*.test.jsx`.
-Coverage is intentionally focused on components touched during the recent
-modernization pass (`Button`, `Card`, `Select`, `Tooltip`, `PopOver`,
-`ContentEditable`, `Theme`) rather than all 92 — most of the others have no
-tests yet.
+`make test` (`npm test`) runs Jest + React Testing Library over `tests/`, one
+folder per component. Jest compiles JSX with the automatic runtime, the same
+as the Vite build; the classic runtime applies `defaultProps` to function
+components and React 19 doesn't, which let tests pass while the built app lost
+those defaults. `jest.setup.js` stubs the browser APIs jsdom lacks
+(`URL.createObjectURL`, `matchMedia`, `ResizeObserver`, `IntersectionObserver`,
+`scrollTo`, media playback).
+
+Tests that apply to every component:
+
+- `tests/examples.test.jsx`: each component registered in the styleguide has
+  at least two examples, each with its own name and code, and every example
+  renders (inside a `MemoryRouter`, as in the styleguide) with no error and no
+  React warning. A new component needs its examples registered there.
+- `tests/noUtilityClasses.test.js`: no Tailwind-style utility classes.
+- `tests/noFunctionDefaultProps.test.js`: function components take defaults as
+  parameters (`({ size = 'md' }) =>`), never `defaultProps`; class components
+  may keep it.
+
+`make lint` runs ESLint over `.js` and `.jsx`.
+
+Not covered: nothing is checked in a real browser, so styles and layout are
+unverified by the suite. Components that need a real engine are tested against
+fakes: Google Maps (`tests/Map/fakeGoogleMaps.js`), Howler, canvas and `Image`
+for `ImageCrop`, CKEditor 4, and TinyMCE (whose script is never fetched).
+`UserMap` and `TableList` have no tests because `leaflet` and `jquery` aren't
+installed.
 
 ## Unwired components
 

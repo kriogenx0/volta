@@ -48,7 +48,7 @@ TabBar.propTypes = {
   selectedTabIndex: PropTypes.number
 };
 
-TabBar.Link = ({ active, label, onClick }) => (
+const TabBarLink = ({ active, label, onClick }) => (
   <button
     type='button'
     className={`volta-tab_bar-link${active ? ' tab-active' : ''}`}
@@ -59,10 +59,12 @@ TabBar.Link = ({ active, label, onClick }) => (
   </button>
 );
 
-TabBar.Link.propTypes = {
+TabBarLink.propTypes = {
   active: PropTypes.bool,
   label: PropTypes.node,
   onClick: PropTypes.func
 };
+
+TabBar.Link = TabBarLink;
 
 export default TabBar;

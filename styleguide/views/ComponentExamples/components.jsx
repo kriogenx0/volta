@@ -30,6 +30,7 @@ import FileManagerExamples from '../../../examples/FileManager/FileManager-examp
 import FilePickerExamples from '../../../examples/FilePicker/FilePicker-examples';
 import FileUploaderExamples from '../../../examples/FileUploader/FileUploader-examples';
 import BaseFormExamples from '../../../examples/Form/BaseForm-examples';
+import FieldLabelExamples from '../../../examples/FieldLabel/FieldLabel-examples';
 import FieldRowExamples from '../../../examples/FieldRow/FieldRow-examples';
 import FullViewExamples from '../../../examples/FullView/FullView-examples';
 import GlobalNavExamples from '../../../examples/GlobalNav/GlobalNav-examples';
@@ -121,6 +122,7 @@ const curated = [
   FilePickerExamples,
   FileUploaderExamples,
   BaseFormExamples,
+  FieldLabelExamples,
   FieldRowExamples,
   FullViewExamples,
   GlobalNavExamples,

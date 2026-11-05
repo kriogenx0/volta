@@ -34,6 +34,7 @@ import FileManager from './FileManager/FileManager';
 import FilePicker from './FilePicker/FilePicker';
 import FileUploader from './FileUploader/FileUploader';
 import { BaseForm, BaseInput, FormRow } from './Form';
+import FieldLabel from './FieldLabel/FieldLabel';
 import FieldRow from './FieldRow/FieldRow';
 import FullView from './FullView/FullView';
 import GlobalNav from './GlobalNav/GlobalNav';
@@ -130,6 +131,7 @@ export {
   BaseForm,
   BaseInput,
   FormRow,
+  FieldLabel,
   FieldRow,
   FullView,
   GlobalNav,
