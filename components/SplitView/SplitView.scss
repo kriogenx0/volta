@@ -5,6 +5,7 @@
   &.split_view-open {
     .split_view-side {
       width: auto;
+      visibility: visible;
     }
   }
 
@@ -20,7 +21,8 @@
     transition: width $anim-speed-normal;
     word-wrap: break-word;
 
-    // closed
+    // closed: collapsed, and out of the tab order and the accessibility tree
     width: 0;
+    visibility: hidden;
   }
 }

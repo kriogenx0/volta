@@ -70,4 +70,46 @@ describe('SearchSelector', () => {
     const { container } = render(<SearchSelector open />);
     expect(container.querySelector('.volta-pop_over').className).not.toMatch(/null|undefined/);
   });
+
+  it('names the search box and the popover', () => {
+    render(<SearchSelector open onType={onType} />);
+    expect(screen.getByRole('textbox', { name: 'Search' })).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: 'Search' })).toBeInTheDocument();
+  });
+
+  it('lets the same result be picked twice when uniqueItems is off', () => {
+    const { container } = render(<SearchSelector open uniqueItems={false} onType={onType} />);
+    type('ap');
+    fireEvent.click(screen.getByRole('button', { name: 'Apple' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Apple' }));
+    expect(tagsShown(container)).toEqual(['Apple', 'Apple']);
+  });
+
+  it('shows no results and does not throw when there is no onType', () => {
+    render(<SearchSelector open />);
+    expect(() => type('ap')).not.toThrow();
+    expect(screen.queryAllByRole('button')).toHaveLength(0);
+  });
+
+  it('shows no results when onType returns nothing', () => {
+    render(<SearchSelector open onType={() => []} />);
+    type('zzz');
+    expect(screen.queryAllByRole('button')).toHaveLength(0);
+  });
+
+  it('follows the open prop, closing and reopening', () => {
+    const { container, rerender } = render(<SearchSelector open={false} />);
+    expect(container.querySelector('.volta-pop_over')).not.toHaveClass('pop_over-open');
+    rerender(<SearchSelector open />);
+    expect(container.querySelector('.volta-pop_over')).toHaveClass('pop_over-open');
+    rerender(<SearchSelector open={false} />);
+    expect(container.querySelector('.volta-pop_over')).not.toHaveClass('pop_over-open');
+  });
+
+  it('works without onChange or onClose', () => {
+    const { container } = render(<SearchSelector open onType={onType} />);
+    type('ap');
+    expect(() => fireEvent.click(screen.getByRole('button', { name: 'Apple' }))).not.toThrow();
+    expect(() => fireEvent.click(container.querySelector('.volta-pop_over'))).not.toThrow();
+  });
 });

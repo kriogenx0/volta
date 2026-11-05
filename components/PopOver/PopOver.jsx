@@ -1,14 +1,30 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+
+import useEscapeKey from '../Overlay/useEscapeKey';
 
 import './PopOver.scss';
 
-const PopOver = ({ open, fullSize, closeOnOverlayClick, handleClose, className, children }) => {
-  const overlay = useRef(null);
-
+// A panel shown over the page while `open`. By default (`fullSize`) a
+// translucent backdrop covers the window and the content sits on it; with
+// `fullSize={false}` the content stays where it is in the page, over a faint
+// click-catcher. With `closeOnOverlayClick`, a click on the backdrop or Escape
+// calls `handleClose` -- the parent owns the open state.
+const PopOver = ({
+  open = false,
+  fullSize = true,
+  closeOnOverlayClick = true,
+  handleClose = null,
+  className = null,
+  children,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledby
+}) => {
   const closeModal = () => {
     if (handleClose) handleClose();
   };
+
+  useEscapeKey(closeModal, open && closeOnOverlayClick);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -16,7 +32,6 @@ const PopOver = ({ open, fullSize, closeOnOverlayClick, handleClose, className, 
     const el = document.createElement('div');
     el.className = 'overlay';
     document.body.appendChild(el);
-    overlay.current = el;
 
     const onOverlayClick = () => {
       if (closeOnOverlayClick) closeModal();
@@ -29,9 +44,9 @@ const PopOver = ({ open, fullSize, closeOnOverlayClick, handleClose, className, 
     return () => {
       el.removeEventListener('click', onOverlayClick);
       document.body.removeChild(el);
-      overlay.current = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // closeModal reads the latest handleClose each render; re-attaching on every
+    // render would churn the overlay element, so only open/closeOnOverlayClick matter.
   }, [open, closeOnOverlayClick]);
 
   const handleOverlayClick = () => {
@@ -48,7 +63,14 @@ const PopOver = ({ open, fullSize, closeOnOverlayClick, handleClose, className, 
   const modalClass = `volta-pop_over${fullSize ? ' pop_over-full' : ''}${open ? ' pop_over-open in' : ''}${className ? ` ${className}` : ''}`;
 
   return (
-    <div className={modalClass} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" onClick={handleBackdropClick}>
+    <div
+      className={modalClass}
+      tabIndex="-1"
+      role="dialog"
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabelledby}
+      onClick={handleBackdropClick}
+    >
       {!fullSize && (
         <div className="inner-overlay" onClick={handleOverlayClick}></div>
       )}
@@ -59,24 +81,19 @@ const PopOver = ({ open, fullSize, closeOnOverlayClick, handleClose, className, 
   );
 };
 
-PopOver.defaultProps = {
-  // Start open or closed
-  open: false,
-  // Full screen?
-  fullSize: true,
-  // Clone when clicking overlay
-  closeOnOverlayClick: true,
-  // Callback for closing dialog
-  handleClose: null,
-  className: null
-};
-
 PopOver.propTypes = {
+  // Show the popover
   open: PropTypes.bool,
+  // Cover the window with the backdrop (true) or keep the content in place
+  fullSize: PropTypes.bool,
+  // Close on a click outside the content, and on Escape
   closeOnOverlayClick: PropTypes.bool,
+  // Called when the popover asks to close
   handleClose: PropTypes.func,
   className: PropTypes.string,
-  children: PropTypes.array
+  children: PropTypes.node,
+  'aria-label': PropTypes.string,
+  'aria-labelledby': PropTypes.string
 };
 
 export default PopOver;

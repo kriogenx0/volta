@@ -1,41 +1,40 @@
 import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 
 import "./SplitView.scss";
 
-const SplitView = ({ side, open, children, setScrollHeight }) => {
+// A main pane beside a collapsible side pane. `open` reveals the side pane.
+// With `setScrollHeight` (the default) the view is sized to fill the window
+// below its own top edge, so the two panes scroll independently of the page.
+const SplitView = ({ side, open = false, children, setScrollHeight = true }) => {
 
   const [height, setHeight] = useState(null);
 
   const containerRef = useRef(null);
-  
+
   // Init
   useEffect(() => {
-    if (setScrollHeight) {
-      adjustHeight();
-      window.addEventListener('resize', adjustHeight);
-      return () => {
-        window.removeEventListener('resize', adjustHeight);
-      };
-    }
-  }, []);
+    if (!setScrollHeight) return undefined;
 
-  let lastOffset;
+    let lastOffset;
 
-  const adjustHeight = () => {
-    if (!containerRef || !containerRef.current) return console.warn('ref not found', containerRef);
+    const adjustHeight = () => {
+      if (!containerRef.current) return;
 
-    // Get offset
-    const top = containerRef.current.offsetTop;
-    if (lastOffset != top) {
-      lastOffset = top;
-      const newHeight = top ? `calc(100vh - ${top}px)` : null;
-      // console.log('newHeight', top, newHeight);
-      setHeight(top ? newHeight : null);
-    }
-  };
+      // Get offset
+      const top = containerRef.current.offsetTop;
+      if (lastOffset != top) {
+        lastOffset = top;
+        setHeight(top ? `calc(100vh - ${top}px)` : null);
+      }
+    };
 
-  // calc(100vh - 47px)
-  //  style={{ display: "flex", flexDirection: "row" }}
+    adjustHeight();
+    window.addEventListener('resize', adjustHeight);
+    return () => {
+      window.removeEventListener('resize', adjustHeight);
+    };
+  }, [setScrollHeight]);
 
   return (
     <div className={'volta-split_view' + (open ? ' split_view-open' : '')} ref={containerRef} style={{ height }}>
@@ -50,9 +49,14 @@ const SplitView = ({ side, open, children, setScrollHeight }) => {
 
 };
 
-SplitView.defaultProps = {
-  setScrollHeight: true
+SplitView.propTypes = {
+  // Content of the side pane
+  side: PropTypes.node,
+  open: PropTypes.bool,
+  // Fit the view to the window below its top edge
+  setScrollHeight: PropTypes.bool,
+  // Content of the main pane
+  children: PropTypes.node
 };
-
 
 export default SplitView;

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { map, forEach } from 'lodash';
+import { map } from 'lodash';
 
 import Dropdown from '../Dropdown';
 import DropdownListItem from './DropdownListItem';
@@ -12,19 +12,18 @@ const DropdownList = ({
     onSelect,
     onToggle,
     options,
-    placeholder,
+    placeholder = 'Select an option',
     selectedOption,
-    setPlaceholder,
+    setPlaceholder = true,
     buttonComponent,
     open
   }) => {
 
-  let setOpen;
-  if (typeof open == 'undefined') {
-    [open, setOpen] = useState(false);
-  } else {
-    setOpen = () => {};
-  }
+  // Automanage open state unless the parent controls it with `open`
+  const [openState, setOpenState] = useState(false);
+  const managed = typeof open == 'undefined';
+  const isOpen = managed ? openState : open;
+  const setOpen = managed ? setOpenState : () => {};
 
   if (!options && items) {
     console.warn("DropdownList no longer accepts 'items'. Please use 'options' instead.");
@@ -51,7 +50,7 @@ const DropdownList = ({
   */
 
   const handleButtonClick = () => {
-    const o = !open;
+    const o = !isOpen;
     setOpen(o);
     onToggle && onToggle(o);
   };
@@ -60,14 +59,16 @@ const DropdownList = ({
     onSelect && onSelect(option, index);
     // setSelectedOption(option);
     setOpen(false);
+    option.action && option.action();
   };
 
   let dropdownLabel = placeholder;
   const dropdownListItems = map(options, (option, index) => (
     <DropdownListItem
       key={index}
+      role="option"
       onSelect={ handleOptionSelect.bind(null, option, index) }
-      active={selectedOption === option}
+      isActive={selectedOption === option}
       label={option.label}
     />
   ));
@@ -76,6 +77,7 @@ const DropdownList = ({
     dropdownListItems.push(
       <DropdownListItem
         key={0}
+        role="option"
         disabled={true}
         label="No options available."
       />
@@ -90,33 +92,37 @@ const DropdownList = ({
     <Dropdown
       className='volta-dropdown_list'
       label={dropdownLabel}
-      open={open}
+      open={isOpen}
       onClick={handleButtonClick}
       onClose={handleButtonClick}
       buttonComponent={buttonComponent}
     >
-      {dropdownListItems}
+      <div role="listbox">
+        {dropdownListItems}
+      </div>
     </Dropdown>
   );
 
 }
 
-DropdownList.propTypes = {
-  placeholder: PropTypes.string,
-  // open: PropTypes.bool, // If bool is set, then the value is never undefined, cannot be detected to automatically be managed.
-  options: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.any,
-    action: PropTypes.func
-  })),
-  onSelect: PropTypes.func,
-  setPlaceholder: PropTypes.bool
-};
+const optionShape = PropTypes.shape({
+  label: PropTypes.string,
+  value: PropTypes.any,
+  action: PropTypes.func
+});
 
-DropdownList.defaultProps = {
-  // open: false, // If bool is set, then the value is never undefined, cannot be detected to automatically be managed.
-  placeholder: 'Select an option',
-  setPlaceholder: true
+DropdownList.propTypes = {
+  buttonComponent: PropTypes.element,
+  items: PropTypes.arrayOf(optionShape), // deprecated, use options
+  onSelect: PropTypes.func,
+  onToggle: PropTypes.func,
+  // When `open` is a bool the parent controls the list (onToggle reports every
+  // change); when it is left out the list opens and closes itself.
+  open: PropTypes.bool,
+  options: PropTypes.arrayOf(optionShape),
+  placeholder: PropTypes.string,
+  selectedOption: optionShape,
+  setPlaceholder: PropTypes.bool
 };
 
 export default DropdownList;

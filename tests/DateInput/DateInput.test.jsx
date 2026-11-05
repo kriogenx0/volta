@@ -29,9 +29,12 @@ describe('DateInput', () => {
     );
 
     const days = container.querySelectorAll('.calendar-day');
-    expect([...days].find((day) => day.textContent === '9')).toHaveClass('day-inactive');
-    expect([...days].find((day) => day.textContent === '10')).toHaveClass('day-active');
-    expect([...days].find((day) => day.textContent === '21')).toHaveClass('day-inactive');
+    const day = (text) => [...days].find((cell) => cell.textContent === text);
+    expect(day('9')).toHaveClass('day-disabled');
+    expect(day('9')).not.toHaveClass('day-active');
+    expect(day('10')).toHaveClass('day-active');
+    expect(day('20')).toHaveClass('day-active');
+    expect(day('21')).toHaveClass('day-disabled');
   });
 
   it('renders the requested display format in readonly mode', () => {

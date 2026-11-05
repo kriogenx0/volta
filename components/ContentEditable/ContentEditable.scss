@@ -1,0 +1,24 @@
+@use '../../mixins' as *;
+
+.volta-content_editable {
+  box-sizing: border-box;
+  min-height: 64px;
+  padding: 8px 12px;
+  overflow-wrap: anywhere;
+  border: 1px solid var(--v-color-base-subtle);
+  border-radius: $border_radius;
+  background-color: transparent;
+  color: var(--v-color-trim);
+  transition: border-color $anim-speed-normal, background-color $anim-speed-normal;
+
+  &:hover {
+    border-color: var(--v-color-base-less-subtle);
+    background-color: var(--v-color-base-more-subtle);
+  }
+
+  &:focus {
+    border-color: var(--v-accent);
+    outline: 2px solid var(--v-accent);
+    outline-offset: -1px;
+  }
+}

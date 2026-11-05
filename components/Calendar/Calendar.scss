@@ -7,32 +7,53 @@ $calendar-size: 40px;
   margin-right: auto;
   text-align: center;
 
-  div.calendar-day
+  // Days are native buttons (keyboard and screen reader friendly) drawn flat;
+  // the blank cells before the 1st are plain divs that only take up room.
+  .calendar-day
   {
     float: left;
+    box-sizing: border-box;
     width: $calendar-size;
-    text-align: center;
     height: $calendar-size;
-    line-height: 40px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--v-color-trim);
+    font: inherit;
+    line-height: $calendar-size;
+    text-align: center;
+  }
+
+  .day-active
+  {
     cursor: pointer;
+    transition: background-color var(--v-anim-speed) var(--v-anim-ease);
 
     &:hover
     {
-      background-color: #ccc;
+      background-color: var(--v-color-base-subtle);
+    }
+
+    &:focus-visible
+    {
+      outline: 2px solid var(--v-accent);
+      outline-offset: -2px;
     }
 
     &.day-current
     {
-      background-color: #fcc;
+      background-color: var(--v-accent);
+      color: var(--v-on-accent);
+
+      &:hover
+      {
+        background-color: var(--v-accent-hover);
+      }
     }
   }
 
-  .cal-prev,
-  .cal-month,
-  .cal-next
-  {
-    padding: 5px;
-  }
   .cal-prev
   {
     float: left;

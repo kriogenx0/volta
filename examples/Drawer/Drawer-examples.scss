@@ -1,0 +1,24 @@
+// The drawer fills its nearest positioned ancestor, so each demo gives it a
+// framed box to slide over. `isolation` keeps the drawer's z-index inside the box.
+.example-drawer_frame {
+  position: relative;
+  isolation: isolate;
+  height: 260px;
+  overflow: hidden;
+  border: 1px solid var(--v-color-base-subtle);
+  border-radius: 8px;
+}
+
+.example-drawer_page {
+  margin: 0;
+  padding: 16px;
+  color: var(--v-color-trim-subtle);
+}
+
+.example-drawer_content {
+  padding: 24px;
+
+  h3 {
+    margin-top: 0;
+  }
+}

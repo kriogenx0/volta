@@ -8,7 +8,7 @@ const FilterSectionListItem = ({ name, value, selected, onChange }) => {
 
   return (
     <li className={`lst_row ${selected ? 'is-selected' : ''}`}>
-      <a href="#" onClick={handleClick}>{name}</a>
+      <a href="#" aria-current={selected ? 'true' : undefined} onClick={handleClick}>{name}</a>
     </li>
   );
 };

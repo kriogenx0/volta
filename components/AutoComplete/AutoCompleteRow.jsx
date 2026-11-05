@@ -1,24 +1,25 @@
 // A single row in <AutoComplete>. The original version also supported
 // 'person'/'color' row types backed by Avatar/Track child components that
 // don't exist in this repo -- this is the plain label-only row.
+//
+// Chosen on mousedown (not click) so the text box keeps focus while the list
+// is used with the mouse.
 import PropTypes from 'prop-types';
 
-const AutoCompleteRow = ({ data, isFocused, onClick }) => (
-  <li className={`lst_row ${isFocused ? 'is-focused' : ''}`}>
-    <a tabIndex="-1" href="#" onClick={(e) => e.preventDefault()} onMouseDown={onClick}>{data.title}</a>
+const AutoCompleteRow = ({ id, data = {}, isFocused = false, onClick = () => {} }) => (
+  <li id={id} role="option" aria-selected={isFocused} className={`lst_row ${isFocused ? 'is-focused' : ''}`} onMouseDown={onClick}>
+    {data.title}
   </li>
 );
 
 AutoCompleteRow.propTypes = {
+  id: PropTypes.string,
   isFocused: PropTypes.bool,
-  data: PropTypes.object,
+  data: PropTypes.shape({
+    title: PropTypes.string,
+    value: PropTypes.any
+  }),
   onClick: PropTypes.func
-};
-
-AutoCompleteRow.defaultProps = {
-  isFocused: false,
-  data: {},
-  onClick: () => {}
 };
 
 export default AutoCompleteRow;

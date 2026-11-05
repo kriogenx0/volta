@@ -28,22 +28,13 @@ export default class ColorPickerSquare extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { moving: false, saturation: null, value: null };
+    const hsv = tinycolor({ h: props.hue, s: props.saturation, l: props.lightness }).toHsv();
+    this.state = { moving: false, saturation: hsv.s * 100, value: hsv.v * 100 };
     this.square = React.createRef();
 
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
-  }
-
-  componentWillMount() {
-    const hsv = tinycolor({
-      h: this.props.hue,
-      s: this.props.saturation,
-      l: this.props.lightness
-    }).toHsv();
-
-    this.setState({ saturation: hsv.s * 100, value: hsv.v * 100 });
   }
 
   componentDidUpdate(props, state) {

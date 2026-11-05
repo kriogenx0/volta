@@ -1,92 +1,121 @@
-@use '../../mixins' as *;
-$inactive: #888;
+// One row: [play] time [seek bar] length [mute]. The row is 50px tall.
+$audio_track-height: 50px;
 
 .volta-audio_track
 {
-  display: table;
-  background: #fff;
-  color: $inactive;
-  width: 100%;
-  border-radius: 3px;
-  border: 1px solid #e1e1e1;
-  overflow: hidden; // BORDER CORNERS
-  transition: border-color $anim-speed-normal;
-  min-height: 50px;
-  line-height: 50px;
   box-sizing: border-box;
-
-  &:hover
-  {
-    border-color: #ccc;
-  }
+  display: block;
+  width: 100%;
+  min-height: $audio_track-height;
+  overflow: hidden; // BORDER CORNERS
+  border: 1px solid var(--v-color-base-subtle);
+  border-radius: 4px;
+  background: var(--v-color-base);
+  color: var(--v-color-trim-less-subtle);
+  line-height: $audio_track-height - 2px;
 
   .audio_track-controls
   {
-    display: table-row;
+    display: flex;
+    align-items: stretch;
+    height: $audio_track-height - 2px;
     font-size: 18px;
     text-align: center;
-    min-height: 50px;
+  }
 
-    > *
-    {
-      display: table-cell;
-      vertical-align: middle;
-      min-width: 50px;
-      cursor: default;
-    }
-    > *,
-    .rail-elapsed_percent
-    {
-      height: 50px;
-    }
-    .rail-elapsed_percent
-    {
-      background: rgba(0,0,0,0.2);
-      transition: background-color $anim-speed-normal;
-      width: 0%;
-    }
+  .audio_track-icon
+  {
+    display: block;
+  }
 
-    .rail
-    {
-      width: 100%;
-      // IF WAVEFORM BACKGROUND
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 100% 100%;
+  // Play and mute are native buttons drawn flat
+  .control
+  {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: $audio_track-height;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    transition: background-color var(--v-anim-speed) var(--v-anim-ease), color var(--v-anim-speed) var(--v-anim-ease);
 
-      &:hover .rail-elapsed_percent
-      {
-        background-color: rgba(57,180,228, 0.2);
-      }
+    &:hover
+    {
+      background-color: var(--v-color-base-more-subtle);
+      color: var(--v-color-trim);
     }
 
-    .time,
-    .duration
+    &:focus-visible
     {
-      font-size: 14px;
+      outline: 2px solid var(--v-accent);
+      outline-offset: -2px;
+    }
+  }
+
+  .time,
+  .duration
+  {
+    flex: none;
+    box-sizing: border-box;
+    min-width: $audio_track-height;
+    padding: 0 4px;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .rail
+  {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    cursor: pointer;
+    // Dragging along the bar seeks; up and down still scroll the page
+    touch-action: pan-y;
+    // IF WAVEFORM BACKGROUND
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+
+    &:hover .rail-elapsed_percent
+    {
+      background-color: color-mix(in srgb, var(--v-accent) 30%, transparent);
     }
 
-    .control
+    &:focus-visible
     {
-      cursor: pointer;
-      transition: background-color $anim-speed-normal, color, $anim-speed-normal;
-
-      &:hover
-      {
-        background-color: #f1f1f1;
-        color: #333;
-      }
+      outline: 2px solid var(--v-accent);
+      outline-offset: -2px;
     }
+  }
+
+  .rail-elapsed_percent
+  {
+    width: 0;
+    height: 100%;
+    background-color: color-mix(in srgb, var(--v-color-trim) 15%, transparent);
+    transition: background-color var(--v-anim-speed) var(--v-anim-ease);
+    pointer-events: none;
   }
 
   .error
   {
-    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 16px;
+    color: var(--v-color-danger);
+    font-size: 14px;
 
-    i
+    .audio_track-icon
     {
       font-size: 18px;
-      margin-right: 7px;
     }
   }
 
@@ -97,7 +126,7 @@ $inactive: #888;
 
     > div
     {
-      background-color: $inactive;
+      background-color: var(--v-color-inactive);
     }
   }
 }

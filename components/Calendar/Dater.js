@@ -56,13 +56,12 @@ class Dater {
   }
 
   // MUTATING
+  // Always works on its own copy of the date, so moving a Dater around never
+  // changes the Date (or Dater) it was made from. An unreadable date means today.
   load(date) {
-    if (date instanceof Dater)
-      this.date = date.date;
-    else if (date)
-      this.date = date instanceof Date ? date : new Date(date);
-    else
-      this.date = new Date();
+    const source = date instanceof Dater ? date.date : date;
+    const next = source ? new Date(source instanceof Date ? source.getTime() : source) : new Date();
+    this.date = isNaN(next.getTime()) ? new Date() : next;
   }
 
   now() {
@@ -75,8 +74,14 @@ class Dater {
     return this;
   }
 
+  // Stays in the target month when it is shorter: Jan 31 plus a month is Feb 28
+  // (or 29), not Mar 3.
   nextMonth(increment) {
+    const day = this.date.getDate();
+    this.date.setDate(1);
     this.date.setMonth(this.date.getMonth() + (increment || 1));
+    const daysInTarget = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0).getDate();
+    this.date.setDate(Math.min(day, daysInTarget));
     return this;
   }
 

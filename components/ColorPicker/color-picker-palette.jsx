@@ -4,7 +4,7 @@
 
 import PropTypes from 'prop-types';
 
-const ColorPickerPalette = ({ colors, onColorSelect }) => (
+const ColorPickerPalette = ({ colors = [], onColorSelect = () => {} }) => (
   <ul className="cpr_palette">
     {colors.map((color, index) => (
       <li
@@ -19,11 +19,6 @@ const ColorPickerPalette = ({ colors, onColorSelect }) => (
 ColorPickerPalette.propTypes = {
   colors: PropTypes.array,
   onColorSelect: PropTypes.func
-};
-
-ColorPickerPalette.defaultProps = {
-  colors: [],
-  onColorSelect: () => {}
 };
 
 export default ColorPickerPalette;

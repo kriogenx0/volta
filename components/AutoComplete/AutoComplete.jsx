@@ -11,7 +11,7 @@
 // Pill/Avatar/Track child components, none of which exist in this repo.
 // That mode was dropped rather than ported with fabricated stand-ins --
 // this is the plain-array mode only.
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useId } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Fuzzy from 'fuzzy';
@@ -22,10 +22,17 @@ import './_autocomplete.scss';
 
 const emailPattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
+// Shared defaults. `selected` must keep one identity between renders: a new []
+// each time would look like a new selection and reset the component.
+const NONE = [];
+const noop = () => {};
+const alwaysValid = () => true;
+const defaultAddMessage = (value) => <span>Add &quot;<span className="strong">{value}</span>&quot; (press enter)</span>;
+
 const AutoComplete = ({
-  options, selected, onChange, onAdd, onFocus, onFooterClick,
-  footerTitle, compact, placeholder, name, detect, allowAdd, limit,
-  className, isValidResult, formatAddMessage
+  options = NONE, selected = NONE, onChange = noop, onAdd = noop, onFocus = noop, onFooterClick = noop,
+  footerTitle = null, compact = false, placeholder = null, name = null, detect = null, allowAdd = false, limit = Infinity,
+  className = '', isValidResult = alwaysValid, formatAddMessage = defaultAddMessage, 'aria-label': ariaLabel
 }) => {
   const [chosen, setChosen] = useState(selected);
   const [value, setValue] = useState('');
@@ -33,36 +40,52 @@ const AutoComplete = ({
   const [focusedRow, setFocusedRow] = useState(-1);
   const [focusedPill, setFocusedPill] = useState(-1);
 
+  const rootRef = useRef(null);
   const inputRef = useRef(null);
+  const listId = useId();
 
-  const filterOptions = (currentValue = value, currentChosen = chosen) => {
-    const chosenValues = _.map(currentChosen, 'value');
-    const list = options.filter((option) => isValidResult(option) && !chosenValues.includes(option.value));
-    const results = Fuzzy.filter(currentValue, list, { extract: (el) => el.title }).map((res) => res.original);
-    return results.sort((a, b) => (a.title < b.title ? -1 : a.title > b.title ? 1 : 0));
-  };
+  // What the list shows: the options not yet chosen that match the text, A-Z.
+  // Worked out on every render so new options or text can't leave it stale.
+  const chosenValues = _.map(chosen, 'value');
+  const matching = options.filter((option) => isValidResult(option) && !chosenValues.includes(option.value));
+  const filteredOptions = Fuzzy.filter(value, matching, { extract: (el) => el.title })
+    .map((res) => res.original)
+    .sort((a, b) => (a.title < b.title ? -1 : a.title > b.title ? 1 : 0));
 
-  const [filteredOptions, setFilteredOptions] = useState(() => filterOptions('', selected));
-
+  // Take a new selection from the parent
   useEffect(() => {
     setChosen(selected);
-    setFilteredOptions(filterOptions(value, selected));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
+  // A click outside closes the list. Blur does that for the keyboard, but a
+  // single-choice box with a choice has a disabled text box, which never blurs.
+  useEffect(() => {
+    if (!open) return undefined;
+    const closeOnOutsideClick = (e) => {
+      if (rootRef.current && !rootRef.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', closeOnOutsideClick);
+    return () => document.removeEventListener('mousedown', closeOnOutsideClick);
+  }, [open]);
+
   const handleChange = (newChosen) => {
-    setFilteredOptions(filterOptions(value, newChosen));
+    setChosen(newChosen);
     onChange(newChosen);
   };
 
-  const handleToggle = () => setOpen((prev) => !prev);
-
   const clearValue = () => setValue('');
 
+  // Returns whether the option was added
   const handleSelect = (option, e) => {
     if (e) e.preventDefault();
-    if (e && (e.which === 3 || e.button === 2)) return; // ignore right click
-    if (!option) return;
+    if (e && (e.which === 3 || e.button === 2)) return false; // ignore right click
+    if (!option) return false;
+
+    // Already chosen (e.g. the same address typed twice): just clear the text
+    if (chosen.some((item) => item.value === option.value)) {
+      setValue('');
+      return false;
+    }
 
     let willClose = e && e.button === 0;
     if (limit === 1) willClose = true;
@@ -71,25 +94,23 @@ const AutoComplete = ({
     if (limit === 1 && chosen.length) newChosen = [];
     newChosen = newChosen.concat(option);
 
-    setChosen(newChosen);
     setValue('');
     handleChange(newChosen);
     if (willClose) {
       setOpen(false);
       if (inputRef.current) inputRef.current.blur();
     }
+    return true;
   };
 
   const handleAdd = () => {
-    handleSelect({ title: value, value });
-    onAdd(value);
-    setValue('');
-    setFilteredOptions(filterOptions('', chosen));
+    if (handleSelect({ title: value, value })) onAdd(value);
   };
 
   const detectEmail = () => {
-    if (value.replace(/\s+/g, '').match(emailPattern)) {
-      handleSelect({ title: value, value });
+    const email = value.replace(/\s+/g, '');
+    if (email.match(emailPattern)) {
+      handleSelect({ title: email, value: email });
     }
   };
 
@@ -111,15 +132,12 @@ const AutoComplete = ({
   };
 
   const handleRemove = (item) => {
-    const newChosen = chosen.filter((o) => o.value !== item.value);
-    setChosen(newChosen);
-    handleChange(newChosen);
+    handleChange(chosen.filter((o) => o.value !== item.value));
   };
 
   const handleRemoveAll = (e) => {
     e.preventDefault();
     setOpen(false);
-    setChosen([]);
     handleChange([]);
   };
 
@@ -150,7 +168,7 @@ const AutoComplete = ({
     if (e.keyCode === 40) { incrementFocusedRow(); return; } // down
     if (e.keyCode === 38) { decrementFocusedRow(); return; } // up
     if (e.keyCode === 8) { handleDelete(); return; } // backspace
-    if (e.keyCode === 9) { handleToggle(); return; } // tab
+    if (e.keyCode === 27) { setOpen(false); return; } // escape
     if (e.keyCode === 13) { e.preventDefault(); handleEnter(); return; } // enter
     setFocusedPill(-1);
   };
@@ -163,10 +181,16 @@ const AutoComplete = ({
   const handleValueChange = (e) => {
     const newValue = e.target.value;
     setValue(newValue);
-    setFilteredOptions(filterOptions(newValue, chosen));
+    setFocusedRow(-1);
+  };
+
+  const handleFocus = () => {
+    onFocus();
+    setOpen(true);
   };
 
   const handleBlur = () => {
+    setOpen(false);
     setFocusedRow(-1);
     setFocusedPill(-1);
     setTimeout(clearValue, 200);
@@ -174,7 +198,7 @@ const AutoComplete = ({
 
   const handleTagContainerClick = () => {
     if (!open) clearValue();
-    if (limit === 1 && filteredOptions.length) handleToggle();
+    if (limit === 1 && filteredOptions.length) setOpen((prev) => !prev);
     if (inputRef.current) inputRef.current.focus();
   };
 
@@ -184,18 +208,27 @@ const AutoComplete = ({
     setOpen(false);
   };
 
+  const showList = open && (filteredOptions.length > 0 || value !== '');
+  const optionId = (index) => `${listId}-option-${index}`;
+
   const classes = ['volta-auto_complete twd twd-short autocomplete l-full-width', className];
-  if (open && (filteredOptions.length > 0 || value !== '')) classes.push('is-open');
+  if (showList) classes.push('is-open');
   if (limit === 1) classes.push('is-single');
 
   return (
-    <div className={classes.join(' ')}>
+    <div className={classes.join(' ')} ref={rootRef}>
       <input
+        role="combobox"
+        aria-autocomplete="list"
+        aria-expanded={showList}
+        aria-controls={listId}
+        aria-activedescendant={showList && focusedRow >= 0 && focusedRow < filteredOptions.length ? optionId(focusedRow) : undefined}
+        aria-label={ariaLabel || placeholder || undefined}
         onBlur={handleBlur}
-        onFocus={() => { onFocus(); handleToggle(); }}
+        onFocus={handleFocus}
         value={value}
         className="txt l-full-width twd_input"
-        placeholder={chosen.length >= limit ? '' : placeholder}
+        placeholder={chosen.length >= limit ? '' : placeholder || ''}
         onKeyUp={handleKeyUp}
         onKeyDown={handleKeyDown}
         onChange={handleValueChange}
@@ -203,16 +236,18 @@ const AutoComplete = ({
         ref={inputRef}
       />
 
-      <div className="twd_dropdown ddn" onClick={(e) => e.stopPropagation()}>
+      {/* Mousedown inside the list must not blur the text box, or the list would close before a click lands */}
+      <div className="twd_dropdown ddn" onClick={(e) => e.stopPropagation()} onMouseDown={(e) => e.preventDefault()}>
         <div className="twd_dropdown_scroll">
-          <ul className={`autocomplete_options lst ${compact ? 'lst-compact' : ''}`}>
+          <ul id={listId} role="listbox" className={`autocomplete_options lst ${compact ? 'lst-compact' : ''}`}>
             {filteredOptions.length === 0 && !allowAdd && value !== '' && (
-              <li className="lst_row l-half-padded deemphasized">No matching results.</li>
+              <li role="presentation" className="lst_row l-half-padded deemphasized">No matching results.</li>
             )}
 
             {filteredOptions.map((option, index) => (
               <AutoCompleteRow
                 key={option.value}
+                id={optionId(index)}
                 data={option}
                 isFocused={focusedRow === index}
                 onClick={(e) => handleSelect(option, e)}
@@ -220,7 +255,7 @@ const AutoComplete = ({
             ))}
 
             {chosen.length > 0 && limit === 1 && (
-              <li className="lst_row lst_row-divider-above is-deletable">
+              <li role="presentation" className="lst_row lst_row-divider-above is-deletable">
                 <a href="#" onClick={handleRemoveAll}>Clear selection</a>
               </li>
             )}
@@ -233,7 +268,7 @@ const AutoComplete = ({
         ) : (
           footerTitle && (
             <div className="twd_footer">
-              <a href="#" tabIndex="-1" className="twd_footer_link" onClick={handleFooterClick}>{footerTitle}</a>
+              <a href="#" className="twd_footer_link" onClick={handleFooterClick}>{footerTitle}</a>
             </div>
           )
         )}
@@ -244,13 +279,13 @@ const AutoComplete = ({
             <span className={`${focusedPill === i ? 'is-focused' : ''} autocomplete_chosen_item_pill`}>
               {item.title}
               {limit !== 1 && (
-                <a href="#" onClick={(e) => { e.preventDefault(); handleRemove(item); }}>&times;</a>
+                <button type="button" aria-label={`Remove ${item.title}`} onClick={() => handleRemove(item)}>&times;</button>
               )}
             </span>
           </div>
         ))}
       </div>
-      <input type="hidden" name={name} />
+      <input type="hidden" name={name || undefined} value={chosen.map((item) => item.value).join(',')} />
     </div>
   );
 };
@@ -260,8 +295,15 @@ AutoComplete.propTypes = {
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
   onAdd: PropTypes.func,
-  options: PropTypes.array,
-  selected: PropTypes.array,
+  // Each option is { title, value }; values must be unique
+  options: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string,
+    value: PropTypes.any
+  })),
+  selected: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string,
+    value: PropTypes.any
+  })),
   footerTitle: PropTypes.string,
   compact: PropTypes.bool,
   placeholder: PropTypes.string,
@@ -271,26 +313,9 @@ AutoComplete.propTypes = {
   limit: PropTypes.number,
   className: PropTypes.string,
   isValidResult: PropTypes.func,
-  formatAddMessage: PropTypes.func
-};
-
-AutoComplete.defaultProps = {
-  onFooterClick: () => {},
-  onChange: () => {},
-  onFocus: () => {},
-  onAdd: () => {},
-  isValidResult: () => true,
-  formatAddMessage: (value) => <span>Add &quot;<span className="strong">{value}</span>&quot; (press enter)</span>,
-  options: [],
-  selected: [],
-  footerTitle: null,
-  compact: false,
-  placeholder: null,
-  name: null,
-  detect: null,
-  allowAdd: false,
-  limit: Infinity,
-  className: ''
+  formatAddMessage: PropTypes.func,
+  // Names the text box for assistive tech; falls back to the placeholder
+  'aria-label': PropTypes.string
 };
 
 export default AutoComplete;

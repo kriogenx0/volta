@@ -17,9 +17,17 @@
     right: 0;
   }
 
+  &.pop_over-full,
+  .inner-overlay
+  {
+    z-index: 1000;
+  }
+
   &.pop_over-full
   {
-    background: rgba(255,255,255,0.8);
+    // A wash of the page color, so the content reads in light and dark mode
+    background: color-mix(in srgb, var(--v-color-base) 80%, transparent);
+    color: var(--v-color-trim);
   }
 
   .inner-overlay
@@ -31,6 +39,15 @@
   .inner-overlay
   {
     background: rgba(0,0,0,0.05);
+  }
+
+  // Above the click-catcher, so content isn't covered by it (in the in-place
+  // form the .inner-overlay would otherwise paint over, and swallow clicks on,
+  // the content).
+  .dialog.content
+  {
+    position: relative;
+    z-index: 1001;
   }
 
 }

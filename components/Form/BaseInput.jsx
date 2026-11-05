@@ -1,9 +1,16 @@
+import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
+import './BaseInput.scss';
+
 const BaseInput = ({ autoSelect, inputType, fieldName, centered, displayName }) => {
-  const inputRef = (el) => {
-    if (el && autoSelect) el.focus();
-  };
+  const inputRef = useRef(null);
+
+  // Focus once on mount. (A ref callback would run on every render, pulling
+  // focus back to this field each time the form re-rendered.)
+  useEffect(() => {
+    if (autoSelect && inputRef.current) inputRef.current.focus();
+  }, []);
 
   return (
     <div className="volta-base_input">
@@ -13,7 +20,7 @@ const BaseInput = ({ autoSelect, inputType, fieldName, centered, displayName }) 
         name={fieldName}
         className={`txt l-full-width ${centered ? 'l-text-align-center' : ''}`}
         placeholder={displayName}
-        style={{ marginBottom: '10px' }}
+        aria-label={displayName}
       />
     </div>
   );

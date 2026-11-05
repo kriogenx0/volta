@@ -1,37 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 
+import Button from '../Button/Button';
 import Dater from './Dater';
 
 import './Calendar.scss';
 
+// One month at a time. `date` picks the month shown first and the highlighted
+// day (today when missing); it is read again whenever it changes to a different
+// moment. Choosing a day calls onDateSelect with a Dater for it.
 const Calendar = ({ date, onDateSelect }) => {
-  const [dater, setDater] = useState(null);
-  const [currentDay, setCurrentDay] = useState(null);
-  const [currentMonth, setCurrentMonth] = useState(null);
-  const [currentYear, setCurrentYear] = useState(null);
+  // Each change makes a new Dater (they mutate), so React sees it change
+  const [dater, setDater] = useState(() => new Dater(date || null));
 
-  const loadDater = (nextDater) => {
-    if (nextDater) {
-      setDater(nextDater);
-      setCurrentDay(nextDater.day());
-      setCurrentMonth((nextDater.monthName() + '').substr(0, 3));
-      setCurrentYear((nextDater.year() + '').substr(2));
-    }
-  };
-
+  // Follow a new `date` from the parent, but not on the first render
+  const startTime = date ? new Dater(date).date.getTime() : null;
+  const mounted = useRef(false);
   useEffect(() => {
-    loadDater(new Dater(date || null));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
+    setDater(new Dater(date || null));
+  }, [startTime]);
 
-  const handlePreviousClick = () => loadDater(dater.previousMonth());
-  const handleNextClick = () => loadDater(dater.nextMonth());
-  const handleMonthClick = () => loadDater(dater.now());
+  const handlePreviousClick = () => setDater(dater.clone().previousMonth());
+  const handleNextClick = () => setDater(dater.clone().nextMonth());
+  const handleMonthClick = () => setDater(new Dater());
 
   const selectDay = (dayNumber) => {
-    const newDater = dater.day(dayNumber);
-    loadDater(newDater);
+    const newDater = dater.clone().day(dayNumber);
+    setDater(newDater);
 
     if (onDateSelect) {
       onDateSelect(newDater);
@@ -39,36 +39,36 @@ const Calendar = ({ date, onDateSelect }) => {
   };
 
   const renderCalendarMonth = () => {
-    if (!dater) return null;
-
     const days = [];
-
-    let firstDayOfWeek = dater.clone().firstDayOfMonth().dayOfWeek();
-    let daysInMonth = dater.daysInMonth();
+    const currentDay = dater.day();
 
     // POPULATE PREVIOUS DAYS
-    for (let i = 0; i < firstDayOfWeek; i++) {
-      days.push({
-        value: null,
-        active: false
-      });
+    for (let i = 0; i < dater.clone().firstDayOfMonth().dayOfWeek(); i++) {
+      days.push({ value: null, active: false });
     }
 
     // POPULATE MONTH DAYS
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push({
-        value: i,
-        active: true,
-        current: currentDay === i
-      });
+    for (let i = 1; i <= dater.daysInMonth(); i++) {
+      days.push({ value: i, active: true, current: currentDay === i });
     }
 
     return _.map(days, (day, i) => {
-      let dayClassName = `calendar-day ${day.active ? 'day-active' : 'day-inactive'}${day.current ? ' day-current' : ''}`;
+      // Blank cells before the 1st only keep the weeks lined up
+      if (!day.active) {
+        return <div className="calendar-day day-inactive" key={`blank-${i}`} aria-hidden="true" />;
+      }
+
       return (
-        <div className={dayClassName} key={i} onClick={( () => { return selectDay(day.value); } )}>
+        <button
+          type="button"
+          className={`calendar-day day-active${day.current ? ' day-current' : ''}`}
+          key={`day-${day.value}`}
+          aria-label={`${dater.monthName()} ${day.value}, ${dater.year()}`}
+          aria-current={day.current ? 'date' : undefined}
+          onClick={() => selectDay(day.value)}
+        >
           {day.value}
-        </div>
+        </button>
       );
     });
   };
@@ -76,20 +76,32 @@ const Calendar = ({ date, onDateSelect }) => {
   return (
     <div className='volta-calendar'>
       <div>
-        <div className='btn cal-prev' onClick={handlePreviousClick}>
+        <Button className='cal-prev' size='small' aria-label='Previous month' onClick={handlePreviousClick}>
           &larr;
-        </div>
-        <div className='btn cal-next' onClick={handleNextClick}>
+        </Button>
+        <Button className='cal-next' size='small' aria-label='Next month' onClick={handleNextClick}>
           &rarr;
-        </div>
-        <div className='btn cal-month' onClick={handleMonthClick}>
-          {currentMonth} {currentYear}
-        </div>
+        </Button>
+        <Button className='cal-month' variant='link' size='small' title='Show the current month' onClick={handleMonthClick}>
+          {dater.monthName().substr(0, 3)} {String(dater.year()).substr(2)}
+        </Button>
       </div>
       {renderCalendarMonth()}
       <div className='clear' />
     </div>
   );
+};
+
+Calendar.propTypes = {
+  // Month and day to show first. A Date, a Dater, a timestamp or a date string.
+  date: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.instanceOf(Dater),
+    PropTypes.number,
+    PropTypes.string
+  ]),
+  // Called with a Dater for the day that was chosen
+  onDateSelect: PropTypes.func
 };
 
 export default Calendar;

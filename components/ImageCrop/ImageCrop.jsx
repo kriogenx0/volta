@@ -4,6 +4,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Button from '../Button/Button';
+import CloseButton from '../CloseButton/CloseButton';
+import Icon from '../Icon/Icon';
 import Tooltip from '../Tooltip/Tooltip';
 import Slider from '../Slider/Slider';
 
@@ -17,12 +20,14 @@ export default class ImageCrop extends React.Component {
 
     this.state = {
       scale: 1,
-      element: new Image(),
       size: { width: 0, height: 0 },
       pos: { x: 0, y: 0 },
       rel: { x: 0, y: 0 },
       visible: false
     };
+
+    // The decoded picture; an Image is not React state, it is set up once and read
+    this.element = new Image();
 
     this.frame = React.createRef();
     this.canvas = React.createRef();
@@ -38,12 +43,13 @@ export default class ImageCrop extends React.Component {
   }
 
   componentDidMount() {
-    this.state.element.addEventListener('load', this.centerImage);
-    this.state.element.src = URL.createObjectURL(this.props.image);
+    this.element.addEventListener('load', this.centerImage);
+    this.objectUrl = URL.createObjectURL(this.props.image);
+    this.element.src = this.objectUrl;
 
     this.setState({ filename: this.props.image.name });
 
-    setTimeout(() => {
+    this.showTimer = setTimeout(() => {
       this.setState({ visible: true });
     }, 100);
 
@@ -52,7 +58,14 @@ export default class ImageCrop extends React.Component {
 
   // If you leave before image loads, abort
   componentWillUnmount() {
-    this.state.element.removeEventListener('load', this.centerImage);
+    this.element.removeEventListener('load', this.centerImage);
+
+    // Nothing left to fade in or to report closing, and no drag in progress
+    clearTimeout(this.showTimer);
+    clearTimeout(this.closeTimer);
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
+    URL.revokeObjectURL(this.objectUrl);
 
     // Allow body scrolling
     document.body.classList.remove('bdy', 'is_overlay-visible');
@@ -79,8 +92,8 @@ export default class ImageCrop extends React.Component {
     const canvasWidth = this.props.width;
     const canvasHeight = this.props.height;
     const canvasRatio = canvasWidth / canvasHeight;
-    const imageWidth = this.state.element.width;
-    const imageHeight = this.state.element.height;
+    const imageWidth = this.element.width;
+    const imageHeight = this.element.height;
     const imageRatio = imageWidth / imageHeight;
     let scale = this.state.scale;
 
@@ -225,12 +238,13 @@ export default class ImageCrop extends React.Component {
     const dWidth = this.state.size.width * this.state.scale;
     const dHeight = this.state.size.height * this.state.scale;
 
-    context.drawImage(this.state.element, dx, dy, dWidth, dHeight);
+    context.drawImage(this.element, dx, dy, dWidth, dHeight);
 
-    // return cropped image
+    // return cropped image, named like the original but as a jpg
     canvas.toBlob((blob) => {
-      blob.filename = `${this.state.filename.substr(0, this.state.filename.lastIndexOf('.'))}.jpg`;
-      this.props.onCrop(blob);
+      if (!blob) return;
+      blob.filename = `${(this.state.filename || 'image').replace(/\.[^.]*$/, '')}.jpg`;
+      if (this.props.onCrop) this.props.onCrop(blob);
     }, 'image/jpeg', 0.95);
 
     // mission complete, close crop dialog
@@ -241,15 +255,15 @@ export default class ImageCrop extends React.Component {
   close() {
     this.setState({ visible: false });
 
-    setTimeout(() => {
-      this.props.onClose();
+    this.closeTimer = setTimeout(() => {
+      if (this.props.onClose) this.props.onClose();
     }, 200);
   }
 
   // Close overlay on click
   handleClose(event) {
     this.close();
-    event.preventDefault();
+    if (event) event.preventDefault();
   }
 
   render() {
@@ -270,7 +284,7 @@ export default class ImageCrop extends React.Component {
       top: this.state.pos.y
     };
 
-    const ghostStyle = { ...imageStyle, backgroundImage: `url(${this.state.element.src})` };
+    const ghostStyle = { ...imageStyle, backgroundImage: `url(${this.element.src})` };
 
     const wrapClassName = [
       'volta-image_crop',
@@ -279,15 +293,17 @@ export default class ImageCrop extends React.Component {
     ].filter(Boolean).join(' ');
 
     return (
-      <div className={wrapClassName}>
-        <div className="icr_close" onClick={this.handleClose}></div>
+      <div className={wrapClassName} role="dialog" aria-modal="true" aria-label="Position and size image">
+        <div className="icr_close">
+          <CloseButton onClick={this.handleClose} />
+        </div>
         <div className="icr_modal">
           <h2>Position and Size Image</h2>
           <h3>Drag and resize the image within the dimensions as desired.</h3>
           <div ref={this.frame} className="icr_frame" style={frameStyle}>
             <div className="icr_ghost" style={ghostStyle} />
             <div className="icr_window">
-              <img className="icr_image" src={this.state.element.src} alt="Image being cropped" style={imageStyle} />
+              <img className="icr_image" src={this.element.src || undefined} alt="Image being cropped" style={imageStyle} />
               <div className="icr_screen" style={screenStyle} onMouseDown={this.startDrag} />
             </div>
             <div className="icr_guide is_vert is_left"></div>
@@ -299,22 +315,26 @@ export default class ImageCrop extends React.Component {
           </div>
           <div className="icr_control" style={controlStyle}>
             <div className="icr_control_range">
-              <i className="icn icn-image-size-small" />
-              <i className="icn icn-image-size-large" />
+              <Icon type="image" size="small" className="icr_control_range-small" aria-hidden="true" />
               {this.props.showScale && <Slider ariaLabel="Scale" min={0} max={2} value={this.state.scale} onChange={this.setScale} />}
+              <Icon type="image" className="icr_control_range-large" aria-hidden="true" />
             </div>
             <div className="icr_control_size">
-              <Tooltip className="icr_control_size_button cursor-pointer" onClick={this.centerImage} title="Center image in the crop area." gravity="down">
-                <i className="icn icn-image-size-reset l-v-align-middle" />
+              <Tooltip className="icr_control_size_button" title="Center image in the crop area." gravity="down">
+                <button type="button" className="icr_control_size_action" aria-label="Center image in the crop area" onClick={this.centerImage}>
+                  <Icon type="rectangle.compress.vertical" aria-hidden="true" />
+                </button>
               </Tooltip>
-              <Tooltip className="icr_control_size_button cursor-pointer" onClick={this.fullSize} title="Show uploaded image's original dimensions." gravity="down">
-                <i className="icn icn-image-size-original l-v-align-middle" />
+              <Tooltip className="icr_control_size_button" title="Show uploaded image's original dimensions." gravity="down">
+                <button type="button" className="icr_control_size_action" aria-label="Show original size" onClick={this.fullSize}>
+                  <Icon type="rectangle.expand.vertical" aria-hidden="true" />
+                </button>
               </Tooltip>
             </div>
           </div>
           <div className="icr_btns">
-            <button type="button" className="btn" onClick={this.handleClose}>Cancel</button>
-            <button type="button" className="btn btn-primary" onClick={this.crop}>Crop and Save</button>
+            <Button onClick={this.handleClose}>Cancel</Button>
+            <Button variant="primary" onClick={this.crop}>Crop and Save</Button>
           </div>
           <canvas ref={this.canvas} className="icr_canvas" width={this.props.width} height={this.props.height} />
         </div>
@@ -325,16 +345,24 @@ export default class ImageCrop extends React.Component {
 }
 
 ImageCrop.propTypes = {
-  image: PropTypes.object.isRequired,
+  // The File (or Blob) to crop
+  image: PropTypes.instanceOf(Blob).isRequired,
+  // Size in pixels of the cropped image
   width: PropTypes.number,
   height: PropTypes.number,
+  // Width of the dimmed border shown around the crop area
   bleedWidth: PropTypes.number,
   // Show the drag-to-scale slider between the size icons (ImageUploader does)
   showScale: PropTypes.bool,
+  // Called after the cropper has faded out, whether it was cancelled or saved
   onClose: PropTypes.func,
+  // Called with the cropped jpg Blob, which also has a `filename`
   onCrop: PropTypes.func
 };
 
 ImageCrop.defaultProps = {
+  width: 300,
+  height: 300,
+  bleedWidth: 0,
   showScale: false
 };

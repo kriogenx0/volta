@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill-new';
 
 import 'react-quill-new/dist/quill.snow.css';
@@ -19,6 +20,16 @@ RichTextQuill.modules = {
     ['link', 'image', 'video'],
     ['clean']
   ],
+};
+
+// The toolbar (modules) is fixed; every other ReactQuill prop is passed through.
+RichTextQuill.propTypes = {
+  className: PropTypes.string,
+  defaultValue: PropTypes.string,
+  onChange: PropTypes.func,
+  placeholder: PropTypes.string,
+  readOnly: PropTypes.bool,
+  value: PropTypes.string
 };
 
 export default RichTextQuill;

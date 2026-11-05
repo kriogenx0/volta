@@ -1,6 +1,6 @@
 // Creates a list with items. Each item can take:
 // label  - the text of the item
-// action - the click handler for the item
+// action - the click handler for the item, called with (index, item, event)
 //
 // const items = [
 //   { label: 'Profile' },
@@ -8,6 +8,8 @@
 // ];
 // <List items={items} />
 import PropTypes from 'prop-types';
+
+import './List.scss';
 
 const List = ({ items }) => {
   if (!items) return null;
@@ -17,7 +19,7 @@ const List = ({ items }) => {
       {items.map((item, index) => (
         <li className="lst_row" key={index}>
           {typeof item.action === 'function'
-            ? <a href="javascript: void(0)" onClick={(e) => item.action(index, item, e)}>{item.label}</a>
+            ? <button type="button" onClick={(e) => item.action(index, item, e)}>{item.label}</button>
             : <span>{item.label}</span>}
         </li>
       ))}
@@ -26,7 +28,10 @@ const List = ({ items }) => {
 };
 
 List.propTypes = {
-  items: PropTypes.array
+  items: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.node,
+    action: PropTypes.func
+  }))
 };
 
 export default List;

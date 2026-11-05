@@ -11,11 +11,16 @@ export default class MapSelector extends React.Component {
 
   constructor(props) {
     super(props);
+
+    // Start on defaultValue, else value: the box shows it and the map searches for it.
+    const start = props.defaultValue !== null ? props.defaultValue : props.value;
+    const hasStart = start !== null && start !== undefined;
+
     this.state = {
       searchTextField: false,
-      mapValue: '',
+      mapValue: hasStart ? start : '',
       value: props.value,
-      searchBoxValue: props.value || '',
+      searchBoxValue: hasStart ? start : (props.value || ''),
       searching: false
     };
 
@@ -25,24 +30,14 @@ export default class MapSelector extends React.Component {
     this.clearAddress = this.clearAddress.bind(this);
     this.handleMapLoading = this.handleMapLoading.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleNotFound = this.handleNotFound.bind(this);
     this.removeValue = this.removeValue.bind(this);
     this.inputRef = this.inputRef.bind(this);
   }
 
-  componentWillMount() {
-    if (this.props.defaultValue !== null)
-      this.searchFor(this.props.defaultValue);
-    else if (this.props.value !== null)
+  componentDidUpdate(prevProps) {
+    if (this.props.value !== null && prevProps.value !== this.props.value)
       this.searchFor(this.props.value);
-  }
-
-  componentWillReceiveProps(props) {
-    this.loadProps(props);
-  }
-
-  loadProps(props) {
-    if (props.value !== null && this.props.value !== props.value)
-      this.searchFor(props.value);
   }
 
   // componentWillUnmount() {
@@ -96,6 +91,11 @@ export default class MapSelector extends React.Component {
     this.props.onChange(location, this.state.searchBoxValue);
   }
 
+  // The search found no place; say so rather than leaving the map as it was.
+  handleNotFound() {
+    this.setState({ message: 'Location not found.' });
+  }
+
   inputRef(input) {
     this.searchBox = input;
     if (!this.state.searchTextField)
@@ -119,6 +119,7 @@ export default class MapSelector extends React.Component {
               onChange={this.handleSearchChange}
               value={this.state.searchBoxValue}
               placeholder={this.props.placeholder}
+              aria-label={this.props.placeholder}
             />
           </div>
         </div>
@@ -128,7 +129,7 @@ export default class MapSelector extends React.Component {
             return (
               <div className='map_selector-location_found clearfix l-space-quarter-v'>
                 <span>{locationAddress}</span>
-                <Button onClick={this.removeValue}>X</Button>
+                <Button onClick={this.removeValue} aria-label="Remove location">X</Button>
               </div>
             );
           }
@@ -150,6 +151,7 @@ export default class MapSelector extends React.Component {
                 value={this.state.mapValue}
                 onLoading={this.handleMapLoading}
                 onChange={this.handleChange}
+                onNotFound={this.handleNotFound}
                 addressInput={this.state.searchTextField}
               />
             );
@@ -160,7 +162,13 @@ export default class MapSelector extends React.Component {
 }
 
 MapSelector.propTypes = {
-  // value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  // An address to start on and to search for again whenever it changes.
+  value: PropTypes.string,
+  // An address to start on that later changes to the prop don't override.
+  defaultValue: PropTypes.string,
+  placeholder: PropTypes.string,
+  // Called with the found place ({ address, lat, lng, results }) and the text
+  // that was in the search box.
   onChange: PropTypes.func
 };
 

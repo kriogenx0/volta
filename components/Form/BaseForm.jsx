@@ -17,9 +17,13 @@ import PropTypes from 'prop-types';
 import ErrorList from '../Message/ErrorList';
 import BaseInput from './BaseInput';
 
+import './BaseForm.scss';
+
 const BaseForm = ({
-  fields, submitValue, submittingValue, handle200, handle201, handle400, handle404,
-  autoSelectFirst, showSubmit, shouldSubmit, onSubmit, action, centered, submitButtonClass, children
+  fields = [], submitValue = 'Submit', submittingValue = 'Submitting...',
+  handle200 = null, handle201 = null, handle400 = null, handle404 = null,
+  autoSelectFirst = false, showSubmit = true, shouldSubmit = false, onSubmit = () => {},
+  action, centered, submitButtonClass = '', children
 }) => {
   const formRef = useRef(null);
   const [formErrors, setFormErrors] = useState([]);
@@ -53,6 +57,9 @@ const BaseForm = ({
       } else if (response.status === 404) {
         setFormErrors({ 'SERVER ERROR': '404 - Page not found.' });
         if (handle404) handle404(response);
+      } else {
+        // Any other status would otherwise fail silently
+        setFormErrors({ 'SERVER ERROR': `${response.status} - ${response.statusText || 'The request failed.'}` });
       }
     } catch (error) {
       setIsSubmitting(false);
@@ -62,7 +69,7 @@ const BaseForm = ({
 
   useEffect(() => {
     if (shouldSubmit && !isSubmitting) handleSubmit();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Submit only when shouldSubmit flips, not whenever the handler changes
   }, [shouldSubmit]);
 
   return (
@@ -81,9 +88,9 @@ const BaseForm = ({
           />
         ))}
         {children}
-        <div style={{ display: showSubmit ? 'block' : 'none' }}>
+        <div hidden={!showSubmit}>
           {isSubmitting
-            ? <button className={`btn btn-primary ${submitButtonClass} l-full-width is-disabled`}>{submittingValue}</button>
+            ? <button type="button" disabled className={`btn btn-primary ${submitButtonClass} l-full-width is-disabled`}>{submittingValue}</button>
             : <input type="submit" value={submitValue} className={`btn btn-primary l-full-width ${submitButtonClass}`} />}
         </div>
       </div>
@@ -93,7 +100,11 @@ const BaseForm = ({
 
 BaseForm.propTypes = {
   action: PropTypes.string,
-  fields: PropTypes.array,
+  fields: PropTypes.arrayOf(PropTypes.shape({
+    fieldName: PropTypes.string.isRequired,
+    inputType: PropTypes.string,
+    displayName: PropTypes.string
+  })),
   submitValue: PropTypes.string,
   submittingValue: PropTypes.string,
   handle200: PropTypes.func,
@@ -105,21 +116,8 @@ BaseForm.propTypes = {
   shouldSubmit: PropTypes.bool,
   onSubmit: PropTypes.func,
   centered: PropTypes.bool,
-  submitButtonClass: PropTypes.string
-};
-
-BaseForm.defaultProps = {
-  fields: [],
-  submitValue: 'Submit',
-  submittingValue: 'Submitting...',
-  handle200: null,
-  handle201: null,
-  handle400: null,
-  handle404: null,
-  autoSelectFirst: false,
-  showSubmit: true,
-  shouldSubmit: false,
-  onSubmit: () => {}
+  submitButtonClass: PropTypes.string,
+  children: PropTypes.node
 };
 
 export default BaseForm;

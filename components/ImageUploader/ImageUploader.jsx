@@ -1,5 +1,6 @@
 // Image Picker Component ties together File Picker and Image Crop components
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import Layer from '../Layer/Layer';
 import ImageCrop from '../ImageCrop/ImageCrop';
@@ -37,9 +38,9 @@ const ImageUploader = ({ shouldPick, cropWidth, cropHeight, bleedWidth, onImageP
     );
   };
 
+  // Open the picker when shouldPick turns true, not on every render.
   useEffect(() => {
     if (shouldPick) handleFileSelect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldPick]);
 
   const handleClose = () => {
@@ -65,9 +66,14 @@ const ImageUploader = ({ shouldPick, cropWidth, cropHeight, bleedWidth, onImageP
     handleClose();
   };
 
+  // The crop Layer is a sibling of the clickable wrapper, not a child: React
+  // events bubble through portals, so clicks inside the cropper (Cancel, Crop
+  // and Save, the scale slider) would otherwise reopen the file picker.
   return (
-    <div onClick={handleFileSelect} className={['volta-image_uploader', className].filter(Boolean).join(' ')}>
-      {children}
+    <>
+      <div onClick={handleFileSelect} className={['volta-image_uploader', className].filter(Boolean).join(' ')}>
+        {children}
+      </div>
       {file && (
         <Layer>
           <ImageCrop
@@ -81,8 +87,23 @@ const ImageUploader = ({ shouldPick, cropWidth, cropHeight, bleedWidth, onImageP
           />
         </Layer>
       )}
-    </div>
+    </>
   );
+};
+
+ImageUploader.propTypes = {
+  // Set to true to open the file picker without a click on the children.
+  shouldPick: PropTypes.bool,
+  // Size in pixels of the cropped image.
+  cropWidth: PropTypes.number.isRequired,
+  cropHeight: PropTypes.number.isRequired,
+  // Width of the dimmed border shown around the crop area.
+  bleedWidth: PropTypes.number,
+  // Called with the cropped image Blob (and an object URL for it).
+  onImagePick: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  // What to click on to start picking: a button, an avatar, a placeholder.
+  children: PropTypes.node
 };
 
 export default ImageUploader;

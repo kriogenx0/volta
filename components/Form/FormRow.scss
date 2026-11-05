@@ -1,0 +1,44 @@
+// A label (and optional details) beside a control, stacked on narrow screens.
+.volta-form_row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 12px 0;
+
+  .frm_row_description {
+    flex: 1 1 180px;
+    min-width: 0;
+  }
+
+  .frm_row_body {
+    flex: 2 1 280px;
+    min-width: 0;
+
+    > p {
+      margin: 4px 0 0;
+    }
+  }
+
+  .frm_label {
+    margin: 0;
+    padding-top: 8px;
+    font-weight: 500;
+  }
+
+  // For rows whose control is not a one-line field
+  .frm_label-flush {
+    padding-top: 0;
+  }
+
+  .frm_details {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: var(--v-color-trim-less-subtle);
+  }
+
+  .frm_error {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: var(--v-color-danger);
+  }
+}

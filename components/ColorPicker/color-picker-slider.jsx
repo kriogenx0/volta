@@ -19,16 +19,12 @@ export default class ColorPickerSlider extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { moving: false, hue: null };
+    this.state = { moving: false, hue: props.hue };
     this.slider = React.createRef();
 
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
-  }
-
-  componentWillMount() {
-    this.setState({ hue: this.props.hue });
   }
 
   componentDidUpdate(props, state) {

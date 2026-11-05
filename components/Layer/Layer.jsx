@@ -5,6 +5,7 @@
 // layers stack in mount order).
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
 
 const Layer = ({ children }) => {
   const layerEl = useRef(null);
@@ -26,6 +27,11 @@ const Layer = ({ children }) => {
   if (!layerEl.current || !children) return null;
 
   return createPortal(children, layerEl.current);
+};
+
+Layer.propTypes = {
+  // Rendered into the layer; with no children the layer stays empty
+  children: PropTypes.node
 };
 
 export default Layer;

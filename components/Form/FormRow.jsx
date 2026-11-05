@@ -1,7 +1,11 @@
 // Re-usable form row element to be used in a form builder.
 import PropTypes from 'prop-types';
 
-const FormRow = ({ label, optionalText, helperText, isFlush, errors, showError, className, children }) => (
+import './FormRow.scss';
+
+const FormRow = ({
+  label = null, optionalText = null, helperText = null, isFlush, errors = [], showError = false, className = '', children
+}) => (
   <div className={`volta-form_row ${showError ? 'is-error' : ''} ${className}`}>
     <div className="frm_row_description">
       <p className={`frm_label ${isFlush ? 'frm_label-flush' : ''}`}>{label}</p>
@@ -22,20 +26,11 @@ FormRow.propTypes = {
   optionalText: PropTypes.string,
   helperText: PropTypes.string,
   isFlush: PropTypes.bool,
-  errors: PropTypes.array,
+  errors: PropTypes.arrayOf(PropTypes.string),
   showError: PropTypes.bool,
   isValid: PropTypes.bool,
-  className: PropTypes.string
-};
-
-FormRow.defaultProps = {
-  label: null,
-  optionalText: null,
-  helperText: null,
-  errors: [],
-  showError: false,
-  isValid: true,
-  className: ''
+  className: PropTypes.string,
+  children: PropTypes.node
 };
 
 export default FormRow;
