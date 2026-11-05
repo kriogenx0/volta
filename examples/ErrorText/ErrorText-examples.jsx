@@ -1,13 +1,29 @@
 import ErrorText from '../../components/ErrorText/ErrorText';
+import TextField from '../../components/TextField/TextField';
 
 export default {
   name: 'ErrorText',
-  description: 'No curated examples yet -- showing a default instance.',
+  description: 'Red helper text for a validation error, shown under the control it belongs to. It takes a plain string or a little markup for emphasis.',
   examples: [
     {
-      name: 'Default',
-      code: '<ErrorText />',
-      output: <ErrorText />
+      name: 'Message',
+      code: '<ErrorText message="Enter a valid email address." />',
+      output: <ErrorText message="Enter a valid email address." />
+    },
+    {
+      name: 'With emphasis',
+      code: '<ErrorText message={<>Password needs <strong>at least 8 characters</strong>.</>} />',
+      output: <ErrorText message={<>Password needs <strong>at least 8 characters</strong>.</>} />
+    },
+    {
+      name: 'Long message wraps',
+      code: '<ErrorText message="We could not save your changes because the server did not respond in time. Check your connection and try again in a moment." />',
+      output: <ErrorText message="We could not save your changes because the server did not respond in time. Check your connection and try again in a moment." />
+    },
+    {
+      name: 'Under a text field',
+      code: '<TextField label="Email" defaultValue="not-an-email" error="Enter a valid email address." />',
+      output: <TextField label="Email" defaultValue="not-an-email" error="Enter a valid email address." />
     }
   ]
 };

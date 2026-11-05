@@ -1,10 +1,14 @@
+import PropTypes from 'prop-types';
+import { escapeRegExp } from 'lodash';
+
 const Link = ({ to, params, className, children, ...rest }) => {
   const buildHref = () => {
     let href = to;
 
     if (params) {
       for (let param in params) {
-        href = href.replace(new RegExp(`:${param}\\b`, 'ig'), params[param]);
+        // A replacer function keeps `$&` and friends in a value literal
+        href = href.replace(new RegExp(`:${escapeRegExp(param)}\\b`, 'ig'), () => params[param]);
       }
     }
     return href;
@@ -15,6 +19,13 @@ const Link = ({ to, params, className, children, ...rest }) => {
       {children}
     </a>
   );
+};
+
+Link.propTypes = {
+  to: PropTypes.string.isRequired, // a path; `:name` segments are filled from params
+  params: PropTypes.object,
+  className: PropTypes.string,
+  children: PropTypes.node
 };
 
 export default Link;

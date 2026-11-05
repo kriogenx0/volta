@@ -1,6 +1,7 @@
 import React, { useId } from 'react';
 import PropTypes from 'prop-types';
 
+import ErrorText from '../ErrorText/ErrorText';
 import FieldLabel from '../FieldLabel/FieldLabel';
 
 import './TextField.scss';
@@ -9,7 +10,17 @@ const TextField = ({ disabled, multiline, validate, error, label, optional, fiel
   const generatedId = useId();
   const fieldId = id || generatedId;
   const handleKeyUp = validate ? (event) => validate(event.target.value) : inputProps.onKeyUp;
-  const controlProps = { ...inputProps, id: label ? fieldId : id, disabled, onKeyUp: handleKeyUp, className: className || undefined };
+  const errorId = `${fieldId}-error`;
+  const describedBy = [inputProps['aria-describedby'], error && errorId].filter(Boolean).join(' ') || undefined;
+  const controlProps = {
+    ...inputProps,
+    id: label ? fieldId : id,
+    disabled,
+    onKeyUp: handleKeyUp,
+    className: className || undefined,
+    'aria-invalid': error ? true : inputProps['aria-invalid'],
+    'aria-describedby': describedBy
+  };
   const control = multiline ? <textarea {...controlProps} /> : <input type={inputProps.type || 'text'} {...controlProps} />;
 
   const field = (
@@ -18,11 +29,12 @@ const TextField = ({ disabled, multiline, validate, error, label, optional, fiel
     </div>
   );
 
-  if (!label) return field;
+  if (!label && !error) return field;
   return (
     <div>
-      <FieldLabel htmlFor={fieldId} optional={optional}>{label}</FieldLabel>
+      {label && <FieldLabel htmlFor={fieldId} optional={optional}>{label}</FieldLabel>}
       {field}
+      {error && <div id={errorId} className="volta-textfield-error_message"><ErrorText message={error} /></div>}
     </div>
   );
 };

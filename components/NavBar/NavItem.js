@@ -1,3 +1,7 @@
+// A string with something in it (lodash has no isPresent; this used to be a
+// global mixin that nothing here defines).
+const isPresent = (value) => typeof value === 'string' ? value.trim() !== '' : value != null;
+
 export default class NavItem {
   constructor(title, linkTo, key, extraClass, subHeading) {
     this.title = title || "untitled";
@@ -20,7 +24,7 @@ export default class NavItem {
   }
 
   hasLink() {
-    return _.isPresent(this.linkTo);
+    return isPresent(this.linkTo);
   }
 
   isExpanded() {

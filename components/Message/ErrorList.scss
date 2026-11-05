@@ -1,0 +1,21 @@
+.volta-error_list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+
+  li + li {
+    margin-top: 4px;
+  }
+}
+
+// Bullet before each error
+.volta-error_list-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 4px;
+  border-radius: 50%;
+  background: var(--v-color-danger);
+  vertical-align: middle;
+}

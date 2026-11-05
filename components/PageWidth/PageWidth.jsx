@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import './PageWidth.scss';
 
 const PageWidth = ({ className, children }) => {
@@ -10,6 +12,11 @@ const PageWidth = ({ className, children }) => {
       {children}
     </div>
   );
+};
+
+PageWidth.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node
 };
 
 export default PageWidth;

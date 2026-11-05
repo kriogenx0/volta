@@ -3,10 +3,17 @@ import PropTypes from 'prop-types';
 
 import './ImagePicker.scss';
 
-const ImagePicker = ({ height, className, defaultImageUrl, accept, onChange }) => {
+const ImagePicker = ({
+  height = 300,
+  className = null,
+  defaultImageUrl = null,
+  accept = 'image/*',
+  onChange = () => {}
+}) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const imageSelected = useRef(false);
+  const fileInput = useRef(null);
 
   // fileBlob or imageUrl or base64
   const loadImage = useCallback((fileBlob) => {
@@ -14,7 +21,7 @@ const ImagePicker = ({ height, className, defaultImageUrl, accept, onChange }) =
       setImageUrl('');
       setLoading(true);
 
-      if (!FileReader) {
+      if (typeof FileReader === 'undefined') {
         console.error('Browser not supported.');
         setLoading(false);
         return;
@@ -26,6 +33,7 @@ const ImagePicker = ({ height, className, defaultImageUrl, accept, onChange }) =
         setImageUrl(imageEncoded);
         setLoading(false);
       };
+      reader.onerror = () => setLoading(false);
       reader.readAsDataURL(fileBlob);
     } else {
       setImageUrl(fileBlob);
@@ -39,11 +47,9 @@ const ImagePicker = ({ height, className, defaultImageUrl, accept, onChange }) =
   }, [defaultImageUrl, loadImage]);
 
   const handleFileSelect = (event) => {
-    let file = event.target.files;
+    const { files } = event.target;
     // TODO support for multiple
-    if (file instanceof FileList) {
-      file = file[0];
-    }
+    const file = files && typeof files.length === 'number' ? files[0] : files;
     if (!file) return;
 
     imageSelected.current = true;
@@ -54,6 +60,8 @@ const ImagePicker = ({ height, className, defaultImageUrl, accept, onChange }) =
   const handleRemove = (e) => {
     if (e) e.preventDefault();
     imageSelected.current = false;
+    // Clear the input too, or picking the same file again wouldn't fire a change.
+    if (fileInput.current) fileInput.current.value = '';
     setImageUrl(null);
     onChange(null);
   };
@@ -67,16 +75,16 @@ const ImagePicker = ({ height, className, defaultImageUrl, accept, onChange }) =
     // ironyoung-compat: c-image_picker is the class name its own view-level scss targets directly.
     <div className={'volta-image_picker c-image_picker' + (className ? ` ${className}` : '')} >
       { imageUrl ?
-        <div className='image_picker-remove' onClick={handleRemove}>
-          <i className='fa fa-trash' />
-        </div>
+        <button type='button' className='image_picker-remove' onClick={handleRemove} aria-label='Remove image'>
+          <i className='fa fa-trash' aria-hidden='true' />
+        </button>
         : null
       }
-      <input type='file' onChange={handleFileSelect} accept={accept} />
+      <input ref={fileInput} type='file' onChange={handleFileSelect} accept={accept} aria-label='Choose an image' />
       <div className='image_background' style={imageStyle}>
         {loading
-          ? (<i className='fa fa-circle-o-notch' />)
-          : (!imageUrl ? (<i className='icon fa fa-cloud-upload' />) : null)}
+          ? (<i className='fa fa-circle-o-notch' aria-hidden='true' />)
+          : (!imageUrl ? (<i className='icon fa fa-cloud-upload' aria-hidden='true' />) : null)}
       </div>
     </div>
   );
@@ -85,16 +93,12 @@ const ImagePicker = ({ height, className, defaultImageUrl, accept, onChange }) =
 ImagePicker.propTypes = {
   height: PropTypes.number,
   className: PropTypes.string,
+  // An image URL (or data URI), or a File/Blob.
   defaultImageUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  // Passed to the file input's `accept`.
+  accept: PropTypes.string,
+  // Called with the chosen File, or null when the image is removed.
   onChange: PropTypes.func
-};
-
-ImagePicker.defaultProps = {
-  height: 300,
-  className: null,
-  defaultImageUrl: null,
-  accept: 'image/*',
-  onChange: (fileBlob, imageUrl) => {}
 };
 
 export default ImagePicker;

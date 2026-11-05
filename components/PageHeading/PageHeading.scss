@@ -1,0 +1,33 @@
+// Title on the left, actions on the right, wrapping on narrow screens. The l-*
+// layout classes stay on the markup for views that still style them, but here
+// the flex layout lays the two sides out.
+.volta-page_heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+
+  // The clearfix pseudo-element would otherwise become a third flex item
+  &.clearfix::after {
+    display: none;
+  }
+
+  .l-l,
+  .l-r {
+    float: none;
+  }
+
+  // Several actions sit side by side
+  .l-r {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  h1 {
+    margin: 0;
+  }
+}

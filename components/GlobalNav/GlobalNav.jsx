@@ -8,7 +8,7 @@ const GlobalNav = ({
   links,
   appName,
   onLinkClick,
-  homeLink,
+  homeLink = "/",
   appSubtitle,
 }) => {
 
@@ -33,18 +33,15 @@ const GlobalNav = ({
         {links ? (
           <nav>
             {map(links, (link, key) => {
-              const handleOnClick = (e) => {
-                e.preventDefault();
-                if (onLinkClick) onLinkClick(link);
-              };
+              const isActive = Boolean(activeLinkKey) && key === activeLinkKey;
+              // The links object's own keys are unique, so they make the React
+              // key; the link values (often objects) can't.
               return (
                 <a
-                  key={link}
+                  key={key}
                   href={typeof(link) == 'string' ? link : ''}
-                  className={
-                    "nav-link" +
-                    (activeLinkKey && key === activeLinkKey ? " active" : "")
-                  }
+                  className={"nav-link" + (isActive ? " active" : "")}
+                  aria-current={isActive ? "page" : undefined}
                   onClick={handleLinkClick.bind(null, link, key)}
                 >
                   {key}
@@ -64,12 +61,9 @@ GlobalNav.propTypes = {
   activeLinkKey: PropTypes.any,
   links: PropTypes.object, // { title: url }
   appName: PropTypes.string,
+  appSubtitle: PropTypes.string,
   onLinkClick: PropTypes.func,
   homeLink: PropTypes.string,
-};
-
-GlobalNav.defaultProps = {
-  homeLink: "/",
 };
 
 export default GlobalNav;

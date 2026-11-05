@@ -1,0 +1,32 @@
+// Inline status message. The icon is a Font Awesome class supplied by the host
+// app (aria-hidden); the border and the role carry the state without it.
+.volta-message {
+  padding: 8px 12px;
+  border-left: 4px solid var(--v-color-base-less-subtle);
+  border-radius: 4px;
+  background: var(--v-color-base-more-subtle);
+  color: var(--v-color-trim);
+  font-size: 14px;
+  line-height: 1.4;
+
+  .fa {
+    margin-right: 8px;
+  }
+}
+
+.volta-message-success {
+  border-left-color: var(--v-color-success);
+
+  .fa {
+    color: var(--v-color-success);
+  }
+}
+
+.volta-message-error {
+  border-left-color: var(--v-color-danger);
+  background: var(--v-color-danger-subtle);
+
+  .fa {
+    color: var(--v-color-danger);
+  }
+}

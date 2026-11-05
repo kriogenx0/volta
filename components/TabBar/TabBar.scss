@@ -5,9 +5,14 @@
   margin-bottom: 20px;
 }
 
+// A native button restyled as a tab
 .volta-tab_bar-link
 {
+  appearance: none;
+  background: none;
+  border: 0;
   border-bottom: 1px solid transparent;
+  font: inherit;
   display: inline-block;
   margin: 0;
   padding: 10px 15px;
@@ -28,6 +33,12 @@
     color: color-mix(in srgb, #39b4e4 90%, black 10%);
     border-bottom: 2px solid color-mix(in srgb, #39b4e4 90%, black 10%);
     padding-bottom: 9px;
+  }
+
+  &:focus-visible
+  {
+    outline: 2px solid var(--v-accent);
+    outline-offset: -2px;
   }
 
   &:link, &:visited, &:hover, &:active
