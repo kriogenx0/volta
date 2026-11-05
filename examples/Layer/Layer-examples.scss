@@ -1,0 +1,25 @@
+// A layer is just an empty element at the end of <body>; what goes in it
+// positions itself. Layers stack in the order they were mounted.
+.example-layer_panel {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  box-sizing: border-box;
+  width: min(18rem, calc(100% - 32px));
+  padding: 16px;
+  border: 1px solid var(--v-color-base-subtle);
+  border-radius: 8px;
+  background: var(--v-color-base);
+  color: var(--v-color-trim);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+
+  // Shifted so a second layer shows the one underneath it
+  &--second {
+    right: 32px;
+    bottom: 32px;
+  }
+
+  p {
+    margin-top: 0;
+  }
+}

@@ -2,85 +2,211 @@
 //
 //   Autocomplete module
 //
+// A box that holds the chosen pills, then a text box for searching, with a
+// list of matches under it while open. Everything uses the theme tokens, so it
+// follows light and dark mode.
+//
 // *************************************
 
 .autocomplete {
   position: relative;
-  min-width: 300px;
-  background: white;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  min-width: min(300px, 100%);
+  padding: 4px;
+  border: 1px solid var(--v-color-base-less-subtle);
+  border-radius: 4px;
+  background: var(--v-color-base);
+  color: var(--v-color-trim);
+  transition: border-color var(--v-anim-speed) var(--v-anim-ease);
 
-  &.is-single {
-    &:after {
-      content: "";
-      position: absolute;
-      right: 5px;
-      top: 10px;
+  &:hover {
+    border-color: var(--v-color-trim-less-subtle);
+  }
+
+  &:focus-within {
+    border-color: var(--v-accent);
+    outline: 2px solid var(--v-accent);
+    outline-offset: -1px;
+  }
+
+  // Search text, after the pills
+  .twd_input {
+    order: 1;
+    flex: 1 1 80px;
+    box-sizing: border-box;
+    min-width: 0;
+    padding: 6px 8px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+
+    // A full box has nothing left to type
+    &:disabled {
+      display: none;
     }
+  }
 
-    .autocomplete_chosen {
-      cursor: pointer !important;
+  // Single choice: the one pill is the whole control
+  &.is-single {
+    cursor: pointer;
+
+    .autocomplete_chosen_item {
+      flex: 1 1 auto;
     }
 
     .autocomplete_chosen_item_pill {
+      display: block;
       background: transparent;
-      cursor: pointer;
     }
   }
 }
 
-.autocomplete_options {
-  list-style: none;
-  text-align: left;
-  position: relative;
-}
-
-.autocomplete_chosen {
+// Only the results appear below the box, and only while it is open
+.autocomplete .twd_dropdown {
+  display: none;
   position: absolute;
-  top: 0;
+  top: 100%;
   left: 0;
   right: 0;
+  z-index: 1000;
+  margin-top: 4px;
+  border: 1px solid var(--v-color-base-subtle);
+  border-radius: 4px;
+  background: var(--v-color-base);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--v-color-trim) 30%, transparent);
+}
+
+.autocomplete.is-open .twd_dropdown {
+  display: block;
+}
+
+.twd_dropdown_scroll {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.autocomplete_options {
+  position: relative;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
   text-align: left;
-  padding: 10px;
-  cursor: text;
+
+  .lst_row {
+    padding: 8px 12px;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
+  &.lst-compact .lst_row {
+    padding: 4px 12px;
+  }
+
+  // Only the choosable rows react to the cursor
+  .lst_row[role='option'] {
+    cursor: pointer;
+    transition: background-color var(--v-anim-speed) var(--v-anim-ease);
+
+    &:hover,
+    &.is-focused {
+      background: var(--v-color-base-more-subtle);
+    }
+  }
+
+  .lst_row-divider-above {
+    border-top: 1px solid var(--v-color-base-subtle);
+  }
+
+  .deemphasized {
+    color: var(--v-color-trim-less-subtle);
+  }
+
+  .is-deletable a {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.twd_footer {
+  padding: 8px 12px;
+  border-top: 1px solid var(--v-color-base-subtle);
+
+  .strong {
+    font-weight: 600;
+  }
+}
+
+.twd_footer_link {
+  color: var(--v-accent);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// The pills sit directly in the box, ahead of the text
+.autocomplete_chosen {
+  display: contents;
 }
 
 .autocomplete_chosen_item {
-  display: inline-block;
-  margin-right: 10px;
-  margin-bottom: 4px;
-  float: left;
-  cursor: default;
+  order: 0;
   max-width: 100%;
-  line-height: 0;
-
-  > .autocomplete_chosen_item_pill {
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 28px;
-    line-height: 28px;
-    max-width: 100%;
-  }
+  cursor: default;
 }
 
 .autocomplete_chosen_item_pill {
-  font-weight: 600;
-  color: white;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
   max-width: 100%;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  background: #666;
+  height: 28px;
   padding: 0 8px;
   border-radius: 14px;
+  background: var(--v-color-base-subtle);
+  color: var(--v-color-trim);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   &.is-focused {
-    background: #444;
+    background: var(--v-accent-subtle);
+    outline: 2px solid var(--v-accent);
+    outline-offset: -2px;
   }
 
-  a {
-    color: white;
-    margin-left: 6px;
-    text-decoration: none;
+  button {
+    margin: 0 0 0 4px;
+    padding: 0 4px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color var(--v-anim-speed) var(--v-anim-ease);
+
+    &:hover {
+      background: var(--v-color-base-less-subtle);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--v-accent);
+    }
   }
 }

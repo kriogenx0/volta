@@ -43,9 +43,9 @@ const SearchSelector = ({ open: openProp = false, onType, onChange, onClose, mul
 
   return (
     <div className='volta-search_selector'>
-      <PopOver open={open} handleClose={handleClose}>
+      <PopOver open={open} handleClose={handleClose} aria-label="Search">
         <div className='search_selector-query'>
-          <TextBox value={query} onChange={handleOnType} />
+          <TextBox value={query} onChange={handleOnType} aria-label="Search" />
         </div>
         <div className='search_selector-tags'>
           {_.map(tags, (tag, index) => (

@@ -1,68 +1,7 @@
-@use "../../mixins" as *;
-
+// Both forms of Modal (see Modal.jsx) are a dimmed, fixed backdrop with a
+// centered panel. The container form's panel is `.modal-dialog`, which shares
+// the `.volta-modal-panel` look below; the standalone form adds a titled header.
 .volta-modal {
-  .modal-inside--padding {
-    padding: 0 4rem;
-  }
-
-  hr {
-    margin: 2rem 0;
-  }
-
-  .modal {
-    text-align: center;
-  
-    @media screen and (min-width: 768px) {
-      &:before {
-        display: inline-block;
-        vertical-align: middle;
-        content: " ";
-        height: 100%;
-      }
-    }
-  }
-
-  .modal-dialog {
-    background-color: #fff;
-
-
-    display: inline-block;
-    text-align: left;
-    vertical-align: middle;
-  
-    > .modal-content {
-      @include dark {
-        background-color: #333;
-      }
-    }
-  }
-  
-  .modal-insides {
-    // width: 100vw;
-    // max-width: 500px;
-    padding: 4rem 0 2rem;
-  
-    @include dark {
-      background-color: #111;
-    }
-  
-    > i,
-    .close-button {
-      position: absolute;
-      top: 0.25rem;
-      left: 0.25rem;
-  
-    }
-  
-    > hr {
-      margin: 1rem 0;
-    }
-  }
-}
-
-// Standalone modal (the `title` / `onClose` form): a dimmed backdrop with a
-// centered panel. The overlay-based form above is untouched.
-.volta-modal--standalone {
   position: fixed;
   inset: 0;
   z-index: 1000;
@@ -71,6 +10,24 @@
   justify-content: center;
   padding: 16px;
   background: rgba(0, 0, 0, .4);
+
+  .modal-inside--padding {
+    padding: 0 4rem;
+  }
+
+  hr {
+    margin: 2rem 0;
+  }
+
+  .modal-header {
+    margin-bottom: 16px;
+  }
+
+  .modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+  }
 }
 
 .volta-modal-panel {

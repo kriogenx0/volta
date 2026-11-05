@@ -1,6 +1,13 @@
+/* global google */
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+
+// Google calls this global when its script has loaded.
+const GOOGLE_MAPS_CALLBACK = 'voltaGoogleMapsReady';
+
+// Maps waiting for Google's script. The script is added to the page once and
+// shared by every Map: a second copy makes Google log "included multiple times".
+const waiting = new Set();
 
 export default class Map extends React.Component {
 
@@ -12,10 +19,8 @@ export default class Map extends React.Component {
     this.geocoder = null;
     this.marker = null;
     this.initialized = false;
+    this.unmounted = false;
     this.initializeGoogleMap = this.initializeGoogleMap.bind(this);
-
-    // generateCallback
-    this.initializeGoogleMapCallbackName = 'initializeGoogleMap' + (Math.random() + '').split('.')[1];
   }
 
   componentDidMount() {
@@ -24,48 +29,60 @@ export default class Map extends React.Component {
     if (window.google && google.maps) {
       this.initializeGoogleMap();
     } else {
+      waiting.add(this.initializeGoogleMap);
       this.loadGoogleMapLibrary();
     }
   }
 
-  componentWillReceiveProps(props) {
-    // console.log('props.value', props.value);
+  componentDidUpdate(prevProps) {
+    const { value, lat, lng } = this.props;
 
-    if (!props.value)
+    if (!value && prevProps.value)
       this.removeValue();
-    else if (props.value && this.props.value !== props.value)
-      this.search(props.value);
+    else if (value && prevProps.value !== value)
+      this.search(value);
 
-    if (props.lat && this.props.lat !== props.lat && props.lng && this.props.lng !== props.lng && this.initialized)
-      this.markerOnCoordinates(props.lat, props.lng);
+    // Either coordinate changing moves the marker (0 is a real coordinate).
+    const moved = lat !== prevProps.lat || lng !== prevProps.lng;
+    if (moved && lat != null && lng != null && this.initialized)
+      this.markerOnCoordinates(lat, lng);
   }
 
-  /*
-  shouldComponentUpdate(props, state) {
-    return props.height && props.height !== !props.height;
-  }
-  */
+  componentWillUnmount() {
+    this.unmounted = true;
+    // Don't initialize a map that is gone when Google's script finally loads.
+    waiting.delete(this.initializeGoogleMap);
 
-  removeGoogleMaps() {
-    document.body.removeChild(this.script);
-    delete window[this.initializeGoogleMapCallbackName];
-    // for now
-    if (_.has(window, 'google.maps')) delete window.google.maps;
+    // The autocomplete is bound to the caller's input, which outlives this map.
+    if (this.autocomplete && window.google && google.maps.event.clearInstanceListeners)
+      google.maps.event.clearInstanceListeners(this.autocomplete);
   }
 
   loadGoogleMapLibrary() {
-    window[this.initializeGoogleMapCallbackName] = this.initializeGoogleMap;
+    if (document.querySelector('script[data-volta-google-maps]')) return;
+
+    window[GOOGLE_MAPS_CALLBACK] = () => {
+      const ready = [...waiting];
+      waiting.clear();
+      ready.forEach((initialize) => initialize());
+    };
+
     this.script = document.createElement('script');
     this.script.type = 'text/javascript';
+    this.script.setAttribute('data-volta-google-maps', '');
+    // Offline or blocked: drop the script so the next Map to mount can try again.
+    this.script.onerror = () => this.script.remove();
     // script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&callback=initializeGoogleMap';
 
     const apiKey = 'AIzaSyBtXh92k6n0kuzaePg_wfqzqkVs4o3qUzE';
 
-    this.script.src = 'https://maps.googleapis.com/maps/api/js?libraries=places&callback=' + this.initializeGoogleMapCallbackName + '&key=' + apiKey
+    this.script.src = 'https://maps.googleapis.com/maps/api/js?libraries=places&callback=' + GOOGLE_MAPS_CALLBACK + '&key=' + apiKey
     document.body.appendChild(this.script);
   }
 
   initializeGoogleMap() {
+    if (this.unmounted || !this.mapEl.current) return;
+
     this.geocoder = new google.maps.Geocoder();
 
     const initialPosition = {
@@ -82,7 +99,8 @@ export default class Map extends React.Component {
 
     this.initialized = true;
 
-    if (this.props.autocomplete) this.configureAutoComplete();
+    // Autocomplete attaches to the caller's input, so it needs addressInput.
+    if (this.props.autocomplete && this.props.addressInput && google.maps.places) this.configureAutoComplete();
     if (this.props.value) this.search(this.props.value);
   }
 
@@ -123,9 +141,8 @@ export default class Map extends React.Component {
     this.setLoading(true);
 
     this.geocoder.geocode({ address }, (results, status) => {
-      if (!google || !google.maps) return;
+      if (this.unmounted) return;
 
-      let message, messageStatus;
       // Location Found
       if (status == google.maps.GeocoderStatus.OK) {
         // console.log('results[0].geometry.location', results[0].geometry.location);
@@ -138,14 +155,11 @@ export default class Map extends React.Component {
           lng: results[0].geometry.location.lng()
         });
 
-        message = null;
-        messageStatus = null;
+        this.setLoading(false);
       } else {
-        message = 'Location not found.';
-        messageStatus = false;
+        this.setLoading(false);
+        this.props.onNotFound(address, status);
       }
-
-      this.setLoading(false);
     });
   }
 
@@ -164,15 +178,28 @@ export default class Map extends React.Component {
 }
 
 Map.propTypes = {
+  // An address to search for; the map centers on it and drops the marker there.
   value: PropTypes.string,
   markers: PropTypes.array,
+  // Center of the map to start with. Changing them later moves the marker there.
+  lat: PropTypes.number,
+  lng: PropTypes.number,
+  zoom: PropTypes.number,
+  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  // Called with { results, address, lat, lng } when a search finds a place.
+  onChange: PropTypes.func,
+  // Called with true when a search starts and false when it finishes.
+  onLoading: PropTypes.func,
+  // Called with (address, status) when a search finds nothing.
+  onNotFound: PropTypes.func,
   autocomplete: PropTypes.bool,
-  // for autocomplete
+  // for autocomplete: the text input to attach Google's address suggestions to
   addressInput: PropTypes.oneOfType([PropTypes.element, PropTypes.object])
 }
 
 Map.defaultProps = {
-  onChange: (location) => {},
+  onChange: () => {},
+  onNotFound: () => {},
   // Lebanon, Kansas (Geographic Center of US)
   // http://www.kansastravel.org/geographicalcenter.htm
   lat: 39.8097343,

@@ -1,0 +1,57 @@
+.volta-image_drop_zone
+{
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px dashed var(--v-color-base-less-subtle);
+  border-radius: 4px;
+  background: var(--v-color-base);
+  color: var(--v-color-trim-less-subtle);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color var(--v-anim-speed) var(--v-anim-ease), background-color var(--v-anim-speed) var(--v-anim-ease);
+
+  &:hover,
+  &.volta-image_drop_zone--dragging
+  {
+    border-color: var(--v-accent);
+    background: var(--v-accent-subtle);
+  }
+
+  &:focus-visible
+  {
+    outline: 2px solid var(--v-accent);
+    outline-offset: 2px;
+  }
+
+  // The picture fills the box; its height is set per instance
+  .image_background
+  {
+    display: block;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    pointer-events: none;
+  }
+
+  .image_drop_zone-hint
+  {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    font-size: 14px;
+    text-align: center;
+    pointer-events: none;
+  }
+}

@@ -1,0 +1,56 @@
+// A simple vertical list. Rows are either plain text or clickable (a button or
+// link); only the clickable ones react to the cursor.
+.volta-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  .lst_header {
+    padding: 12px 12px 4px;
+  }
+
+  .lst_header_title {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--v-color-trim-less-subtle);
+  }
+
+  .lst_row {
+    > span {
+      display: block;
+      padding: 8px 12px;
+    }
+
+    > a,
+    > button {
+      display: block;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 8px 12px;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color var(--v-anim-speed) var(--v-anim-ease);
+
+      &:hover {
+        background: var(--v-color-base-more-subtle);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--v-accent);
+        outline-offset: -2px;
+      }
+    }
+
+    &.is-selected > a,
+    &.is-selected > button {
+      background: var(--v-accent-subtle);
+      font-weight: 500;
+    }
+  }
+}

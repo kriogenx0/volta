@@ -2,27 +2,58 @@ import { useState } from 'react';
 
 import ColorPicker from '../../components/ColorPicker/ColorPicker';
 
-const InteractiveColorPicker = () => {
+const BRAND_PALETTE = ['#4A90E2', '#50E3C2', '#F0B460', '#F06060', '#9060F0', '#000000'];
+
+const Controlled = () => {
   const [color, setColor] = useState('#4A90E2');
 
   return (
-    <div>
+    <div className="example-stack">
       <ColorPicker value={color} onChange={setColor} />
-      <p style={{ color: 'var(--v-color-trim-subtle)', fontSize: 12, marginTop: 10 }}>
-        Selected color: {color}
-      </p>
+      <p>Selected color: {color}</p>
+    </div>
+  );
+};
+
+const WithStartingColor = () => {
+  const [last, setLast] = useState('none yet');
+
+  return (
+    <div className="example-stack">
+      <ColorPicker initialValue="#9060F0" onValueChange={setLast} />
+      <p>Last change: {last}</p>
     </div>
   );
 };
 
 export default {
   name: 'ColorPicker',
-  description: 'Choose a color with the native picker, a hex value, or a preset palette.',
+  description: 'Choose a color with the native picker, a typed hex value (or color name), or a row of preset swatches. Control it with value and onChange, or let it keep its own state from initialValue.',
   examples: [
     {
-      name: 'Interactive color picker',
-      code: '<ColorPicker value={color} onChange={setColor} />',
-      output: <InteractiveColorPicker />
+      name: 'Controlled with state',
+      code: `const [color, setColor] = useState('#4A90E2');
+
+<ColorPicker value={color} onChange={setColor} />`,
+      output: <Controlled />
+    },
+    {
+      name: 'Starting color and change callback',
+      code: `<ColorPicker initialValue="#9060F0" onValueChange={(hex) => console.log(hex)} />`,
+      output: <WithStartingColor />
+    },
+    {
+      name: 'Custom palette',
+      code: `<ColorPicker
+  initialValue="#50E3C2"
+  palette={['#4A90E2', '#50E3C2', '#F0B460', '#F06060', '#9060F0', '#000000']}
+/>`,
+      output: <ColorPicker initialValue="#50E3C2" palette={BRAND_PALETTE} />
+    },
+    {
+      name: 'Named form field',
+      code: '<ColorPicker name="brand_color" aria-label="Brand color hex" initialValue="#F06060" />',
+      output: <ColorPicker name="brand_color" aria-label="Brand color hex" initialValue="#F06060" />
     }
   ]
 };

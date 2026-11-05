@@ -6,20 +6,31 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.85);
+  // A wash of the page color, so the alert reads in light and dark mode
+  background: color-mix(in srgb, var(--v-color-base) 85%, transparent);
+  color: var(--v-color-trim);
   text-align: center;
   max-width: none;
   z-index: 1001;
 }
 
 .lrt_container {
+  box-sizing: border-box;
   width: 500px;
+  // Leaves a margin on a narrow screen
+  max-width: calc(100% - 32px);
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.14);
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: var(--v-color-base);
+  border: 1px solid var(--v-color-base-subtle);
   padding: 10px;
   margin: 10vh auto 0;
+
+  input {
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 10px;
+  }
 }
 
 .lrt_title {

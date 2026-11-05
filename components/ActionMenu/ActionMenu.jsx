@@ -10,7 +10,7 @@ import Icon from "../Icon";
 import "../DropdownList/DropdownList.scss"; // For DropdownList styles
 import "./ActionMenu.scss";
 
-const ActionMenu = ({ onToggle, items, onSelect }) => {
+const ActionMenu = ({ onToggle, items, onSelect = () => {} }) => {
   const [open, setOpen] = useState(false);
 
   // on button click
@@ -27,15 +27,15 @@ const ActionMenu = ({ onToggle, items, onSelect }) => {
   };
 
   const buttonComponent = (
-    <Button variant="link" onClick={handleButtonClick}>
-      <Icon type="ellipsis"/>
+    <Button variant="link" onClick={handleButtonClick} aria-label="Actions" aria-haspopup="menu" aria-expanded={open}>
+      <Icon type="ellipsis" aria-hidden="true" />
     </Button>
   );
 
   const dropdownListItems = map(items, (item, index) => (
     <DropdownListItem
       key={index}
-      onSelect={ handleItemSelect.bind(this, item, index) }
+      onSelect={() => handleItemSelect(item, index)}
       label={item.label || item}
     />
   ));
@@ -50,20 +50,25 @@ const ActionMenu = ({ onToggle, items, onSelect }) => {
 
   return (
     <Dropdown {...props}>
-      {dropdownListItems}
+      <div role="menu">
+        {dropdownListItems}
+      </div>
     </Dropdown>
   );
 
 };
 
 ActionMenu.propTypes = {
-  items: PropTypes.array,
+  // Each item is a label, or an object with a label and an optional action to run when it is chosen
+  items: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      action: PropTypes.func
+    })
+  ])),
   onSelect: PropTypes.func,
   onToggle: PropTypes.func
-};
-
-ActionMenu.defaultProps = {
-  onSelect: () => {}
 };
 
 export default ActionMenu;

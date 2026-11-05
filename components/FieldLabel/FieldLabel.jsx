@@ -12,8 +12,11 @@ const FieldLabel = ({ htmlFor, optional, children }) => (
 );
 
 FieldLabel.propTypes = {
+  // The id of the control this labels; clicking the label focuses it.
   htmlFor: PropTypes.string,
-  optional: PropTypes.bool
+  // Adds an "(optional)" marker after the text.
+  optional: PropTypes.bool,
+  children: PropTypes.node
 };
 
 export { FieldLabel };

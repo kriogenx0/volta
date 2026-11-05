@@ -34,15 +34,18 @@ const ColorPicker = ({
     if (!controlled) return;
     const next = normalize(controlledValue);
     setColor(next);
-    setText(next);
+    // Keep what the user is typing (e.g. "#fff") while it already means this color
+    setText((current) => (normalize(current, null) === next ? current : next));
   }, [controlled, controlledValue]);
 
-  const commit = (nextValue) => {
+  // Reports a valid color. While typing, the text box is left alone so a short
+  // form like "#123" doesn't get rewritten to "#112233" mid-keystroke.
+  const commit = (nextValue, { syncText = true } = {}) => {
     const next = normalize(nextValue, null);
     if (!next) return false;
 
     if (!controlled) setColor(next);
-    setText(next);
+    if (syncText) setText(next);
     onChange?.(next);
     onValueChange(next);
     updateColor?.(next);
@@ -52,12 +55,12 @@ const ColorPicker = ({
   const handleTextChange = (event) => {
     const next = event.target.value;
     setText(next);
-    commit(next);
+    commit(next, { syncText: false });
   };
 
-  const handleBlur = () => {
-    if (!commit(text)) setText(color);
-  };
+  // Tidy the text once the user is done: a valid entry is shown in full hex
+  // form, an invalid one goes back to the current color.
+  const handleBlur = () => setText(normalize(text, null) || color);
 
   return (
     <div className="volta-color_picker">
@@ -81,12 +84,12 @@ const ColorPicker = ({
           spellCheck="false"
         />
       </div>
-      <div className="color_picker-palette" aria-label="Color palette">
-        {palette.map((swatch) => {
+      <div className="color_picker-palette" role="group" aria-label="Color palette">
+        {palette.map((swatch, index) => {
           const normalized = normalize(swatch);
           return (
             <button
-              key={swatch}
+              key={`${swatch}-${index}`}
               type="button"
               className={`color_picker-swatch${normalized === color ? ' is-selected' : ''}`}
               style={{ backgroundColor: normalized }}

@@ -70,12 +70,16 @@ const DatePicker = ({
       onClose={() => setOpen(false)}
       showOverlay={open}
     >
-      <CalendarMini
-        date={value}
-        minDate={minDate}
-        maxDate={maxDate}
-        onDateSelect={selectDate}
-      />
+      {/* Dropdown closes on any click inside it; only choosing a date should
+          (selectDate does), so paging through months keeps the calendar open. */}
+      <div onClick={(e) => e.stopPropagation()}>
+        <CalendarMini
+          date={value}
+          minDate={minDate}
+          maxDate={maxDate}
+          onDateSelect={selectDate}
+        />
+      </div>
     </Dropdown>
   );
 };

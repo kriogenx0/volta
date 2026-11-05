@@ -4,14 +4,19 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
 
 import './ModalDialog.scss';
 
+// Opens with `isOpen` (leave it null to keep it closed). OK and Cancel (and the
+// X) call `onOkay` / `onCancel`, then close the dialog; with `closeOnOverlayClick`
+// a click on the backdrop or Escape cancels. A parent that keeps its own open
+// state should update it in those callbacks to be able to reopen it.
 const ModalDialog = ({
-  isOpen, hideHeader, inlineMode, className, okayEnabled, okayButtonLabel,
-  closeOnOverlayClick, title, closeX, children, hideOkayButton, cancelButtonLabel,
-  onOkay, onCancel
+  isOpen = null, hideHeader = false, inlineMode = false, className, okayEnabled = true, okayButtonLabel = 'OK',
+  closeOnOverlayClick = true, title = null, closeX = false, children, hideOkayButton = false,
+  cancelButtonLabel = 'Cancel', onOkay, onCancel
 }) => {
   const [open, setOpen] = useState(isOpen);
 
@@ -33,20 +38,21 @@ const ModalDialog = ({
 
   const dialogClass = 'volta-modal_dialog ' + (hideHeader ? ' hide-header' : '') + (inlineMode ? ' inline-mode' : '') + (className ? " " + className : '');
 
-  const okayButtonClass = "btn btn-primary okay-button" + (okayEnabled ? '' : ' disabled');
+  // btn-primary / btn-default are kept for the host app's own button styles
   const okayButton = (
-    <button type="button"
-      className={okayButtonClass}
+    <Button variant="primary"
+      className="btn-primary okay-button"
+      disabled={!okayEnabled}
       onClick={handleOkay}
     >
       {okayButtonLabel}
-    </button>
+    </Button>
   );
 
   const modalProps = {
-    isOpen: open,
+    show: Boolean(open),
     className: dialogClass,
-    closeOnOverlayClick
+    onHide: closeOnOverlayClick ? handleCancel : undefined
   };
 
   return (
@@ -54,9 +60,9 @@ const ModalDialog = ({
       {hideHeader || !title ? null : (
         <div className="modal_dialog-header">
           {closeX ? (
-            <a className='modal-x' aria-label="Close" onClick={handleCancel}>
-              <i className="fa fa-times" aria-hidden="true"></i>
-            </a>
+            <button type="button" className='modal-x' aria-label="Close" onClick={handleCancel}>
+              <span aria-hidden="true">&times;</span>
+            </button>
           ) : null}
           <h4 className="modal_dialog-title">{title}</h4>
         </div>
@@ -66,29 +72,30 @@ const ModalDialog = ({
       </div>
       <div className="modal_dialog-footer">
         {!hideOkayButton ? okayButton : null}
-        <button type="button"
-                className="btn btn-default cancel-button"
+        <Button className="btn-default cancel-button"
                 data-dismiss="modal"
-                onClick={handleCancel}>{cancelButtonLabel}</button>
+                onClick={handleCancel}>{cancelButtonLabel}</Button>
       </div>
     </Modal>
   );
 };
 
-ModalDialog.defaultProps = {
-  isOpen: null,
-  closeX: false,
-  closeOnOverlayClick: true,
-  title: null,
-  cancelButtonLabel: 'Cancel',
-  okayButtonLabel: 'OK',
-  okayEnabled: true,
-  hideOkayButton: false,
-  hideHeader: false,
-  inlineMode: false
-};
-
 ModalDialog.propTypes = {
+  isOpen: PropTypes.bool,
+  title: PropTypes.string,
+  okayButtonLabel: PropTypes.string,
+  cancelButtonLabel: PropTypes.string,
+  okayEnabled: PropTypes.bool,
+  hideOkayButton: PropTypes.bool,
+  hideHeader: PropTypes.bool,
+  // Show an X button in the header
+  closeX: PropTypes.bool,
+  // Show in the page flow instead of floating over it
+  inlineMode: PropTypes.bool,
+  // Cancel on a click on the backdrop, and on Escape
+  closeOnOverlayClick: PropTypes.bool,
+  className: PropTypes.string,
+  children: PropTypes.node,
   onOkay: PropTypes.func,
   onCancel: PropTypes.func
 };

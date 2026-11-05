@@ -12,13 +12,18 @@ import {
   orderFixedOptions,
 } from './selectMenuTheme'
 
+// Shared so a default keeps one identity between renders
+const NONE = []
+
 const MultiSelect = ({
-  className, classNamePrefix, clearable, defaultValue, disabled, multiselect,
-  noOptionsMessage, name, onChange, options, placeholder, value: valueProp,
+  'aria-label': ariaLabel, className, classNamePrefix = 'multi-select', clearable = false, defaultValue = NONE,
+  disabled, multiselect = true, noOptionsMessage = 'No options available', name, onChange, options, placeholder,
+  value: valueProp = NONE,
 }) => {
   // We use defaultValue to init and then for things like resetting when clearing
   const initialDefaultValue = useRef([...defaultValue]);
-  const [value, setValue] = useState([...defaultValue]);
+  // A value passed from the start wins over defaultValue
+  const [value, setValue] = useState(() => [...(valueProp.length ? valueProp : defaultValue)]);
   const prevValueProp = useRef(valueProp);
 
   useEffect(() => {
@@ -30,7 +35,8 @@ const MultiSelect = ({
 
   const handleSelection = (selected, event) => {
     const { action, removedValue } = event
-    let nextValue = [...selected]
+    // react-select hands over an array when multi, a single option (or null) otherwise
+    let nextValue = Array.isArray(selected) ? [...selected] : (selected ? [selected] : [])
 
     switch (action) {
       case 'remove-value':
@@ -56,6 +62,7 @@ const MultiSelect = ({
 
   return (
     <ReactSelect
+      aria-label={ariaLabel}
       backspaceRemovesValue
       className={classnames('volta-multi_select', { [className]: className })}
       classNamePrefix={classNamePrefix}
@@ -79,6 +86,8 @@ const MultiSelect = ({
 };
 
 MultiSelect.propTypes = {
+  // Names the search input for assistive tech; give one unless a label points at it
+  'aria-label': PropTypes.string,
   className: PropTypes.string,
   clearable: PropTypes.bool,
   classNamePrefix: PropTypes.string,
@@ -91,6 +100,8 @@ MultiSelect.propTypes = {
     }),
   ),
   disabled: PropTypes.bool,
+  // false for a single choice; onChange still receives an array (of one)
+  multiselect: PropTypes.bool,
   noOptionsMessage: PropTypes.string,
   name: PropTypes.string,
   onChange: PropTypes.func,
@@ -108,15 +119,6 @@ MultiSelect.propTypes = {
       value: PropTypes.any.isRequired,
     }),
   ),
-}
-
-MultiSelect.defaultProps = {
-  classNamePrefix: 'multi-select',
-  clearable: false,
-  defaultValue: [],
-  multiselect: true,
-  noOptionsMessage: 'No options available',
-  value: [],
 }
 
 export default MultiSelect;

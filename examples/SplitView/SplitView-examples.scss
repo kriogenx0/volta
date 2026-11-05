@@ -1,0 +1,31 @@
+// A fixed-height box for the split view to fill, so the panes scroll on their own.
+.example-split_view_frame {
+  height: 200px;
+  overflow: hidden;
+  border: 1px solid var(--v-color-base-subtle);
+  border-radius: 8px;
+
+  .volta-split_view {
+    height: 100%;
+  }
+}
+
+.example-split_view_pane {
+  padding: 16px;
+
+  h4 {
+    margin: 0 0 8px;
+  }
+
+  p,
+  ul {
+    margin: 0 0 8px;
+  }
+}
+
+.example-split_view_side {
+  width: 180px;
+  box-sizing: border-box;
+  padding: 16px;
+  border-left: 1px solid var(--v-color-base-subtle);
+}
