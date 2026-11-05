@@ -3,7 +3,7 @@ import times from "lodash/times";
 
 import "./Loader.scss";
 
-const Loader = ({ message, size, small, tiny, inline, variant }) => {
+const Loader = ({ message, size = 'page', small, tiny, inline, variant = 'spinner' }) => {
 
   if (small) size = 'small';
   if (tiny) size = 'tiny';
@@ -63,11 +63,6 @@ Loader.propTypes = {
   size: PropTypes.oneOf(Loader.sizes),
   variant: PropTypes.oneOf(Loader.variants),
   small: PropTypes.bool
-};
-
-Loader.defaultProps = {
-  size: 'page',
-  variant: 'spinner'
 };
 
 export default Loader;

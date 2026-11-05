@@ -5,7 +5,9 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const SelectInput = ({ options, initialText, defaultValue, onChange, value: valueProp }) => {
+const noop = () => {};
+
+const SelectInput = ({ options = null, initialText = null, defaultValue, onChange = noop, value: valueProp }) => {
   const [value, setValue] = useState(valueProp);
 
   const handleChange = (e) => {
@@ -28,12 +30,6 @@ SelectInput.propTypes = {
   options: PropTypes.array,
   initialText: PropTypes.string,
   onChange: PropTypes.func
-};
-
-SelectInput.defaultProps = {
-  options: null,
-  initialText: null,
-  onChange: () => {}
 };
 
 export default SelectInput;

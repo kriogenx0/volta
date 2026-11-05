@@ -7,7 +7,12 @@ import { withFormsy } from 'formsy-react';
 
 import DateTimeInput from './DateTimeInput';
 
-const DateTimeRange = ({ minDate, maxDate, align, placeholder, showDate, showTime, defaultValue, value, setValue, onChange }) => {
+const noop = () => {};
+
+const DateTimeRange = ({
+  minDate = null, maxDate = null, align = null, placeholder = '', showDate = true, showTime = true,
+  defaultValue = null, value, setValue, onChange = noop
+}) => {
   const handleChange = (newValue) => {
     setValue(newValue);
     if (onChange) onChange(newValue);
@@ -37,17 +42,6 @@ DateTimeRange.propTypes = {
   showTime: PropTypes.bool,
   defaultValue: PropTypes.string,
   onChange: PropTypes.func
-};
-
-DateTimeRange.defaultProps = {
-  minDate: null,
-  maxDate: null,
-  align: null,
-  placeholder: '',
-  showDate: true,
-  showTime: true,
-  defaultValue: null,
-  onChange: () => {}
 };
 
 export default withFormsy(DateTimeRange);

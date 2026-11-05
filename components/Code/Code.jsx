@@ -15,7 +15,7 @@ SyntaxHighlighter.registerLanguage('json', json);
 
 const THEMES = { dark: oneDark, light: oneLight };
 
-const Code = ({ children, language, theme, inline, className, ...otherProps }) => {
+const Code = ({ children, language = 'jsx', theme = 'dark', inline = false, className, ...otherProps }) => {
   const code = typeof children === 'string' ? children.trim() : children;
 
   if (inline) {
@@ -47,12 +47,6 @@ Code.propTypes = {
   theme: PropTypes.oneOf(Code.themes),
   inline: PropTypes.bool,
   className: PropTypes.string
-};
-
-Code.defaultProps = {
-  language: 'jsx',
-  theme: 'dark',
-  inline: false
 };
 
 export { Code };

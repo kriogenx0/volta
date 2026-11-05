@@ -4,7 +4,8 @@ import numeral from 'numeral';
 
 import './NumericField.scss';
 
-const NumericField = (props) => {
+const NumericField = ({ onChange = null, onBlurFormat = 'integer', focusValue = null, ...otherProps }) => {
+  const props = { ...otherProps, onChange, onBlurFormat, focusValue };
   const previousValue = useRef(null);
   const whenTypingFormatFunction = useRef(
     NumericField.loadFormatFunction(props.whenTypingFormat || NumericField.defaultWhenTypingFormatFunction)
@@ -17,7 +18,6 @@ const NumericField = (props) => {
     format.current = NumericField.loadFormatFunction(props.format || props.onBlurFormat);
 
     setValue(format.current(props.value));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.value, props.whenTypingFormat, props.format, props.onBlurFormat]);
 
   const handleOnChange = (event) => {
@@ -130,12 +130,6 @@ NumericField.defaultWhenTypingFormatFunction = (val) => {
   }
 
   return val;
-};
-
-NumericField.defaultProps = {
-  onChange: null,
-  onBlurFormat: 'integer',
-  focusValue: null
 };
 
 NumericField.propTypes = {

@@ -7,7 +7,7 @@ import VideoPlayer from '../VideoPlayer';
 import './VideoUploadPlayer.scss';
 
 const VideoUploadPlayer = ({
-  url, onChange, percent, onCancel, complete, fileName, allowDragAndDrop, multiple
+  url, onChange, percent, onCancel, complete, fileName, allowDragAndDrop = true, multiple
 }) => {
   const [draggingIn, setDraggingIn] = useState(false);
 
@@ -118,10 +118,6 @@ VideoUploadPlayer.propTypes = {
   onChange: PropTypes.func,
   onCancel: PropTypes.func,
   allowDragAndDrop: PropTypes.bool
-};
-
-VideoUploadPlayer.defaultProps = {
-  allowDragAndDrop: true
 };
 
 export default VideoUploadPlayer;

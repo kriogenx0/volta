@@ -12,8 +12,8 @@ import 'jquery-datetimepicker';
 import moment from 'moment';
 
 const DateTimeInput = ({
-  name, showDate, showTime, value, defaultValue, onChange, onClose,
-  minDate, maxDate, placeholder, isInline, align, inputClass
+  name = null, showDate = true, showTime = true, value = null, defaultValue = null, onChange, onClose,
+  minDate = null, maxDate = null, placeholder = '', isInline = false, align = 'left', inputClass = null
 }) => {
   const dateWrapRef = useRef(null);
   const inputRef = useRef(null);
@@ -129,7 +129,7 @@ const DateTimeInput = ({
     return () => {
       $(inputNode).datetimepicker('destroy');
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Rebuild the plugin only when these change, not on every render
   }, [showDate, showTime, value, minDate]);
 
   return (
@@ -159,20 +159,6 @@ DateTimeInput.propTypes = {
   isInline: PropTypes.bool,
   align: PropTypes.string,
   inputClass: PropTypes.string
-};
-
-DateTimeInput.defaultProps = {
-  name: null,
-  showDate: true,
-  showTime: true,
-  value: null,
-  defaultValue: null,
-  minDate: null,
-  maxDate: null,
-  placeholder: '',
-  isInline: false,
-  align: 'left',
-  inputClass: null
 };
 
 export default DateTimeInput;

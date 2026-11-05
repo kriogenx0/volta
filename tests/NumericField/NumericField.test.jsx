@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { jsx } from 'react/jsx-runtime';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 import NumericField from '../../components/NumericField/NumericField';
@@ -160,5 +161,21 @@ describe('NumericField', () => {
     fireEvent.blur(field());
     expect(field().value).toBe('20.00');
     expect(screen.getByRole('status')).toHaveTextContent('20.00');
+  });
+});
+
+// Vite compiles with the automatic JSX runtime (jsx()), where React 19 ignores
+// defaultProps on function components. Jest's classic runtime still applies them,
+// so these render through jsx() to prove the defaults come from default parameters.
+describe('NumericField with the automatic JSX runtime', () => {
+  it('formats to an integer on blur by default (onBlurFormat)', () => {
+    render(jsx(NumericField, { value: 3.7 }));
+    expect(field().value).toBe('4');
+  });
+
+  it('does not forward its internal defaults to the input', () => {
+    render(jsx(NumericField, { value: 3 }));
+    expect(field()).not.toHaveAttribute('focusvalue');
+    expect(field()).not.toHaveAttribute('onblurformat');
   });
 });

@@ -3,7 +3,7 @@ import { map } from 'lodash';
 
 import './Tabs.scss';
 
-const Tabs = ({ tabs, selectedTabKey, onSelect, align }) => {
+const Tabs = ({ tabs, selectedTabKey, onSelect, align = 'left' }) => {
 
   const handleSelect = (tab, key) => {
     onSelect && onSelect(key, tab);
@@ -34,11 +34,6 @@ Tabs.propTypes = {
   onSelect: PropTypes.func,
   align: PropTypes.string,
   activeClassName: PropTypes.string
-};
-
-Tabs.defaultProps = {
-  align: 'left',
-  activeClassName: 'current'
 };
 
 export default Tabs;
