@@ -10,7 +10,23 @@ import _ from 'lodash';
 
 import ListHeader from '../List/list-header';
 
-const SearchStore = ({ stores, headers, placeholder, selectedModels, addResult, removeResult, filterResults }) => {
+// Module-level so the defaults keep a stable identity across renders
+// (they feed useCallback/useEffect dependencies below).
+const NO_STORES = [];
+const NO_HEADERS = [];
+const NO_MODELS = [];
+const noop = () => {};
+const passThrough = (results) => results;
+
+const SearchStore = ({
+  stores = NO_STORES,
+  headers = NO_HEADERS,
+  placeholder = '',
+  selectedModels = NO_MODELS,
+  addResult = noop,
+  removeResult = noop,
+  filterResults = passThrough
+}) => {
   const inputRef = useRef(null);
   const [results, setResults] = useState(() => stores.map(() => []));
   const [focused, setFocused] = useState(false);
@@ -45,7 +61,6 @@ const SearchStore = ({ stores, headers, placeholder, selectedModels, addResult, 
       else window.addEventListener('click', handleToggle);
       return next;
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focused]);
 
   useEffect(() => {
@@ -59,7 +74,6 @@ const SearchStore = ({ stores, headers, placeholder, selectedModels, addResult, 
       stores.forEach((store, index) => store.removeChangeListener(listeners[index]));
       window.removeEventListener('click', handleToggle);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleInputChange = (event) => {
@@ -132,17 +146,6 @@ SearchStore.propTypes = {
   addResult: PropTypes.func,
   removeResult: PropTypes.func,
   filterResults: PropTypes.func
-};
-
-SearchStore.defaultProps = {
-  stores: [],
-  headers: [],
-  placeholder: '',
-  queryParams: {},
-  selectedModels: [],
-  addResult: () => {},
-  removeResult: () => {},
-  filterResults: (results) => results
 };
 
 export default SearchStore;

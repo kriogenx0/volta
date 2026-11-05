@@ -28,7 +28,20 @@ const regionStyle = {
   fillColor: '#439fd8'
 };
 
-const UserMap = ({ map, mapRegions, isEditing, isAdding, className, onRegionCreate, onRegionUpdate, onRegionDelete, onRegionClick, onMapLoad }) => {
+const noop = () => {};
+
+const UserMap = ({
+  map,
+  mapRegions,
+  isEditing = false,
+  isAdding = false,
+  className,
+  onRegionCreate = noop,
+  onRegionUpdate = noop,
+  onRegionDelete = noop,
+  onRegionClick = noop,
+  onMapLoad = noop
+}) => {
   const mapEl = useRef(null);
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -154,7 +167,7 @@ const UserMap = ({ map, mapRegions, isEditing, isAdding, className, onRegionCrea
       mapRegions.off('add', addRegion);
       mapRegions.off('remove', removeRegion);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Set up once: the map and its regions are not swapped after mount.
   }, []);
 
   useEffect(() => {
@@ -193,16 +206,6 @@ UserMap.propTypes = {
   isEditing: PropTypes.bool,
   isAdding: PropTypes.bool,
   className: PropTypes.string
-};
-
-UserMap.defaultProps = {
-  onRegionCreate: () => {},
-  onRegionUpdate: () => {},
-  onRegionDelete: () => {},
-  onRegionClick: () => {},
-  onMapLoad: () => {},
-  isEditing: false,
-  isAdding: false
 };
 
 export default UserMap;

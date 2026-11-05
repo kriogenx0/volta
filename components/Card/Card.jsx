@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 import './Card.scss';
 
-const Card = ({ selected, selectable, children, className = '', onClick, padding, ...otherProps }) => {
+const Card = ({ selected, selectable, children, className = '', onClick, padding = 'md', ...otherProps }) => {
   const classes = [
     'volta-card',
     selectable && 'volta-card-selectable',
@@ -20,8 +20,6 @@ Card.propTypes = {
   onClick: PropTypes.func,
   padding: PropTypes.oneOf(['none', 'sm', 'md'])
 };
-
-Card.defaultProps = { padding: 'md' };
 
 export { Card };
 export default Card;

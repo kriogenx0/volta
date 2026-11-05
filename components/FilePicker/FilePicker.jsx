@@ -18,6 +18,8 @@ const loadType = (fileType) => {
 
 const detectTypeClass = (type) => type.split('/')[0];
 
+const noop = () => {};
+
 const loadIcon = (file) => {
   if (!file || typeof file !== 'object') {
     return 'file';
@@ -53,12 +55,13 @@ const buildDefaultFiles = (value) => {
   return files;
 };
 
-const FilePicker = ({ className, defaultValue, onChange, fileType, multiple, buttonLabel }) => {
+const FilePicker = ({
+  className = null, defaultValue = null, onChange = noop, fileType = null, multiple = false, buttonLabel
+}) => {
   const [files, setFiles] = useState(() => buildDefaultFiles(defaultValue));
 
   useEffect(() => {
     if (defaultValue) setFiles(buildDefaultFiles(defaultValue));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultValue]);
 
   const updateFiles = (newFiles) => {
@@ -154,14 +157,6 @@ FilePicker.propTypes = {
   fileType: PropTypes.string,
   multiple: PropTypes.bool,
   buttonLabel: PropTypes.string
-};
-
-FilePicker.defaultProps = {
-  className: null,
-  defaultValue: null,
-  onChange: (fileBlob, imageUrl) => {},
-  fileType: null,
-  multiple: false
 };
 
 export default FilePicker;

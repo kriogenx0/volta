@@ -10,7 +10,12 @@ import { Link } from 'react-router-dom';
 import Checkbox from '../Checkbox';
 import Tooltip from '../Tooltip/Tooltip';
 
-const TableListRow = ({ showCheckbox, fields, record, isChecked, itemActions, isDraggable, dragDisabled, onCheckboxChange }) => {
+const noop = () => {};
+
+const TableListRow = ({
+  showCheckbox = true, fields = null, record = null, isChecked = false, itemActions = null,
+  isDraggable, dragDisabled, onCheckboxChange = noop
+}) => {
   const handleCheckChange = (checked) => {
     onCheckboxChange(checked, record.get('id'));
   };
@@ -83,15 +88,6 @@ TableListRow.propTypes = {
   itemActions: PropTypes.array,
   isDraggable: PropTypes.bool,
   dragDisabled: PropTypes.bool
-};
-
-TableListRow.defaultProps = {
-  showCheckbox: true,
-  fields: null,
-  record: null,
-  isChecked: false,
-  itemActions: null,
-  onCheckboxChange: () => {}
 };
 
 export default TableListRow;

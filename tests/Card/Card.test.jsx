@@ -1,3 +1,4 @@
+import { jsx } from 'react/jsx-runtime';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 import Card from '../../components/Card/Card';
@@ -35,5 +36,15 @@ describe('Card', () => {
     expect(screen.getByText('Hello')).toHaveClass('volta-card--sm');
     rerender(<Card padding="none">Hello</Card>);
     expect(screen.getByText('Hello')).toHaveClass('volta-card--none');
+  });
+});
+
+// Vite compiles with the automatic JSX runtime (jsx()), where React 19 ignores
+// defaultProps on function components. Jest's classic runtime still applies them,
+// so these render through jsx() to prove the defaults come from default parameters.
+describe('Card with the automatic JSX runtime', () => {
+  it('applies the default medium padding', () => {
+    render(jsx(Card, { children: 'Hello' }));
+    expect(screen.getByText('Hello')).toHaveClass('volta-card--md');
   });
 });

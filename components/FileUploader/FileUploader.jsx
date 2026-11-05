@@ -5,7 +5,7 @@ import _ from 'lodash';
 import './FileUploader.scss';
 
 const FileUploader = ({
-  accept, fileName: fileNameProp, percent, onChange, onCancel, allowDragAndDrop, multiple, complete
+  accept, fileName: fileNameProp, percent, onChange, onCancel, allowDragAndDrop = true, multiple, complete
 }) => {
   const [draggingIn, setDraggingIn] = useState(false);
 
@@ -116,10 +116,6 @@ FileUploader.propTypes = {
   onChange: PropTypes.func,
   onCancel: PropTypes.func,
   allowDragAndDrop: PropTypes.bool
-};
-
-FileUploader.defaultProps = {
-  allowDragAndDrop: true
 };
 
 export default FileUploader;

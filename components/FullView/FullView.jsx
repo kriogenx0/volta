@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 
 import "./FullView.scss";
 
-const SplitView = ({ children, setScrollHeight }) => {
+const SplitView = ({ children, setScrollHeight = true }) => {
 
   const [height, setHeight] = useState(null);
 
@@ -44,10 +44,5 @@ const SplitView = ({ children, setScrollHeight }) => {
   );
 
 };
-
-SplitView.defaultProps = {
-  setScrollHeight: true
-};
-
 
 export default SplitView;

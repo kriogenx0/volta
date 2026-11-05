@@ -17,9 +17,13 @@ import Checkbox from '../Checkbox';
 import Empty from '../Empty';
 import TableListRow from './TableListRow';
 
+const NO_SELECTION = {};
+const noop = () => {};
+
 const TableList = ({
-  fields, data, showCheckbox, showActions, emptyMessage, isDraggable, dragDisabled,
-  itemActions, onSelectChange, onMasterCheckboxChange, selectedItems, masterSelected,
+  fields = null, data = null, showCheckbox = true, showActions = true, emptyMessage = 'No Data Available',
+  isDraggable = false, dragDisabled, itemActions = null, onSelectChange = noop,
+  onMasterCheckboxChange = noop, selectedItems = NO_SELECTION, masterSelected = false,
   updateRank, actions, children
 }) => {
   const sortRef = useRef(null);
@@ -183,20 +187,6 @@ TableList.propTypes = {
   masterSelected: PropTypes.bool,
   updateRank: PropTypes.func,
   actions: PropTypes.object
-};
-
-TableList.defaultProps = {
-  fields: null,
-  data: null,
-  showCheckbox: true,
-  showActions: true,
-  emptyMessage: 'No Data Available',
-  isDraggable: false,
-  itemActions: null,
-  onSelectChange: () => {},
-  onMasterCheckboxChange: () => {},
-  selectedItems: {},
-  masterSelected: false
 };
 
 export default TableList;
