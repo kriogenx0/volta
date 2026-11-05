@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 
 import ThemeSwitcher from './ThemeSwitcher';
 import Home from './Home/Home';
@@ -12,6 +12,27 @@ import './VoltaDocs.scss';
 const VoltaDocs = () => {
   const defaultPage = 'Home';
   const [pageKey, setPageKey] = useState(defaultPage);
+  const rootRef = useRef(null);
+  const headerRef = useRef(null);
+
+  // The header wraps to two rows on narrow screens, so pages that stick below it
+  // or fill the rest of the window read its real height from this variable.
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+    const header = headerRef.current;
+    const update = () => root.style.setProperty('--docs-header-height', `${header.offsetHeight}px`);
+    update();
+    if (typeof ResizeObserver === 'undefined') return undefined;
+    const observer = new ResizeObserver(update);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
+
+  // A new page starts at the top instead of wherever the last one was scrolled to.
+  const showPage = (key) => {
+    setPageKey(key);
+    window.scrollTo(0, 0);
+  };
 
   const pages = {
     Home,
@@ -24,9 +45,9 @@ const VoltaDocs = () => {
   const Page = pages[pageKey || defaultPage];
 
   return (
-    <div className="v-docs">
-      <header className="v-docs-header">
-        <button className="v-docs-brand" type="button" onClick={() => setPageKey('Home')}>
+    <div className="v-docs" ref={rootRef}>
+      <header className="v-docs-header" ref={headerRef}>
+        <button className="v-docs-brand" type="button" onClick={() => showPage('Home')}>
           <span className="v-docs-brand_mark" aria-hidden="true">V</span>
           <span>
             <strong>Volta</strong>
@@ -40,7 +61,7 @@ const VoltaDocs = () => {
               className={pageKey === key ? 'active' : ''}
               type="button"
               aria-current={pageKey === key ? 'page' : undefined}
-              onClick={() => setPageKey(key)}
+              onClick={() => showPage(key)}
               key={key}
             >
               {key}

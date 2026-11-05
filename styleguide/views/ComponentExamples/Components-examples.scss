@@ -3,7 +3,10 @@
 .view-components {
   display: flex;
   align-items: stretch;
-  min-height: calc(100vh - 60px);
+  // Exactly the window below the header, so a short component doesn't make the
+  // window scroll. dvh follows the visible area when a phone's toolbar moves.
+  min-height: calc(100vh - var(--docs-header-height));
+  min-height: calc(100dvh - var(--docs-header-height));
 
   .component_examples-list {
     width: 224px;
@@ -11,8 +14,9 @@
     border-right: 1px solid $color_base_subtle;
     padding: 22px 14px 32px 0;
     position: sticky;
-    top: 69px;
-    max-height: calc(100vh - 69px);
+    top: var(--docs-header-height);
+    max-height: calc(100vh - var(--docs-header-height));
+    max-height: calc(100dvh - var(--docs-header-height));
     overflow-y: auto;
     @include dark {
       border-color: $color_base_subtle_dark;
@@ -72,7 +76,10 @@
     flex: 1;
     min-width: 0;
     padding: 0 0 56px 40px;
-    overflow: auto;
+    // Clip sideways overflow without making this a scroll container: `overflow:
+    // auto` gave it a second scrollbar and clipped dropdowns and calendars (see
+    // .style_guide-example). The page scrolls as one.
+    overflow-x: clip;
   }
 }
 
@@ -163,6 +170,21 @@
     @include dark {
       background-color: $color_base_dark;
     }
+  }
+
+  // Several instances of a component, one under another
+  .example-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  // Holds a `position: fixed` example (a page-level loader) inside its own box:
+  // a transform makes this the fixed element's containing block.
+  .example-fixed_frame {
+    position: relative;
+    height: 40px;
+    transform: translateZ(0);
   }
 
   // Code panel: below the example when narrow, to its right when there's room
