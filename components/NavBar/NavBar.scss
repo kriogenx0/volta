@@ -6,7 +6,7 @@
     padding-left: $nav-indent * $level + $nav-pad;
   };
 
-  border-right: 1px solid #ccc;
+  border-right: 1px solid var(--v-color-base-less-subtle);
   height: 100%;
 
   .component-navbar-item {
@@ -31,25 +31,25 @@
 
       &:hover {
         cursor: pointer;
-        border-left-color: #aaa;
+        border-left-color: var(--v-color-inactive);
 
         a {
-            color: #0055b7;
+            color: var(--v-accent);
         }
       }
 
       &.is-active {
-        border-top-color: #dad5cf;
-        border-bottom-color: #dad5cf;
-        border-left-color: #0055b7;
-        background-color: #eee;
+        border-top-color: var(--v-color-base-subtle);
+        border-bottom-color: var(--v-color-base-subtle);
+        border-left-color: var(--v-accent);
+        background-color: var(--v-color-base-subtle);
 
         &:hover {
-          border-left-color: #aaa;
+          border-left-color: var(--v-color-inactive);
         }
 
         a {
-          color: #0055b7;
+          color: var(--v-accent);
         }
       }
     }

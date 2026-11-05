@@ -4,125 +4,71 @@
 //
 // Note, internally this component uses HSV, externally we use HSL
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import tinycolor from 'tinycolor2';
 
-export default class ColorPickerSquare extends React.Component {
+import useDrag from './useDrag';
 
-  static propTypes = {
-    hue: PropTypes.number,
-    saturation: PropTypes.number,
-    lightness: PropTypes.number,
-    onSaturationChange: PropTypes.func,
-    onLightnessChange: PropTypes.func
-  };
+const toHsv = (hue, saturation, lightness) => {
+  const hsv = tinycolor({ h: hue, s: saturation, l: lightness }).toHsv();
+  return { saturation: hsv.s * 100, value: hsv.v * 100 };
+};
 
-  static defaultProps = {
-    hue: 0,
-    saturation: 100,
-    lightness: 100,
-    onSaturationChange: () => {},
-    onLightnessChange: () => {}
-  };
+export default function ColorPickerSquare({
+  hue = 0,
+  saturation = 100,
+  lightness = 100,
+  onSaturationChange = () => {},
+  onLightnessChange = () => {}
+}) {
+  const [position, setPosition] = useState(() => toHsv(hue, saturation, lightness));
+  const square = useRef(null);
 
-  constructor(props) {
-    super(props);
-    const hsv = tinycolor({ h: props.hue, s: props.saturation, l: props.lightness }).toHsv();
-    this.state = { moving: false, saturation: hsv.s * 100, value: hsv.v * 100 };
-    this.square = React.createRef();
-
-    this.handleMouseDown = this.handleMouseDown.bind(this);
-    this.handleMouseMove = this.handleMouseMove.bind(this);
-    this.handleMouseUp = this.handleMouseUp.bind(this);
-  }
-
-  componentDidUpdate(props, state) {
-    const moveStarted = this.state.moving && !state.moving;
-    const moveStopped = !this.state.moving && state.moving;
-
-    if (moveStarted) {
-      document.addEventListener('mousemove', this.handleMouseMove);
-      document.addEventListener('mouseup', this.handleMouseUp);
-    } else if (moveStopped) {
-      document.removeEventListener('mousemove', this.handleMouseMove);
-      document.removeEventListener('mouseup', this.handleMouseUp);
-    }
-
-    // Update internal saturation and value if external values change
-    let saturation;
-    let lightness;
-
-    if (props.saturation !== this.props.saturation) saturation = this.props.saturation;
-    if (props.lightness !== this.props.lightness) lightness = this.props.lightness;
-
-    if (saturation || lightness) {
-      const hsv = tinycolor({
-        h: props.hue,
-        s: saturation || props.saturation,
-        l: lightness || props.lightness
-      }).toHsv();
-
-      if (hsv.s * 100 !== this.state.saturation) this.setState({ saturation: hsv.s * 100 });
-      if (hsv.v * 100 !== this.state.value) this.setState({ value: hsv.v * 100 });
-    }
-  }
-
-  handleMouseDown(event) {
-    if (event.button !== 0) return; // Left click only
-
-    this.setState({ moving: true });
-    this.setPos(event);
-  }
-
-  handleMouseMove(event) {
-    if (!this.state.moving) return;
-    this.setPos(event);
-  }
-
-  handleMouseUp() {
-    this.setState({ moving: false });
-  }
-
-  setPos(event) {
-    const squareNode = this.square.current;
+  const setPos = (event) => {
+    const squareNode = square.current;
     const rect = squareNode.getBoundingClientRect();
-    const squareOffset = { left: rect.left + window.scrollX, top: rect.top + window.scrollY };
+    const left = rect.left + window.scrollX;
+    const top = rect.top + window.scrollY;
 
-    const rawPos = {
-      x: event.pageX - squareOffset.left,
-      y: event.pageY - squareOffset.top
-    };
+    const x = Math.min(Math.max(event.pageX - left, 0), squareNode.offsetWidth);
+    const y = Math.min(Math.max(event.pageY - top, 0), squareNode.offsetHeight);
 
-    const pos = {
-      x: Math.min(Math.max(rawPos.x, 0), squareNode.offsetWidth),
-      y: Math.min(Math.max(rawPos.y, 0), squareNode.offsetHeight)
-    };
+    const nextSaturation = (x / squareNode.offsetWidth) * 100;
+    const value = ((squareNode.offsetHeight - y) / squareNode.offsetHeight) * 100;
 
-    const saturation = (pos.x / squareNode.offsetWidth) * 100;
-    const value = ((squareNode.offsetHeight - pos.y) / squareNode.offsetHeight) * 100;
+    setPosition({ saturation: nextSaturation, value });
 
-    this.setState({ saturation, value });
+    const hsl = tinycolor({ h: hue, s: nextSaturation, v: value }).toHsl();
 
-    const hsl = tinycolor({ h: this.props.hue, s: saturation, v: value }).toHsl();
+    onSaturationChange(hsl.s * 100);
+    onLightnessChange(hsl.l * 100);
+  };
 
-    this.props.onSaturationChange(hsl.s * 100);
-    this.props.onLightnessChange(hsl.l * 100);
-  }
+  const { onMouseDown, dragging } = useDrag(setPos);
 
-  render() {
-    const color = tinycolor({ h: this.props.hue, s: 1, l: 0.5 });
-    const squareStyle = { backgroundColor: color.toHexString() };
-    const top = (this.state.value - 100) * -1;
-    const markerStyle = { left: `${this.state.saturation}%`, top: `${top}%` };
+  // Follow external changes, but not our own echoes while dragging: the
+  // HSL round trip is lossy at the edges and would make the marker jump.
+  useEffect(() => {
+    if (!dragging.current) setPosition(toHsv(hue, saturation, lightness));
+  }, [hue, saturation, lightness]);
 
-    return (
-      <div className="cpr_square" ref={this.square} onMouseDown={this.handleMouseDown} style={squareStyle}>
-        <div className="cpr_marker" style={markerStyle}></div>
-        <div className="cpr_square_val"></div>
-        <div className="cpr_square_sat"></div>
-      </div>
-    );
-  }
+  const squareStyle = { backgroundColor: tinycolor({ h: hue, s: 1, l: 0.5 }).toHexString() };
+  const markerStyle = { left: `${position.saturation}%`, top: `${100 - position.value}%` };
 
+  return (
+    <div className="cpr_square" ref={square} onMouseDown={onMouseDown} style={squareStyle}>
+      <div className="cpr_marker" style={markerStyle}></div>
+      <div className="cpr_square_val"></div>
+      <div className="cpr_square_sat"></div>
+    </div>
+  );
 }
+
+ColorPickerSquare.propTypes = {
+  hue: PropTypes.number,
+  saturation: PropTypes.number,
+  lightness: PropTypes.number,
+  onSaturationChange: PropTypes.func,
+  onLightnessChange: PropTypes.func
+};

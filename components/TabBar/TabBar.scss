@@ -1,7 +1,7 @@
 @use '../../mixins' as *;
 .volta-tab_bar
 {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--v-color-base-less-subtle);
   margin-bottom: 20px;
 }
 
@@ -17,21 +17,21 @@
   margin: 0;
   padding: 10px 15px;
   cursor: pointer;
-  color: #bbb;
+  color: var(--v-color-inactive);
   margin-bottom: -1px;
   transition: color $anim-speed-normal, border-color $anim-speed-normal;
 
   &:hover
   {
-    color: #888;
-    // border-bottom-color: #111;
+    color: var(--v-color-trim-less-subtle);
+    // border-bottom-color: var(--v-color-trim);
   }
 
   &.tab-active
   {
     cursor: default;
-    color: color-mix(in srgb, #39b4e4 90%, black 10%);
-    border-bottom: 2px solid color-mix(in srgb, #39b4e4 90%, black 10%);
+    color: color-mix(in srgb, var(--v-accent) 90%, black 10%);
+    border-bottom: 2px solid color-mix(in srgb, var(--v-accent) 90%, black 10%);
     padding-bottom: 9px;
   }
 

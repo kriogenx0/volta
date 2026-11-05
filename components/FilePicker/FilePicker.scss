@@ -7,9 +7,9 @@
   .file_picker-file
   {
     border-radius: 3px;
-    border: 1px solid #e1e1e1;;
-    background: #fff;
-    color: #888;
+    border: 1px solid var(--v-color-base-subtle);
+    background: var(--v-color-base);
+    color: var(--v-color-trim-less-subtle);
     margin-bottom: 10px;
     min-height: 50px;
     line-height: 50px;
@@ -38,7 +38,7 @@
       border-radius: 0;
       padding: 0 20px;
       height: 50px;
-      color: #888;
+      color: var(--v-color-trim-less-subtle);
     }
   }
 }

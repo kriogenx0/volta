@@ -1,9 +1,9 @@
 @use "../../mixins" as *;
 
 .volta-video_player {
-  border: 1px solid #ccc;
+  border: 1px solid var(--v-color-base-less-subtle);
   @include dark {
-    border-color: #333;
+    border-color: var(--v-color-trim);
   }
   position: relative;
 
@@ -32,7 +32,7 @@
       right: 0;
       margin-top: $icon_height * -0.5;
       line-height: $icon_height;
-      color: #888;
+      color: var(--v-color-trim-less-subtle);
       font-size: 36px;
       text-align: center;
     }

@@ -9,11 +9,11 @@ $border-rad: 3px;
   }
   .volta-tab_bar-link
   {
-    border: 1px solid #ddd;
+    border: 1px solid var(--v-color-base-less-subtle);
     border-right: 0 none;
     border-radius: 0;
     padding: 10px;
-    background: #fff;
+    background: var(--v-color-base);
     font-size: 20px;
     line-height: 20px;
     margin-bottom: 0;
@@ -25,7 +25,7 @@ $border-rad: 3px;
 
     &:last-child
     {
-      border-right: 1px solid #ddd;
+      border-right: 1px solid var(--v-color-base-less-subtle);
       border-radius: 0 $border-rad $border-rad 0;
     }
   }

@@ -18,8 +18,8 @@
     flex-grow: 1;
     margin-right: 10px;
 
-    background-color: #fff;
-    border: 1px solid #E0E0E0;
+    background-color: var(--v-color-base);
+    border: 1px solid var(--v-color-base-subtle);
     border-radius: 4px;
     height: 35px;
     position: relative; // for percent
@@ -31,7 +31,7 @@
     &.box-hover,
     &:hover
     {
-      background-color: #FAFAFA;
+      background-color: var(--v-color-base-more-subtle);
     }
 
     .text
@@ -60,8 +60,7 @@
       bottom: 0;
       left: 0;
 
-      // background-color: #E7F3F9;
-      background-color: #64AAD7;
+      background-color: var(--v-accent);
       border-radius: 4px;
 
       transition: width $anim-speed-normal;
@@ -69,12 +68,12 @@
 
     &.complete
     {
-      background-color: #FAFAFA;
+      background-color: var(--v-color-base-more-subtle);
 
       &.box-hover,
       &:hover
       {
-        background-color: #f1f1f1;
+        background-color: var(--v-color-base-more-subtle);
       }
     }
   }

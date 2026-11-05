@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom';
 import Checkbox from '../Checkbox';
 import Tooltip from '../Tooltip/Tooltip';
 
+import './TableListRow.scss';
+
 const noop = () => {};
 
 const TableListRow = ({
@@ -66,7 +68,7 @@ const TableListRow = ({
       )}
 
       {isDraggable && (
-        <td width="1" style={{ opacity: dragDisabled ? 0.35 : 1 }}>
+        <td width="1" className={dragDisabled ? 'volta-table_list-drag--disabled' : undefined}>
           <Tooltip
             gravity="right"
             title={dragDisabled ? 'Manual reordering not available while a sort or filter is applied.' : ' '}

@@ -1,22 +1,22 @@
 @use '../../mixins' as *;
 .volta-image_picker
 {
-  // border: 2px dashed #ccc;
-  border: 1px solid #e1e1e1;
+  // border: 2px dashed var(--v-color-base-less-subtle);
+  border: 1px solid var(--v-color-base-subtle);
   border-radius: 3px;
   position: relative;
   overflow: hidden;
   transition: border $anim-speed-normal;
-  background: #fff;
+  background: var(--v-color-base);
 
   &:active,
   &:hover
   {
-    border-color: #ccc;
+    border-color: var(--v-color-base-less-subtle);
 
     .icon
     {
-      color: #ccc;
+      color: var(--v-color-base-less-subtle);
     }
   }
 
@@ -56,7 +56,7 @@
     right: 0;
     font-size: 120px;
     text-align: center;
-    color: #ddd;
+    color: var(--v-color-base-less-subtle);
     margin-top: -60px;
     transition: color $anim-speed-normal;
   }
