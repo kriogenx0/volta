@@ -18,11 +18,11 @@
   }
 
   // X icon
-  .v-icon {
+  .volta-icon {
     margin-left: 5px;
   }
 
-  .clickable:hover {
+  &.clickable:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.1);
 

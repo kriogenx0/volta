@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 import './Toggle.scss';
 
-export default function Toggle({ name, checked, onChange, className, isDisabled, value, ...otherProps }) {
+export default function Toggle({ name, checked, onChange = () => {}, className, isDisabled = false, value, ...otherProps }) {
   const toggleClass = `volta-toggle ${className || ''} ${isDisabled ? 'toggle-disabled' : ''} ${checked ? 'toggle-checked' : ''}`;
 
   const inputProps = {
@@ -10,6 +10,7 @@ export default function Toggle({ name, checked, onChange, className, isDisabled,
     value,
     checked,
     onChange,
+    disabled: isDisabled,
     ...otherProps
   };
 
@@ -33,9 +34,5 @@ Toggle.propTypes = {
   onChange: PropTypes.func,
   isDisabled: PropTypes.bool,
   value: PropTypes.string,
-};
-
-Toggle.defaultProps = {
-  onChange: () => {},
-  isDisabled: false,
+  className: PropTypes.string,
 };

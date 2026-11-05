@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import './TabsRouted.scss';
 
@@ -8,15 +8,20 @@ const TabsRouted = ({ tabs }) => (
   <ul className='volta-tabs_routed'>
     {_.map(tabs, (tab, i) => (
       <li key={i}>
-        <Link to={tab.path} activeClassName='is-active'>{tab.name}</Link>
+        {/* `end` so a "/" tab isn't active on every page */}
+        <NavLink to={tab.path} end={tab.path === '/'} className={({ isActive }) => (isActive ? 'is-active' : undefined)}>
+          {tab.name}
+        </NavLink>
       </li>
     ))}
   </ul>
 );
 
 TabsRouted.propTypes = {
-  // path, name
-  tabs: PropTypes.array
+  tabs: PropTypes.arrayOf(PropTypes.shape({
+    path: PropTypes.string.isRequired,
+    name: PropTypes.node.isRequired
+  }))
 };
 
 export default TabsRouted;

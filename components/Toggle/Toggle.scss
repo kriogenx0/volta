@@ -14,11 +14,21 @@ $toggle-pod: $toggle-width - 12.5;
   cursor: pointer;
   @include transform(translateZ(0));
 
+  // The real checkbox stays in the layout, invisible, so it keeps keyboard focus
+  // (visibility: hidden would take it out of the tab order).
   > input {
     position: absolute;
     opacity: 0;
     z-index: -1; /* Put the input behind the label so it doesn't overlay text */
-    visibility: hidden;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    pointer-events: none;
+  }
+
+  > input:focus-visible ~ .toggle-body {
+    outline: 2px solid $color_active;
+    outline-offset: 2px;
   }
 
   .toggle-body {
@@ -80,14 +90,14 @@ $toggle-pod: $toggle-width - 12.5;
     // @include image-2x('images/2x/tgl_x.png', image-width('../../assets/images/tgl_x.png'), image-height('../../assets/images/tgl_x.png'));
   }
 
-  &:hover {
+  &:not(.toggle-disabled):hover {
     .toggle-switch {
       border-color: color-mix(in srgb, $color_border 100%, black 13%);
       @include transform(scale(1.06));
     }
   }
 
-  &:active {
+  &:not(.toggle-disabled):active {
     .toggle-switch {
       @include transform(scale(.95));
     }

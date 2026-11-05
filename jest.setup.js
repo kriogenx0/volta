@@ -13,3 +13,38 @@ global.TextDecoder = global.TextDecoder || TextDecoder;
 global.React = require('react');
 global.PropTypes = require('prop-types');
 global._ = require('lodash');
+
+// Browser APIs jsdom doesn't implement. Components and styleguide examples use
+// them, so stub them (only when missing) instead of failing on the environment.
+if (!URL.createObjectURL) URL.createObjectURL = () => 'blob:jsdom';
+if (!URL.revokeObjectURL) URL.revokeObjectURL = () => {};
+
+if (!window.matchMedia) {
+  window.matchMedia = (query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false
+  });
+}
+
+class NoopObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+  takeRecords() { return []; }
+}
+if (!window.ResizeObserver) window.ResizeObserver = NoopObserver;
+if (!window.IntersectionObserver) window.IntersectionObserver = NoopObserver;
+
+window.scrollTo = () => {};
+Element.prototype.scrollIntoView = Element.prototype.scrollIntoView || (() => {});
+
+// jsdom logs "not implemented" for media playback.
+window.HTMLMediaElement.prototype.load = () => {};
+window.HTMLMediaElement.prototype.play = () => Promise.resolve();
+window.HTMLMediaElement.prototype.pause = () => {};

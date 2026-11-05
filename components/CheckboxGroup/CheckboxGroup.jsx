@@ -7,7 +7,7 @@ import './CheckboxGroup.scss';
 
 const CheckboxGroup = ({ name, options, value, onChange, className, ...otherProps }) => {
   const handleChange = (e) => {
-    onChange(e);
+    if (onChange) onChange(e);
   };
 
   return (

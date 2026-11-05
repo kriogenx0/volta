@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
 
 import './TabBar.scss';
 
+// A tab is a string, or an element carrying a `label` prop.
+const tabLabel = (tab) => {
+  if (typeof tab == 'string') return tab;
+  if (React.isValidElement(tab)) return tab.props.label;
+  return undefined;
+};
+
 const TabBar = ({ tabs, onChange, selectedTabIndex: selectedTabIndexProp }) => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(selectedTabIndexProp || 0);
+
+  // A parent that changes selectedTabIndex moves the selection with it
+  useEffect(() => {
+    if (typeof selectedTabIndexProp == 'number') setSelectedTabIndex(selectedTabIndexProp);
+  }, [selectedTabIndexProp]);
 
   const handleTabSelect = (index, label) => {
     setSelectedTabIndex(index);
@@ -16,19 +27,15 @@ const TabBar = ({ tabs, onChange, selectedTabIndex: selectedTabIndexProp }) => {
   return (
     <div className='volta-tab_bar'>
       {_.map(tabs, (tab, i) => {
-        const tabProps = {
-          key: i,
-          active: selectedTabIndex === i
-        };
-        if (tab instanceof React.Component) {
-          tabProps.label = tabComponent.props.label;
-        }
-        else if (typeof tab == 'string') {
-          tabProps.label = tab;
-        }
+        const label = tabLabel(tab);
 
         return (
-          <TabBar.Link {...tabProps} onClick={() => handleTabSelect(i, tabProps.label)} />
+          <TabBar.Link
+            key={i}
+            label={label}
+            active={selectedTabIndex === i}
+            onClick={() => handleTabSelect(i, label)}
+          />
         );
       })}
     </div>
@@ -36,13 +43,26 @@ const TabBar = ({ tabs, onChange, selectedTabIndex: selectedTabIndexProp }) => {
 };
 
 TabBar.propTypes = {
-  tabs: PropTypes.array,
-  onChange: PropTypes.func,
+  tabs: PropTypes.array, // strings, or elements with a `label` prop
+  onChange: PropTypes.func, // (index, label)
   selectedTabIndex: PropTypes.number
 };
 
 TabBar.Link = ({ active, label, onClick }) => (
-  <Link className={`volta-tab_bar-link${active ? ' tab-active' : ''}`} key={label} activeClassName='tab-active' onClick={onClick}>{label}</Link>
+  <button
+    type='button'
+    className={`volta-tab_bar-link${active ? ' tab-active' : ''}`}
+    aria-current={active ? 'true' : undefined}
+    onClick={onClick}
+  >
+    {label}
+  </button>
 );
+
+TabBar.Link.propTypes = {
+  active: PropTypes.bool,
+  label: PropTypes.node,
+  onClick: PropTypes.func
+};
 
 export default TabBar;

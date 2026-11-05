@@ -35,6 +35,11 @@ Select.propTypes = {
   name: PropTypes.any,
   options: PropTypes.array,
   onChange: PropTypes.func,
+  label: PropTypes.string,
+  optional: PropTypes.bool,
+  className: PropTypes.string,
+  id: PropTypes.string,
+  children: PropTypes.node,
   fieldSize: PropTypes.oneOf(['sm', 'md'])
 };
 

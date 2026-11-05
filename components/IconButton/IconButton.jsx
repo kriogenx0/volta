@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './IconButton.scss';
 
@@ -9,6 +10,17 @@ const IconButton = ({ icon: Icon, label, size = 16, variant = 'ghost', className
 );
 
 IconButton.variants = VARIANTS;
+
+IconButton.propTypes = {
+  // A component, not an element: it is rendered as <Icon size={size} />.
+  icon: PropTypes.elementType.isRequired,
+  // Becomes the aria-label and the tooltip. The button shows only an icon, so it is required.
+  label: PropTypes.string.isRequired,
+  size: PropTypes.number,
+  variant: PropTypes.oneOf(VARIANTS),
+  className: PropTypes.string,
+  type: PropTypes.oneOf(['button', 'submit', 'reset'])
+};
 
 export { IconButton };
 export default IconButton;

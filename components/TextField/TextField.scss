@@ -71,7 +71,33 @@
   textarea {
     resize: none;
     box-sizing: border-box;
+
+    // Set by Textarea's `resize` prop
+    &.resize-y {
+      resize: vertical;
+    }
+
+    &.resize-both {
+      resize: both;
+    }
   }
+
+  // Error: the message is shown under the field (see .volta-textfield-error_message)
+  // and the control is marked aria-invalid; the border colour backs that up.
+  &.textfield-error {
+    input,
+    textarea {
+      &,
+      &:hover,
+      &:focus {
+        border-color: var(--v-color-danger);
+      }
+    }
+  }
+}
+
+.volta-textfield-error_message {
+  margin-top: 4px;
 }
 
 // Sizes (fieldSize prop). Declared after the base rules so they win on

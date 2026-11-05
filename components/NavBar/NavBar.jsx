@@ -6,7 +6,11 @@ import NavBarItem from "./NavBarItem.jsx";
 
 import './NavBar.scss';
 
-const NavBar = ({ navItems, onActiveState }) => {
+// A shared fallback: a fresh `[]` default on every render would retrigger the
+// effect below forever.
+const NO_ITEMS = [];
+
+const NavBar = ({ navItems = NO_ITEMS, onActiveState }) => {
   const [items, setItems] = useState(navItems);
 
   useEffect(() => {
@@ -53,12 +57,8 @@ const NavBar = ({ navItems, onActiveState }) => {
 };
 
 NavBar.propTypes = {
-  navItems: PropTypes.array,
+  navItems: PropTypes.array, // NavItem instances
   onActiveState: PropTypes.func
-};
-
-NavBar.defaultProps = {
-  navItems: []
 };
 
 export default NavBar;
