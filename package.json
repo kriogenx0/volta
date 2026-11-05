@@ -23,7 +23,7 @@
     "build-app": "vite build --config vite.styleguide.config.mjs",
     "watch-app": "vite build --config vite.styleguide.config.mjs --watch",
     "deploy": "vite build --config vite.styleguide.config.mjs",
-    "lint": "eslint components",
+    "lint": "eslint --ext .js,.jsx components",
     "test": "jest"
   },
   "dependencies": {

@@ -54,7 +54,6 @@ const Slider = ({ value: controlledValue, defaultValue, min = 0, max = 2, step, 
       document.removeEventListener('touchmove', move);
       document.removeEventListener('touchend', stop);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dragging, value, min, max, step, controlledValue]);
 
   const startDrag = (event) => {
