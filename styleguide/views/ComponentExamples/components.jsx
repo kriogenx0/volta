@@ -47,7 +47,6 @@ import ListCardExamples from '../../../examples/ListCard/ListCard-examples';
 import ListDefinitionsExamples from '../../../examples/ListDefinitions/ListDefinitions-examples';
 import ListExamples from '../../../examples/List/List-examples';
 import LoaderExamples from '../../../examples/Loader/Loader-examples';
-import LoaderLinearProgressExamples from '../../../examples/LoaderLinearProgress/LoaderLinearProgress-examples';
 import MapExamples from '../../../examples/Map/Map-examples';
 import MapSelectorExamples from '../../../examples/MapSelector/MapSelector-examples';
 import MessageExamples from '../../../examples/Message/Message-examples';
@@ -139,7 +138,6 @@ const curated = [
   ListDefinitionsExamples,
   ListExamples,
   LoaderExamples,
-  LoaderLinearProgressExamples,
   MapExamples,
   MapSelectorExamples,
   MessageExamples,
