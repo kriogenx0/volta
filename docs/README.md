@@ -49,7 +49,11 @@ import { Button, Checkbox, Theme } from 'volta';
 
 `TextBox` is an alias for `TextField` (it adds a `c-text_box` wrapper class for
 ironyoung-web's own styles); both are exported. `SegmentedControlMini` is an
-alias for `<SegmentedControl mini />`; both are exported.
+alias for `<SegmentedControl mini />`; both are exported. `LoaderLinearProgress`
+is an alias for `<ProgressBar fixed variant="flowing" />` (a bar pinned to the
+top of the window; its `progress` prop is `ProgressBar`'s `percent`); both are
+exported. `ProgressBar` is indeterminate when given `indeterminate`, or when
+`percent` isn't a number.
 
 Run `npm run build` (or `make build-prod`) after cloning/updating — the
 compiled bundle isn't committed. (`make build` produces the same bundle
