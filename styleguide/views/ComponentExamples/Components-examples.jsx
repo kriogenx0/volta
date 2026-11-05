@@ -13,7 +13,12 @@ const ComponentExamples = () => {
   const [selectedName, selectName] = useState(components[0].name);
   const selectedComponent = componentsByName[selectedName];
 
-  const handleComponentClick = (name) => { selectName(name) };
+  // The sidebar stays in view while the page is scrolled, so a new component
+  // would otherwise open partway down.
+  const handleComponentClick = (name) => {
+    selectName(name);
+    window.scrollTo(0, 0);
+  };
 
   // Split view
   return (
