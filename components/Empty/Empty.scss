@@ -6,9 +6,9 @@
   font-size: 150%;
   padding: 100px 20px;
 
-  color: #ccc;
+  color: var(--v-color-base-less-subtle);
   @include dark {
-    color: #333;
+    color: var(--v-color-trim);
   }
 }
 

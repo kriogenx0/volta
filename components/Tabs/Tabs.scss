@@ -25,9 +25,9 @@
   }
 
   .tab {
-    color: #ccc;
+    color: var(--v-color-base-less-subtle);
     @include dark {
-      color: #444;
+      color: var(--v-color-trim-subtle);
     }
     border-bottom: 1px solid transparent;
     display: block;

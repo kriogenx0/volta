@@ -7,9 +7,9 @@ $padding: 15px;
   // margin: 80px auto;
   display: inline-block;
   text-align: center;
-  color: #ccc;
+  color: var(--v-color-base-less-subtle);
   font-size: 150%;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--v-color-base-more-subtle);
   // --volta-card-padding is set by the padding prop's modifier below
   padding: var(--volta-card-padding, #{$padding});
   overflow: hidden;
@@ -38,7 +38,7 @@ $padding: 15px;
   &.volta-card-selected
   {
     border-width: 2px;
-    border-color: #0070C9;
+    border-color: var(--v-accent);
     // One px less than normal: the border is one px thicker, so the card
     // doesn't change size when selected.
     padding: max(0px, calc(var(--volta-card-padding, #{$padding}) - 1px));

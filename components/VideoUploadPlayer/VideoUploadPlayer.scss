@@ -15,8 +15,8 @@ $videoExistsHeight: 35px;
 
   .box
   {
-    background-color: #fff;
-    border: 1px solid #E0E0E0;
+    background-color: var(--v-color-base);
+    border: 1px solid var(--v-color-base-subtle);
     border-radius: 4px;
     height: $height;
     min-height: $height;
@@ -28,7 +28,7 @@ $videoExistsHeight: 35px;
     &.box-dragging,
     &:hover
     {
-      background-color: #FAFAFA;
+      background-color: var(--v-color-base-more-subtle);
     }
 
     &.video_exists
@@ -63,8 +63,7 @@ $videoExistsHeight: 35px;
       bottom: 0;
       left: 0;
 
-      // background-color: #E7F3F9;
-      background-color: #64AAD7;
+      background-color: var(--v-accent);
       border-radius: 4px;
 
       transition: width $anim-speed-normal;
@@ -72,12 +71,12 @@ $videoExistsHeight: 35px;
 
     &.complete
     {
-      background-color: #FAFAFA;
+      background-color: var(--v-color-base-more-subtle);
 
       &.box-dragging,
       &:hover
       {
-        background-color: #f1f1f1;
+        background-color: var(--v-color-base-more-subtle);
       }
     }
   }

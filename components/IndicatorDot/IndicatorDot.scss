@@ -3,7 +3,7 @@
   display: inline-block;
   font-size: 11pt;
   padding: 5px;
-  color: #999;
+  color: var(--v-color-trim-less-subtle);
   vertical-align: middle;
 
   &.indicator_dot-small
@@ -14,21 +14,21 @@
 
   &.indicator_dot-exported
   {
-    color: #03A10E;
+    color: var(--v-color-success);
   }
 
   &.indicator_dot-complete
   {
-    color: #289A00;
+    color: var(--v-color-success);
   }
 
   &.indicator_dot-incomplete
   {
-    color: #0088CC;
+    color: var(--v-accent);
   }
 
   &.indicator_dot-deleted
   {
-    color: #eee;
+    color: var(--v-color-base-subtle);
   }
 }

@@ -2,86 +2,41 @@
 // Slide handle to change HUE (0-360)
 // Expects an initial hex value and a callback for hue changes
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
-export default class ColorPickerSlider extends React.Component {
+import useDrag from './useDrag';
 
-  static propTypes = {
-    hue: PropTypes.number,
-    onHueChange: PropTypes.func
-  };
+export default function ColorPickerSlider({ hue = 180, onHueChange = () => {} }) {
+  const [current, setCurrent] = useState(hue);
+  const slider = useRef(null);
 
-  static defaultProps = {
-    hue: 180,
-    onHueChange: () => {}
-  };
+  useEffect(() => { setCurrent(hue); }, [hue]);
 
-  constructor(props) {
-    super(props);
-    this.state = { moving: false, hue: props.hue };
-    this.slider = React.createRef();
+  const setHueFromEvent = (event) => {
+    const sliderNode = slider.current;
+    const left = sliderNode.getBoundingClientRect().left + window.scrollX;
 
-    this.handleMouseDown = this.handleMouseDown.bind(this);
-    this.handleMouseMove = this.handleMouseMove.bind(this);
-    this.handleMouseUp = this.handleMouseUp.bind(this);
-  }
-
-  componentDidUpdate(props, state) {
-    const moveStarted = this.state.moving && !state.moving;
-    const moveStopped = !this.state.moving && state.moving;
-
-    if (moveStarted) {
-      document.addEventListener('mousemove', this.handleMouseMove);
-      document.addEventListener('mouseup', this.handleMouseUp);
-    } else if (moveStopped) {
-      document.removeEventListener('mousemove', this.handleMouseMove);
-      document.removeEventListener('mouseup', this.handleMouseUp);
-    }
-
-    if (this.props.hue !== this.state.hue) {
-      this.setState({ hue: this.props.hue });
-    }
-  }
-
-  handleMouseDown(event) {
-    if (event.button !== 0) return; // Left click only
-
-    this.setState({ moving: true });
-    this.setHueFromEvent(event);
-  }
-
-  handleMouseMove(event) {
-    if (!this.state.moving) return;
-    this.setHueFromEvent(event);
-  }
-
-  handleMouseUp() {
-    this.setState({ moving: false });
-  }
-
-  setHueFromEvent(event) {
-    const sliderNode = this.slider.current;
-    const sliderOffset = { left: sliderNode.getBoundingClientRect().left + window.scrollX };
-
-    let pos = event.pageX - sliderOffset.left;
+    let pos = event.pageX - left;
     pos = Math.max(pos, 0);
     pos = Math.min(pos, sliderNode.offsetWidth);
 
-    const hue = parseInt((pos / sliderNode.offsetWidth) * 360, 10);
+    const next = parseInt((pos / sliderNode.offsetWidth) * 360, 10);
 
-    this.props.onHueChange(hue);
-    this.setState({ hue });
-  }
+    onHueChange(next);
+    setCurrent(next);
+  };
 
-  render() {
-    const sliderStyle = { left: `${(this.state.hue / 360) * 100}%` };
+  const { onMouseDown } = useDrag(setHueFromEvent);
 
-    return (
-      <div className="cpr_rainbow" ref={this.slider} onMouseDown={this.handleMouseDown}>
-        <div className="cpr_slide" style={sliderStyle}></div>
-      </div>
-    );
-  }
-
+  return (
+    <div className="cpr_rainbow" ref={slider} onMouseDown={onMouseDown}>
+      <div className="cpr_slide" style={{ left: `${(current / 360) * 100}%` }}></div>
+    </div>
+  );
 }
+
+ColorPickerSlider.propTypes = {
+  hue: PropTypes.number,
+  onHueChange: PropTypes.func
+};

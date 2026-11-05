@@ -1,12 +1,12 @@
 .volta-tabs_routed
 {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--v-color-base-less-subtle);
 
   li
   {
-    border-right: 1px solid #ccc;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #fff;
+    border-right: 1px solid var(--v-color-base-less-subtle);
+    border-top: 1px solid var(--v-color-base-less-subtle);
+    border-bottom: 1px solid var(--v-color-base);
     display: inline-block;
     margin: 0;
     padding: 10px;
@@ -14,18 +14,18 @@
 
     &:first-child
     {
-      border-left: 1px solid #ccc;
+      border-left: 1px solid var(--v-color-base-less-subtle);
     }
 
     a
     {
       cursor: pointer;
-      color: #888;
+      color: var(--v-color-trim-less-subtle);
 
       &.is-active
       {
         cursor: default;
-        color: #000;
+        color: var(--v-color-trim);
       }
 
       &:link,

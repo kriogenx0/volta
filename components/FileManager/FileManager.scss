@@ -22,12 +22,12 @@
   }
 
   .path {
-    border: 1px solid #ccc;
+    border: 1px solid var(--v-color-base-less-subtle);
     @include dark {
-      border-color: #333;
+      border-color: var(--v-color-trim);
     }
     padding-top: 5px;
-    color: #999;
+    color: var(--v-color-trim-less-subtle);
     font-size: 14px;
     width: 100%;
     margin-left: 5px;
@@ -42,19 +42,19 @@
       cursor: default;
       @include no_select;
 
-      background: #eee;
-      color: #333;
+      background: var(--v-color-base-subtle);
+      color: var(--v-color-trim);
       @include dark {
-        background: #222;
-        color: #ccc;
+        background: var(--v-color-base);
+        color: var(--v-color-base-less-subtle);
       }
     }
   }
 
   .files {
-    border: 1px solid #ccc;
+    border: 1px solid var(--v-color-base-less-subtle);
     @include dark {
-      border-color: #333;
+      border-color: var(--v-color-trim);
     }
     border-radius: 3px;
     font-size: 14px;
@@ -62,7 +62,7 @@
     overflow-y: auto;
 
     .v-empty {
-      color: #ccc;
+      color: var(--v-color-base-less-subtle);
     }
 
     // Each file is a native button so it can be tabbed to and pressed from the

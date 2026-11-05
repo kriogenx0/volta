@@ -5,8 +5,8 @@
 
   .phone-outside
   {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: var(--v-color-base);
+    border: 1px solid var(--v-color-base-less-subtle);
     padding: 58px 16px 66px;
     border-radius: 28px;
     margin: 0 auto;
@@ -22,7 +22,7 @@
     top: 26px;
     left: 50%;
     border-radius: 4px;
-    background: #eee;
+    background: var(--v-color-base-subtle);
   }
 
   .phone-status_bar
@@ -31,7 +31,7 @@
     line-height: 21px;
     z-index: 1;
     background: rgba(0,0,0,0.2);
-    color: #fff;
+    color: var(--v-on-accent);
     font-size: 11px;
     font-family: 'San Francisco', 'SF UI Text', 'SF UI Display', 'SF', sans-serif;
   }
@@ -42,7 +42,7 @@
     min-height: 480px;
     overflow-x: hidden;
     overflow-y: auto;
-    background: #eee;
+    background: var(--v-color-base-subtle);
   }
 
   .phone-button
@@ -54,6 +54,6 @@
     position: absolute;
     bottom: 15px;
     left: 50%;
-    background: #eee;
+    background: var(--v-color-base-subtle);
   }
 }
