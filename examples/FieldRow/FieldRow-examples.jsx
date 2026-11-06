@@ -4,7 +4,7 @@ import Select from '../../components/Select/Select';
 
 export default {
   name: 'FieldRow',
-  description: 'A labeled form row with a responsive side-by-side layout.',
+  description: 'A labeled form row with a responsive side-by-side layout. Like Field, its label points at the control, and an optional hint and error are read as the control\'s description.',
   examples: [
     {
       name: 'Text input',
@@ -32,6 +32,25 @@ export default {
             { label: 'Canada', value: 'ca' },
           ]} />
         </FieldRow>
+      )
+    },
+    {
+      name: 'Hint and error',
+      code: `<FieldRow label="Email" hint="Use your work address">
+  <TextField type="email" />
+</FieldRow>
+<FieldRow label="Email" error="That doesn't look like an email address">
+  <TextField type="email" defaultValue="alex@" />
+</FieldRow>`,
+      output: (
+        <>
+          <FieldRow label="Email" hint="Use your work address">
+            <TextField type="email" />
+          </FieldRow>
+          <FieldRow label="Email" error="That doesn't look like an email address">
+            <TextField type="email" defaultValue="alex@" />
+          </FieldRow>
+        </>
       )
     },
     {
