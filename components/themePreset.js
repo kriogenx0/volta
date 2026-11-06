@@ -26,6 +26,7 @@ export const presets = [
       '--v-accent-hover': '#2F90FB',
       '--v-accent-subtle': '#E5F0FC',
       '--v-on-accent': '#ffffff',
+      '--v-focus-ring': 'var(--v-accent)',
       '--v-color-base': '#ffffff',
       '--v-color-base-subtle': '#e6e6e6',
       '--v-color-base-less-subtle': '#cccccc',
@@ -36,6 +37,7 @@ export const presets = [
       '--v-color-trim-more-subtle': '#1a1a1a',
       '--v-color-inactive': '#a1a5a9',
       '--v-color-danger': '#e30000',
+      '--v-color-danger-hover': '#ba0000',
       '--v-color-success': '#03a10e',
       '--v-color-warning': '#a15c00',
       '--v-color-danger-subtle': '#fff2f4'
@@ -45,6 +47,7 @@ export const presets = [
       '--v-accent-hover': '#2F90FB',
       '--v-accent-subtle': '#234A78',
       '--v-on-accent': '#ffffff',
+      '--v-focus-ring': 'var(--v-accent)',
       '--v-color-base': '#050505',
       '--v-color-base-subtle': '#292929',
       '--v-color-base-less-subtle': '#404040',
@@ -55,6 +58,7 @@ export const presets = [
       '--v-color-trim-more-subtle': '#e6e6e6',
       '--v-color-inactive': '#7c7f82',
       '--v-color-danger': '#e30000',
+      '--v-color-danger-hover': '#ba0000',
       '--v-color-success': '#03a10e',
       '--v-color-warning': '#a15c00',
       '--v-color-danger-subtle': '#3a1519'

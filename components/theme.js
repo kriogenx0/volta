@@ -23,6 +23,7 @@ export const tokens = [
   '--v-accent-hover',
   '--v-accent-subtle',
   '--v-on-accent',
+  '--v-focus-ring',
   '--v-color-base',
   '--v-color-base-subtle',
   '--v-color-base-less-subtle',
@@ -33,6 +34,7 @@ export const tokens = [
   '--v-color-trim-more-subtle',
   '--v-color-inactive',
   '--v-color-danger',
+  '--v-color-danger-hover',
   '--v-color-success',
   '--v-color-warning',
   '--v-color-danger-subtle'
