@@ -103,3 +103,13 @@ describe('FilePicker with several files', () => {
     expect(screen.getByText('two.png')).toBeInTheDocument();
   });
 });
+
+describe('FilePicker defaultValue', () => {
+  it('lists the files of an array of names without changing the array', () => {
+    const names = ['report.pdf', 'photo.png'];
+    render(<FilePicker multiple defaultValue={names} />);
+    expect(screen.getByText('report.pdf')).toBeInTheDocument();
+    expect(screen.getByText('photo.png')).toBeInTheDocument();
+    expect(names).toEqual(['report.pdf', 'photo.png']);
+  });
+});

@@ -37,7 +37,8 @@ const loadIcon = (file) => {
 const buildDefaultFiles = (value) => {
   let files;
   if (!value) files = null;
-  else if (Array.isArray(value)) files = value;
+  // A copy: the strings below are replaced by objects, which must not rewrite the caller's array
+  else if (Array.isArray(value)) files = [...value];
   else files = [value];
 
   _.each(files, (file, i) => {
