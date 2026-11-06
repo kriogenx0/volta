@@ -28,7 +28,7 @@ const ClipboardHover = ({ children }) => {
         {children}
       </div>
       <div className='clipboard_hover-icon'>
-        <Button tiny onClick={handleClick}>
+        <Button size="tiny" onClick={handleClick}>
           <Icon type='list.clipboard' />
         </Button>
       </div>
