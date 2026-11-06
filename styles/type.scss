@@ -42,7 +42,7 @@ code {
 a {
   text-decoration: none;
   color: #444;
-  transition: color 100ms;
+  transition: color var(--v-anim-speed);
 
   &:hover {
     text-decoration: underline;
