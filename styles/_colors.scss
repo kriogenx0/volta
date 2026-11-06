@@ -9,6 +9,11 @@
 //   component only needs to reference the token once (no separate "_dark"
 //   rule needed going forward, though the "_dark"-suffixed Sass variables
 //   below are kept as aliases for existing component styles)
+//
+// The whole set below is replaceable as a theme (docs/features/theming.md).
+// Adding, renaming or removing a colour here means updating `tokens` in
+// components/theme.js and the 'volta' preset in components/themePreset.js;
+// tests/themePreset.test.js fails until all three agree.
 
 :root {
   --v-accent: #4A90E2;

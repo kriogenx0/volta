@@ -1,0 +1,146 @@
+// The themes dropdown in the styleguide header. Colours come from the --v-*
+// tokens, so the picker restyles with whichever theme it is switching.
+
+.v-theme_picker {
+  position: relative;
+  font-size: 12px;
+}
+
+.v-theme_picker-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 3px 8px 3px 4px;
+  border: 1px solid var(--v-color-base-subtle);
+  border-radius: 9px;
+  color: var(--v-color-trim);
+  background: var(--v-color-base-more-subtle);
+  font: inherit;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--v-anim-speed) var(--v-anim-ease),
+    border-color var(--v-anim-speed) var(--v-anim-ease);
+
+  &:hover {
+    border-color: var(--v-color-base-less-subtle);
+    background: var(--v-color-base-subtle);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--v-accent);
+    outline-offset: 2px;
+  }
+}
+
+.is-open > .v-theme_picker-button {
+  border-color: var(--v-color-base-less-subtle);
+  background: var(--v-color-base-subtle);
+}
+
+.v-theme_picker-chevron {
+  width: 0;
+  height: 0;
+  border-top: 4px solid currentcolor;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  color: var(--v-color-trim-subtle);
+}
+
+// A chip split in two: the light theme on the left, the dark one on the right,
+// each an accent dot on that scheme's page colour.
+.v-theme_picker-swatch {
+  display: inline-flex;
+  flex: none;
+  width: 36px;
+  height: 22px;
+  overflow: hidden;
+  border: 1px solid var(--v-color-base-less-subtle);
+  border-radius: 6px;
+  box-sizing: border-box;
+
+  > span {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+
+    &::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+  }
+}
+
+.v-theme_picker-swatch-light {
+  background: var(--swatch-light-base);
+
+  &::before { background: var(--swatch-light-accent); }
+}
+
+.v-theme_picker-swatch-dark {
+  background: var(--swatch-dark-base);
+
+  &::before { background: var(--swatch-dark-accent); }
+}
+
+.v-theme_picker-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 1;
+  width: 220px;
+  max-width: calc(100vw - 32px);
+  max-height: min(70vh, 420px);
+  margin: 0;
+  padding: 4px;
+  overflow-y: auto;
+  border: 1px solid var(--v-color-base-subtle);
+  border-radius: 10px;
+  color: var(--v-color-trim);
+  background: var(--v-color-base);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 14%);
+  list-style: none;
+
+  &:focus-visible {
+    outline: 2px solid var(--v-accent);
+    outline-offset: 2px;
+  }
+}
+
+.v-theme_picker-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--v-anim-speed) var(--v-anim-ease);
+
+  &.is-active {
+    background: var(--v-color-base-subtle);
+  }
+
+  // The chosen theme: a tint of its own accent, so the list shows it
+  &[aria-selected='true'] {
+    background: var(--v-accent-subtle);
+
+    &.is-active {
+      background: var(--v-accent-subtle);
+      box-shadow: inset 0 0 0 1px var(--v-accent);
+    }
+  }
+}
+
+@media (pointer: coarse) {
+  .v-theme_picker-option { min-height: 44px; }
+}
+
+// Narrow screens show just the chip; the list still names every theme.
+@media (max-width: 640px) {
+  .v-theme_picker-button > .v-theme_picker-name { display: none; }
+}

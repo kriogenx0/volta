@@ -17,7 +17,6 @@ Two problems in `Dropdown`:
 - Open the panel below the trigger (and flip above when there is no room); keep `constrainWidth` working.
 - Close on an outside click, Escape, or a choice, not on every click inside; let contents opt in to closing (for example with a render prop or a `data-` attribute on the control that should close it).
 - Remove the click-propagation workaround from `DatePicker` once the contents no longer close it.
-- Replace the hex colours in `Dropdown.scss` with `--v-*` tokens so dark mode works.
 
 ## Acceptance criteria
 
