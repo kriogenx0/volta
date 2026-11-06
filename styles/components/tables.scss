@@ -91,7 +91,7 @@ td {
   }
 
   tr {
-    transition: background-color 150ms, color 150ms;
+    transition: background-color var(--v-anim-speed), color var(--v-anim-speed);
 
     &.collapsed {
       display: none;

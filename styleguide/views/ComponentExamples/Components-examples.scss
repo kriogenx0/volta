@@ -38,7 +38,7 @@
         cursor: pointer;
         border-radius: 8px;
         margin: 1px 0;
-        transition: background-color 100ms;
+        transition: background-color var(--v-anim-speed);
 
         &:hover {
           background-color: $color_base_subtle;
