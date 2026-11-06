@@ -51,6 +51,17 @@ describe('ActionMenu', () => {
     expect(container.firstChild).not.toHaveClass('is-open');
   });
 
+  it('reports the close through onToggle when an item is chosen', () => {
+    const onToggle = jest.fn();
+    render(<ActionMenu items={['Edit', 'Share']} onToggle={onToggle} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Actions' }));
+    expect(onToggle).toHaveBeenLastCalledWith(true);
+
+    fireEvent.click(screen.getByRole('menuitem', { name: 'Share' }));
+    expect(onToggle).toHaveBeenLastCalledWith(false);
+    expect(onToggle).toHaveBeenCalledTimes(2);
+  });
+
   it('can choose an item without an onSelect or an action', () => {
     const { container } = render(<ActionMenu items={['Edit']} />);
     fireEvent.click(screen.getByRole('button', { name: 'Actions' }));

@@ -1,25 +1,23 @@
 ---
 priority: p2
-components: [Dropdown, DatePicker]
+components: [Dropdown, DropdownList, ActionMenu, DatePicker]
+branch: backlog/dropdown-panel-position-and-close
 ---
 
-# Dropdown: panel position and close behaviour
+# Check the Dropdown panel position and closing in a real browser
 
-## Objective
+On the branch above the panel opens below its trigger (flipping above when it doesn't fit), a click inside no longer closes it (`data-dropdown-close` marks a choice, `closeOnContentClick` restores the old rule), outside clicks close it with or without the overlay, and `DatePicker` no longer needs its click and position workarounds. See `docs/features/dropdown.md`. The code and its tests are done; what is left needs a real browser.
 
-Two problems in `Dropdown`:
+## Unverified
 
-- `.dropdown-contents` is positioned at `top: 0`, so an open panel covers its own trigger instead of opening below it.
-- Any click inside the contents closes the dropdown. `DatePicker` works around it by stopping click propagation around its calendar, so paging months doesn't close the picker.
+Position and the flip were tested with the layout mocked, since jsdom has no layout. With the dev server (`make dev`), on the Dropdown, DropdownList, ActionMenu and DatePicker pages:
 
-## Requirements
+1. The panel appears just below the trigger, not over it, at desktop and 375px widths, in light and dark.
+2. Put the trigger near the bottom of a short window (resize the window, or scroll so the trigger is low): the panel opens above it. Scroll it back up and reopen: below again.
+3. A DatePicker: the arrows page months without closing it; choosing a day, Escape, and a click outside all close it.
+4. An ActionMenu and a DropdownList: choosing an item closes them.
+5. Anything in your own apps that used a click inside to close a Dropdown now needs `data-dropdown-close` on the choice, or `closeOnContentClick` on the Dropdown.
 
-- Open the panel below the trigger (and flip above when there is no room); keep `constrainWidth` working.
-- Close on an outside click, Escape, or a choice, not on every click inside; let contents opt in to closing (for example with a render prop or a `data-` attribute on the control that should close it).
-- Remove the click-propagation workaround from `DatePicker` once the contents no longer close it.
+Known and not done: the panel does not move if the window is resized or scrolled while it is open, and only the vertical direction flips (a trigger near the right edge can still push the panel off that side). If either matters, add a task.
 
-## Acceptance criteria
-
-- Tests for position class/flip, outside click, Escape, and an interactive child that does not close the panel.
-- DatePicker month paging works without the workaround.
-- Checked in a browser at desktop and mobile widths.
+To finish: confirm the points above, then delete this file.
