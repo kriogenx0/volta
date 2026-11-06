@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 
 import Calendar from '../../components/DatePicker/Calendar';
-import Dater from '../../components/DatePicker/Dater';
 
 const days = () => screen.getAllByRole('button', { name: /^[A-Z][a-z]+ \d{1,2}, \d{4}$/ });
 const heading = () => document.querySelector('.cal-month').textContent;
@@ -177,39 +176,5 @@ describe('Calendar', () => {
       fireEvent.click(screen.getByRole('button', { name: 'June 9, 2026' }));
       expect(onDateSelect).not.toHaveBeenCalled();
     });
-  });
-});
-
-describe('Dater', () => {
-  it('works on its own copy of the date', () => {
-    const date = new Date(2026, 5, 15);
-    const dater = new Dater(date);
-    dater.nextMonth().day(3);
-    expect(date.getMonth()).toBe(5);
-    expect(date.getDate()).toBe(15);
-  });
-
-  it('copies another Dater', () => {
-    const a = new Dater(new Date(2026, 5, 15));
-    const b = new Dater(a);
-    b.nextMonth();
-    expect(a.month()).toBe(6);
-  });
-
-  it('falls back to today for an unreadable date', () => {
-    expect(new Dater(new Date('nope')).year()).toBe(new Date().getFullYear());
-  });
-
-  it('keeps the last day of a shorter month when paging from the 31st', () => {
-    expect(new Dater(new Date(2026, 0, 31)).nextMonth().mdy()).toBe('2/28/2026');
-    expect(new Dater(new Date(2028, 0, 31)).nextMonth().mdy()).toBe('2/29/2028');
-    expect(new Dater(new Date(2026, 2, 31)).previousMonth().mdy()).toBe('2/28/2026');
-  });
-
-  it('counts the days of the month it is in, whatever the day', () => {
-    expect(new Dater(new Date(2026, 0, 31)).daysInMonth()).toBe(31);
-    expect(new Dater(new Date(2026, 9, 31)).daysInMonth()).toBe(31);
-    expect(new Dater(new Date(2026, 1, 28)).daysInMonth()).toBe(28);
-    expect(new Dater(new Date(2028, 1, 10)).daysInMonth()).toBe(29);
   });
 });

@@ -5,7 +5,7 @@ import { format as formatDate, startOfDay, endOfDay } from 'date-fns';
 
 import { isDate } from '../../util/dateTimeUtils';
 import Button from '../Button/Button';
-import Dater from './Dater';
+import Dater from '../../util/Dater';
 
 import './Calendar.scss';
 
