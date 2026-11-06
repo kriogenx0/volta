@@ -63,7 +63,7 @@ const BlockWhileBusy = () => {
 
 export default {
   name: 'Overlay',
-  description: 'A dimming layer over the whole window, added to the page while showing is true. It only draws the dim layer (it renders nothing in place), and calls onClick when the dimmed area is clicked. Put anything that should sit above it in its own positioned element.',
+  description: 'A dimming layer over the whole window, added to the page while showing is true. It only draws the dim layer (it renders nothing in place), and calls onClick when the dimmed area is clicked. Put anything that should sit above it in its own positioned element. The page behind it doesn\'t scroll while it shows.',
   examples: [
     {
       name: 'Dismiss on click',

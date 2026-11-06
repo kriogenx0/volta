@@ -31,7 +31,7 @@ const Demo = ({ buttonLabel, describe, ...alertProps }) => {
 
 export default {
   name: 'Alert',
-  description: 'A centered confirm or prompt box that covers the page. Render it while it should be shown; Confirm and Cancel call onConfirm and onCancel, Enter confirms and Escape cancels. With type="input" it asks for text and onConfirm receives it.',
+  description: 'A centered confirm or prompt box that covers the page. Render it while it should be shown; Confirm and Cancel call onConfirm and onCancel, Enter confirms and Escape cancels. With type="input" it asks for text and onConfirm receives it. While it is shown it locks page scroll and keeps Tab inside, then returns focus to where it was.',
   examples: [
     {
       name: 'Confirm',

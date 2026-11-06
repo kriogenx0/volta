@@ -3,18 +3,22 @@ import { useEffect, useId, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '../Button/Button';
+import useModalBehavior from '../Overlay/useModalBehavior';
 
 import './_alert.scss';
 
 // Shown while it is rendered, so the parent decides when (render it
 // conditionally). Confirm and Cancel call `onConfirm` / `onCancel`; with
 // `type="input"` there's a text field and `onConfirm` receives its value
-// (otherwise null). Enter confirms and Escape cancels.
+// (otherwise null). Enter confirms and Escape cancels. While it is shown the
+// page behind doesn't scroll, Tab stays inside it, and focus returns to where
+// it was when it goes away.
 const Alert = ({
   title, message, type = 'text', confirmTitle = 'Confirm', cancelTitle = 'Cancel',
   onCancel = () => {}, onConfirm = () => {}
 }) => {
   const inputRef = useRef(null);
+  const rootRef = useRef(null);
   const titleId = useId();
   const messageId = useId();
 
@@ -28,9 +32,12 @@ const Alert = ({
     onConfirm(type === 'input' ? inputRef.current.value : null);
   };
 
+  // Before the focus trap's own effect, so a prompt's input gets the focus.
   useEffect(() => {
     if (type === 'input' && inputRef.current) inputRef.current.focus();
   }, [type]);
+
+  useModalBehavior(rootRef);
 
   // keydown, not keyup: pressing Enter on the button that opened the alert fires
   // its click on keydown, and the matching keyup would otherwise confirm the
@@ -50,7 +57,9 @@ const Alert = ({
   return (
     <div
       className="volta-alert lrt l-v-spaced v-centered-fixed-canvas"
+      ref={rootRef}
       role="alertdialog"
+      aria-modal="true"
       aria-labelledby={titleId}
       aria-describedby={message ? messageId : undefined}
     >

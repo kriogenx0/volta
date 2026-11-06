@@ -1,12 +1,17 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import useScrollLock from './useScrollLock';
+
 import './Overlay.scss';
 
 // A dimming layer over the whole window, appended to <body> while `showing`.
 // It draws only the dim layer: it renders nothing in place, so children are not
-// shown (put dialogs and menus above it in their own positioned element).
+// shown (put dialogs and menus above it in their own positioned element). The
+// page behind it doesn't scroll while it shows.
 const Overlay = ({ showing = null, onClick }) => {
+  useScrollLock(Boolean(showing));
+
   useEffect(() => {
     if (!showing) return undefined;
 
