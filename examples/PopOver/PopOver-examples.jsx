@@ -50,7 +50,7 @@ const InPlace = () => {
 
 export default {
   name: 'PopOver',
-  description: 'A panel shown over the page while open. By default a translucent backdrop covers the window; fullSize={false} keeps the content in place. The parent owns the open state: handleClose fires on a click outside the content and on Escape (when closeOnOverlayClick is on).',
+  description: 'A panel shown over the page while open. By default a translucent backdrop covers the window; fullSize={false} keeps the content in place. The parent owns the open state: handleClose fires on a click outside the content and on Escape (when closeOnOverlayClick is on). A full-size popover is modal: it locks page scroll and keeps Tab inside, then returns focus; one kept in place is a light-dismiss layer and does neither (pass modal to change either).',
   examples: [
     {
       name: 'Full size (default)',

@@ -54,7 +54,7 @@ const InlineDemo = () => {
 
 export default {
   name: 'Dialog',
-  description: 'A popover with a title, a body and Save / Cancel buttons. isOpen opens it. Save calls handleSave; Cancel and the header close button call handleClose; each also closes the dialog, so reset your own open state in those callbacks.',
+  description: 'A popover with a title, a body and Save / Cancel buttons. isOpen opens it. Save calls handleSave; Cancel and the header close button call handleClose; each also closes the dialog, so reset your own open state in those callbacks. While open it locks page scroll and keeps Tab inside, then returns focus to the control that opened it; with inlineMode it sits in the page and does neither.',
   examples: [
     {
       name: 'Title, Save and Cancel',

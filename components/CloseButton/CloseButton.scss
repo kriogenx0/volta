@@ -13,4 +13,11 @@
     color: var(--v-color-trim);
     text-decoration: none;
   }
+
+  // Next to a title in a dialog header, at the title's own height
+  &.close_button-sm {
+    padding: 0 4px;
+    font-size: 20px;
+    line-height: 1;
+  }
 }

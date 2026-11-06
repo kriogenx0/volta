@@ -54,7 +54,7 @@ const InlineDemo = () => {
 
 export default {
   name: 'ModalDialog',
-  description: 'A modal with an optional title, a body and OK / Cancel buttons. isOpen opens it; OK and Cancel (and the X, and a click on the backdrop or Escape) call onOkay / onCancel and close it, so reset your own open state in those callbacks.',
+  description: 'A modal with an optional title, a body and OK / Cancel buttons. isOpen opens it; OK and Cancel (and the X, and a click on the backdrop or Escape) call onOkay / onCancel and close it, so reset your own open state in those callbacks. While open it locks page scroll and keeps Tab inside, then returns focus to the control that opened it; with inlineMode it sits in the page and does neither.',
   examples: [
     {
       name: 'OK and Cancel',
