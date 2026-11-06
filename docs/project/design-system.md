@@ -62,7 +62,6 @@ Rules for any AI agent (or human) writing UI with Volta. Read `tokens.json` for 
 ## 5. Cleanup backlog (do when touching these files)
 
 1. Replace the ~130 hard-coded hexes in `components/**/*.scss` (most: `#ccc` ×33, `#fff` ×31, `#000`, `#333`, `#eee`, `#888`) with tokens.
-2. Change the `dark` mixin in `styles/_mixins.scss` to also honour `[data-theme='dark']`, or delete it as redundant.
-3. Remove `legacy-colors.scss`, the `_dark` alias variables and the duplicate `$spacing` / `$z-fixed` definitions.
-4. See `docs/backlog/` for the task files.
-5. Replace off-scale values: radii 3 / 5 / 50px, font sizes 10pt / 11px / 150%, custom blues (`#0070c9`, `#0055b7`, `#1274e0`) → `accent`.
+2. Remove `legacy-colors.scss`, the `_dark` alias variables and the duplicate `$spacing` / `$z-fixed` definitions.
+3. See `docs/backlog/` for the task files.
+4. Replace off-scale values: radii 3 / 5 / 50px, font sizes 10pt / 11px / 150%, custom blues (`#0070c9`, `#0055b7`, `#1274e0`) → `accent`.
