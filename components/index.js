@@ -53,6 +53,7 @@ import ListDefinitions from './ListDefinitions/ListDefinitions';
 import List, { ListHeader, FilterSectionListItem } from './List';
 import Loader from './Loader/Loader';
 import Map from './Map/Map';
+import { setGoogleMapsKey, getGoogleMapsKey } from './Map/googleMapsKey';
 import MapSelector from './MapSelector/MapSelector';
 import Message from './Message/Message';
 import ErrorList from './Message/ErrorList';
@@ -154,6 +155,8 @@ export {
   Loader,
   LoaderLinearProgress,
   Map,
+  setGoogleMapsKey,
+  getGoogleMapsKey,
   MapSelector,
   Message,
   ErrorList,

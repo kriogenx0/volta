@@ -1,15 +1,35 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
 
 import MapSelector from '../../components/MapSelector/MapSelector';
+import { setGoogleMapsKey } from '../../components/Map/googleMapsKey';
 import { installGoogleMaps, uninstallGoogleMaps, removeGoogleScript } from '../Map/fakeGoogleMaps';
 
 const searchBox = () => screen.getByRole('textbox');
 const type = (text) => fireEvent.change(searchBox(), { target: { value: text } });
 const clickSearch = () => fireEvent.click(screen.getByRole('button', { name: 'Search' }));
 
+beforeEach(() => setGoogleMapsKey('test-key'));
+
 afterEach(() => {
   uninstallGoogleMaps();
   removeGoogleScript();
+  setGoogleMapsKey(null);
+});
+
+describe('MapSelector without a Google Maps key', () => {
+  beforeEach(() => setGoogleMapsKey(null));
+
+  it('keeps the search box and says the map is unavailable', () => {
+    render(<MapSelector />);
+    expect(searchBox()).toBeInTheDocument();
+    expect(screen.getByText(/no Google Maps API key is set/i)).toBeInTheDocument();
+  });
+
+  it('does not load Google\'s script, and searching does not throw', () => {
+    render(<MapSelector value="Paris" />);
+    expect(document.querySelector('script[data-volta-google-maps]')).toBeNull();
+    expect(() => clickSearch()).not.toThrow();
+  });
 });
 
 describe('MapSelector', () => {

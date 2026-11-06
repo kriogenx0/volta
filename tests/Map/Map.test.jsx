@@ -1,13 +1,17 @@
-import { render, act } from '@testing-library/react';
+import { render, act, screen } from '@testing-library/react';
 
 import Map from '../../components/Map/Map';
+import { setGoogleMapsKey } from '../../components/Map/googleMapsKey';
 import { installGoogleMaps, uninstallGoogleMaps, removeGoogleScript } from './fakeGoogleMaps';
 
 const mapElement = (container) => container.querySelector('.volta-map > div');
 
+beforeEach(() => setGoogleMapsKey('test-key'));
+
 afterEach(() => {
   uninstallGoogleMaps();
   removeGoogleScript();
+  setGoogleMapsKey(null);
 });
 
 describe('Map without Google loaded', () => {
@@ -64,6 +68,57 @@ describe('Map without Google loaded', () => {
     act(() => script.onerror());
 
     expect(document.querySelector('script[data-volta-google-maps]')).toBeNull();
+  });
+});
+
+describe('Map and the API key', () => {
+  it('puts the app\'s key in the script URL', () => {
+    render(<Map />);
+    expect(document.querySelector('script[data-volta-google-maps]').src).toContain('&key=test-key');
+  });
+
+  it('escapes a key that has URL characters in it', () => {
+    setGoogleMapsKey('a&b=c d');
+    render(<Map />);
+    expect(document.querySelector('script[data-volta-google-maps]').src).toContain('&key=a%26b%3Dc%20d');
+  });
+
+  describe('with no key set', () => {
+    beforeEach(() => setGoogleMapsKey(null));
+
+    it('says the map is unavailable and how to fix it, in place of the map', () => {
+      const { container } = render(<Map />);
+      expect(screen.getByText(/no Google Maps API key is set/i)).toBeInTheDocument();
+      expect(screen.getByText(/setGoogleMapsKey\(\)/)).toBeInTheDocument();
+      expect(container.querySelector('.l-bordered')).toBeNull();
+    });
+
+    it('does not load Google\'s script', () => {
+      render(<Map />);
+      expect(document.querySelector('script[data-volta-google-maps]')).toBeNull();
+    });
+
+    it('does not start a map, and does not throw, if Google arrives anyway', () => {
+      const { unmount } = render(<Map />);
+      const made = installGoogleMaps();
+      expect(made.maps).toHaveLength(0);
+      expect(() => unmount()).not.toThrow();
+    });
+
+    it('still works when Google is already on the page', () => {
+      const made = installGoogleMaps();
+      render(<Map />);
+      expect(made.maps).toHaveLength(1);
+      expect(screen.queryByText(/no Google Maps API key/i)).toBeNull();
+    });
+
+    it('works for a map that mounts after the key is set', () => {
+      render(<Map />);
+      expect(document.querySelector('script[data-volta-google-maps]')).toBeNull();
+      setGoogleMapsKey('late-key');
+      render(<Map />);
+      expect(document.querySelector('script[data-volta-google-maps]').src).toContain('&key=late-key');
+    });
   });
 });
 
