@@ -63,6 +63,17 @@ export default {
       output: <City label="City" optional />
     },
     {
+      name: 'With a hint and an error',
+      code: `<Select label="City" hint="Where the office is" options={cities} />
+<Select label="City" error="Choose a city" options={cities} />`,
+      output: (
+        <div className="example-stack">
+          <Select label="City" hint="Where the office is" options={CITIES} />
+          <Select label="City" error="Choose a city" options={CITIES} />
+        </div>
+      )
+    },
+    {
       name: 'Medium size',
       code: '<Select fieldSize="md" name="city" options={options} value={value} onChange={handleChange} />',
       output: <City fieldSize="md" />

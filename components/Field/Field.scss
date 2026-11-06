@@ -4,8 +4,10 @@
   margin-top: 10px;
   margin-bottom: 20px;
 
+  // A <label>, so it needs to be a block like the <div> it replaced
   > .field-label
   {
+    display: block;
     padding-right: 10px;
     padding-top: 10px;
 
@@ -43,5 +45,10 @@
   .field-clear
   {
     clear: both;
+  }
+
+  .field-error
+  {
+    margin-top: 4px;
   }
 }

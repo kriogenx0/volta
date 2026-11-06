@@ -44,6 +44,11 @@ export default {
       )
     },
     {
+      name: 'With a label and a hint',
+      code: '<TextField label="Email" hint="Use your work address" type="email" />',
+      output: <TextField label="Email" hint="Use your work address" type="email" />
+    },
+    {
       name: 'Disabled',
       code: '<TextField disabled defaultValue="Can\'t edit this" />',
       output: <TextField disabled defaultValue="Can't edit this" />

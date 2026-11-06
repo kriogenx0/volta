@@ -60,7 +60,7 @@ const NotificationField = () => {
 
 export default {
   name: 'Field',
-  description: 'A layout wrapper that pairs a label with any form control.',
+  description: 'A layout wrapper that pairs a label with a form control, and connects them for assistive technology: the label points at the control, an optional hint and error are read as its description, and an error marks it invalid. With several controls inside, the label names the group instead. A control with its own id keeps it.',
   examples: [
     {
       name: 'Field with label',
@@ -119,6 +119,40 @@ export default {
   <Toggle checked={enabled} onChange={handleChange} />
 </Field>`,
       output: <NotificationField />
+    },
+    {
+      name: 'Hint and error',
+      code: `<Field label="Email" hint="Use your work address">
+  <TextField type="email" />
+</Field>
+<Field label="Email" error="That doesn't look like an email address">
+  <TextField type="email" defaultValue="alex@" />
+</Field>`,
+      output: (
+        <>
+          <Field label="Email" hint="Use your work address">
+            <TextField type="email" />
+          </Field>
+          <Field label="Email" error="That doesn't look like an email address">
+            <TextField type="email" defaultValue="alex@" />
+          </Field>
+        </>
+      )
+    },
+    {
+      name: 'Several controls as a group',
+      code: `<Field label="Date of birth" hint="As on your passport">
+  <TextField aria-label="Day" />
+  <TextField aria-label="Month" />
+  <TextField aria-label="Year" />
+</Field>`,
+      output: (
+        <Field label="Date of birth" hint="As on your passport">
+          <TextField aria-label="Day" />
+          <TextField aria-label="Month" />
+          <TextField aria-label="Year" />
+        </Field>
+      )
     },
     {
       name: 'Field without a label',
