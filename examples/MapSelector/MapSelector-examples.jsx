@@ -15,7 +15,7 @@ const Selected = (props) => {
 
 export default {
   name: 'MapSelector',
-  description: 'An address search box (with Google address suggestions) above a map. Press Search or Enter to find the address; onChange gets the place, which shows under the box with a button to remove it. The map comes from Google, so it needs a network connection; offline the search box still works but the map area stays blank.',
+  description: 'An address search box (with Google address suggestions) above a map. Press Search or Enter to find the address; onChange gets the place, which shows under the box with a button to remove it. The map comes from Google, so it needs a network connection and an API key set once with setGoogleMapsKey(key); without one the search box stays and the map is replaced by a message. In this styleguide, put VITE_GOOGLE_MAPS_API_KEY=your-key in .env.local to see live maps (docs/features/map.md).',
   examples: [
     {
       name: 'Default',

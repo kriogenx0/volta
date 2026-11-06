@@ -58,7 +58,7 @@ const Jump = () => {
 
 export default {
   name: 'Map',
-  description: 'A Google Map you drive with props: lat, lng and zoom set the view, height sets its size, and value searches for an address and drops a marker on it (onChange, onNotFound and onLoading report the outcome). It loads Google\'s Maps script once for the whole page, so it needs a network connection; offline the map area stays blank.',
+  description: 'A Google Map you drive with props: lat, lng and zoom set the view, height sets its size, and value searches for an address and drops a marker on it (onChange, onNotFound and onLoading report the outcome). It loads Google\'s Maps script once for the whole page, so it needs a network connection and an API key: the app calls setGoogleMapsKey(key) once at startup, and without one the map is replaced by a message. In this styleguide, put VITE_GOOGLE_MAPS_API_KEY=your-key in .env.local to see live maps (docs/features/map.md).',
   examples: [
     {
       name: 'Default view',

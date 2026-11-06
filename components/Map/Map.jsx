@@ -2,12 +2,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { EmptyState } from '../Empty/Empty';
+import { getGoogleMapsKey } from './googleMapsKey';
+
 // Google calls this global when its script has loaded.
 const GOOGLE_MAPS_CALLBACK = 'voltaGoogleMapsReady';
 
 // Maps waiting for Google's script. The script is added to the page once and
 // shared by every Map: a second copy makes Google log "included multiple times".
 const waiting = new Set();
+
+const googleIsLoaded = () => Boolean(window.google && window.google.maps);
 
 export default class Map extends React.Component {
 
@@ -21,14 +26,17 @@ export default class Map extends React.Component {
     this.initialized = false;
     this.unmounted = false;
     this.initializeGoogleMap = this.initializeGoogleMap.bind(this);
+
+    // Without a key Google refuses to load, so say so instead of showing a blank box.
+    this.state = { missingKey: !googleIsLoaded() && !getGoogleMapsKey() };
   }
 
   componentDidMount() {
     // Must wait til loaded to run googles callback
     // Must also wait for refs to be available
-    if (window.google && google.maps) {
+    if (googleIsLoaded()) {
       this.initializeGoogleMap();
-    } else {
+    } else if (!this.state.missingKey) {
       waiting.add(this.initializeGoogleMap);
       this.loadGoogleMapLibrary();
     }
@@ -72,11 +80,8 @@ export default class Map extends React.Component {
     this.script.setAttribute('data-volta-google-maps', '');
     // Offline or blocked: drop the script so the next Map to mount can try again.
     this.script.onerror = () => this.script.remove();
-    // script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&callback=initializeGoogleMap';
-
-    const apiKey = 'AIzaSyBtXh92k6n0kuzaePg_wfqzqkVs4o3qUzE';
-
-    this.script.src = 'https://maps.googleapis.com/maps/api/js?libraries=places&callback=' + GOOGLE_MAPS_CALLBACK + '&key=' + apiKey
+    this.script.src = 'https://maps.googleapis.com/maps/api/js?libraries=places&callback=' + GOOGLE_MAPS_CALLBACK
+      + '&key=' + encodeURIComponent(getGoogleMapsKey());
     document.body.appendChild(this.script);
   }
 
@@ -169,6 +174,16 @@ export default class Map extends React.Component {
   }
 
   render() {
+    if (this.state.missingKey) {
+      return (
+        <div className='volta-map'>
+          <EmptyState>
+            Map unavailable: no Google Maps API key is set. Call setGoogleMapsKey() once at startup.
+          </EmptyState>
+        </div>
+      );
+    }
+
     return (
       <div className='volta-map'>
         <div ref={this.mapEl} style={{height: this.props.height}} className="l-v-top-half-spaced l-bordered" />

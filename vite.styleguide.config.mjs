@@ -8,6 +8,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   root: 'styleguide',
+  // Read .env.local from the repository root, not from styleguide/ (see docs/features/map.md).
+  envDir: __dirname,
   plugins: [
     react({
       babel: {
