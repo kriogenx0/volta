@@ -15,6 +15,32 @@
   &.icon-small {
     font-size: 80%;
   }
+
+  // Drawn as SVG: 1em square, the text colour, level with the text
+  &.icon-svg {
+    display: inline-block;
+    line-height: 0;
+    vertical-align: -0.125em;
+
+    svg {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+    }
+  }
+
+  // The loading ring turns; with reduced motion it stays still
+  &.icon-spinner svg {
+    animation: volta-icon-spin 1s linear infinite;
+  }
+}
+
+@keyframes volta-icon-spin {
+  100% { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .volta-icon.icon-spinner svg { animation: none; }
 }
 // .volta-icon.icon-${type}:before,
 // .volta-icon.icon-${type}.active:before {

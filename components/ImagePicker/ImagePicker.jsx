@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
+import Icon from '../Icon/Icon';
+
 import './ImagePicker.scss';
 
 const ImagePicker = ({
@@ -76,15 +78,15 @@ const ImagePicker = ({
     <div className={'volta-image_picker c-image_picker' + (className ? ` ${className}` : '')} >
       { imageUrl ?
         <button type='button' className='image_picker-remove' onClick={handleRemove} aria-label='Remove image'>
-          <i className='fa fa-trash' aria-hidden='true' />
+          <Icon type='trash' aria-hidden='true' />
         </button>
         : null
       }
       <input ref={fileInput} type='file' onChange={handleFileSelect} accept={accept} aria-label='Choose an image' />
       <div className='image_background' style={imageStyle}>
         {loading
-          ? (<i className='fa fa-circle-o-notch' aria-hidden='true' />)
-          : (!imageUrl ? (<i className='icon fa fa-cloud-upload' aria-hidden='true' />) : null)}
+          ? (<Icon type='spinner' aria-hidden='true' />)
+          : (!imageUrl ? (<Icon type='cloud-upload' aria-hidden='true' />) : null)}
       </div>
     </div>
   );

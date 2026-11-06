@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
+import Icon from '../Icon/Icon';
+
 import './FileUploader.scss';
 
 const FileUploader = ({
@@ -94,14 +96,14 @@ const FileUploader = ({
       </div>
       { readyToUpload ?
           <div className='action' onClick={handleFileSelect}>
-            <i className="fa fa-arrow-circle-o-up" aria-hidden="true" />
+            <Icon type="arrow-up-circle" aria-hidden="true" />
             <span> Upload</span>
           </div>
         : null
       }
       { inProgress ?
           <div className='action' onClick={onCancel}>
-            <i className="fa fa-times-circle-o" aria-hidden="true" />
+            <Icon type="times-circle" aria-hidden="true" />
           </div>
         : null
       }

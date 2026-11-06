@@ -1,22 +1,25 @@
 ---
 priority: p2
-components: [ImagePicker, Message, FileUploader, FileManager, util]
+components: [ImagePicker, Message, FileUploader, FileManager, Icon, util]
+branch: backlog/replace-font-awesome-icons-and-fix-file-size
 ---
 
-# Icons that render blank, and a broken file-size helper
+# Check the drawn icons in place, in a real browser
 
-## Objective
+Done on the branch above (see `docs/features/icons.md`):
 
-- `ImagePicker`, `Message` and `FileUploader` draw icons with Font Awesome classes (`fa fa-trash`, `fa fa-check-circle`, ...), but Font Awesome isn't a dependency and isn't loaded by the library or the styleguide, so those icons render as nothing. Their labels are fine (they have `aria-label`), but the visuals are missing.
-- `util/FileUtil.js`: `FileUtil.size` calls `size(number, { base: 10 })`, but `size` is never imported, so calling it throws a `ReferenceError`. Nothing calls it today.
+- `ImagePicker`, `Message` and `FileUploader` no longer use Font Awesome classes. They use `Icon`, which now draws six icons as inline SVG (`trash`, `spinner`, `cloud-upload`, `check-circle`, `times-circle`, `arrow-up-circle`) with no font involved. `tests/noFontAwesome.test.js` keeps `fa-` classes out.
+- `FileUtil.size` no longer calls an undefined function; it writes decimal sizes and is tested.
 
-## Requirements
+The task's plan to "use the library's own `Icon`" had a catch: `Icon`'s own font and SF Symbols icons also show nothing without fonts the library does not ship. So the three components use the new SVG icons, and the wider problem is its own task, `icons-show-only-where-sf-fonts-are-installed`.
 
-- Use the library's own `Icon` component (or inline SVG) for those icons, with `aria-hidden` on decorative ones, instead of Font Awesome classes. Add any missing glyphs to `Icon`.
-- Fix or delete `FileUtil.size`: import a formatter (check `package.json` for what is already a dependency; don't add one without asking) or format bytes with a small pure function, and unit-test it.
+## Unverified
 
-## Acceptance criteria
+The six glyphs were drawn and looked at on a sheet, but not in place. With the dev server (`make dev`), on the ImagePicker, Message and FileUploader pages:
 
-- No `fa fa-` class remains in `components/`.
-- The ImagePicker, Message and FileUploader examples show their icons in light and dark mode (checked in a browser).
-- A test covers `FileUtil.size`.
+1. **ImagePicker**: the empty picker shows a cloud-with-arrow, centred and large, in the muted grey; picking a file shows a spinning ring while it loads; with an image, the remove button shows a trash can, centred in its square, with hover and focus ring.
+2. **Message**: the success and error messages each show their circle icon in the status colour, level with the text, with 8px before the text.
+3. **FileUploader**: the upload arrow sits level with "Upload"; during an upload the cancel cross shows.
+4. All three in light and dark, at desktop and 375px widths; the spinner holds still with the OS "reduce motion" setting.
+
+If anything is off, fix it in the component's stylesheet or record a new task; otherwise delete this file.
