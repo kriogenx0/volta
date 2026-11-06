@@ -72,7 +72,8 @@ const FilePicker = ({
   const selectFileCallback = (newFiles) => {
     let updated;
     if (multiple) {
-      updated = files || [];
+      // A new array: React ignores a state update to the array it already has
+      updated = [...(files || [])];
       _.each(newFiles, file => {
         file.typeClass = detectTypeClass(file.type);
         updated.push(file);
