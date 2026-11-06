@@ -77,6 +77,9 @@ test: node_modules ## Run every test suite
 lint: node_modules ## Lint components/
 	npm run lint
 
+tokens: node_modules ## Regenerate styles/tokens.json from styles/_colors.scss
+	UPDATE_TOKENS=1 npx jest tests/tokensJson.test.js
+
 ##@ Cleanup
 
 clean: ## Remove build artifacts (compiled/, node_modules/.cache)
@@ -99,4 +102,4 @@ help: ## Show this help, grouped by category
 		/^##@/ { printf "\n%s\n", substr($$0, 5) } \
 		/^[a-zA-Z_-]+:.*## / { printf "  %-13s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
-.PHONY: setup install all up down running dev start run build build-prod build-app watch watch-app docker-build test lint clean rules rules-check help
+.PHONY: setup install all up down running dev start run build build-prod build-app watch watch-app docker-build test lint tokens clean rules rules-check help
