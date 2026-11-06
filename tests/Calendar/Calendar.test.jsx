@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, within } from '@testing-library/react';
 
 import Calendar from '../../components/Calendar/Calendar';
-import Dater from '../../components/Calendar/Dater';
+import Dater from '../../util/Dater';
 
 const dayButtons = () => screen.getAllByRole('button', { name: /^[A-Z][a-z]+ \d+, \d{4}$/ });
 

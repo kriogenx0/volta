@@ -1,4 +1,4 @@
-import Dater from '../../components/Calendar/Dater';
+import Dater from '../../util/Dater';
 
 describe('Dater', () => {
   it('formats as month/day/year', () => {
@@ -29,6 +29,7 @@ describe('Dater', () => {
     const today = new Dater(new Date()).format();
     expect(new Dater().format()).toBe(today);
     expect(new Dater('nonsense').format()).toBe(today);
+    expect(new Dater(new Date('nope')).format()).toBe(today);
   });
 
   describe('daysInMonth', () => {

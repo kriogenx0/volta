@@ -1,21 +1,22 @@
 ---
 priority: p2
 components: [Calendar, DatePicker, DateInput, Label]
+branch: backlog/dedupe-date-helpers-and-remove-dead-date-code
 ---
 
-# Remove the duplicated and dead date code
+# Delete the dead date code?
 
-## Objective
+The duplication half is done on the branch above: `Dater` is one copy in `util/Dater.js`, used by `Calendar` and `DatePicker`, with its tests in `tests/util/` (see `docs/features/date_helpers.md`).
 
-`components/Calendar/Dater.js` and `components/DatePicker/Dater.js` started as exact copies. Both had the same bugs (`daysInMonth` wrong for the 29th to 31st, `nextMonth` jumping from Jan 31 to Mar 3, mutating the caller's `Date`) and were fixed separately, so they can drift again. There is also dead code in the same area.
+What remains is a decision, so it is left alone.
 
-## Requirements
+## Blocked
 
-- One date helper in a shared util folder, used by `Calendar` and `DatePicker`, with its tests (`tests/Calendar/Dater.test.js`) moved with it.
-- Decide, with the owner, whether to delete the unwired `DatePicker/DateTimeInput.jsx` and `DateTimeRange.jsx` (they import `jquery` and `formsy-react`, which are not dependencies) and `Label/Label.scss` (never imported; targets a class that doesn't exist).
-- Keep `DatePicker` and `Calendar` behaviour identical: same props, same class names.
+Whether to delete three files that nothing uses:
 
-## Acceptance criteria
+- `components/DatePicker/DateTimeInput.jsx` and `DateTimeRange.jsx`: not wired into `components/index.js`, and they import `jquery`, `jquery-datetimepicker` and `formsy-react`, which are not dependencies (jQuery was removed from the repo). Their header comments say they are "kept for reference/future rewrite", so someone chose to keep them.
+- `components/Label/Label.scss`: never imported, and it targets a class that doesn't exist.
 
-- No two copies of the month arithmetic remain.
-- Existing Calendar, DatePicker and DateInput tests pass unchanged.
+Deleting is safe for the build (nothing imports them; `grep -rnE "DateTimeInput|DateTimeRange|Label/Label\.scss|import '\./Label\.scss'" components styleguide examples tests --include=*.js --include=*.jsx --include=*.scss`, ignoring `components/compiled/` and the two DateTime files, finds nothing). It is a question of intent: keep them as a reference for the rewrite, or let git history be the reference.
+
+To finish: if they should go, delete the three files (and the `DateTimeInput` / `DateTimeRange` entries under "Unwired components" in `docs/README.md`, if listed), then delete this file. If they should stay, delete this file and the "Not used" section can stay as it is.
