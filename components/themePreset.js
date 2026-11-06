@@ -13,8 +13,10 @@
 //
 // The other presets were generated to pass WCAG AA (4.5:1) for the label on
 // the accent, for the accent as text on the page and on its own tint, and for
-// body text, in light and dark (tests/themePreset.test.js enforces it). 'volta'
-// keeps the stock accent, whose white label is 3.3:1; see
+// body and secondary text, in light and dark (tests/themePreset.test.js
+// enforces it). 'volta' keeps the stock accent, which does not pass (white on it
+// is 3.3:1); 'volta-aa' is the same blue family moved just far enough to pass,
+// for apps that need AA now. See docs/features/theming.md, "Contrast", and
 // docs/backlog/resolve-contrast-failures.md.
 
 export const presets = [
@@ -32,7 +34,7 @@ export const presets = [
       '--v-color-base-more-subtle': '#f2f2f2',
       '--v-color-trim': '#111111',
       '--v-color-trim-subtle': '#4d4d4d',
-      '--v-color-trim-less-subtle': '#808080',
+      '--v-color-trim-less-subtle': '#6e6e6e',
       '--v-color-trim-more-subtle': '#1a1a1a',
       '--v-color-inactive': '#a1a5a9',
       '--v-color-danger': '#e30000',
@@ -58,6 +60,22 @@ export const presets = [
       '--v-color-success': '#03a10e',
       '--v-color-warning': '#a15c00',
       '--v-color-danger-subtle': '#3a1519'
+    }
+  },
+  {
+    id: 'volta-aa',
+    name: 'Volta AA',
+    light: {
+      '--v-accent': '#1f6bc1',
+      '--v-accent-hover': '#1a579e',
+      '--v-accent-subtle': '#e3effc',
+      '--v-on-accent': '#ffffff'
+    },
+    dark: {
+      '--v-accent': '#65a1e6',
+      '--v-accent-hover': '#89b7ec',
+      '--v-accent-subtle': '#22374e',
+      '--v-on-accent': '#0a0a0a'
     }
   },
   {
@@ -203,7 +221,7 @@ export const presets = [
       '--v-color-trim': '#0f172a',
       '--v-color-trim-more-subtle': '#182032',
       '--v-color-trim-subtle': '#49505f',
-      '--v-color-trim-less-subtle': '#7d828d',
+      '--v-color-trim-less-subtle': '#656b78',
       '--v-color-inactive': '#a4a8b0'
     },
     dark: {
@@ -253,7 +271,7 @@ export const presets = [
       '--v-color-trim': '#3a2d1c',
       '--v-color-trim-more-subtle': '#423524',
       '--v-color-trim-subtle': '#6a5f50',
-      '--v-color-trim-less-subtle': '#958b7d',
+      '--v-color-trim-less-subtle': '#74695a',
       '--v-color-inactive': '#b6aea0'
     },
     dark: {
@@ -287,7 +305,7 @@ export const presets = [
       '--v-color-trim': '#0d1526',
       '--v-color-trim-more-subtle': '#161e2f',
       '--v-color-trim-subtle': '#474e5c',
-      '--v-color-trim-less-subtle': '#7b808b',
+      '--v-color-trim-less-subtle': '#666b78',
       '--v-color-inactive': '#a2a6b0'
     },
     dark: {
