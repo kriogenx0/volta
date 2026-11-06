@@ -8,6 +8,15 @@ describe('ActionMenu', () => {
     expect(container).toBeInTheDocument();
   });
 
+  it('names its icon-only button "Actions" unless told what the menu is for', () => {
+    const { rerender } = render(<ActionMenu items={['Edit']} />);
+    expect(screen.getByRole('button', { name: 'Actions' })).toBeInTheDocument();
+
+    rerender(<ActionMenu items={['Edit']} aria-label="Row actions" />);
+    expect(screen.getByRole('button', { name: 'Row actions' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Actions' })).toBeNull();
+  });
+
   it('has a named button that reports whether the menu is open', () => {
     const { container } = render(<ActionMenu items={['Edit']} />);
     const button = screen.getByRole('button', { name: 'Actions' });
