@@ -2,12 +2,25 @@ import React, { useState } from 'react';
 
 import { SegmentedControl, Theme } from '../../components';
 
+import ThemePicker from './ThemePicker';
+
 import './ThemeSwitcher.scss';
 
+// The accent that is showing, for the custom accent input to start from.
+const currentAccent = () => getComputedStyle(document.documentElement).getPropertyValue('--v-accent').trim();
+
 const ThemeSwitcher = () => {
+  const [themeId, setThemeId] = useState(Theme.presets[0].id);
   const [accent, setAccent] = useState('#4A90E2');
   const [scheme, setScheme] = useState(Theme.getColorScheme());
   const [speed, setSpeed] = useState(150);
+
+  // A theme replaces the whole look, including a custom accent.
+  const handleThemeChange = (theme) => {
+    Theme.applyTheme(theme);
+    setThemeId(theme.id);
+    setAccent(currentAccent());
+  };
 
   const handleAccentChange = (e) => {
     setAccent(e.target.value);
@@ -17,6 +30,7 @@ const ThemeSwitcher = () => {
   const handleSchemeChange = (value) => {
     setScheme(value);
     Theme.setColorScheme(value);
+    setAccent(currentAccent());
   };
 
   const handleSpeedChange = (e) => {
@@ -27,8 +41,10 @@ const ThemeSwitcher = () => {
 
   return (
     <div className="v-theme_switcher" aria-label="Preview settings">
-      <label className="v-theme_switcher-accent" title="Accent color">
-        <span className="sr-only">Accent color</span>
+      <ThemePicker value={themeId} onChange={handleThemeChange} />
+
+      <label className="v-theme_switcher-accent" title="Custom accent color">
+        <span className="sr-only">Custom accent color</span>
         <input type="color" value={accent} onChange={handleAccentChange} />
       </label>
 

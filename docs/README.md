@@ -68,18 +68,25 @@ accordingly.
 
 ## Theming
 
-Every component that uses the shared design tokens (`$color_active`,
-`$color_base`, etc. in `styles/_colors.scss`) is themeable at runtime, no
-rebuild required, via `components/theme.js`:
+The whole look comes from 17 CSS custom properties (`--v-*`, declared in
+`styles/_colors.scss`), so a theme is a small object and replacing it needs no
+rebuild. Details, the theme format, how to add or replace one, and the limits
+are in [docs/features/theming.md](features/theming.md).
 
 ```js
 import { Theme } from 'volta';
 
-// Recolor every themed component
-Theme.setAccentColor('#e0405c');
-Theme.resetAccentColor(); // back to the default blue
+// Replace the whole look: a preset id (Theme.presets) or your own theme object
+Theme.applyTheme('ocean');
+Theme.applyTheme({ id: 'brand', light: { '--v-accent': '#0b6b3a' }, dark: { '--v-accent': '#4fd18b' } });
+Theme.resetTheme(); // back to styles/_colors.scss
 
-// 'light' | 'dark' | 'system' (follows the OS by default)
+// A custom accent over the theme; hover, tint and label colour are derived
+Theme.setAccentColor('#e0405c');
+Theme.resetAccentColor();
+
+// 'light' | 'dark' | 'system' (follows the OS by default); a theme has a light
+// and a dark half and the scheme that is showing picks one
 Theme.setColorScheme('dark');
 Theme.getColorScheme();
 
@@ -90,17 +97,14 @@ Theme.setAnimationSpeed('0.3s');
 Theme.resetAnimationSpeed();
 ```
 
-Under the hood this sets CSS custom properties (`--v-accent`,
-`--v-anim-speed`, etc.) on `<html>` and toggles `[data-theme]`; see
-`styles/_colors.scss` for the full token list.
+Under the hood this sets the tokens as inline custom properties on `<html>` and
+toggles `[data-theme]`. The same tokens can be overridden from a plain
+stylesheet instead, with no JavaScript.
 
-**Coverage note:** the ~15 components that originate from Volta's newer set (Button,
-Checkbox, Dropdown, Select, Tabs, Toggle, Tag, ProgressBar, ActionMenu,
-FileManager, DropdownList, TextField, Radio) and anything built on top of
-them fully track the accent color and light/dark mode. Most of Volta's
-original components still use hardcoded colors and won't react to
-`setAccentColor`/`setColorScheme` yet — migrating them onto the shared
-tokens is the natural next step for full theme coverage.
+**Coverage note:** a component that uses only the tokens (or the `$color_*` Sass
+aliases, which resolve to them) follows every theme and both schemes. Only
+`GlobalNav.scss` and `Loader.scss` still hard-code hex colours, and those keep
+their colours whatever the theme.
 
 ## Development
 
