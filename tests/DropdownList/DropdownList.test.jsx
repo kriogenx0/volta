@@ -156,4 +156,21 @@ describe('DropdownList', () => {
     expect(screen.getByRole('button', { name: 'Fruit menu' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Select an option' })).toBeNull();
   });
+
+  describe('closing', () => {
+    it('does not close when a disabled item (the empty list message) is clicked', () => {
+      const { container } = render(<DropdownList options={[]} />);
+      fireEvent.click(screen.getByRole('button', { name: 'Select an option' }));
+      fireEvent.click(screen.getByRole('option', { name: 'No options available.' }));
+      expect(container.firstChild).toHaveClass('is-open');
+    });
+
+    it('reports a close once when an option is chosen while the parent controls it', () => {
+      const onToggle = jest.fn();
+      render(<DropdownList open options={OPTIONS} onToggle={onToggle} />);
+      fireEvent.click(screen.getByRole('option', { name: 'Banana' }));
+      expect(onToggle).toHaveBeenCalledTimes(1);
+      expect(onToggle).toHaveBeenCalledWith(false);
+    });
+  });
 });

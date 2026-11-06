@@ -9,9 +9,26 @@ const CHOICES = ['Profile', 'Settings', 'Sign out'];
 const noop = () => {};
 
 // The contents of a dropdown are any elements; these keep the examples short.
+// data-dropdown-close marks a choice: clicking it closes the dropdown.
 const Choices = () => CHOICES.map((choice) => (
-  <DropdownListItem key={choice} label={choice} onSelect={noop} />
+  <div key={choice} data-dropdown-close>
+    <DropdownListItem label={choice} onSelect={noop} />
+  </div>
 ));
+
+// A panel with controls that are used more than once stays open until Done.
+const Quantity = () => {
+  const [count, setCount] = useState(1);
+
+  return (
+    <Dropdown label={`Quantity: ${count}`}>
+      <Button aria-label="Fewer" onClick={() => setCount(Math.max(1, count - 1))}>-</Button>
+      <span>{count}</span>
+      <Button aria-label="More" onClick={() => setCount(count + 1)}>+</Button>
+      <Button variant="primary" data-dropdown-close>Done</Button>
+    </Dropdown>
+  );
+};
 
 const Controlled = () => {
   const [open, setOpen] = useState(false);
@@ -44,14 +61,14 @@ const CustomTrigger = () => {
 
 export default {
   name: 'Dropdown',
-  description: 'A button that reveals a floating panel of any contents. It opens and closes itself unless you pass open, and a click outside it, a click inside it, or Escape closes it and returns focus to the button.',
+  description: 'A button that reveals a floating panel of any contents, below the button (or above it when there is no room below). It opens and closes itself unless you pass open. A click outside it, Escape, or a click on anything marked data-dropdown-close (a choice) closes it and returns focus to the button; other clicks inside leave it open, so the panel can hold controls that are used more than once. closeOnContentClick closes on any click inside.',
   examples: [
     {
       name: 'Opens and closes itself',
       code: `<Dropdown label="Account">
-  <DropdownListItem label="Profile" onSelect={handleSelect} />
-  <DropdownListItem label="Settings" onSelect={handleSelect} />
-  <DropdownListItem label="Sign out" onSelect={handleSelect} />
+  <div data-dropdown-close><DropdownListItem label="Profile" onSelect={handleSelect} /></div>
+  <div data-dropdown-close><DropdownListItem label="Settings" onSelect={handleSelect} /></div>
+  <div data-dropdown-close><DropdownListItem label="Sign out" onSelect={handleSelect} /></div>
 </Dropdown>`,
       output: (
         <Dropdown label="Account">
@@ -86,6 +103,28 @@ export default {
   ...
 </Dropdown>`,
       output: <CustomTrigger />
+    },
+    {
+      name: 'Stays open for controls inside',
+      code: `<Dropdown label={'Quantity: ' + count}>
+  <Button aria-label="Fewer" onClick={() => setCount(count - 1)}>-</Button>
+  <span>{count}</span>
+  <Button aria-label="More" onClick={() => setCount(count + 1)}>+</Button>
+  <Button variant="primary" data-dropdown-close>Done</Button>
+</Dropdown>`,
+      output: <Quantity />
+    },
+    {
+      name: 'Closes on any click inside',
+      code: `<Dropdown closeOnContentClick label="Account">
+  <DropdownListItem label="Profile" onSelect={handleSelect} />
+  ...
+</Dropdown>`,
+      output: (
+        <Dropdown closeOnContentClick label="Account">
+          {CHOICES.map((choice) => <DropdownListItem key={choice} label={choice} onSelect={noop} />)}
+        </Dropdown>
+      )
     },
     {
       name: 'Panel as wide as the dropdown',
