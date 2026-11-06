@@ -70,6 +70,12 @@ Pick whichever level fits; they stack.
 
 `Theme.getTheme()` returns the applied theme, and `<html data-volta-theme="ocean">` lets a stylesheet add a rule for one theme.
 
+## Dark mode in component styles
+
+A colour that comes from a token needs no dark rule: the token itself changes with the scheme. For the rare rule that must differ in dark mode, use `@include dark { ... }` from `styles/_mixins.scss`. It applies under an explicit `[data-theme='dark']` and, only while no scheme has been chosen, under the OS preference (`:root:not([data-theme])` inside `prefers-color-scheme: dark`). So `Theme.setColorScheme('light')` turns it off even on a dark OS.
+
+Don't write `@media (prefers-color-scheme: dark)` in a component stylesheet: it follows the OS only and ignores the user's choice. `tests/darkMixin.test.js` compiles the mixin to check the selectors, and fails if a stylesheet other than `_colors.scss` and `_mixins.scss` uses that query.
+
 ## Adding a preset
 
 Add an object to `presets` in `components/themePreset.js`. `tests/themePreset.test.js` checks every preset, so a new one is held to the same rules as the built-in ones, in both light and dark:
@@ -140,5 +146,6 @@ It runs in the browser, in whatever page loads the library; there is no server s
 ## History
 
 - Implemented 2026-11-05: `applyTheme`, `resetTheme`, `getTheme`, `presets`, `tokens`; the thirteen presets; per-scheme accent derivation; the styleguide Theme dropdown. Not committed or deployed when this was written.
+- Checked 2026-11-05 (branch `backlog/fix-dark-mixin`): the `dark` mixin already honoured an explicit `data-theme`; the backlog task describing it as broken was stale. Added `tests/darkMixin.test.js` so it stays that way.
 - Not verified: nothing was viewed in a browser, so the dropdown's appearance, its position in the wrapped header at mobile widths, and how each theme looks across the components are unchecked. The contrast figures come from a formula (tinycolor's WCAG readability), not from a visual check. The dropdown's behaviour is tested in jsdom only.
 - Not implemented: remembering the chosen theme between visits; a theme editor in the styleguide; semantic colours (danger, success, warning) varying per preset; themeable shadows, radii and type.
