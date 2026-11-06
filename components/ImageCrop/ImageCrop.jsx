@@ -1,7 +1,7 @@
 // Image Crop Component
 // Takes a file, returns a file (cropped)
 
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '../Button/Button';
@@ -13,336 +13,305 @@ import Slider from '../Slider/Slider';
 import '../_polyfills/canvas_to_blob';
 import './ImageCrop.scss';
 
-export default class ImageCrop extends React.Component {
+const ImageCrop = ({ image, width = 300, height = 300, bleedWidth = 0, showScale = false, onClose, onCrop }) => {
+  const [scale, setScale] = useState(1);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  // Where the pointer is inside the picture while dragging it
+  const [rel, setRel] = useState({ x: 0, y: 0 });
+  const [moving, setMoving] = useState(false);
+  const [visible, setVisible] = useState(false);
+  // The object URL the picture is shown from
+  const [src, setSrc] = useState(undefined);
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      scale: 1,
-      size: { width: 0, height: 0 },
-      pos: { x: 0, y: 0 },
-      rel: { x: 0, y: 0 },
-      visible: false
-    };
-
-    // The decoded picture; an Image is not React state, it is set up once and read
-    this.element = new Image();
-
-    this.frame = React.createRef();
-    this.canvas = React.createRef();
-
-    this.centerImage = this.centerImage.bind(this);
-    this.startDrag = this.startDrag.bind(this);
-    this.onMouseUp = this.onMouseUp.bind(this);
-    this.onMouseMove = this.onMouseMove.bind(this);
-    this.setScale = this.setScale.bind(this);
-    this.fullSize = this.fullSize.bind(this);
-    this.crop = this.crop.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-  }
-
-  componentDidMount() {
-    this.element.addEventListener('load', this.centerImage);
-    this.objectUrl = URL.createObjectURL(this.props.image);
-    this.element.src = this.objectUrl;
-
-    this.setState({ filename: this.props.image.name });
-
-    this.showTimer = setTimeout(() => {
-      this.setState({ visible: true });
-    }, 100);
-
-    document.body.classList.add('bdy', 'is_overlay-visible');
-  }
-
-  // If you leave before image loads, abort
-  componentWillUnmount() {
-    this.element.removeEventListener('load', this.centerImage);
-
-    // Nothing left to fade in or to report closing, and no drag in progress
-    clearTimeout(this.showTimer);
-    clearTimeout(this.closeTimer);
-    document.removeEventListener('mousemove', this.onMouseMove);
-    document.removeEventListener('mouseup', this.onMouseUp);
-    URL.revokeObjectURL(this.objectUrl);
-
-    // Allow body scrolling
-    document.body.classList.remove('bdy', 'is_overlay-visible');
-  }
-
-  // Add and remove event listeners for moving image
-  componentDidUpdate(props, state) {
-    const moveStarted = this.state.moving && !state.moving;
-    const moveStopped = !this.state.moving && state.moving;
-
-    if (moveStarted) {
-      document.addEventListener('mousemove', this.onMouseMove);
-      document.addEventListener('mouseup', this.onMouseUp);
-    } else if (moveStopped) {
-      document.removeEventListener('mousemove', this.onMouseMove);
-      document.removeEventListener('mouseup', this.onMouseUp);
-    }
-  }
+  // The decoded picture; an Image is not React state, it is set up once and read
+  const [element] = useState(() => new Image());
+  const canvas = useRef(null);
+  const closeTimer = useRef(null);
 
   // Center image and constrain
-  centerImage(event) {
+  const centerImage = (event) => {
     if (event) event.preventDefault();
 
-    const canvasWidth = this.props.width;
-    const canvasHeight = this.props.height;
-    const canvasRatio = canvasWidth / canvasHeight;
-    const imageWidth = this.element.width;
-    const imageHeight = this.element.height;
+    const canvasRatio = width / height;
+    const imageWidth = element.width;
+    const imageHeight = element.height;
     const imageRatio = imageWidth / imageHeight;
-    let scale = this.state.scale;
+    let newScale = scale;
 
-    if (canvasRatio > imageRatio && imageWidth > canvasWidth) {
-      scale = canvasWidth / imageWidth;
+    if (canvasRatio > imageRatio && imageWidth > width) {
+      newScale = width / imageWidth;
     }
 
-    if (imageRatio > canvasRatio && imageHeight > canvasHeight) {
-      scale = canvasHeight / imageHeight;
+    if (imageRatio > canvasRatio && imageHeight > height) {
+      newScale = height / imageHeight;
     }
 
-    if (scale) {
-      this.setState({ scale });
+    if (newScale) {
+      setScale(newScale);
     }
 
-    const pos = {
-      x: (canvasWidth - imageWidth * scale) / 2,
-      y: (canvasHeight - imageHeight * scale) / 2
-    };
-
-    this.setState({
-      size: { width: imageWidth, height: imageHeight },
-      pos
+    setSize({ width: imageWidth, height: imageHeight });
+    setPos({
+      x: (width - imageWidth * newScale) / 2,
+      y: (height - imageHeight * newScale) / 2
     });
-  }
-
-  // Start moving the image
-  startDrag(event) {
-    if (event.button !== 0) return; // Left click only
-
-    this.setState({
-      moving: true,
-      rel: {
-        x: event.pageX - this.state.pos.x,
-        y: event.pageY - this.state.pos.y
-      }
-    });
-
-    event.stopPropagation();
-    event.preventDefault();
-  }
-
-  // Stop moving the image
-  onMouseUp(event) {
-    this.setState({ moving: false });
-    event.stopPropagation();
-    event.preventDefault();
-  }
-
-  // Update position of image while moving mouse
-  onMouseMove(event) {
-    if (!this.state.moving) return;
-
-    const x = event.pageX - this.state.rel.x;
-    const y = event.pageY - this.state.rel.y;
-
-    this.setState({ pos: this.constrain(x, y) });
-
-    event.stopPropagation();
-    event.preventDefault();
-  }
+  };
 
   // Keep image on the canvas
   // Pass in scale if the state isn't going to be set in time
-  constrain(x, y, scale = this.state.scale) {
+  const constrain = (x, y, forScale = scale) => {
     let minX;
     let maxX;
     let minY;
     let maxY;
 
-    if (this.state.size.width * scale > this.props.width) {
-      minX = (this.state.size.width * scale - this.props.width) * -1;
+    if (size.width * forScale > width) {
+      minX = (size.width * forScale - width) * -1;
       maxX = 0;
     } else {
       minX = 0;
-      maxX = this.props.width - this.state.size.width * scale;
+      maxX = width - size.width * forScale;
     }
 
-    if (this.state.size.height * scale > this.props.height) {
-      minY = (this.state.size.height * scale - this.props.height) * -1;
+    if (size.height * forScale > height) {
+      minY = (size.height * forScale - height) * -1;
       maxY = 0;
     } else {
       minY = 0;
-      maxY = this.props.height - this.state.size.height * scale;
+      maxY = height - size.height * forScale;
     }
 
     return {
       x: Math.min(Math.max(x, minX), maxX),
       y: Math.min(Math.max(y, minY), maxY)
     };
-  }
+  };
+
+  // Start moving the image
+  const startDrag = (event) => {
+    if (event.button !== 0) return; // Left click only
+
+    setMoving(true);
+    setRel({ x: event.pageX - pos.x, y: event.pageY - pos.y });
+
+    event.stopPropagation();
+    event.preventDefault();
+  };
+
+  // Stop moving the image
+  const onMouseUp = (event) => {
+    setMoving(false);
+    event.stopPropagation();
+    event.preventDefault();
+  };
+
+  // Update position of image while moving mouse
+  const onMouseMove = (event) => {
+    if (!moving) return;
+
+    setPos(constrain(event.pageX - rel.x, event.pageY - rel.y));
+
+    event.stopPropagation();
+    event.preventDefault();
+  };
 
   // Scale image, make sure it stays in the frame
-  setScale(newScale) {
-    const isSmall = this.state.size.width < this.props.width || this.state.size.height < this.props.height;
+  const changeScale = (requestedScale) => {
+    let newScale = requestedScale;
+    const isSmall = size.width < width || size.height < height;
 
     if (isSmall && newScale < 1) newScale = 1;
 
-    const oldScale = this.state.scale;
-    const oldWidth = this.state.size.width * oldScale;
-    const oldHeight = this.state.size.height * oldScale;
-    let newWidth = this.state.size.width * newScale;
-    let newHeight = this.state.size.height * newScale;
+    const oldWidth = size.width * scale;
+    const oldHeight = size.height * scale;
+    let newWidth = size.width * newScale;
+    let newHeight = size.height * newScale;
 
-    if (this.props.width > newWidth && !isSmall) {
-      newWidth = this.props.width;
-      newScale = newWidth / this.state.size.width;
-    } else if (this.props.height > newHeight && !isSmall) {
-      newHeight = this.props.height;
-      newScale = newHeight / this.state.size.height;
+    if (width > newWidth && !isSmall) {
+      newWidth = width;
+      newScale = newWidth / size.width;
+    } else if (height > newHeight && !isSmall) {
+      newHeight = height;
+      newScale = newHeight / size.height;
     }
 
-    this.setState({ scale: newScale });
+    setScale(newScale);
 
     const xMovement = (newWidth - oldWidth) / 2;
     const yMovement = (newHeight - oldHeight) / 2;
-    const x = this.state.pos.x - xMovement;
-    const y = this.state.pos.y - yMovement;
-
-    this.setState({ pos: this.constrain(x, y, newScale) });
-  }
+    setPos(constrain(pos.x - xMovement, pos.y - yMovement, newScale));
+  };
 
   // Shortcut to full size image
-  fullSize(event) {
+  const fullSize = (event) => {
     if (event) event.preventDefault();
-    this.setScale(1);
-  }
+    changeScale(1);
+  };
+
+  // Close overlay
+  const close = () => {
+    setVisible(false);
+
+    closeTimer.current = setTimeout(() => {
+      if (latest.current.onClose) latest.current.onClose();
+    }, 200);
+  };
+
+  // Close overlay on click
+  const handleClose = (event) => {
+    close();
+    if (event) event.preventDefault();
+  };
 
   // Throw image onto canvas, crop
-  crop() {
-    const canvas = this.canvas.current;
-    const context = canvas.getContext('2d');
+  const crop = () => {
+    const canvasEl = canvas.current;
+    const context = canvasEl.getContext('2d');
 
     // start with blank white canvas
-    context.clearRect(0, 0, this.props.width, this.props.height);
+    context.clearRect(0, 0, width, height);
     context.fillStyle = 'white';
-    context.fillRect(0, 0, this.props.width, this.props.height);
+    context.fillRect(0, 0, width, height);
 
     // draw user image to match framed version
-    const dx = this.state.pos.x;
-    const dy = this.state.pos.y;
-    const dWidth = this.state.size.width * this.state.scale;
-    const dHeight = this.state.size.height * this.state.scale;
-
-    context.drawImage(this.element, dx, dy, dWidth, dHeight);
+    context.drawImage(element, pos.x, pos.y, size.width * scale, size.height * scale);
 
     // return cropped image, named like the original but as a jpg
-    canvas.toBlob((blob) => {
+    canvasEl.toBlob((blob) => {
       if (!blob) return;
-      blob.filename = `${(this.state.filename || 'image').replace(/\.[^.]*$/, '')}.jpg`;
-      if (this.props.onCrop) this.props.onCrop(blob);
+      blob.filename = `${(image.name || 'image').replace(/\.[^.]*$/, '')}.jpg`;
+      if (onCrop) onCrop(blob);
     }, 'image/jpeg', 0.95);
 
     // mission complete, close crop dialog
-    this.close();
-  }
+    close();
+  };
 
-  // Close overlay
-  close() {
-    this.setState({ visible: false });
+  // What the listeners and timers below call is the latest of these, as they outlive a render
+  const latest = useRef({});
+  latest.current = { centerImage, onMouseMove, onMouseUp, onClose };
 
-    this.closeTimer = setTimeout(() => {
-      if (this.props.onClose) this.props.onClose();
-    }, 200);
-  }
+  // On mount: center the picture once it has loaded, fade in, and lock page scrolling.
+  // If you leave before the image loads, nothing is left running.
+  useEffect(() => {
+    const onLoad = (event) => latest.current.centerImage(event);
+    element.addEventListener('load', onLoad);
 
-  // Close overlay on click
-  handleClose(event) {
-    this.close();
-    if (event) event.preventDefault();
-  }
+    const showTimer = setTimeout(() => setVisible(true), 100);
 
-  render() {
-    // Determines the size of the crop area
-    const frameStyle = { height: this.props.height, width: this.props.width };
+    document.body.classList.add('bdy', 'is_overlay-visible');
 
-    const controlStyle = this.props.width < 300
-      ? { width: 300, marginTop: 30 }
-      : { width: this.props.width };
+    return () => {
+      element.removeEventListener('load', onLoad);
 
-    const screenStyle = { borderWidth: this.props.bleedWidth };
+      // Nothing left to fade in or to report closing
+      clearTimeout(showTimer);
+      clearTimeout(closeTimer.current);
 
-    // Determines size and position of image / ghost image
-    const imageStyle = {
-      width: this.state.size.width * this.state.scale,
-      height: this.state.size.height * this.state.scale,
-      left: this.state.pos.x,
-      top: this.state.pos.y
+      // Allow body scrolling
+      document.body.classList.remove('bdy', 'is_overlay-visible');
     };
+  }, [element]);
 
-    const ghostStyle = { ...imageStyle, backgroundImage: `url(${this.element.src})` };
+  // Show the picture from an object URL, released when it is replaced or the cropper leaves
+  useEffect(() => {
+    const objectUrl = URL.createObjectURL(image);
+    element.src = objectUrl;
+    setSrc(objectUrl);
 
-    const wrapClassName = [
-      'volta-image_crop',
-      this.state.visible && 'is_visible',
-      this.props.width < 400 && 'is_small'
-    ].filter(Boolean).join(' ');
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [image, element]);
 
-    return (
-      <div className={wrapClassName} role="dialog" aria-modal="true" aria-label="Position and size image">
-        <div className="icr_close">
-          <CloseButton onClick={this.handleClose} />
-        </div>
-        <div className="icr_modal">
-          <h2>Position and Size Image</h2>
-          <h3>Drag and resize the image within the dimensions as desired.</h3>
-          <div ref={this.frame} className="icr_frame" style={frameStyle}>
-            <div className="icr_ghost" style={ghostStyle} />
-            <div className="icr_window">
-              <img className="icr_image" src={this.element.src || undefined} alt="Image being cropped" style={imageStyle} />
-              <div className="icr_screen" style={screenStyle} onMouseDown={this.startDrag} />
-            </div>
-            <div className="icr_guide is_vert is_left"></div>
-            <div className="icr_guide is_vert is_center"></div>
-            <div className="icr_guide is_vert is_right"></div>
-            <div className="icr_guide is_horiz is_top"></div>
-            <div className="icr_guide is_horiz is_middle"></div>
-            <div className="icr_guide is_horiz is_bottom"></div>
-          </div>
-          <div className="icr_control" style={controlStyle}>
-            <div className="icr_control_range">
-              <Icon type="image" size="small" className="icr_control_range-small" aria-hidden="true" />
-              {this.props.showScale && <Slider ariaLabel="Scale" min={0} max={2} value={this.state.scale} onChange={this.setScale} />}
-              <Icon type="image" className="icr_control_range-large" aria-hidden="true" />
-            </div>
-            <div className="icr_control_size">
-              <Tooltip className="icr_control_size_button" title="Center image in the crop area." gravity="down">
-                <button type="button" className="icr_control_size_action" aria-label="Center image in the crop area" onClick={this.centerImage}>
-                  <Icon type="rectangle.compress.vertical" aria-hidden="true" />
-                </button>
-              </Tooltip>
-              <Tooltip className="icr_control_size_button" title="Show uploaded image's original dimensions." gravity="down">
-                <button type="button" className="icr_control_size_action" aria-label="Show original size" onClick={this.fullSize}>
-                  <Icon type="rectangle.expand.vertical" aria-hidden="true" />
-                </button>
-              </Tooltip>
-            </div>
-          </div>
-          <div className="icr_btns">
-            <Button onClick={this.handleClose}>Cancel</Button>
-            <Button variant="primary" onClick={this.crop}>Crop and Save</Button>
-          </div>
-          <canvas ref={this.canvas} className="icr_canvas" width={this.props.width} height={this.props.height} />
-        </div>
+  // Listen to the mouse on the whole page while the picture is being dragged
+  useEffect(() => {
+    if (!moving) return undefined;
+
+    const move = (event) => latest.current.onMouseMove(event);
+    const up = (event) => latest.current.onMouseUp(event);
+    document.addEventListener('mousemove', move);
+    document.addEventListener('mouseup', up);
+
+    return () => {
+      document.removeEventListener('mousemove', move);
+      document.removeEventListener('mouseup', up);
+    };
+  }, [moving]);
+
+  // Determines the size of the crop area
+  const frameStyle = { height, width };
+
+  const controlStyle = width < 300
+    ? { width: 300, marginTop: 30 }
+    : { width };
+
+  const screenStyle = { borderWidth: bleedWidth };
+
+  // Determines size and position of image / ghost image
+  const imageStyle = {
+    width: size.width * scale,
+    height: size.height * scale,
+    left: pos.x,
+    top: pos.y
+  };
+
+  const ghostStyle = { ...imageStyle, backgroundImage: src ? `url(${src})` : undefined };
+
+  const wrapClassName = [
+    'volta-image_crop',
+    visible && 'is_visible',
+    width < 400 && 'is_small'
+  ].filter(Boolean).join(' ');
+
+  return (
+    <div className={wrapClassName} role="dialog" aria-modal="true" aria-label="Position and size image">
+      <div className="icr_close">
+        <CloseButton onClick={handleClose} />
       </div>
-    );
-  }
-
-}
+      <div className="icr_modal">
+        <h2>Position and Size Image</h2>
+        <h3>Drag and resize the image within the dimensions as desired.</h3>
+        <div className="icr_frame" style={frameStyle}>
+          <div className="icr_ghost" style={ghostStyle} />
+          <div className="icr_window">
+            <img className="icr_image" src={src} alt="Image being cropped" style={imageStyle} />
+            <div className="icr_screen" style={screenStyle} onMouseDown={startDrag} />
+          </div>
+          <div className="icr_guide is_vert is_left"></div>
+          <div className="icr_guide is_vert is_center"></div>
+          <div className="icr_guide is_vert is_right"></div>
+          <div className="icr_guide is_horiz is_top"></div>
+          <div className="icr_guide is_horiz is_middle"></div>
+          <div className="icr_guide is_horiz is_bottom"></div>
+        </div>
+        <div className="icr_control" style={controlStyle}>
+          <div className="icr_control_range">
+            <Icon type="image" size="small" className="icr_control_range-small" aria-hidden="true" />
+            {showScale && <Slider ariaLabel="Scale" min={0} max={2} value={scale} onChange={changeScale} />}
+            <Icon type="image" className="icr_control_range-large" aria-hidden="true" />
+          </div>
+          <div className="icr_control_size">
+            <Tooltip className="icr_control_size_button" title="Center image in the crop area." gravity="down">
+              <button type="button" className="icr_control_size_action" aria-label="Center image in the crop area" onClick={centerImage}>
+                <Icon type="rectangle.compress.vertical" aria-hidden="true" />
+              </button>
+            </Tooltip>
+            <Tooltip className="icr_control_size_button" title="Show uploaded image's original dimensions." gravity="down">
+              <button type="button" className="icr_control_size_action" aria-label="Show original size" onClick={fullSize}>
+                <Icon type="rectangle.expand.vertical" aria-hidden="true" />
+              </button>
+            </Tooltip>
+          </div>
+        </div>
+        <div className="icr_btns">
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button variant="primary" onClick={crop}>Crop and Save</Button>
+        </div>
+        <canvas ref={canvas} className="icr_canvas" width={width} height={height} />
+      </div>
+    </div>
+  );
+};
 
 ImageCrop.propTypes = {
   // The File (or Blob) to crop
@@ -360,9 +329,4 @@ ImageCrop.propTypes = {
   onCrop: PropTypes.func
 };
 
-ImageCrop.defaultProps = {
-  width: 300,
-  height: 300,
-  bleedWidth: 0,
-  showScale: false
-};
+export default ImageCrop;
