@@ -39,13 +39,17 @@ import { Button, Checkbox, Theme } from 'volta';
 ```
 
 ```html
-<script src="node_modules/react/umd/react.production.min.js"></script>
-<script src="node_modules/react-dom/umd/react-dom.production.min.js"></script>
+<!-- window.React, window.ReactDOM and window.ReactRouterDOM must exist first.
+     React 19 ships no UMD builds, so the page has to create them (see features/bundle.md). -->
 <script src="node_modules/volta/components/compiled/components.js"></script>
 <script>
   const { Button } = volta;
 </script>
 ```
+
+For a page that loads the library with plain tags and wants the stylesheet as its
+own file, `make bundle` builds `bundle.js` and `bundle.css`
+([docs/features/bundle.md](features/bundle.md)).
 
 `TextBox` is an alias for `TextField` (it adds a `c-text_box` wrapper class for
 ironyoung-web's own styles); both are exported. `SegmentedControlMini` is an
