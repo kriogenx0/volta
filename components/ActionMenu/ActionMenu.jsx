@@ -10,7 +10,9 @@ import Icon from "../Icon";
 import "../DropdownList/DropdownList.scss"; // For DropdownList styles
 import "./ActionMenu.scss";
 
-const ActionMenu = ({ onToggle, items, onSelect = () => {} }) => {
+// The trigger shows only an icon, so it needs a name for a screen reader: say what
+// the menu is for with aria-label ("Row actions"), or leave the default.
+const ActionMenu = ({ 'aria-label': ariaLabel = 'Actions', onToggle, items, onSelect = () => {} }) => {
   const [open, setOpen] = useState(false);
 
   // on button click
@@ -27,7 +29,7 @@ const ActionMenu = ({ onToggle, items, onSelect = () => {} }) => {
   };
 
   const buttonComponent = (
-    <Button variant="link" onClick={handleButtonClick} aria-label="Actions" aria-haspopup="menu" aria-expanded={open}>
+    <Button variant="link" onClick={handleButtonClick} aria-label={ariaLabel} aria-haspopup="menu" aria-expanded={open}>
       <Icon type="ellipsis" aria-hidden="true" />
     </Button>
   );
@@ -59,6 +61,8 @@ const ActionMenu = ({ onToggle, items, onSelect = () => {} }) => {
 };
 
 ActionMenu.propTypes = {
+  // The name of the icon-only trigger button
+  'aria-label': PropTypes.string,
   // Each item is a label, or an object with a label and an optional action to run when it is chosen
   items: PropTypes.arrayOf(PropTypes.oneOfType([
     PropTypes.string,
