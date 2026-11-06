@@ -43,7 +43,8 @@ const ComboBox = ({ value: controlledValue, defaultValue = '', options, items = 
           event.preventDefault();
           const delta = event.key === 'ArrowDown' ? 1 : -1;
           setOpen(true);
-          setHighlightedIndex((current) => (current + delta + matches.length) % matches.length);
+          // `% 0` is NaN, which would leave nothing highlightable once options do arrive
+          setHighlightedIndex((current) => (matches.length ? (current + delta + matches.length) % matches.length : -1));
         }
         if (event.key === 'Enter' && highlightedIndex >= 0 && matches[highlightedIndex]) { event.preventDefault(); commit(matches[highlightedIndex]); }
       }} className={inputClassName} />

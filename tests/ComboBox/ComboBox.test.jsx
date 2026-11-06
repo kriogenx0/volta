@@ -48,3 +48,26 @@ describe('ComboBox', () => {
     expect(onSelect).toHaveBeenCalledWith('Banana');
   });
 });
+
+describe('ComboBox arrow keys with nothing to choose', () => {
+  it('does not break when it has no options at all', () => {
+    render(<ComboBox options={[]} />);
+    const input = screen.getByRole('textbox');
+    fireEvent.focus(input);
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    fireEvent.keyDown(input, { key: 'Enter' });
+    expect(input).toHaveValue('');
+  });
+
+  it('highlights from the first option when options arrive after an arrow key found none', () => {
+    const { rerender } = render(<ComboBox options={[]} />);
+    const input = screen.getByRole('textbox');
+    fireEvent.focus(input);
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    fireEvent.keyDown(input, { key: 'ArrowUp' });
+
+    rerender(<ComboBox options={options} />);
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    expect(screen.getByText('Apple')).toHaveClass('volta-combo_box-option--highlighted');
+  });
+});

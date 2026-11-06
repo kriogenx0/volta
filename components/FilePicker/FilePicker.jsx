@@ -37,7 +37,8 @@ const loadIcon = (file) => {
 const buildDefaultFiles = (value) => {
   let files;
   if (!value) files = null;
-  else if (Array.isArray(value)) files = value;
+  // A copy: the strings below are replaced by objects, which must not rewrite the caller's array
+  else if (Array.isArray(value)) files = [...value];
   else files = [value];
 
   _.each(files, (file, i) => {
@@ -72,7 +73,8 @@ const FilePicker = ({
   const selectFileCallback = (newFiles) => {
     let updated;
     if (multiple) {
-      updated = files || [];
+      // A new array: React ignores a state update to the array it already has
+      updated = [...(files || [])];
       _.each(newFiles, file => {
         file.typeClass = detectTypeClass(file.type);
         updated.push(file);

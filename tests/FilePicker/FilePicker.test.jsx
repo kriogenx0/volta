@@ -1,5 +1,5 @@
 import { jsx } from 'react/jsx-runtime';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 
 import FilePicker from '../../components/FilePicker/FilePicker';
 
@@ -32,5 +32,84 @@ describe('FilePicker with the automatic JSX runtime', () => {
 
     window.removeEventListener('error', onError);
     consoleError.mockRestore();
+  });
+});
+
+describe('FilePicker with several files', () => {
+  let input;
+  let createElement;
+
+  // The picker opens the file dialog from an <input type="file"> it creates itself;
+  // catch that input, then answer it with files the way the browser would.
+  beforeEach(() => {
+    const realCreate = document.createElement.bind(document);
+    createElement = jest.spyOn(document, 'createElement').mockImplementation((tag, ...rest) => {
+      const element = realCreate(tag, ...rest);
+      if (tag === 'input') input = element;
+      return element;
+    });
+  });
+
+  afterEach(() => createElement.mockRestore());
+
+  const png = (name) => new File(['x'], name, { type: 'image/png' });
+
+  const pick = (...files) => {
+    fireEvent.click(screen.getByRole('button', { name: /Select File|Change File/ }));
+    Object.defineProperty(input, 'files', { value: files, configurable: true });
+    act(() => { input.dispatchEvent(new Event('change')); });
+  };
+
+  it('lists each file as it is picked, not only the first', () => {
+    render(<FilePicker multiple />);
+    pick(png('one.png'));
+    expect(screen.getByText('one.png')).toBeInTheDocument();
+
+    pick(png('two.png'));
+    expect(screen.getByText('one.png')).toBeInTheDocument();
+    expect(screen.getByText('two.png')).toBeInTheDocument();
+
+    pick(png('three.png'), png('four.png'));
+    expect(screen.getAllByText(/\.png$/).map((el) => el.textContent)).toEqual(['one.png', 'two.png', 'three.png', 'four.png']);
+  });
+
+  it('reports every file picked so far to onChange, each time with a new array', () => {
+    const onChange = jest.fn();
+    render(<FilePicker multiple onChange={onChange} />);
+    pick(png('one.png'));
+    pick(png('two.png'));
+
+    expect(onChange).toHaveBeenCalledTimes(2);
+    const [first, second] = onChange.mock.calls.map(([files]) => files);
+    expect(first.map((f) => f.name)).toEqual(['one.png']);
+    expect(second.map((f) => f.name)).toEqual(['one.png', 'two.png']);
+    expect(second).not.toBe(first);
+  });
+
+  it('removes one file and keeps the rest', () => {
+    render(<FilePicker multiple />);
+    pick(png('one.png'));
+    pick(png('two.png'));
+    fireEvent.click(document.querySelectorAll('.file_picker-file button')[0]);
+    expect(screen.queryByText('one.png')).toBeNull();
+    expect(screen.getByText('two.png')).toBeInTheDocument();
+  });
+
+  it('replaces the file when it is not multiple', () => {
+    render(<FilePicker />);
+    pick(png('one.png'));
+    pick(png('two.png'));
+    expect(screen.queryByText('one.png')).toBeNull();
+    expect(screen.getByText('two.png')).toBeInTheDocument();
+  });
+});
+
+describe('FilePicker defaultValue', () => {
+  it('lists the files of an array of names without changing the array', () => {
+    const names = ['report.pdf', 'photo.png'];
+    render(<FilePicker multiple defaultValue={names} />);
+    expect(screen.getByText('report.pdf')).toBeInTheDocument();
+    expect(screen.getByText('photo.png')).toBeInTheDocument();
+    expect(names).toEqual(['report.pdf', 'photo.png']);
   });
 });
