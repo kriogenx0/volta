@@ -195,6 +195,8 @@ Tests that apply to every component:
 - `tests/noFunctionDefaultProps.test.js`: function components take defaults as
   parameters (`({ size = 'md' }) =>`), never `defaultProps`; class components
   may keep it.
+- `tests/noClassComponents.test.js`: no new class components (error boundaries
+  excepted); the one left, `Map`, is listed and the list can only shrink.
 
 `make lint` runs ESLint over `.js` and `.jsx`.
 
@@ -245,11 +247,12 @@ missing:
   repo, so it never compiled standalone.
 - **ImageCrop** and **ColorPicker** work but come from heavily-patched
   legacy source — expect rough edges.
-- Hooks are the preferred style (see `docs/project/design-system.md`), but
-  most components are still class components; hooks conversion has only
-  been done for components with no refs and no lifecycle methods (~30 so
-  far) to keep the risk of behavioral regressions low given there's no
-  visual regression testing in place.
+- Hooks are the preferred style (see `docs/project/design-system.md`), and every
+  component is a function component except `Map`, the one class left (it waits
+  for the Google Maps key task, which edits the same file; see
+  `docs/features/function_components.md`). Error boundaries stay classes. There
+  is no visual regression testing, so a conversion is checked by its unit tests
+  and, for the interaction-heavy ones, by hand in a browser.
 - `npm audit` reports 2 low-severity issues (a Quill XSS advisory via its
   HTML export feature, on the latest available `react-quill-new`/`quill`).
   No fix is available yet without downgrading.
