@@ -32,10 +32,40 @@
 
   --v-color-inactive: #a1a5a9;
   --v-color-danger: #e30000;
+  --v-color-danger-hover: #ba0000;
   --v-color-success: #03a10e;
   --v-color-warning: #a15c00;
   --v-color-danger-subtle: #fff2f4;
   --v-on-accent: #ffffff;
+  // The keyboard focus outline: `outline: 2px solid var(--v-focus-ring)`. It
+  // follows the accent until a theme sets it.
+  --v-focus-ring: var(--v-accent);
+
+  // Scales, the same in every theme (docs/features/theming.md, "Scale tokens").
+  // Spacing: every margin, padding and gap is one of these.
+  --v-space-1: 4px;
+  --v-space-2: 8px;
+  --v-space-3: 12px;
+  --v-space-4: 16px;
+  --v-space-5: 24px;
+  --v-space-6: 32px;
+
+  // Radius: sm for tiny things, md by default, lg for overlays, pill for toggles
+  // and avatars. A true circle stays `border-radius: 50%`.
+  --v-radius-sm: 2px;
+  --v-radius-md: 4px;
+  --v-radius-lg: 10px;
+  --v-radius-pill: 999px;
+
+  // Shadows: sm for controls, md for popovers, lg for modals. Stronger in dark.
+  --v-shadow-sm: 0 1px 3px rgb(0 0 0 / 20%);
+  --v-shadow-md: 0 4px 16px rgb(0 0 0 / 16%);
+  --v-shadow-lg: 0 8px 24px rgb(0 0 0 / 14%);
+
+  // Layers, lowest to highest.
+  --v-z-nav: 100;
+  --v-z-modal: 1000;
+  --v-z-popover: 1100;
 
   // Global animation speed. Override via components/theme.js's
   // setAnimationSpeed(), or the --v-anim-speed custom property directly.
@@ -57,6 +87,11 @@
   --v-accent-subtle: #234A78;
   --v-color-inactive: #7c7f82;
   --v-color-danger-subtle: #3a1519;
+
+  // A shadow on a near-black page needs more weight to show at all.
+  --v-shadow-sm: 0 1px 3px rgb(0 0 0 / 60%);
+  --v-shadow-md: 0 4px 16px rgb(0 0 0 / 55%);
+  --v-shadow-lg: 0 8px 24px rgb(0 0 0 / 50%);
 }
 
 // Follows the OS preference until an explicit [data-theme] is set

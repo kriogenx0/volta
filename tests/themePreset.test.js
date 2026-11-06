@@ -20,14 +20,15 @@ const stockLight = declarations(':root');
 const stockDarkOverrides = declarations('@mixin dark-palette');
 const stockDark = { ...stockLight, ...stockDarkOverrides };
 
-// Declared in the stylesheet but not colours a theme sets (animation has its own setters).
-const NOT_THEMED = ['--v-anim-speed', '--v-anim-ease'];
+// Declared in the stylesheet but not colours a theme sets: animation has its own
+// setters, and the spacing, radius, shadow and layer scales are the same in every theme.
+const NOT_THEMED = /^--v-(anim|space|radius|shadow|z)-/;
 
 const lower = (tokens) => Object.fromEntries(Object.entries(tokens).map(([k, v]) => [k, v.toLowerCase()]));
 
 describe('theme tokens', () => {
   it('are exactly the colour tokens styles/_colors.scss declares', () => {
-    const declared = Object.keys(stockLight).filter((name) => !NOT_THEMED.includes(name)).sort();
+    const declared = Object.keys(stockLight).filter((name) => !NOT_THEMED.test(name)).sort();
     expect([...Theme.tokens].sort()).toEqual(declared);
   });
 
