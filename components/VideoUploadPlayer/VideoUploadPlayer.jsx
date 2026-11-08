@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import VideoPlayer from '../VideoPlayer';
+import { asButton } from '../../util/keyboard';
 
 import './VideoUploadPlayer.scss';
 
@@ -100,7 +101,7 @@ const VideoUploadPlayer = ({
           <VideoPlayer src={url} />
         </div> : null
       }
-      <div className={`box${complete ? ' complete' : ''}${dragging ? ' box-dragging' : ''}${videoExists ? ' video_exists' : ''}`} title={label} onClick={handleBoxClick}>
+      <div className={`box${complete ? ' complete' : ''}${dragging ? ' box-dragging' : ''}${videoExists ? ' video_exists' : ''}`} title={label} {...asButton(handleBoxClick)}>
         <div className='label'>
           {label}
         </div>

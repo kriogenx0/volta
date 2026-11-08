@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
+import { asButton } from '../../util/keyboard';
+
 import './FileUploader.scss';
 
 const FileUploader = ({
@@ -84,7 +86,7 @@ const FileUploader = ({
 
   return (
     <div className='volta-file_uploader'>
-      <div className={`box${complete ? ' complete' : ''}${hover ? ' box-hover' : ''}`} title={fileName} onClick={handleFileSelect} onDragOver={handleDragOver} onDrop={handleDrop}>
+      <div className={`box${complete ? ' complete' : ''}${hover ? ' box-hover' : ''}`} title={fileName} {...asButton(handleFileSelect)} aria-label={fileName ? undefined : 'Choose a file'} onDragOver={handleDragOver} onDrop={handleDrop}>
         <div className='text'>
           {fileName}
         </div>
@@ -93,14 +95,14 @@ const FileUploader = ({
         }
       </div>
       { readyToUpload ?
-          <div className='action' onClick={handleFileSelect}>
+          <div className='action' {...asButton(handleFileSelect)}>
             <i className="fa fa-arrow-circle-o-up" aria-hidden="true" />
             <span> Upload</span>
           </div>
         : null
       }
       { inProgress ?
-          <div className='action' onClick={onCancel}>
+          <div className='action' {...asButton(onCancel)} aria-label="Cancel upload">
             <i className="fa fa-times-circle-o" aria-hidden="true" />
           </div>
         : null
