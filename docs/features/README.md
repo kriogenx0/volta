@@ -14,6 +14,7 @@ One doc per feature, as it exists in the code (see [docs/rules/feature-docs.md](
 - [Overlays](overlays.md): Modal, ModalDialog, Dialog, Alert, PopOver, Overlay and Drawer; page scroll lock, focus trap and restore, and which ones are modal.
 - [Icons](icons.md): how `Icon` draws a symbol (inline SVG, icon font, or SF Symbols), which of them show without a font, and `FileUtil.size`.
 - [Motion](motion.md): one speed for every transition, and what the OS reduce-motion setting does.
+- [Rich text: TinyMCE](rich_text_tinymce.md): the props of `RichTextTinyMCE` (disabled, readonly, placeholder, height, script URL, init), and how it handles dark mode.
 - [Theming](theming.md): replace the whole look with a theme object or a preset; light and dark; custom accent; the styleguide Theme dropdown.
 - [Function components](function_components.md): every component is a function component with hooks except `Map`; how the conversions keep listeners and timers current; the test that stops new classes.
 - [Bundle](bundle.md): `make bundle` builds `bundle.js` and `bundle.css` as two plain files for a page with `<script>` and `<link>` tags; the globals the page provides.

@@ -1,22 +1,20 @@
 ---
 priority: p2
 components: [RichTextTinyMCE]
+branch: backlog/tinymce-options
 ---
 
-# TinyMCE: pass through the editor options
+# Check RichTextTinyMCE with its new options in a real browser
 
-## Objective
+Done on the branch above (see `docs/features/rich_text_tinymce.md`): `RichTextTinyMCE` now takes `disabled`, `readonly`, `placeholder`, `height`, `tinymceScriptSrc`, `className` (on a wrapper, since the editor ignored it) and an `init` escape hatch for any other TinyMCE option, such as a dark skin. The tests check what the wrapper hands to the editor, using a mock, because TinyMCE loads from a script tag that jsdom never fetches.
 
-`RichTextTinyMCE` exposes only `value` and `onChange`. `className` on the inner `Editor` is dropped by `@tinymce/tinymce-react`, and there is no way to set `disabled`, `readonly`, `placeholder` or `height`. (`RichTextQuill`'s hard-coded white background is already fixed: it uses `--v-color-base`.)
+## Unverified
 
-## Requirements
+Nothing has run against a real TinyMCE. With the dev server (`make dev`), on the RichTextTinyMCE page:
 
-- Pass `disabled`, `readonly`, `placeholder` and `height` through to TinyMCE (through its `init` options where the wrapper requires it), with PropTypes. Adding props is an API change: call it out in the feature doc.
-- `tinymceScriptSrc` is a relative path that only works when the page is served from the site root; make it configurable or document it.
-- Check the editor in light and dark mode and under a non-default theme (`Theme.applyTheme('midnight')`), since TinyMCE draws its own UI.
+1. **The options do what they say**: the placeholder shows while empty; a height of 200 is 200px tall; a `readonly` editor shows its content and can't be edited; a `disabled` one does too, and both follow the prop when it changes.
+2. **Dark mode**: with the page in dark, the default editor is a light box. The "Dark skin" example (`init={{ skin: 'oxide-dark', content_css: 'dark' }}`) should look right on a dark page. Decide whether the wrapper should choose the skin by itself from `Theme.getColorScheme()` (it can't change after the editor starts), or leave it to the app as now.
+3. **Another theme**: `Theme.applyTheme('midnight')` from the Theme dropdown. TinyMCE draws its own UI and won't follow it; confirm that is acceptable.
+4. The script URL: serve the page from a sub-path and confirm `tinymceScriptSrc` fixes the 404.
 
-## Acceptance criteria
-
-- Tests assert the options reach the TinyMCE `Editor` props (the existing tests mock `Editor`).
-- Examples for read-only, disabled and fixed height.
-- Checked in a browser in light and dark mode.
+If anything is off, record a new task; otherwise delete this file.
