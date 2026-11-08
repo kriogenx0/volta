@@ -57,6 +57,9 @@ build: node_modules ## Build the component library once for development (unminif
 build-prod: node_modules ## Build the minified production component library bundle
 	npm run build
 
+bundle: node_modules ## Build bundle.js and bundle.css (two files, for a page that loads them) in components/compiled/bundle
+	npm run build -- --mode bundle
+
 build-app: node_modules ## Build the styleguide app bundle
 	npm run build-app
 
@@ -99,4 +102,4 @@ help: ## Show this help, grouped by category
 		/^##@/ { printf "\n%s\n", substr($$0, 5) } \
 		/^[a-zA-Z_-]+:.*## / { printf "  %-13s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
-.PHONY: setup install all up down running dev start run build build-prod build-app watch watch-app docker-build test lint clean rules rules-check help
+.PHONY: setup install all up down running dev start run build build-prod bundle build-app watch watch-app docker-build test lint clean rules rules-check help
