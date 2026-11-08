@@ -55,10 +55,13 @@ const DropdownList = ({
     onToggle && onToggle(o);
   };
 
+  // Choosing an option closes the list and says so: Dropdown no longer closes on
+  // every click inside, and onToggle reports every change.
   const handleOptionSelect = (option, index) => {
     onSelect && onSelect(option, index);
     // setSelectedOption(option);
     setOpen(false);
+    onToggle && onToggle(false);
     option.action && option.action();
   };
 

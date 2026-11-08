@@ -10,10 +10,12 @@
     text-decoration: none;
   }
 
+  // Below the trigger; --above (set when it doesn't fit below) puts it over the trigger instead.
+  // The 4px gap is GAP in placement.js.
   > .dropdown-contents {
     display: none;
     position: absolute;
-    top: 0;
+    top: calc(100% + 4px);
     left: 0;
     z-index: 1000;
     border: 1px solid var(--v-color-base-less-subtle);
@@ -27,6 +29,11 @@
       background-color: $color_base_dark;
       border-color: $color_base_subtle_dark;
     }
+  }
+
+  > .dropdown-contents.dropdown-contents--above {
+    top: auto;
+    bottom: calc(100% + 4px);
   }
 
   // Only contrain width using the class

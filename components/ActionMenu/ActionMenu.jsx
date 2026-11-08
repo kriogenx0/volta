@@ -22,9 +22,12 @@ const ActionMenu = ({ 'aria-label': ariaLabel = 'Actions', onToggle, items, onSe
     onToggle && onToggle(o);
   };
 
+  // Choosing an item closes the menu and says so: Dropdown no longer closes on
+  // every click inside, and onToggle reports every change.
   const handleItemSelect = (item, index) => {
     onSelect(item, index);
     setOpen(false);
+    onToggle && onToggle(false);
     item.action && item.action();
   };
 
