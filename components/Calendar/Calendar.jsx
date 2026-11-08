@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import Button from '../Button/Button';
-import Dater from './Dater';
+import Dater from '../../util/Dater';
 
 import './Calendar.scss';
 
