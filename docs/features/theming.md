@@ -1,6 +1,6 @@
 # Theming
 
-A theme is a small piece of data that restyles every component at once. The whole look of Volta (accent, page and text colours, borders, status colours, in light and in dark) comes from 17 CSS custom properties (`--v-*`). Replacing the theme means replacing the values of those properties, and nothing in a component has to change.
+A theme is a small piece of data that restyles every component at once. The whole look of Volta (accent, page and text colours, borders, status colours, in light and in dark) comes from 19 colour tokens (CSS custom properties, `--v-*`). Replacing the theme means replacing the values of those properties, and nothing in a component has to change.
 
 ## What it does for users
 
@@ -29,14 +29,27 @@ The tokens a theme may set (`Theme.tokens`; the same list as the colours in `sty
 
 | Group | Tokens |
 | --- | --- |
-| Accent | `--v-accent`, `--v-accent-hover`, `--v-accent-subtle` (a tint for active rows), `--v-on-accent` (label on an accent button) |
+| Accent | `--v-accent`, `--v-accent-hover`, `--v-accent-subtle` (a tint for active rows), `--v-on-accent` (label on an accent button), `--v-focus-ring` (the keyboard outline; follows the accent until a theme sets it) |
 | Page | `--v-color-base` and its steps `-more-subtle`, `-subtle`, `-less-subtle` (surfaces, then borders, then stronger borders) |
 | Text | `--v-color-trim` and its steps `-more-subtle`, `-subtle`, `-less-subtle` |
-| State | `--v-color-inactive`, `--v-color-danger`, `--v-color-danger-subtle`, `--v-color-success`, `--v-color-warning` |
+| State | `--v-color-inactive`, `--v-color-danger`, `--v-color-danger-hover`, `--v-color-danger-subtle`, `--v-color-success`, `--v-color-warning` |
 
 `applyTheme` throws a message naming the problem for a missing `id`, an unknown token (a typo such as `--v-acent`) or a non-string value, and does nothing else when it throws.
 
-Animation speed (`--v-anim-speed`, `--v-anim-ease`) is not part of a theme; it has its own setters (`Theme.setAnimationSpeed`).
+Animation speed (`--v-anim-speed`, `--v-anim-ease`) is not part of a theme; it has its own setters (`Theme.setAnimationSpeed`). Neither are the scale tokens below.
+
+## Scale tokens
+
+Spacing, radius, shadow and layer values are tokens too, declared in `styles/_colors.scss` and the same in every theme. Use them instead of literals: `padding: var(--v-space-3)`, `border-radius: var(--v-radius-md)`, `box-shadow: var(--v-shadow-md)`, `z-index: var(--v-z-modal)`.
+
+| Token | Value | Use |
+| --- | --- | --- |
+| `--v-space-1` to `--v-space-6` | 4, 8, 12, 16, 24, 32 px | every margin, padding and gap |
+| `--v-radius-sm`, `-md`, `-lg`, `-pill` | 2, 4, 10 px, 999 px | tiny things, the default, overlays, toggles and avatars (a true circle stays `50%`) |
+| `--v-shadow-sm`, `-md`, `-lg` | `0 1px 3px`, `0 4px 16px`, `0 8px 24px` in black at 20, 16, 14% | controls, popovers, modals; heavier in dark mode (60, 55, 50%) |
+| `--v-z-nav`, `-modal`, `-popover` | 100, 1000, 1100 | the page bar, modals, and popovers (above modals, so one inside a modal shows) |
+
+The spacing and radius values are the design system's scale (`docs/project/design-system.md`), and a test keeps the spacing in step with it. **The shadow and layer values are provisional**: `tokens.json`, which the design system names as the source of truth, is not in this repository, so they were taken from the values already in use (the shadows are exact copies of existing ones, the layers are the common z-index values 100 and 1000, with popover at 1100 to sit above a modal, the same as the toast now uses). Confirm them against `tokens.json` before components are switched over (`docs/backlog/add-missing-design-tokens.md`). No component uses these tokens yet.
 
 ## Replacing the theme
 
@@ -135,7 +148,7 @@ It runs in the browser, in whatever page loads the library; there is no server s
 - **Components with hard-coded colours don't follow a theme.** Two component stylesheets still have hex literals, `GlobalNav.scss` (a dark bar with fixed text colours) and `Loader.scss` (the animations' own colours), and they keep those colours in every theme. Everything else is built on the `--v-*` tokens (or the `$color_*` Sass aliases, which resolve to them) and follows fully. A hex literal in new code is a theming bug.
 - **A flash of the stock colours is possible** when a theme is applied from JavaScript after first paint. Use a stylesheet (level 2 above), or apply the theme before first paint.
 - **`setAccentColor` is only as accessible as the colour it is given.** It picks a readable label colour but doesn't check the accent against the page.
-- The shadow, spacing, radius and type scales are not themeable.
+- The shadow, spacing, radius, layer and type scales are not themeable, and the type scale has no tokens yet.
 
 ## History
 

@@ -68,7 +68,7 @@ accordingly.
 
 ## Theming
 
-The whole look comes from 17 CSS custom properties (`--v-*`, declared in
+The whole look comes from 19 CSS custom properties (`--v-*`, declared in
 `styles/_colors.scss`), so a theme is a small object and replacing it needs no
 rebuild. Details, the theme format, how to add or replace one, and the limits
 are in [docs/features/theming.md](features/theming.md).
