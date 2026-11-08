@@ -69,6 +69,15 @@ describe('theme presets', () => {
     expect(lower(volta.dark)).toEqual(Object.fromEntries(Theme.tokens.map((t) => [t, stockDark[t]])));
   });
 
+  it('has volta-aa, the stock blue moved just far enough to pass, so apps can pick AA without changing colour family', () => {
+    const hue = (hex) => Math.round(tinycolor(hex).toHsl().h);
+    const aa = presets.find((preset) => preset.id === 'volta-aa');
+    expect(aa).toBeDefined();
+    ['light', 'dark'].forEach((scheme) => {
+      expect(Math.abs(hue(aa[scheme]['--v-accent']) - hue(stockLight['--v-accent']))).toBeLessThanOrEqual(8);
+    });
+  });
+
   describe.each(presets.slice(1))('$name', (preset) => {
     // What a theme leaves out falls back to the stock palette.
     const resolve = (scheme) => ({ ...(scheme === 'light' ? stockLight : stockDark), ...lower(preset[scheme]) });
@@ -89,9 +98,11 @@ describe('theme presets', () => {
       // The accent as text, on the page and on its own tint (an active item)
       expect(ratio(t['--v-accent'], t['--v-color-base'])).toBeGreaterThanOrEqual(4.5);
       expect(ratio(t['--v-accent'], t['--v-accent-subtle'])).toBeGreaterThanOrEqual(4.5);
-      // Body text, and secondary text
+      // Body text, and secondary text (also on the muted surface that panels sit on)
       expect(ratio(t['--v-color-trim'], t['--v-color-base'])).toBeGreaterThanOrEqual(7);
       expect(ratio(t['--v-color-trim-subtle'], t['--v-color-base'])).toBeGreaterThanOrEqual(4.5);
+      expect(ratio(t['--v-color-trim-less-subtle'], t['--v-color-base'])).toBeGreaterThanOrEqual(4.5);
+      expect(ratio(t['--v-color-trim-less-subtle'], t['--v-color-base-more-subtle'])).toBeGreaterThanOrEqual(4.5);
     });
 
     it('keeps its neutrals in order: each step is further from the page than the last', () => {

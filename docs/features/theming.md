@@ -5,7 +5,7 @@ A theme is a small piece of data that restyles every component at once. The whol
 ## What it does for users
 
 - **Replace the whole look at runtime.** `Theme.applyTheme('ocean')` or `Theme.applyTheme(myTheme)` recolours every themed component immediately, no rebuild.
-- **Thirteen ready-made themes** (`Theme.presets`), from the stock blue to teal, green, orange, pink, purple, amber, magenta, indigo, blue-gray, graphite, warm sepia and a navy-and-cyan "midnight". Twelve are checked against WCAG AA contrast in light and dark.
+- **Fourteen ready-made themes** (`Theme.presets`), from the stock blue (and an accessible version of it) to teal, green, orange, pink, purple, amber, magenta, indigo, blue-gray, graphite, warm sepia and a navy-and-cyan "midnight". All but the stock one are checked against WCAG AA contrast in light and dark.
 - **Light and dark come with the theme.** Each theme says what it looks like in both; the scheme that is showing (an explicit `light` or `dark`, or the OS preference) picks the half.
 - **A custom accent on top.** `Theme.setAccentColor('#e0405c')` recolours the accent only, derives the hover, tint and label colour, and survives a scheme change.
 - **In the styleguide**, the header has a **Theme** dropdown listing every theme with a light-and-dark colour chip, next to the custom accent picker, the Auto/Light/Dark control and the animation speed.
@@ -88,6 +88,33 @@ Pick whichever level fits; they stack.
 A colour that comes from a token needs no dark rule: the token itself changes with the scheme. For the rare rule that must differ in dark mode, use `@include dark { ... }` from `styles/_mixins.scss`. It applies under an explicit `[data-theme='dark']` and, only while no scheme has been chosen, under the OS preference (`:root:not([data-theme])` inside `prefers-color-scheme: dark`). So `Theme.setColorScheme('light')` turns it off even on a dark OS.
 
 Don't write `@media (prefers-color-scheme: dark)` in a component stylesheet: it follows the OS only and ignores the user's choice. `tests/darkMixin.test.js` compiles the mixin to check the selectors, and fails if a stylesheet other than `_colors.scss` and `_mixins.scss` uses that query.
+## Contrast
+
+The stock palette against WCAG AA (4.5:1 for text, which includes the label on a button). Bold numbers are below it.
+
+| Pairing | Light | Dark |
+| --- | --- | --- |
+| Body text (`trim`) on the page | 18.88 | 18.04 |
+| Secondary text (`trim-subtle`) on the page | 8.45 | 11.44 |
+| Tertiary text (`trim-less-subtle`) on the page | 5.10 | 7.15 |
+| Tertiary text on the muted surface | 4.55 | 5.98 |
+| Accent as text on the page | **3.29** | 6.19 |
+| Accent on its tint (an active item) | **2.85** | **2.75** |
+| Label on the accent (a primary button) | **3.29** | **3.29** |
+| Danger as text on the page | 4.92 | **4.14** |
+| Danger on its tint | 4.51 | **3.28** |
+| Label on danger (a danger button) | 4.92 | 4.92 |
+| Success as text on the page | **3.44** | 5.93 |
+| Warning as text on the page | 5.19 | **3.93** |
+
+Body, secondary and tertiary text pass in both schemes. (The tertiary text gray was `#808080`, 3.95:1 on white; it is now `#6e6e6e`, 5.10:1, and 4.55:1 on the muted surface. `--v-color-inactive` is left out on purpose: it is for disabled and inactive things, which WCAG exempts, and never carries essential information.)
+
+What still fails is the accent blue in four pairings, and the status colours:
+
+- **The accent.** `#4A90E2` is too light for white labels (primary buttons) and for use as text or on its own tint, in both schemes. `volta-aa` fixes all of those; making it the default is a change to the brand blue, which is a decision, not a fix (`docs/backlog/resolve-contrast-failures.md`).
+- **The status colours** are each used as a fill and as text, so one value can't serve both: danger is fine as text on white and fails on the dark page, success and warning are the reverse. Fixing it means separate text tokens.
+
+`tests/contrast.test.js` records these as the known failures and fails when a new one appears or a listed one is fixed without updating the list; `tests/themePreset.test.js` holds every other preset to the full rule.
 
 ## Adding a preset
 
@@ -105,6 +132,7 @@ These are the rules the built-in themes were generated against: for each hue, th
 | Theme | id | Light accent | Dark accent | Page colours |
 | --- | --- | --- | --- | --- |
 | Volta | `volta` | `#4A90E2` | `#4A90E2` | stock (full template) |
+| Volta AA | `volta-aa` | `#1f6bc1` | `#65a1e6` | stock |
 | Ocean | `ocean` | `#10798e` | `#23c6e7` | stock |
 | Forest | `forest` | `#207e3f` | `#3bce6c` | stock |
 | Sunset | `sunset` | `#b34b0f` | `#f0884c` | stock |
@@ -118,7 +146,7 @@ These are the rules the built-in themes were generated against: for each hue, th
 | Sepia | `sepia` | `#946338` | `#ca9b72` | tinted |
 | Midnight | `midnight` | `#087a91` | `#16cef3` | tinted |
 
-`volta` is the stock theme and is deliberately not changed: its white-on-accent label is 3.3:1, below AA (tracked in `docs/backlog/resolve-contrast-failures.md`). The other twelve pass.
+`volta` is the stock theme, and its accent does not pass AA (see Contrast above). `volta-aa` is the same blue family, moved just far enough to pass in both schemes (a deeper blue in light; a lighter blue with a dark label in dark), for an app that needs AA now. The other twelve pass too.
 
 ## API (`components/theme.js`, exported as `Theme`)
 
@@ -160,5 +188,7 @@ It runs in the browser, in whatever page loads the library; there is no server s
 
 - Implemented 2026-11-05: `applyTheme`, `resetTheme`, `getTheme`, `presets`, `tokens`; the thirteen presets; per-scheme accent derivation; the styleguide Theme dropdown. Not committed or deployed when this was written.
 - Checked 2026-11-05 (branch `backlog/fix-dark-mixin`): the `dark` mixin already honoured an explicit `data-theme`; the backlog task describing it as broken was stale. Added `tests/darkMixin.test.js` so it stays that way.
+- Implemented 2026-11-05: `applyTheme`, `resetTheme`, `getTheme`, `presets`, `tokens`; the fourteen presets; per-scheme accent derivation; the styleguide Theme dropdown. Not committed or deployed when this was written.
+- Contrast 2026-11-05 (branch `backlog/resolve-contrast-failures`, not merged): tertiary text gray darkened, `volta-aa` added, the audit above recorded and tested. The accent and status-colour decisions are open.
 - Not verified: nothing was viewed in a browser, so the dropdown's appearance, its position in the wrapped header at mobile widths, and how each theme looks across the components are unchecked. The contrast figures come from a formula (tinycolor's WCAG readability), not from a visual check. The dropdown's behaviour is tested in jsdom only.
 - Not implemented: remembering the chosen theme between visits; a theme editor in the styleguide; semantic colours (danger, success, warning) varying per preset; themeable shadows, radii and type.
