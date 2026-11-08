@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
@@ -7,159 +7,114 @@ import Map from '../Map/Map';
 
 import './MapSelector.scss';
 
-export default class MapSelector extends React.Component {
+const MapSelector = ({
+  value = null,
+  defaultValue = null,
+  placeholder = 'Enter a street address...',
+  onChange = () => {}
+}) => {
+  // Start on defaultValue, else value: the box shows it and the map searches for it.
+  const start = defaultValue !== null ? defaultValue : value;
+  const hasStart = start !== null && start !== undefined;
 
-  constructor(props) {
-    super(props);
+  // The map needs the search box element (it attaches Places autocomplete to it), so it
+  // is rendered once the box exists.
+  const [searchTextField, setSearchTextField] = useState(null);
+  const [mapValue, setMapValue] = useState(hasStart ? start : '');
+  const [location, setLocation] = useState(null);
+  const [searchBoxValue, setSearchBoxValue] = useState(hasStart ? start : (value || ''));
+  const [message, setMessage] = useState(null);
 
-    // Start on defaultValue, else value: the box shows it and the map searches for it.
-    const start = props.defaultValue !== null ? props.defaultValue : props.value;
-    const hasStart = start !== null && start !== undefined;
+  // The map reports back later, so what it calls reads the latest box text and onChange.
+  const searchBoxValueRef = useRef(searchBoxValue);
+  const onChangeRef = useRef(onChange);
+  searchBoxValueRef.current = searchBoxValue;
+  onChangeRef.current = onChange;
 
-    this.state = {
-      searchTextField: false,
-      mapValue: hasStart ? start : '',
-      value: props.value,
-      searchBoxValue: hasStart ? start : (props.value || ''),
-      searching: false
-    };
+  // Search again whenever the value prop changes (not on the first render, which started on it).
+  const previousValue = useRef(value);
+  useEffect(() => {
+    if (value === previousValue.current) return;
+    previousValue.current = value;
+    if (value !== null) {
+      setSearchBoxValue(value);
+      setMapValue(value);
+    }
+  }, [value]);
 
-    this.handleSearchChange = this.handleSearchChange.bind(this);
-    this.handleAddressKeyPress = this.handleAddressKeyPress.bind(this);
-    this.search = this.search.bind(this);
-    this.clearAddress = this.clearAddress.bind(this);
-    this.handleMapLoading = this.handleMapLoading.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleNotFound = this.handleNotFound.bind(this);
-    this.removeValue = this.removeValue.bind(this);
-    this.inputRef = this.inputRef.bind(this);
-  }
+  const search = () => setMapValue(searchBoxValue);
 
-  componentDidUpdate(prevProps) {
-    if (this.props.value !== null && prevProps.value !== this.props.value)
-      this.searchFor(this.props.value);
-  }
+  const removeValue = () => {
+    setLocation(null);
+    setMapValue('');
+  };
 
-  // componentWillUnmount() {
-    // if (this.autocomplete) this.autocomplete.unbindAll();
-  // }
-
-  searchFor(searchValue) {
-    if (searchValue === undefined) return;
-    this.setState({
-      searchBoxValue: searchValue,
-      mapValue: searchValue
-    });
-  }
-
-  search() {
-    this.setState({
-      mapValue: this.state.searchBoxValue
-    });
-  }
-
-  clearAddress() {
-    this.setState({ searchBoxValue: '' });
-    if (this.searchBox) this.searchBox.focus();
-  }
-
-  removeValue() {
-    this.setState({ value: null, mapValue: '' });
-  }
-
-  handleAddressKeyPress(event) {
-    if (event.which == 13) { // Enter
+  const handleAddressKeyPress = (event) => {
+    if (event.which === 13) { // Enter
       event.preventDefault();
       event.stopPropagation();
-      this.search();
+      search();
     }
-  }
+  };
 
-  handleSearchChange(e) {
-    const searchBoxValue = e.target.value;
-    this.setState({ searchBoxValue });
-  }
+  const handleMapLoading = useCallback((loading) => {
+    setMessage(loading ? 'Loading...' : null);
+  }, []);
 
-  handleMapLoading(loading) {
-    // console.log('LOADING', loading);
-    this.setState({ loading, message: loading ? 'Loading...' : null });
-  }
-
-  handleChange(location) {
-    // console.log('handleChange location', location);
-    this.setState({ value: location });
-    this.props.onChange(location, this.state.searchBoxValue);
-  }
+  const handleChange = useCallback((found) => {
+    setLocation(found);
+    onChangeRef.current(found, searchBoxValueRef.current);
+  }, []);
 
   // The search found no place; say so rather than leaving the map as it was.
-  handleNotFound() {
-    this.setState({ message: 'Location not found.' });
-  }
+  const handleNotFound = useCallback(() => {
+    setMessage('Location not found.');
+  }, []);
 
-  inputRef(input) {
-    this.searchBox = input;
-    if (!this.state.searchTextField)
-      this.setState({ searchTextField: input });
-  }
+  const locationAddress = _.get(location, 'address');
 
-  render() {
-    // onClick={/this.state.searchBoxValue ? this.clearAddress : () => {}}
-    return (
-      <div className='volta-map_selector'>
-        <div className='clearfix'>
-          <div className='l-r'>
-            <Button onClick={this.search}>Search</Button>
-          </div>
-          <div className='map_selector-search_box'>
-            <input
-              type='text'
-              ref={this.inputRef}
-              className="l-width-full"
-              onKeyPress={this.handleAddressKeyPress}
-              onChange={this.handleSearchChange}
-              value={this.state.searchBoxValue}
-              placeholder={this.props.placeholder}
-              aria-label={this.props.placeholder}
-            />
-          </div>
+  return (
+    <div className='volta-map_selector'>
+      <div className='clearfix'>
+        <div className='l-r'>
+          <Button onClick={search}>Search</Button>
         </div>
-        {(() => {
-          const locationAddress = _.get(this.state.value, 'address');
-          if (locationAddress) {
-            return (
-              <div className='map_selector-location_found clearfix l-space-quarter-v'>
-                <span>{locationAddress}</span>
-                <Button onClick={this.removeValue} aria-label="Remove location">X</Button>
-              </div>
-            );
-          }
-        })()}
-        {(() => {
-          if (this.state.message) {
-            return (
-              <div className="l-space-v-half">
-                <span>{this.state.message}</span>
-              </div>
-            );
-          }
-        })()}
-
-        {(() => {
-          if (this.state.searchTextField)
-            return (
-              <Map
-                value={this.state.mapValue}
-                onLoading={this.handleMapLoading}
-                onChange={this.handleChange}
-                onNotFound={this.handleNotFound}
-                addressInput={this.state.searchTextField}
-              />
-            );
-        })()}
+        <div className='map_selector-search_box'>
+          <input
+            type='text'
+            ref={setSearchTextField}
+            className="l-width-full"
+            onKeyPress={handleAddressKeyPress}
+            onChange={(e) => setSearchBoxValue(e.target.value)}
+            value={searchBoxValue}
+            placeholder={placeholder}
+            aria-label={placeholder}
+          />
+        </div>
       </div>
-    );
-  }
-}
+      {locationAddress ? (
+        <div className='map_selector-location_found clearfix l-space-quarter-v'>
+          <span>{locationAddress}</span>
+          <Button onClick={removeValue} aria-label="Remove location">X</Button>
+        </div>
+      ) : null}
+      {message ? (
+        <div className="l-space-v-half">
+          <span>{message}</span>
+        </div>
+      ) : null}
+      {searchTextField ? (
+        <Map
+          value={mapValue}
+          onLoading={handleMapLoading}
+          onChange={handleChange}
+          onNotFound={handleNotFound}
+          addressInput={searchTextField}
+        />
+      ) : null}
+    </div>
+  );
+};
 
 MapSelector.propTypes = {
   // An address to start on and to search for again whenever it changes.
@@ -172,9 +127,4 @@ MapSelector.propTypes = {
   onChange: PropTypes.func
 };
 
-MapSelector.defaultProps = {
-  defaultValue: null,
-  value: null,
-  placeholder: 'Enter a street address...',
-  onChange: ()=>{}
-};
+export default MapSelector;
