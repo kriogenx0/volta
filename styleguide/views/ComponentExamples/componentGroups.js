@@ -7,7 +7,7 @@ export default [
     components: [
       'TextField', 'Textarea', 'TextEditable', 'NumericField',
       'TagInput', 'ComboBox', 'AutoComplete', 'SearchSelector', 'DateInput',
-      'DatePicker', 'BaseInput', 'Label', 'Field', 'FieldLabel', 'FieldRow', 'FormRow',
+      'DatePicker', 'Label', 'Field', 'FieldLabel', 'FieldRow',
     ],
   },
   {
@@ -61,7 +61,7 @@ export default [
   },
   {
     label: 'Lists',
-    components: ['ListDefinitions', 'List', 'ListHeader', 'FilterSectionListItem', 'ListCard', 'ListCardRow'],
+    components: ['ListDefinitions', 'List', 'ListCard'],
   },
   {
     label: 'Icons',
