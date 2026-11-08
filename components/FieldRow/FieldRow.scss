@@ -17,7 +17,9 @@
     display: block;
   }
 
+  // A <label>: a block, like the <div> it replaced
   .field_row-label {
+    display: block;
     font-weight: 400;
     max-width: 280px;
     min-height: 1px;
@@ -37,5 +39,9 @@
 
   .field_row-body {
     flex-grow: 1;
+  }
+
+  .field_row-error {
+    margin-top: 4px;
   }
 }

@@ -7,7 +7,7 @@ export default [
     components: [
       'TextField', 'Textarea', 'TextEditable', 'NumericField',
       'TagInput', 'ComboBox', 'AutoComplete', 'SearchSelector', 'DateInput',
-      'DatePicker', 'Label', 'Field', 'FieldLabel', 'FieldRow',
+      'DatePicker', 'Label', 'Field', 'FieldLabel', 'FieldHint', 'FieldRow',
     ],
   },
   {
