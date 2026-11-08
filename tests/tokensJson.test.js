@@ -47,8 +47,9 @@ describe('styles/tokens.json', () => {
 
   it('has every token the stylesheet declares, in both schemes', () => {
     const { tokens } = JSON.parse(fs.readFileSync(file, 'utf8'));
-    // Every colour a theme can set, plus the animation tokens the stylesheet declares
-    expect(Object.keys(tokens).sort()).toEqual([...Theme.tokens, '--v-anim-speed', '--v-anim-ease'].sort());
+    // At least every colour a theme can set and the animation tokens; the scale tokens
+    // (space, radius, shadow, z-index) come along because the stylesheet declares them
+    expect(Object.keys(tokens)).toEqual(expect.arrayContaining([...Theme.tokens, '--v-anim-speed', '--v-anim-ease']));
     Object.values(tokens).forEach(value => {
       expect(typeof value.light).toBe('string');
       expect(typeof value.dark).toBe('string');

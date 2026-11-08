@@ -72,8 +72,6 @@ const EXCEPTIONS = {
   'DropdownList: div.dropdown-contents': 'a container: it hears clicks from the keyboard-operable options inside it',
   'DateInput: div.dropdown-contents': 'a container: it hears clicks from the calendar inside it',
   'DatePicker: div.dropdown-contents': 'a container: it hears clicks from the calendar inside it',
-  'DateInput: div': 'a wrapper that stops clicks inside the calendar from closing the dropdown',
-  'DatePicker: div': 'a wrapper that stops clicks inside the calendar from closing the dropdown',
   'AutoComplete: div.twd_dropdown': 'a container: it keeps focus in the text box while an option is clicked; the options are listbox items',
   'AutoComplete: div.autocomplete_chosen': 'a click on the empty space focuses the text box, which is the keyboard way in',
 
