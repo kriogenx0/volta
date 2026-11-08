@@ -50,6 +50,9 @@ import { Button, Checkbox, Theme } from 'volta';
 For a page that loads the library with plain tags and wants the stylesheet as its
 own file, `make bundle` builds `bundle.js` and `bundle.css`
 ([docs/features/bundle.md](features/bundle.md)).
+Each component's directory has a `README.md` guideline (when to use it, usage,
+props, accessibility, do and don't); see
+[docs/features/component_guidelines.md](features/component_guidelines.md).
 
 `TextBox` is an alias for `TextField` (it adds a `c-text_box` wrapper class for
 ironyoung-web's own styles); both are exported. `SegmentedControlMini` is an
