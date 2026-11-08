@@ -73,6 +73,18 @@
   --v-anim-ease: ease-in-out;
 }
 
+// With the OS "reduce motion" setting on, everything timed by --v-anim-speed (every
+// transition, and the toast's enter and leave) becomes all but instant. Near zero
+// rather than zero, so animationend still fires for code that waits for it. An
+// explicit Theme.setAnimationSpeed() sets the variable inline and so wins: that is
+// the app's own choice. Looping progress indicators (Loader, the spinning Icon,
+// ProgressBar) are not timed by it; see docs/features/motion.md.
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --v-anim-speed: 0.01ms;
+  }
+}
+
 @mixin dark-palette {
   --v-color-base: #050505;
   --v-color-base-subtle: #292929;

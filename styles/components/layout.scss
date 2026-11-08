@@ -10,7 +10,7 @@
   margin-left: auto;
   margin-right: auto;
 
-  transition: padding 150ms;
+  transition: padding var(--v-anim-speed);
   padding-left: 20px;
   padding-right: 20px;
 

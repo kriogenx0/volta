@@ -6,7 +6,7 @@
   width: 100%;
   box-sizing: border-box;
 
-  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  transition: background-color var(--v-anim-speed), border-color var(--v-anim-speed), color var(--v-anim-speed);
 
   border: 1px solid $color_base_less_subtle;
   border-radius: 4px;

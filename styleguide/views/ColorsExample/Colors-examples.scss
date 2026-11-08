@@ -10,7 +10,7 @@
     color: $color_trim;
     font-size: 13px;
     cursor: pointer;
-    transition: all 120ms;
+    transition: all var(--v-anim-speed);
     @include dark {
       background: $color_base_dark;
       color: $color_trim_dark;
@@ -95,7 +95,7 @@
         color: #fff;
         padding: 4px 10px;
         border-radius: 20px;
-        transition: opacity 120ms;
+        transition: opacity var(--v-anim-speed);
         pointer-events: none;
       }
 
