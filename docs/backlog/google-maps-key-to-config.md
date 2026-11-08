@@ -1,23 +1,23 @@
 ---
 priority: p0
-components: [Map, MapSelector, UserMap]
+components: [Map, MapSelector]
+branch: backlog/google-maps-key-to-config
 ---
 
-# Move the Google Maps API key out of the source
+# Restrict or rotate the Google Maps key that was committed
 
-## Objective
+The code half is done on the branch above: the key is no longer in `components/` (apps pass their own with `setGoogleMapsKey`, and without one Map and MapSelector show a message), with tests, including one that fails if a Google API key appears in `components/`. See `docs/features/map.md`.
 
-`components/Map/Map.jsx` contains a Google Maps API key as a string literal, and it is already in the git history and on `origin`. Keys that ship to the browser can't be secret, but an unrestricted one can be copied and run up charges.
+The old key is still in the git history and on `origin`, and removing it from the source doesn't change that.
 
-## Requirements
+## Blocked
 
-- Take the key as configuration (a prop on `Map` / `MapSelector`, or a single setter such as `setGoogleMapsKey`) with no default in the library, so each app passes its own.
-- Document it under "Services" in `docs/`: why Google Maps is used and what configuration it needs.
-- The user restricts the existing key by HTTP referrer and API, or rotates it, in the Google Cloud console. That step is theirs, not code.
-- Map and MapSelector show a clear message in place of the map when no key is set.
+Waiting on whoever owns the Google Cloud project, because it is an account action and not a code change.
 
-## Acceptance criteria
+1. Find the key's last commit without printing it: `git log --oneline -S'AIza' -- components/Map/Map.jsx` shows the commits that added and removed it. The key is in `components/Map/Map.jsx` at the parent of the commit that removes it.
+2. In the Google Cloud console, for the project that owns that key, either:
+   - **restrict it**: Application restrictions, HTTP referrers, only the sites that should use it; API restrictions, only Maps JavaScript API, Places API and Geocoding API; and set a quota or billing alert; or
+   - **rotate it**: create a new key with those restrictions, give it to the apps that use Maps (they pass it to `setGoogleMapsKey`), then delete the old one.
+3. Decide whether to rewrite git history to drop the old key. That is a destructive change to a shared remote and needs your go-ahead; rotating the key makes it unnecessary.
 
-- No key string remains in `components/`.
-- The Map and MapSelector examples in the styleguide still render without a key (they show the message).
-- Tests cover the "no key" state.
+To finish: when the old key is restricted or deleted, delete this file.

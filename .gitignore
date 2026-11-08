@@ -62,3 +62,7 @@ __*
 # Jest's mock convention needs to be trackable despite the __* rule above.
 !__mocks__
 !__mocks__/**
+
+# Local configuration and keys (see docs/features/map.md)
+.env.local
+.env.*.local

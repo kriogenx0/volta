@@ -207,6 +207,15 @@ for `ImageCrop`, CKEditor 4, and TinyMCE (whose script is never fetched).
 `UserMap` and `TableList` have no tests because `leaflet` and `jquery` aren't
 installed.
 
+## Services
+
+- **Google Maps** (JavaScript API, Places and Geocoder), used by `Map` and
+  `MapSelector` to draw a map, find an address and suggest addresses. It needs one
+  API key, set once at startup with `setGoogleMapsKey(key)`; the library has no
+  default, and without a key a message replaces the map. See
+  [docs/features/map.md](features/map.md), including how the styleguide reads
+  `VITE_GOOGLE_MAPS_API_KEY` from a git-ignored `.env.local`.
+
 ## Unwired components
 
 A few components exist in the source but are **not** wired into `index.js`,
