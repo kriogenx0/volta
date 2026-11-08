@@ -64,7 +64,7 @@ const Container = ({ inside = false }) => {
 
 export default {
   name: 'Modal',
-  description: 'A dimmed backdrop with a centered panel. Give it a title or onClose for a titled modal with a close button, or leave both off to wrap your own content (with onHide for the backdrop). Hide it by setting show to false; Escape and a click on the backdrop ask the parent to close it.',
+  description: 'A dimmed backdrop with a centered panel. Give it a title or onClose for a titled modal with a close button, or leave both off to wrap your own content (with onHide for the backdrop). Hide it by setting show to false; Escape and a click on the backdrop ask the parent to close it. While open it locks page scroll and keeps Tab inside the panel, then returns focus to the control that opened it; modal={false} turns that off for a modal shown in the page flow.',
   examples: [
     {
       name: 'Titled modal',

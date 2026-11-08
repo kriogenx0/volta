@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '../Button/Button';
+import CloseButton from '../CloseButton/CloseButton';
 import Modal from '../Modal/Modal';
 
 import './ModalDialog.scss';
@@ -51,6 +52,8 @@ const ModalDialog = ({
 
   const modalProps = {
     show: Boolean(open),
+    // In the page flow it isn't over anything, so nothing to lock or trap
+    modal: !inlineMode,
     className: dialogClass,
     onHide: closeOnOverlayClick ? handleCancel : undefined
   };
@@ -60,9 +63,7 @@ const ModalDialog = ({
       {hideHeader || !title ? null : (
         <div className="modal_dialog-header">
           {closeX ? (
-            <button type="button" className='modal-x' aria-label="Close" onClick={handleCancel}>
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <CloseButton size="sm" className="modal-x" onClick={handleCancel} />
           ) : null}
           <h4 className="modal_dialog-title">{title}</h4>
         </div>

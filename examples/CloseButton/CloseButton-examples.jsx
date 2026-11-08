@@ -16,7 +16,7 @@ const DismissibleNotice = () => {
 
 export default {
   name: 'CloseButton',
-  description: 'A minimal x button for dismissing dialogs, panels, and notifications. It shows only an icon, so it is labelled "Close" for assistive tech unless you pass your own aria-label. Other props go to the underlying Button.',
+  description: 'A minimal x button for dismissing dialogs, panels, and notifications. It shows only an icon, so it is labelled "Close" for assistive tech unless you pass your own aria-label. size="sm" is the compact version for a dialog header, next to a title; the default is the large one. Other props go to the underlying Button.',
   examples: [
     {
       name: 'Close button',
@@ -34,6 +34,11 @@ export default {
   </div>
 )}`,
       output: <DismissibleNotice />
+    },
+    {
+      name: 'Small, for a dialog header',
+      code: '<CloseButton size="sm" aria-label="Close dialog" onClick={close} />',
+      output: <CloseButton size="sm" aria-label="Close dialog" onClick={() => {}} />
     },
     {
       name: 'Disabled',

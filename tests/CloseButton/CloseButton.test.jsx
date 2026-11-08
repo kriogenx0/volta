@@ -48,4 +48,29 @@ describe('CloseButton', () => {
     fireEvent.click(button);
     expect(onClick).not.toHaveBeenCalled();
   });
+
+  describe('size', () => {
+    it('is the large one by default', () => {
+      render(<CloseButton />);
+      expect(screen.getByRole('button')).not.toHaveClass('close_button-sm');
+    });
+
+    it('has a compact one for dialog headers', () => {
+      render(<CloseButton size="sm" />);
+      expect(screen.getByRole('button')).toHaveClass('volta-close_button', 'close_button-sm');
+    });
+  });
+
+  describe('className', () => {
+    // It used to replace volta-close_button, which dropped the button's styling.
+    it('adds to the button\'s own classes instead of replacing them', () => {
+      render(<CloseButton className="modal-x" />);
+      expect(screen.getByRole('button')).toHaveClass('volta-close_button', 'button-link', 'modal-x');
+    });
+  });
+
+  it('passes other attributes through to the button', () => {
+    render(<CloseButton data-dismiss="dialog" />);
+    expect(screen.getByRole('button')).toHaveAttribute('data-dismiss', 'dialog');
+  });
 });

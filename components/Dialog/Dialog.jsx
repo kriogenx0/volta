@@ -5,6 +5,7 @@ import { useState, useEffect, useId } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '../Button/Button';
+import CloseButton from '../CloseButton/CloseButton';
 import PopOver from '../PopOver/PopOver';
 
 import './Dialog.scss';
@@ -57,6 +58,8 @@ const Dialog = ({
 
   let basicModalProps = {
     open,
+    // In the page flow it isn't over anything, so nothing to lock or trap
+    modal: !inline,
     className: dialogClass,
     closeOnOverlayClick,
     handleClose,
@@ -67,13 +70,7 @@ const Dialog = ({
     <PopOver {...basicModalProps}>
     {showHeader ? (
       <div className="dialog-header">
-        <button type="button"
-                className="close"
-                data-dismiss="dialog"
-                aria-label="Close"
-                onClick={handleClose}>
-        <span aria-hidden="true">&times;</span>
-        </button>
+        <CloseButton size="sm" className="close" data-dismiss="dialog" onClick={handleClose} />
         <h4 className="dialog-title" id={titleId}>{title}</h4>
       </div>
     ) : null}

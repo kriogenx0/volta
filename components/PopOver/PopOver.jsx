@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import useEscapeKey from '../Overlay/useEscapeKey';
+import useModalBehavior from '../Overlay/useModalBehavior';
 
 import './PopOver.scss';
 
@@ -10,9 +11,14 @@ import './PopOver.scss';
 // `fullSize={false}` the content stays where it is in the page, over a faint
 // click-catcher. With `closeOnOverlayClick`, a click on the backdrop or Escape
 // calls `handleClose` -- the parent owns the open state.
+// A full-size popover is modal while open: the page behind doesn't scroll, Tab
+// stays inside it, and focus returns to where it was on closing. The in-place
+// form is a light-dismiss layer, like a menu, so it is not (set `modal` to
+// change either).
 const PopOver = ({
   open = false,
   fullSize = true,
+  modal = fullSize,
   closeOnOverlayClick = true,
   handleClose = null,
   className = null,
@@ -20,11 +26,14 @@ const PopOver = ({
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledby
 }) => {
+  const rootRef = useRef(null);
+
   const closeModal = () => {
     if (handleClose) handleClose();
   };
 
   useEscapeKey(closeModal, open && closeOnOverlayClick);
+  useModalBehavior(rootRef, open && modal);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -65,8 +74,10 @@ const PopOver = ({
   return (
     <div
       className={modalClass}
+      ref={rootRef}
       tabIndex="-1"
       role="dialog"
+      aria-modal={open && modal ? 'true' : undefined}
       aria-label={ariaLabel}
       aria-labelledby={ariaLabelledby}
       onClick={handleBackdropClick}
@@ -88,6 +99,8 @@ PopOver.propTypes = {
   fullSize: PropTypes.bool,
   // Close on a click outside the content, and on Escape
   closeOnOverlayClick: PropTypes.bool,
+  // Lock page scroll and trap focus while open. Defaults to `fullSize`.
+  modal: PropTypes.bool,
   // Called when the popover asks to close
   handleClose: PropTypes.func,
   className: PropTypes.string,

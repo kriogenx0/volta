@@ -11,5 +11,6 @@ One doc per feature, as it exists in the code (see [docs/rules/feature-docs.md](
 - [Map and MapSelector](map.md): a Google Map and an address search; the API key is set by the app with `setGoogleMapsKey`, and without one a message replaces the map.
 - [Form fields](form_fields.md): label, hint and error connected to the control for assistive technology: Field, FieldRow, FieldHint, TextField, Select, Toggle, Checkbox.
 - [Button](button.md): `variant`, `size` and `type`, and the deprecated `bsStyle`, `tiny` and `type="primary"` (they warn once and still work).
+- [Overlays](overlays.md): Modal, ModalDialog, Dialog, Alert, PopOver, Overlay and Drawer; page scroll lock, focus trap and restore, and which ones are modal.
 - [Theming](theming.md): replace the whole look with a theme object or a preset; light and dark; custom accent; the styleguide Theme dropdown.
 - [Function components](function_components.md): every component is a function component with hooks except `Map`; how the conversions keep listeners and timers current; the test that stops new classes.
