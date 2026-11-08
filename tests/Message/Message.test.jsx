@@ -13,7 +13,8 @@ describe('Message', () => {
     const message = screen.getByRole('status');
     expect(message).toHaveTextContent('Saved');
     expect(message).toHaveClass('volta-message', 'volta-message-success');
-    expect(container.querySelector('i.fa-check-circle')).toHaveAttribute('aria-hidden', 'true');
+    expect(container.querySelector('i.icon-check-circle')).toHaveAttribute('aria-hidden', 'true');
+    expect(container.querySelector('i.icon-check-circle svg path')).toBeInTheDocument();
   });
 
   it('shows an error message with its icon and an alert role', () => {
@@ -21,7 +22,7 @@ describe('Message', () => {
     const message = screen.getByRole('alert');
     expect(message).toHaveTextContent('Could not save');
     expect(message).toHaveClass('volta-message', 'volta-message-error');
-    expect(container.querySelector('i.fa-times-circle')).toBeInTheDocument();
+    expect(container.querySelector('i.icon-times-circle svg path')).toBeInTheDocument();
   });
 
   it('shows children when there is no message', () => {

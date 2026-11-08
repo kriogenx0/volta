@@ -11,6 +11,20 @@ const iconNames = [
   'circle.fill', 'checkmark.circle.fill', 'xmark.circle.fill', 'exclamationmark.circle.fill',
 ];
 
+// Drawn as inline SVG: they need no font, so they show anywhere.
+const DRAWN = ['trash', 'spinner', 'cloud-upload', 'check-circle', 'times-circle', 'arrow-up-circle'];
+
+const DrawnIcons = () => (
+  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+    {DRAWN.map(name => (
+      <div key={name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, width: 96, fontSize: 28 }}>
+        <Icon type={name} />
+        <span style={{ fontSize: 11, textAlign: 'center', color: 'var(--v-color-trim-subtle)' }}>{name}</span>
+      </div>
+    ))}
+  </div>
+);
+
 const IconGrid = () => (
   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
     {iconNames.map(name => (
@@ -24,10 +38,31 @@ const IconGrid = () => (
 
 export default {
   name: 'Icon',
-  description: 'Icon font powered by a symbol library, referenced by name.',
+  description: 'Icons by name. The drawn icons (trash, spinner, cloud-upload, check-circle, times-circle, arrow-up-circle) are inline SVG: they need no font, take the text colour and size (1em), and the spinner turns. The others come from the "Volta Icons" font or SF Symbols, which this library does not load, so they show only where the host app provides those fonts (the grid below is mostly blank without them).',
   examples: [
     {
-      name: 'Icon grid',
+      name: 'Drawn icons (no font needed)',
+      code: `<Icon type="trash" />
+<Icon type="spinner" />
+<Icon type="cloud-upload" />
+<Icon type="check-circle" />
+<Icon type="times-circle" />
+<Icon type="arrow-up-circle" />`,
+      output: <DrawnIcons />
+    },
+    {
+      name: 'Colour and size follow the text',
+      code: `<span style={{ color: 'green', fontSize: 32 }}><Icon type="check-circle" aria-hidden="true" /> Saved</span>
+<span style={{ color: 'crimson', fontSize: 32 }}><Icon type="times-circle" aria-hidden="true" /> Failed</span>`,
+      output: (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24 }}>
+          <span style={{ color: 'var(--v-color-success)', fontSize: 32 }}><Icon type="check-circle" aria-hidden="true" /> Saved</span>
+          <span style={{ color: 'var(--v-color-danger)', fontSize: 32 }}><Icon type="times-circle" aria-hidden="true" /> Failed</span>
+        </div>
+      )
+    },
+    {
+      name: 'Icon grid (font icons)',
       code: '<Icon type="chevron.right" />',
       output: <IconGrid />
     },

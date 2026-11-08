@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import { asButton } from '../../util/keyboard';
+import Icon from '../Icon/Icon';
 
 import './FileUploader.scss';
 
@@ -96,14 +97,14 @@ const FileUploader = ({
       </div>
       { readyToUpload ?
           <div className='action' {...asButton(handleFileSelect)}>
-            <i className="fa fa-arrow-circle-o-up" aria-hidden="true" />
+            <Icon type="arrow-up-circle" aria-hidden="true" />
             <span> Upload</span>
           </div>
         : null
       }
       { inProgress ?
           <div className='action' {...asButton(onCancel)} aria-label="Cancel upload">
-            <i className="fa fa-times-circle-o" aria-hidden="true" />
+            <Icon type="times-circle" aria-hidden="true" />
           </div>
         : null
       }
