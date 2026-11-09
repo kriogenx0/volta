@@ -6,7 +6,23 @@ API and a styleguide. Built with Vite.
 
 ## Install
 
-Volta isn't published to a registry. Point at it directly:
+Volta isn't published to a registry. Install a tagged release straight from
+GitHub, pinned to the tag:
+
+```json
+{
+  "dependencies": {
+    "volta": "github:kriogenx0/volta#v3.0.0"
+  }
+}
+```
+
+npm runs Volta's `prepare` script (`vite build`) when it installs from Git, so
+the package arrives with `components/compiled/` already built; nothing else
+needs to run. The host app provides `react`, `react-dom` and
+`react-router-dom`. Releases are listed under [Releases](#releases).
+
+For local development, point at a checkout or link it instead:
 
 ```json
 {
@@ -16,12 +32,20 @@ Volta isn't published to a registry. Point at it directly:
 }
 ```
 
-or link it for local development:
-
 ```sh
 cd volta && npm link
 cd ../your-app && npm link volta
 ```
+
+## Building on Volta
+
+Volta is a base layer. An app sits on top of Volta's tokens and components and
+keeps its own layer for anything Volta doesn't have, rather than adding
+app-specific values to Volta. Use Volta's tokens (`--v-color-danger`,
+`--v-color-success`, `--v-accent`, the spacing and radius scales) wherever they
+fit, theme them with `Theme` or a stylesheet, and define the app's own tokens
+under the app's own prefix for the rest. How to layer an app on Volta is in
+[docs/features/base_layer.md](features/base_layer.md).
 
 ## Import
 
@@ -62,9 +86,10 @@ top of the window; its `progress` prop is `ProgressBar`'s `percent`); both are
 exported. `ProgressBar` is indeterminate when given `indeterminate`, or when
 `percent` isn't a number.
 
-Run `npm run build` (or `make build-prod`) after cloning/updating — the
-compiled bundle isn't committed. (`make build` produces the same bundle
-unminified with a sourcemap, for development.)
+The compiled bundle isn't committed. Installing from Git builds it through the
+`prepare` script; in a checkout, `npm install` runs it too, and `npm run build`
+(or `make build-prod`) rebuilds after a change. (`make build` produces the same
+bundle unminified with a sourcemap, for development.)
 
 `RichTextTinyMCE` self-hosts TinyMCE (no tiny.cloud API key needed): the
 build copies `node_modules/tinymce` to `components/compiled/tinymce/` and
@@ -112,6 +137,18 @@ stylesheet instead, with no JavaScript.
 aliases, which resolve to them) follows every theme and both schemes. Only
 `GlobalNav.scss` and `Loader.scss` still hard-code hex colours, and those keep
 their colours whatever the theme.
+
+## Releases
+
+A release is a Git tag on `main` named after the version in `package.json`
+(`v3.0.0` for `3.0.0`). Apps pin the tag (`github:kriogenx0/volta#v3.0.0`), so
+`main` can move on without changing what they install. To cut one: bump
+`version` in `package.json`, commit, tag `v<version>` on that commit, and push
+the commit and the tag.
+
+| Tag | Notes |
+| --- | --- |
+| `v3.0.0` | First tagged release. React 19, Vite build, 92 components, runtime theming with 13 presets. Installs from GitHub with the bundle built by `prepare`. |
 
 ## Development
 

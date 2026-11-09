@@ -19,6 +19,7 @@
     "start": "npm run build && vite --config vite.styleguide.config.mjs",
     "dev": "vite --config vite.styleguide.config.mjs",
     "build": "vite build",
+    "prepare": "vite build",
     "watch": "vite build --watch",
     "build-app": "vite build --config vite.styleguide.config.mjs",
     "watch-app": "vite build --config vite.styleguide.config.mjs --watch",
