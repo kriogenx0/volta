@@ -266,9 +266,6 @@ exist in this repo (same treatment as the already-excluded
 `ImageCropPicker`) — each file's header comment explains exactly what's
 missing:
 
-- `DatePicker/DateTimeInput.jsx` / `DateTimeRange.jsx` — need `jquery` +
-  the xdsoft jQuery datetimepicker plugin, and `formsy-react`. Use
-  the maintained `DateInput` or `DatePicker/DatePicker.jsx` instead.
 - `Search/SearchStore.jsx` and `TableList/TableList.jsx` /
   `TableListRow.jsx` — expect Backbone-style collections/models
   (`.get()`, `.models`, `.at()`, change listeners); `TableList` also needs

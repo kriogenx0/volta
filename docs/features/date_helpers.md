@@ -25,11 +25,12 @@ The changing methods **mutate**. Components therefore make a new `Dater` for eac
 
 `tests/util/Dater.test.js` covers the class, including the month arithmetic and the unreadable-date fallback. `tests/Calendar/` and `tests/DatePicker/` cover the components that use it.
 
-## Not used
+## Removed dead code
 
-`components/DatePicker/DateTimeInput.jsx` and `DateTimeRange.jsx` are not wired into the library (they depend on `jquery` and `formsy-react`, which are not dependencies), and `components/Label/Label.scss` is never imported. Their own headers say they are kept for reference or a future rewrite, so they are still here; whether to delete them is the owner's call (`docs/backlog/dedupe-date-helpers-and-remove-dead-date-code.md`).
+Three files that nothing imported are gone: `components/DatePicker/DateTimeInput.jsx` and `DateTimeRange.jsx` (they needed `jquery`, `jquery-datetimepicker` and `formsy-react`, none of which are dependencies) and `components/Label/Label.scss` (never imported, and it styled a class `Label` doesn't render). Version history is the reference if a rewrite is ever wanted; for a date field use `DatePicker` / `DateInput`.
 
 ## History
 
-- 2026-11-05 (branch `backlog/dedupe-date-helpers-and-remove-dead-date-code`, not merged or deployed): the two copies became one in `util/`; the duplicate `Dater` tests in `tests/DatePicker/` were removed (all were covered by `tests/util/Dater.test.js`, and the one extra case, an invalid `Date` object, was added there).
+- 2026-11-05 (branch `backlog/dedupe-date-helpers-and-remove-dead-date-code`, merged, not deployed): the two copies became one in `util/`; the duplicate `Dater` tests in `tests/DatePicker/` were removed (all were covered by `tests/util/Dater.test.js`, and the one extra case, an invalid `Date` object, was added there).
+- 2026-11-08 (branch `backlog/replace-moment-with-date-fns`, not merged or deployed): the three dead files above were deleted, as the owner decided, after a search showed nothing in `components/`, `util/`, `styleguide/`, `examples/` or `tests/` imports them. `Label` has no stylesheet, as before (it never imported one).
 - Not verified in a browser; the behaviour is covered by tests only.

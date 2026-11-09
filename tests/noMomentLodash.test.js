@@ -24,8 +24,7 @@ const LODASH = /(?:from|import|require\(|import\()\s*['"]lodash(?:-es)?(?:\/[^'"
 const importsOf = (text, pattern) => text.split('\n').some((line) => !/^\s*(\/\/|\*)/.test(line) && pattern.test(line));
 
 const MOMENT_FILES = [
-  'components/DatePicker/DateFormat.js', // public: DateFormat takes moment format strings
-  'components/DatePicker/DateTimeInput.jsx' // unwired, needs jquery too
+  'components/DatePicker/DateFormat.js' // public: DateFormat takes moment format strings
 ];
 
 // lodash is gone; this stays empty so it can't come back. The helpers that took its place

@@ -5,7 +5,7 @@ components: [DateFormat, DatePicker]
 
 # Replace moment: decide what happens to DateFormat's format strings
 
-moment is imported by two files: `components/DatePicker/DateFormat.js` and `components/DatePicker/DateTimeInput.jsx`. The second is unwired (it imports `jquery`, which isn't a dependency; whether to delete it is `dedupe-date-helpers-and-remove-dead-date-code`). So there is one real use, and it is a **public export**: `DateFormat` (`components/index.js`) turns a date into text, taking a moment-style `format` string and a `fromNow` flag.
+moment is imported by one file, `components/DatePicker/DateFormat.js` (the only other user, the unwired `DateTimeInput.jsx`, was deleted). That use is a **public export**: `DateFormat` (`components/index.js`) turns a date into text, taking a moment-style `format` string and a `fromNow` flag.
 
 ## Why this isn't a straight swap
 
