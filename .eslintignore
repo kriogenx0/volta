@@ -2,4 +2,3 @@ components/compiled
 node_modules
 *.test.jsx
 *.test.js
-components/Redactor/redactor-lib.js
