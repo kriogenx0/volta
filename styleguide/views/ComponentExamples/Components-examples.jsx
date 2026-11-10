@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import TextBox from '../../../components/TextBox/TextBox';
+import SideBarList from '../../../components/SideBarList/SideBarList';
 
 import components from './components';
 import componentGroups from './componentGroups';
@@ -48,8 +49,20 @@ const ComponentExamples = () => {
   // Split view
   return (
     <div className="view-components">
-      <div className="component_examples-list">
-        <div className="component_examples-search">
+      <SideBarList
+        className="component_examples-list"
+        ariaLabel="Components"
+        groups={[
+          { items: [{ value: null, label: 'All Components' }] },
+          ...groups.map((group) => ({
+            label: group.label,
+            items: group.components.filter((name) => componentsByName[name]).map((name) => ({ value: name, label: componentsByName[name].name }))
+          }))
+        ]}
+        value={selectedName}
+        onSelect={handleComponentClick}
+        emptyMessage={groups.length === 0 ? `No components match \u201c${query.trim()}\u201d` : undefined}
+        header={(
           <TextBox
             type="search"
             aria-label="Search components"
@@ -58,38 +71,8 @@ const ComponentExamples = () => {
             onChange={(event) => setQuery(event.target.value)}
             onKeyDown={handleSearchKeyDown}
           />
-        </div>
-        <button
-          type="button"
-          className={`clickable component_examples-all${selectedName === null ? ' pressed' : ''}`}
-          aria-current={selectedName === null ? 'page' : undefined}
-          onClick={() => handleComponentClick(null)}
-        >
-          All components
-        </button>
-        {groups.length === 0 && (
-          <p className="component_examples-empty" role="status">No components match &ldquo;{query.trim()}&rdquo;</p>
         )}
-        {groups.map((group) => (
-          <div className="component_examples-group" key={group.label}>
-            <div className="component_examples-group_label">{group.label}</div>
-            {group.components.map((name) => {
-              const component = componentsByName[name];
-              if (!component) return null;
-              return (
-                <button
-                  type="button"
-                  key={name}
-                  className={"clickable" + (selectedName === name ? ' pressed' : '')}
-                  onClick={() => handleComponentClick(name)}
-                >
-                  {component.name}
-                </button>
-              );
-            })}
-          </div>
-        ))}
-      </div>
+      />
       <div className="component_examples-detail">
         {selectedComponent
           ? <ComponentExample component={selectedComponent} />

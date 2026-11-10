@@ -120,7 +120,7 @@ describe.each(['light', 'dark'])('the styleguide in %s', (scheme) => {
 
     const problems = [];
     const sidebar = container.querySelector('.component_examples-list');
-    within(sidebar).getAllByRole('button').filter((button) => !button.classList.contains('component_examples-all')).forEach((button) => {
+    within(sidebar).getAllByRole('button').filter((button) => button.textContent !== 'All Components' && button.closest('.volta-sidebar_list-header') === null).forEach((button) => {
       fireEvent.click(button);
       const name = button.textContent;
       const component = components.find((candidate) => candidate.name === name);
@@ -182,7 +182,7 @@ describe('the styleguide under each theme', () => {
 
 describe('the component search', () => {
   const search = () => screen.getByRole('searchbox', { name: 'Search components' });
-  const names = (container) => [...container.querySelectorAll('.component_examples-list .clickable:not(.component_examples-all)')].map((button) => button.textContent);
+  const names = (container) => [...container.querySelectorAll('.component_examples-list .volta-sidebar_list-item')].slice(1).map((button) => button.textContent);
   const open = () => {
     const view = showStyleguide();
     openPage('Components');
@@ -194,6 +194,7 @@ describe('the component search', () => {
     const { container } = open();
     const list = container.querySelector('.component_examples-list');
     expect(list.firstElementChild).toContainElement(search());
+    expect(list.querySelector('.volta-sidebar_list-item')).toHaveTextContent('All Components');
   });
 
   it('lists every component until something is typed', () => {
@@ -212,7 +213,7 @@ describe('the component search', () => {
   it('hides a group that has nothing left', () => {
     const { container } = open();
     fireEvent.change(search(), { target: { value: 'combobox' } });
-    const labels = [...container.querySelectorAll('.component_examples-group_label')].map((label) => label.textContent);
+    const labels = [...container.querySelectorAll('.volta-sidebar_list-group_label')].map((label) => label.textContent);
     expect(labels).toEqual(['Inputs']);
   });
 
@@ -279,13 +280,13 @@ describe('the components overview', () => {
     expect(tile.querySelector('.component_overview-description').textContent).toBe(description.split(/(?<=[.!?])\s/)[0]);
   });
 
-  it('opens a component from its tile, and the sidebar button goes back to the overview', () => {
+  it('opens a component from its tile, and the sidebar item goes back to the overview', () => {
     const { container } = open();
     fireEvent.click([...container.querySelectorAll('.component_overview-tile')].find((node) => node.textContent.startsWith('Slider')));
     expect(container.querySelector('.component-doc-header h2')).toHaveTextContent('Slider');
     expect(container.querySelector('.component_overview')).toBeNull();
 
-    const all = screen.getByRole('button', { name: 'All components' });
+    const all = screen.getByRole('button', { name: 'All Components' });
     expect(all).not.toHaveAttribute('aria-current');
     fireEvent.click(all);
     expect(container.querySelector('.component_overview')).toBeInTheDocument();
@@ -365,5 +366,22 @@ describe('the Naming page', () => {
     expect(container.querySelector('.naming-names--avoid')).toHaveTextContent('TextField');
     expect(container.querySelectorAll('.naming-list li').length).toBeGreaterThanOrEqual(11);
     window.history.replaceState(null, '', '/');
+  });
+});
+
+describe('the Components overview previews', () => {
+  afterEach(() => { window.history.replaceState(null, '', '/'); });
+
+  it('gives every tile a preview that is not interactive, and a button to open it', () => {
+    const { container } = showStyleguide();
+    openPage('Components');
+    const tiles = container.querySelectorAll('.component_overview-tile');
+    expect(tiles.length).toBeGreaterThan(60);
+    tiles.forEach((tile) => {
+      expect(tile.querySelector('.component_overview-open')).toBeInTheDocument();
+      const preview = tile.querySelector('.component_overview-preview');
+      expect(preview).toHaveAttribute('inert');
+      expect(preview).toHaveAttribute('aria-hidden', 'true');
+    });
   });
 });

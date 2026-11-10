@@ -21,71 +21,6 @@
     @include dark {
       border-color: $color_base_subtle_dark;
     }
-
-    // Stays at the top while the list scrolls under it
-    .component_examples-search {
-      position: sticky;
-      top: 0;
-      z-index: 1;
-      padding: 22px 0 12px;
-      background: var(--v-color-base);
-    }
-
-    .component_examples-empty {
-      margin: 0;
-      padding: 8px 12px;
-      color: var(--v-color-trim-subtle);
-      font-size: 12px;
-    }
-
-    .component_examples-group {
-      margin-bottom: 8px;
-
-      > .clickable {
-        display: block;
-        width: 100%;
-        padding: 8px 12px;
-        border: 0;
-        font: inherit;
-        font-size: 12px;
-        text-align: left;
-        color: inherit;
-        background: transparent;
-        cursor: pointer;
-        border-radius: 8px;
-        margin: 1px 0;
-        transition: background-color var(--v-anim-speed);
-
-        &:hover {
-          background-color: $color_base_subtle;
-          @include dark {
-            background-color: $color_base_subtle_dark;
-          }
-        }
-
-        &.pressed {
-          background-color: $color_active_subtle;
-          color: $color_active;
-          font-weight: 500;
-          @include dark {
-            background-color: $color_active_subtle_dark;
-            color: $color_active_dark;
-          }
-        }
-      }
-    }
-
-    .component_examples-group_label {
-      padding: 16px 12px 6px;
-      font-size: 14px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: $color_trim_more_subtle;
-      @include dark {
-        color: $color_trim_more_subtle_dark;
-      }
-    }
   }
 
   .component_examples-detail {
@@ -284,23 +219,18 @@
 
   .component_overview-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--v-space-3);
   }
 
   .component_overview-tile {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    min-height: 88px;
-    padding: 14px 16px;
+    min-width: 0;
     border: 1px solid var(--v-color-base-subtle);
     border-radius: var(--v-radius-lg);
-    background: transparent;
-    color: inherit;
     cursor: pointer;
-    font: inherit;
-    text-align: left;
+    overflow: hidden;
     transition: border-color var(--v-anim-speed), background-color var(--v-anim-speed);
 
     // Colour only: the tile never changes size or position
@@ -308,11 +238,33 @@
       border-color: var(--v-accent);
       background: var(--v-accent-subtle);
     }
+  }
+
+  .component_overview-open {
+    display: flex;
+    flex-direction: column;
+    gap: var(--v-space-1);
+    padding: var(--v-space-3) var(--v-space-4);
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
 
     &:focus-visible {
       outline: 2px solid var(--v-accent);
-      outline-offset: 2px;
+      outline-offset: -2px;
     }
+  }
+
+  // The first example, shown for a look at the component. It stays inside the tile.
+  .component_overview-preview {
+    flex: 1;
+    padding: var(--v-space-3) var(--v-space-4) var(--v-space-4);
+    border-top: 1px solid var(--v-color-base-subtle);
+    overflow: hidden;
+    pointer-events: none;
   }
 
   .component_overview-name {
@@ -331,14 +283,6 @@
   }
 }
 
-// The sidebar's way back to the overview
-.view-components .component_examples-list .component_examples-all {
-  display: block;
-  width: 100%;
-  margin-bottom: 4px;
-  font-weight: 500;
-}
-
 @media (max-width: 760px) {
   .view-components {
     display: block;
@@ -355,13 +299,13 @@
       border-bottom: 1px solid $color_base-subtle;
     }
 
-    .component_examples-search { position: static; flex: 0 0 200px; padding: 0 12px 0 0; }
-    .component_examples-group { display: contents; }
-    .component_examples-group_label { display: none; }
-    .component_examples-list .component_examples-group > .clickable {
-      width: auto;
-      flex: 0 0 auto;
-      padding-inline: 12px;
+    .component_examples-list {
+      max-width: none;
+
+      .volta-sidebar_list-header { position: static; flex: 0 0 200px; padding: 0 12px 0 0; }
+      .volta-sidebar_list-group { display: contents; }
+      .volta-sidebar_list-group_label { display: none; }
+      .volta-sidebar_list-item { width: auto; flex: 0 0 auto; white-space: nowrap; }
     }
     .component_examples-detail { padding-left: 0; }
   }

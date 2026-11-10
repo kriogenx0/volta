@@ -3,4 +3,9 @@
   border-radius: var(--v-radius-md);
   overflow: hidden;
   font-size: 12px;
+
+  &--wrap pre,
+  &--wrap code {
+    overflow-wrap: anywhere;
+  }
 }

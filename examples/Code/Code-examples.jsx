@@ -15,6 +15,11 @@ export default {
       output: <Code language="jsx" theme="light">{'<Button variant="primary">Save</Button>'}</Code>
     },
     {
+      name: 'Wrapped long lines',
+      code: `<Code language="bash" wrap>{'npm install volta react react-dom prop-types sass --save --legacy-peer-deps --no-audit --no-fund'}</Code>`,
+      output: <Code language="bash" wrap>{'npm install volta react react-dom prop-types sass --save --legacy-peer-deps --no-audit --no-fund'}</Code>
+    },
+    {
       name: 'Inline',
       code: `<p>Run <Code inline>npm install volta</Code> to get started.</p>`,
       output: <p>Run <Code inline>npm install volta</Code> to get started.</p>

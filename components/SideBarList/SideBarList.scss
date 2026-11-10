@@ -1,0 +1,67 @@
+.volta-sidebar_list {
+  display: block;
+  max-width: 16rem;
+
+  .volta-sidebar_list-header {
+    // Stays at the top while the list scrolls under it
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: var(--v-space-4) 0 var(--v-space-3);
+    background: var(--v-color-base);
+  }
+
+  .volta-sidebar_list-empty {
+    margin: 0;
+    padding: var(--v-space-2) var(--v-space-3);
+    color: var(--v-color-trim-subtle);
+    font-size: 12px;
+  }
+
+  .volta-sidebar_list-group {
+    margin-bottom: var(--v-space-2);
+  }
+
+  .volta-sidebar_list-group_label {
+    padding: var(--v-space-4) var(--v-space-3) var(--v-space-2);
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--v-color-trim-more-subtle);
+    user-select: none;
+  }
+
+  .volta-sidebar_list-item {
+    display: block;
+    width: 100%;
+    margin: 1px 0;
+    padding: var(--v-space-2) var(--v-space-3);
+    border: 0;
+    border-radius: var(--v-radius-lg);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    font-size: 12px;
+    text-align: left;
+    user-select: none;
+    transition: background-color var(--v-anim-speed) var(--v-anim-ease);
+
+    &:hover {
+      background: var(--v-color-base-subtle);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--v-accent);
+      outline-offset: -2px;
+    }
+
+    &--selected,
+    &--selected:hover {
+      background: var(--v-accent-subtle);
+      color: var(--v-accent);
+      font-weight: 500;
+    }
+  }
+}

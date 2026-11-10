@@ -66,6 +66,7 @@ import SegmentedControlExamples from '../../../examples/SegmentedControl/Segment
 import NativeSelectExamples from '../../../examples/NativeSelect/NativeSelect-examples';
 import SliderExamples from '../../../examples/Slider/Slider-examples';
 import SplitViewExamples from '../../../examples/SplitView/SplitView-examples';
+import SideBarListExamples from '../../../examples/SideBarList/SideBarList-examples';
 import TabsExamples from '../../../examples/Tabs/Tabs-examples';
 import TagExamples from '../../../examples/Tag/Tag-examples';
 import TagInputExamples from '../../../examples/TagInput/TagInput-examples';
@@ -148,6 +149,7 @@ const curated = [
   NativeSelectExamples,
   SliderExamples,
   SplitViewExamples,
+  SideBarListExamples,
   TabsExamples,
   TagExamples,
   TagInputExamples,

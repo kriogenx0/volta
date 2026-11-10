@@ -59,6 +59,7 @@ import Alert from './ModalAlert';
 import MultiSelect from './MultiSelect/MultiSelect';
 import NavBar, { GlobalNav } from './NavBar/NavBar';
 import NavSidebar from './NavSidebar/NavSidebar';
+import SideBarList from './SideBarList/SideBarList';
 import NumericField from './NumericField/NumericField';
 import Overlay from './Overlay/Overlay';
 import PageHeading from './PageHeading/PageHeading';
@@ -162,6 +163,7 @@ export {
   NativeSelect,
   NavBar,
   NavSidebar,
+  SideBarList,
   NumericField,
   Overlay,
   PageHeading,

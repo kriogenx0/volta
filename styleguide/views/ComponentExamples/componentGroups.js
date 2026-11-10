@@ -28,7 +28,7 @@ export default [
   {
     label: 'Navigation',
     components: [
-      'Link', 'NavBar', 'NavSidebar', 'PageHeading', 'PageWidth', 'Tabs',
+      'Link', 'NavBar', 'NavSidebar', 'PageHeading', 'PageWidth', 'SideBarList', 'Tabs',
     ],
   },
   {

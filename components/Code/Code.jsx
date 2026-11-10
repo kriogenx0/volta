@@ -15,7 +15,7 @@ SyntaxHighlighter.registerLanguage('json', json);
 
 const THEMES = { dark: oneDark, light: oneLight };
 
-const Code = ({ children, language = 'jsx', theme = 'dark', inline = false, className, ...otherProps }) => {
+const Code = ({ children, language = 'jsx', theme = 'dark', inline = false, wrap = false, className, ...otherProps }) => {
   const code = typeof children === 'string' ? children.trim() : children;
 
   if (inline) {
@@ -27,10 +27,11 @@ const Code = ({ children, language = 'jsx', theme = 'dark', inline = false, clas
   }
 
   return (
-    <div className={['volta-code', className].filter(Boolean).join(' ')} {...otherProps}>
+    <div className={['volta-code', wrap && 'volta-code--wrap', className].filter(Boolean).join(' ')} {...otherProps}>
       <SyntaxHighlighter
         language={language}
         style={THEMES[theme] || THEMES.dark}
+        wrapLongLines={wrap}
         customStyle={{ margin: 0, borderRadius: 'inherit' }}
       >
         {code}
@@ -46,6 +47,8 @@ Code.propTypes = {
   language: PropTypes.string,
   theme: PropTypes.oneOf(Code.themes),
   inline: PropTypes.bool,
+  // Break long lines to fit the block instead of scrolling sideways
+  wrap: PropTypes.bool,
   className: PropTypes.string
 };
 
