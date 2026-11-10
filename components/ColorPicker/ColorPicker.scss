@@ -28,10 +28,8 @@
     text-transform: uppercase;
   }
 
-  // Volta's own chooser: a saturation and brightness square over a hue slider.
-  // The gradients are the colour model itself (white to the hue, clear to black,
-  // and the rainbow), not decoration, so they are the one place colours are
-  // written out.
+  // Volta's own chooser: a saturation and brightness square over a hue slider, each
+  // a canvas with a pixel for every colour (see colorCanvas.js).
   .color_picker-custom {
     display: flex;
     flex-direction: column;
@@ -57,24 +55,16 @@
     overflow: hidden;
   }
 
-  .cpr_square_sat,
-  .cpr_square_val {
-    position: absolute;
-    inset: 0;
+  .cpr_canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
     pointer-events: none;
-  }
-
-  .cpr_square_sat {
-    background: linear-gradient(to right, hsl(0 0% 100%), hsl(0 0% 100% / 0%));
-  }
-
-  .cpr_square_val {
-    background: linear-gradient(to top, hsl(0 0% 0%), hsl(0 0% 0% / 0%));
   }
 
   .cpr_rainbow {
     height: 14px;
-    background: linear-gradient(to right, hsl(0 100% 50%), hsl(60 100% 50%), hsl(120 100% 50%), hsl(180 100% 50%), hsl(240 100% 50%), hsl(300 100% 50%), hsl(360 100% 50%));
   }
 
   .cpr_marker,

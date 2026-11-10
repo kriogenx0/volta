@@ -50,7 +50,7 @@ Other props (`placeholder`, `disabled`, `className`, `aria-label`, ...) go to th
 
 ## The custom picker
 
-With `picker="custom"` the square and the hue slider are real sliders: Tab to each, then the arrow keys move by 1 (10 with Shift), Home and End go to the edges, and a drag with the mouse works too. The hue is remembered when the colour passes through white, black or a grey, which have none. It is the same `onChange`, so the rest of the field behaves as before.
+With `picker="custom"` the square and the hue strip are drawn on a canvas, one pixel for every colour (`colorCanvas.js`; the square is redrawn when the hue changes). They are real sliders: Tab to each, then the arrow keys move by 1 (10 with Shift), Home and End go to the edges, and a drag with the mouse works too. The hue is remembered when the colour passes through white, black or a grey, which have none. It is the same `onChange`, so the rest of the field behaves as before.
 
 ## Accessibility
 

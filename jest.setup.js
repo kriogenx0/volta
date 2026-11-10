@@ -47,3 +47,16 @@ Element.prototype.scrollIntoView = Element.prototype.scrollIntoView || (() => {}
 window.HTMLMediaElement.prototype.load = () => {};
 window.HTMLMediaElement.prototype.play = () => Promise.resolve();
 window.HTMLMediaElement.prototype.pause = () => {};
+
+// jsdom has no canvas drawing. Give canvases a context that accepts pixel data and
+// drawing calls and shows nothing; a test that needs to see the calls spies on getContext.
+HTMLCanvasElement.prototype.getContext = function getContext() {
+  return {
+    canvas: this,
+    createImageData: (width, height) => ({ width, height, data: new Uint8ClampedArray(width * height * 4) }),
+    putImageData() {},
+    clearRect() {},
+    fillRect() {},
+    drawImage() {}
+  };
+};

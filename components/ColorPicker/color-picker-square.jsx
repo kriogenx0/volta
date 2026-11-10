@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import tinycolor from 'tinycolor2';
 
 import useDrag from './useDrag';
+import { drawSquare } from './colorCanvas';
 
 const toHsv = (hue, saturation, lightness) => {
   const hsv = tinycolor({ h: hue, s: saturation, l: lightness }).toHsv();
@@ -25,6 +26,10 @@ export default function ColorPickerSquare({
 }) {
   const [position, setPosition] = useState(() => toHsv(hue, saturation, lightness));
   const square = useRef(null);
+  const canvas = useRef(null);
+
+  // One pixel for every saturation and brightness at this hue
+  useEffect(() => { drawSquare(canvas.current, hue); }, [hue]);
 
   const setPos = (event) => {
     const squareNode = square.current;
@@ -76,7 +81,6 @@ export default function ColorPickerSquare({
     if (!dragging.current) setPosition(toHsv(hue, saturation, lightness));
   }, [hue, saturation, lightness]);
 
-  const squareStyle = { backgroundColor: tinycolor({ h: hue, s: 1, l: 0.5 }).toHexString() };
   const markerStyle = { left: `${position.saturation}%`, top: `${100 - position.value}%` };
 
   return (
@@ -84,7 +88,6 @@ export default function ColorPickerSquare({
       className="cpr_square"
       ref={square}
       onMouseDown={onMouseDown}
-      style={squareStyle}
       role="slider"
       tabIndex={0}
       aria-label="Saturation and brightness"
@@ -94,9 +97,8 @@ export default function ColorPickerSquare({
       aria-valuetext={`Saturation ${Math.round(position.saturation)}%, brightness ${Math.round(position.value)}%`}
       onKeyDown={handleKeyDown}
     >
+      <canvas className="cpr_canvas" ref={canvas} width={100} height={100} aria-hidden="true" />
       <div className="cpr_marker" style={markerStyle}></div>
-      <div className="cpr_square_val"></div>
-      <div className="cpr_square_sat"></div>
     </div>
   );
 }

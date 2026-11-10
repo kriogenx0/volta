@@ -6,10 +6,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import useDrag from './useDrag';
+import { drawHues } from './colorCanvas';
 
 export default function ColorPickerSlider({ hue = 180, onHueChange = () => {} }) {
   const [current, setCurrent] = useState(hue);
   const slider = useRef(null);
+  const canvas = useRef(null);
+
+  useEffect(() => { drawHues(canvas.current); }, []);
 
   useEffect(() => { setCurrent(hue); }, [hue]);
 
@@ -57,6 +61,7 @@ export default function ColorPickerSlider({ hue = 180, onHueChange = () => {} })
       aria-valuenow={Math.round(current)}
       onKeyDown={handleKeyDown}
     >
+      <canvas className="cpr_canvas" ref={canvas} width={360} height={1} aria-hidden="true" />
       <div className="cpr_slide" style={{ left: `${(current / 360) * 100}%` }}></div>
     </div>
   );
