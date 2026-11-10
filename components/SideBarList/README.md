@@ -28,7 +28,7 @@ import { SideBarList } from 'volta';
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `groups` | `array` | `[]` | `[{ label, items }]`. A group without a `label` has no heading. An item is a string, or `{ value, label }` when the value that comes back differs from the text shown (or is `null`). |
+| `groups` | `array` | `[]` | `[{ label, items }]`. A group without a `label` has no heading. An item is a string, or `{ value, label, href }` when the value that comes back differs from the text shown (or is `null`). With an `href` the item is a link; without, a button. |
 | `value` | `any` | | The value of the current item. |
 | `onSelect` | `function` | | Called with the value of the item that was chosen. |
 | `header` | `node` | | Shown above the groups and kept at the top while the list scrolls, such as a search field. |
@@ -40,13 +40,13 @@ Other props go to the root `<nav>`.
 
 ## Variants and states
 
-- **Item:** a button that tints on hover; the current one is accent-coloured and medium weight.
+- **Item:** a link (with `href`) or a button (without), in a list item, that tints on hover; the current one is accent-coloured and medium weight.
 - **Group heading:** small capitals; it is not interactive and does not react to the cursor.
 - **Empty:** `emptyMessage` as a status line.
 
 ## Accessibility
 
-- The root is a `<nav>` named by `ariaLabel`; every item is a real `<button>`, reachable by Tab and operated with Enter or Space.
+- The root is a `<nav>` named by `ariaLabel`; each group is a list. An item with an `href` is a real link (it opens in a new tab and is announced as a link); one without is a `<button>`, which is right when choosing it only changes what the page shows. Both are reachable by Tab; a link takes Enter, a button Enter or Space.
 - The current item has `aria-current="page"`, so it is not marked by colour alone.
 - The empty message has `role="status"` so a change in what is listed is announced.
 
@@ -55,4 +55,5 @@ Other props go to the root `<nav>`.
 - Do give each list its own `ariaLabel` when a page has more than one.
 - Do keep item text short; it does not wrap onto a second line neatly.
 - Don't use it for a tree or for navigation between routes; use `NavSidebar`.
+- Do give an item an `href` when it goes to its own address.
 - Don't put controls other than text in an item.

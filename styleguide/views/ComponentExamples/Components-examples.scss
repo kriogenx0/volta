@@ -302,10 +302,10 @@
     .component_examples-list {
       max-width: none;
 
-      .volta-sidebar_list-header { position: static; flex: 0 0 200px; padding: 0 12px 0 0; }
-      .volta-sidebar_list-group { display: contents; }
-      .volta-sidebar_list-group_label { display: none; }
-      .volta-sidebar_list-item { width: auto; flex: 0 0 auto; white-space: nowrap; }
+      .sidebar_list-header { position: static; flex: 0 0 200px; padding: 0 12px 0 0; }
+      .sidebar_list-group { display: contents; }
+      .sidebar_list-group_label { display: none; }
+      .sidebar_list-item { width: auto; flex: 0 0 auto; white-space: nowrap; }
     }
     .component_examples-detail { padding-left: 0; }
   }

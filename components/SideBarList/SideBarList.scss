@@ -2,7 +2,7 @@
   display: block;
   max-width: 16rem;
 
-  .volta-sidebar_list-header {
+  .sidebar_list-header {
     // Stays at the top while the list scrolls under it
     position: sticky;
     top: 0;
@@ -11,18 +11,18 @@
     background: var(--v-color-base);
   }
 
-  .volta-sidebar_list-empty {
+  .sidebar_list-empty {
     margin: 0;
     padding: var(--v-space-2) var(--v-space-3);
     color: var(--v-color-trim-subtle);
     font-size: 12px;
   }
 
-  .volta-sidebar_list-group {
+  .sidebar_list-group {
     margin-bottom: var(--v-space-2);
   }
 
-  .volta-sidebar_list-group_label {
+  .sidebar_list-group_label {
     padding: var(--v-space-4) var(--v-space-3) var(--v-space-2);
     font-size: 14px;
     font-weight: 500;
@@ -32,8 +32,16 @@
     user-select: none;
   }
 
-  .volta-sidebar_list-item {
+  .sidebar_list-items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sidebar_list-item {
     display: block;
+    box-sizing: border-box;
+    text-decoration: none;
     width: 100%;
     margin: 1px 0;
     padding: var(--v-space-2) var(--v-space-3);

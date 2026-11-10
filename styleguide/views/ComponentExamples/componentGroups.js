@@ -48,8 +48,8 @@ export default [
   {
     label: 'Media & Files',
     components: [
-      'AudioTrack', 'Avatar', 'Calendar', 'FileManager', 'FilePicker', 'FileUploader',
-      'ImageCrop', 'ImageDropZone', 'ImagePicker', 'ImageUploader', 'Map', 'MapSelector',
+      'Avatar', 'Calendar', 'FileManager', 'FilePicker', 'FileUploader',
+      'ImageCrop', 'ImageDropZone', 'ImagePicker', 'ImageUploader',
       'MobilePhone', 'Thumb', 'VideoPlayer', 'VideoUploadPlayer',
     ],
   },
@@ -63,7 +63,14 @@ export default [
   {
     label: 'Rich Text',
     components: [
-      'Code', 'ContentEditable', 'RichText',
+      'ContentEditable', 'RichText',
+    ],
+  },
+  {
+    // Components whose job is to put a third-party library behind Volta's props
+    label: 'External Libraries',
+    components: [
+      'AudioTrack', 'Code', 'Map', 'MapSelector',
     ],
   },
   {

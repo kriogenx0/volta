@@ -36,4 +36,21 @@ describe('SideBarList', () => {
     expect(screen.getByLabelText('Filter')).toBeInTheDocument();
     expect(screen.getByRole('status')).toHaveTextContent('Nothing here');
   });
+
+  it('lists each group as a list, named by its heading', () => {
+    render(<SideBarList groups={groups} />);
+    expect(screen.getByRole('list', { name: 'Inputs' })).toBeInTheDocument();
+    expect(screen.getAllByRole('listitem')).toHaveLength(3);
+  });
+
+  it('renders an item with an href as a link, and a plain click selects it without leaving the page', () => {
+    const onSelect = jest.fn();
+    render(<SideBarList groups={[{ items: [{ value: 'a', label: 'Alpha', href: '/alpha' }] }]} onSelect={onSelect} />);
+    const link = screen.getByRole('link', { name: 'Alpha' });
+    expect(link).toHaveAttribute('href', '/alpha');
+    expect(fireEvent.click(link)).toBe(false); // default prevented
+    expect(onSelect).toHaveBeenCalledWith('a');
+    expect(fireEvent.click(link, { ctrlKey: true })).toBe(true); // left to the browser
+    expect(onSelect).toHaveBeenCalledTimes(1);
+  });
 });

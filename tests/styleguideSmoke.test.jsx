@@ -120,7 +120,7 @@ describe.each(['light', 'dark'])('the styleguide in %s', (scheme) => {
 
     const problems = [];
     const sidebar = container.querySelector('.component_examples-list');
-    within(sidebar).getAllByRole('button').filter((button) => button.textContent !== 'All Components' && button.closest('.volta-sidebar_list-header') === null).forEach((button) => {
+    within(sidebar).getAllByRole('button').filter((button) => button.textContent !== 'All Components' && button.closest('.sidebar_list-header') === null).forEach((button) => {
       fireEvent.click(button);
       const name = button.textContent;
       const component = components.find((candidate) => candidate.name === name);
@@ -182,7 +182,7 @@ describe('the styleguide under each theme', () => {
 
 describe('the component search', () => {
   const search = () => screen.getByRole('searchbox', { name: 'Search components' });
-  const names = (container) => [...container.querySelectorAll('.component_examples-list .volta-sidebar_list-item')].slice(1).map((button) => button.textContent);
+  const names = (container) => [...container.querySelectorAll('.component_examples-list .sidebar_list-item')].slice(1).map((button) => button.textContent);
   const open = () => {
     const view = showStyleguide();
     openPage('Components');
@@ -194,7 +194,7 @@ describe('the component search', () => {
     const { container } = open();
     const list = container.querySelector('.component_examples-list');
     expect(list.firstElementChild).toContainElement(search());
-    expect(list.querySelector('.volta-sidebar_list-item')).toHaveTextContent('All Components');
+    expect(list.querySelector('.sidebar_list-item')).toHaveTextContent('All Components');
   });
 
   it('lists every component until something is typed', () => {
@@ -213,7 +213,7 @@ describe('the component search', () => {
   it('hides a group that has nothing left', () => {
     const { container } = open();
     fireEvent.change(search(), { target: { value: 'combobox' } });
-    const labels = [...container.querySelectorAll('.volta-sidebar_list-group_label')].map((label) => label.textContent);
+    const labels = [...container.querySelectorAll('.sidebar_list-group_label')].map((label) => label.textContent);
     expect(labels).toEqual(['Inputs']);
   });
 
