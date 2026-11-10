@@ -43,6 +43,7 @@
     border-radius: var(--v-radius-md);
     cursor: crosshair;
     touch-action: none;
+    @include no_select;
 
     &:focus-visible {
       outline: 2px solid var(--v-accent);
@@ -56,6 +57,7 @@
   }
 
   .cpr_canvas {
+    @include no_select;
     display: block;
     width: 100%;
     height: 100%;
