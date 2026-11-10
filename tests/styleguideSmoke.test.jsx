@@ -42,7 +42,7 @@ afterEach(() => {
   consoleWarn.mockRestore();
   Theme.resetTheme();
   Theme.setColorScheme('system');
-  window.location.hash = '';
+  window.history.replaceState(null, '', '/');
 });
 
 const loggedErrors = () => consoleError.mock.calls.map((args) => String(args[0]).split('\n')[0]);
@@ -137,12 +137,12 @@ describe.each(['light', 'dark'])('the styleguide in %s', (scheme) => {
 });
 
 describe('the current page', () => {
-  afterEach(() => { window.location.hash = ''; });
+  afterEach(() => { window.history.replaceState(null, '', '/'); });
 
   it('is kept in the URL, so a refresh opens the same page', () => {
     const first = showStyleguide();
     openPage('Components');
-    expect(window.location.hash).toBe('#components');
+    expect(window.location.pathname).toBe('/components');
     first.unmount();
 
     // A refresh: a new copy of the styleguide reading the same URL
@@ -154,14 +154,14 @@ describe('the current page', () => {
     showStyleguide();
     openPage('Colors');
     act(() => {
-      window.location.hash = '#type';
-      window.dispatchEvent(new HashChangeEvent('hashchange'));
+      window.history.pushState(null, '', '/type');
+      window.dispatchEvent(new PopStateEvent('popstate'));
     });
     expect(screen.getByRole('button', { name: 'Type', current: 'page' })).toBeInTheDocument();
   });
 
   it('falls back to Home for an unknown page', () => {
-    window.location.hash = '#nope';
+    window.history.replaceState(null, '', '/nope');
     showStyleguide();
     expect(screen.getByRole('button', { name: 'Home', current: 'page' })).toBeInTheDocument();
   });
@@ -188,7 +188,7 @@ describe('the component search', () => {
     openPage('Components');
     return view;
   };
-  afterEach(() => { window.location.hash = ''; });
+  afterEach(() => { window.history.replaceState(null, '', '/'); });
 
   it('sits at the top of the sidebar, before the groups', () => {
     const { container } = open();
@@ -250,7 +250,7 @@ describe('the components overview', () => {
     return view;
   };
   const tiles = (container) => [...container.querySelectorAll('.component_overview-tile .component_overview-name')].map((node) => node.textContent);
-  afterEach(() => { window.location.hash = ''; });
+  afterEach(() => { window.history.replaceState(null, '', '/'); });
 
   it('is what the Components page opens on, with a tile for every component', () => {
     const { container } = open();
@@ -314,7 +314,7 @@ describe('the Icons page', () => {
     return view;
   };
   const tileNames = (container) => [...container.querySelectorAll('.icons-tile-name')].map((node) => node.textContent);
-  afterEach(() => { window.location.hash = ''; });
+  afterEach(() => { window.history.replaceState(null, '', '/'); });
 
   it('is in the header, after Components, and shows a tile for every drawn icon', () => {
     const { container } = open();
@@ -364,6 +364,6 @@ describe('the Naming page', () => {
     expect(container.querySelector('.naming-names--prefer')).toHaveTextContent('TextBox');
     expect(container.querySelector('.naming-names--avoid')).toHaveTextContent('TextField');
     expect(container.querySelectorAll('.naming-list li').length).toBeGreaterThanOrEqual(11);
-    window.location.hash = '';
+    window.history.replaceState(null, '', '/');
   });
 });

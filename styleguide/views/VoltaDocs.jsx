@@ -26,15 +26,20 @@ const pages = {
 
 const defaultPage = 'Home';
 
-// The page lives in the URL hash (#components) so a refresh, the back button
-// and a pasted link all land on the same page.
-const pageFromHash = () => {
-  const name = window.location.hash.replace(/^#\/?/, '').toLowerCase();
+// The page lives in the URL path (/components) so a refresh, the back button
+// and a pasted link all land on the same page. Links from before the path
+// routing (#components) still work: the hash is moved into the path on load.
+const pageFromPath = () => {
+  const name = (window.location.pathname.replace(/^\/+|\/+$/g, '') || window.location.hash.replace(/^#\/?/, '')).toLowerCase();
   return Object.keys(pages).find((key) => key.toLowerCase() === name) || defaultPage;
 };
 
 const VoltaDocs = () => {
-  const [pageKey, setPageKey] = useState(pageFromHash);
+  const [pageKey, setPageKey] = useState(() => {
+    const key = pageFromPath();
+    if (window.location.hash) window.history.replaceState(null, '', `/${key === defaultPage ? '' : key.toLowerCase()}`);
+    return key;
+  });
   const rootRef = useRef(null);
   const headerRef = useRef(null);
 
@@ -52,14 +57,14 @@ const VoltaDocs = () => {
   }, []);
 
   useEffect(() => {
-    const onHashChange = () => setPageKey(pageFromHash());
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
+    const onPopState = () => setPageKey(pageFromPath());
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
   // A new page starts at the top instead of wherever the last one was scrolled to.
   const showPage = (key) => {
-    window.location.hash = key.toLowerCase();
+    window.history.pushState(null, '', key === defaultPage ? '/' : `/${key.toLowerCase()}`);
     setPageKey(key);
     window.scrollTo(0, 0);
   };
