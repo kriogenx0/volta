@@ -38,6 +38,10 @@ running: ## Check whether the styleguide is answering on the styleguide port
 		&& echo "running: http://localhost:$(STYLEGUIDE_PORT)" \
 		|| { echo "not running"; exit 1; }
 
+# Prerequisite `running` exits with "not running" if nothing answers on the port.
+open: running ## Open the running styleguide in the browser
+	@open "http://localhost:$(STYLEGUIDE_PORT)" 2>/dev/null || xdg-open "http://localhost:$(STYLEGUIDE_PORT)"
+
 dev: node_modules ## Run the Vite dev server (HMR) locally and open it in the browser
 	npm run dev -- --open
 
@@ -105,4 +109,4 @@ help: ## Show this help, grouped by category
 		/^##@/ { printf "\n%s\n", substr($$0, 5) } \
 		/^[a-zA-Z_-]+:.*## / { printf "  %-13s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
-.PHONY: setup install all up down running dev start run build build-prod bundle build-app watch watch-app docker-build test lint clean rules rules-check help tokens
+.PHONY: setup install all up down running open dev start run build build-prod bundle build-app watch watch-app docker-build test lint clean rules rules-check help tokens
