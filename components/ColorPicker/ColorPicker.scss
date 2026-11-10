@@ -10,49 +10,88 @@
     display: flex;
   }
 
+  // Joined to the text box: the chooser is its square left end
   .color_picker-native {
-    background: $color_base;
-    border: 1px solid $color_base_subtle;
     border-radius: var(--v-radius-md) 0 0 var(--v-radius-md);
-    box-sizing: border-box;
-    cursor: pointer;
-    height: 38px;
-    padding: 4px;
-    width: 46px;
-
-    &::-webkit-color-swatch-wrapper {
-      padding: 0;
-    }
-
-    &::-webkit-color-swatch {
-      border: 0;
-      border-radius: var(--v-radius-sm);
-    }
   }
 
   .color_picker-input {
-    background: $color_base;
-    border: 1px solid $color_base_subtle;
+    @include field-surface;
     border-left: 0;
     border-radius: 0 var(--v-radius-md) var(--v-radius-md) 0;
-    box-sizing: border-box;
-    color: $color_trim;
     flex: 1;
     font: inherit;
     font-size: 14px;
-    height: 38px;
+    height: $field-height;
     min-width: 0;
     padding: 0 10px;
     text-transform: uppercase;
   }
 
-  .color_picker-native:focus-visible,
-  .color_picker-input:focus-visible {
-    border-color: $color_active;
-    outline: 2px solid $color_active;
-    outline-offset: 2px;
+  // Volta's own chooser: a saturation and brightness square over a hue slider.
+  // The gradients are the colour model itself (white to the hue, clear to black,
+  // and the rainbow), not decoration, so they are the one place colours are
+  // written out.
+  .color_picker-custom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--v-space-2);
+    grid-column: 1 / -1;
+  }
+
+  .cpr_square,
+  .cpr_rainbow {
     position: relative;
-    z-index: 1;
+    border-radius: var(--v-radius-md);
+    cursor: crosshair;
+    touch-action: none;
+
+    &:focus-visible {
+      outline: 2px solid var(--v-accent);
+      outline-offset: 2px;
+    }
+  }
+
+  .cpr_square {
+    height: 140px;
+    overflow: hidden;
+  }
+
+  .cpr_square_sat,
+  .cpr_square_val {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .cpr_square_sat {
+    background: linear-gradient(to right, hsl(0 0% 100%), hsl(0 0% 100% / 0%));
+  }
+
+  .cpr_square_val {
+    background: linear-gradient(to top, hsl(0 0% 0%), hsl(0 0% 0% / 0%));
+  }
+
+  .cpr_rainbow {
+    height: 14px;
+    background: linear-gradient(to right, hsl(0 100% 50%), hsl(60 100% 50%), hsl(120 100% 50%), hsl(180 100% 50%), hsl(240 100% 50%), hsl(300 100% 50%), hsl(360 100% 50%));
+  }
+
+  .cpr_marker,
+  .cpr_slide {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    box-sizing: border-box;
+    border: 2px solid var(--v-color-base);
+    border-radius: 50%;
+    box-shadow: var(--v-shadow-sm);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .cpr_slide {
+    top: 50%;
   }
 
   .color_picker-palette {
@@ -92,7 +131,7 @@
     }
 
     .color_picker-input {
-      border-left: 1px solid $color_base_subtle;
+      border-left: 1px solid var(--v-color-base-less-subtle);
       border-radius: var(--v-radius-md);
       padding-right: 58px;
     }

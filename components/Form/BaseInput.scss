@@ -1,3 +1,5 @@
+@use '../../mixins' as *;
+
 .volta-base_input {
   margin-bottom: 8px;
 
@@ -5,25 +7,13 @@
     box-sizing: border-box;
     width: 100%;
     padding: 8px 12px;
-    border: 1px solid var(--v-color-base-less-subtle);
+    @include field-surface;
+    min-height: $field-height;
     border-radius: var(--v-radius-md);
-    background: var(--v-color-base);
-    color: var(--v-color-trim);
     font: inherit;
-    transition: border-color var(--v-anim-speed) var(--v-anim-ease), background-color var(--v-anim-speed) var(--v-anim-ease);
 
     &::placeholder {
       color: var(--v-color-trim-less-subtle);
-    }
-
-    &:hover {
-      background: var(--v-color-base-more-subtle);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--v-accent);
-      outline-offset: 0;
-      border-color: var(--v-accent);
     }
   }
 

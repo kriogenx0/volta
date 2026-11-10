@@ -1,3 +1,5 @@
+@use '../../mixins' as *;
+
 .volta-combo_box
 {
   position: relative;
@@ -13,22 +15,9 @@
   > input
   {
     padding: 6px 10px;
-    border: 1px solid var(--v-color-base-subtle);
+    @include field-surface;
+    min-height: $field-height;
     border-radius: var(--v-radius-md);
-    background: transparent;
-    color: var(--v-color-trim);
-    transition: border-color var(--v-anim-speed), background-color var(--v-anim-speed);
-
-    &:hover
-    {
-      border-color: var(--v-color-base-less-subtle);
-    }
-
-    &:focus
-    {
-      border-color: var(--v-accent);
-      outline: 0;
-    }
 
     &:disabled
     {

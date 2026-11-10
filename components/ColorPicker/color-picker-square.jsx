@@ -20,7 +20,8 @@ export default function ColorPickerSquare({
   saturation = 100,
   lightness = 100,
   onSaturationChange = () => {},
-  onLightnessChange = () => {}
+  onLightnessChange = () => {},
+  onColorChange = () => {}
 }) {
   const [position, setPosition] = useState(() => toHsv(hue, saturation, lightness));
   const square = useRef(null);
@@ -37,12 +38,34 @@ export default function ColorPickerSquare({
     const nextSaturation = (x / squareNode.offsetWidth) * 100;
     const value = ((squareNode.offsetHeight - y) / squareNode.offsetHeight) * 100;
 
+    emit(nextSaturation, value);
+  };
+
+  // Reports saturation and brightness (HSV) as the HSL the callers use, once per change
+  const emit = (nextSaturation, value) => {
     setPosition({ saturation: nextSaturation, value });
 
     const hsl = tinycolor({ h: hue, s: nextSaturation, v: value }).toHsl();
 
     onSaturationChange(hsl.s * 100);
     onLightnessChange(hsl.l * 100);
+    onColorChange({ hue, saturation: hsl.s * 100, lightness: hsl.l * 100 });
+  };
+
+  // Arrow keys move the marker by 1 (10 with Shift); Home and End go to the edges
+  const handleKeyDown = (event) => {
+    const step = event.shiftKey ? 10 : 1;
+    const clamp = (n) => Math.min(Math.max(n, 0), 100);
+    let { saturation: s, value: v } = position;
+    if (event.key === 'ArrowLeft') s -= step;
+    else if (event.key === 'ArrowRight') s += step;
+    else if (event.key === 'ArrowUp') v += step;
+    else if (event.key === 'ArrowDown') v -= step;
+    else if (event.key === 'Home') s = 0;
+    else if (event.key === 'End') s = 100;
+    else return;
+    event.preventDefault();
+    emit(clamp(s), clamp(v));
   };
 
   const { onMouseDown, dragging } = useDrag(setPos);
@@ -57,7 +80,20 @@ export default function ColorPickerSquare({
   const markerStyle = { left: `${position.saturation}%`, top: `${100 - position.value}%` };
 
   return (
-    <div className="cpr_square" ref={square} onMouseDown={onMouseDown} style={squareStyle}>
+    <div
+      className="cpr_square"
+      ref={square}
+      onMouseDown={onMouseDown}
+      style={squareStyle}
+      role="slider"
+      tabIndex={0}
+      aria-label="Saturation and brightness"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={Math.round(position.saturation)}
+      aria-valuetext={`Saturation ${Math.round(position.saturation)}%, brightness ${Math.round(position.value)}%`}
+      onKeyDown={handleKeyDown}
+    >
       <div className="cpr_marker" style={markerStyle}></div>
       <div className="cpr_square_val"></div>
       <div className="cpr_square_sat"></div>
@@ -70,5 +106,7 @@ ColorPickerSquare.propTypes = {
   saturation: PropTypes.number,
   lightness: PropTypes.number,
   onSaturationChange: PropTypes.func,
-  onLightnessChange: PropTypes.func
+  onLightnessChange: PropTypes.func,
+  // Called once per change with { hue, saturation, lightness } (HSL, 0-360 and 0-100)
+  onColorChange: PropTypes.func
 };

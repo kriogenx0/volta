@@ -2,7 +2,7 @@ import * as Theme from './theme';
 
 import ActionMenu from './ActionMenu/ActionMenu';
 import AutoComplete from './AutoComplete';
-import AudioTrack from './AudioTrack/AudioTrack';
+import AudioPlayer, { AudioTrack } from './AudioPlayer/AudioPlayer';
 import Avatar from './Avatar/Avatar';
 import Badge from './Badge/Badge';
 import Button from './Button/Button';
@@ -70,6 +70,7 @@ import Radio from './Radio/Radio';
 import RadioGroup from './RadioGroup/RadioGroup';
 import SearchSelector from './SearchSelector/SearchSelector';
 import SegmentedControl, { SegmentedControlMini } from './SegmentedControl/SegmentedControl';
+import NativeColorPicker from './NativeColorPicker/NativeColorPicker';
 import NativeSelect, { Select } from './NativeSelect/NativeSelect';
 import Slider from './Slider/Slider';
 import SplitView from './SplitView/SplitView';
@@ -91,6 +92,7 @@ export {
   ActionLink,
   ActionMenu,
   AutoComplete,
+  AudioPlayer,
   AudioTrack,
   Avatar,
   Badge,
@@ -160,6 +162,7 @@ export {
   Alert,
   ModalDialog,
   MultiSelect,
+  NativeColorPicker,
   NativeSelect,
   NavBar,
   NavSidebar,

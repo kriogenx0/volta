@@ -1,4 +1,4 @@
-# AudioTrack
+# AudioPlayer
 
 A small player for one audio file: play and pause, elapsed time, a seek bar, the length and an optional mute button.
 
@@ -11,11 +11,11 @@ A small player for one audio file: play and pause, elapsed time, a seek bar, the
 ## Usage
 
 ```jsx
-import { AudioTrack } from 'volta';
+import { AudioPlayer } from 'volta';
 
 <>
-  <AudioTrack src="/audio/intro.mp3" />
-  <AudioTrack src="/audio/interview.mp3" volume={0.8} waveform="/audio/interview.png" />
+  <AudioPlayer src="/audio/intro.mp3" />
+  <AudioPlayer src="/audio/interview.mp3" volume={0.8} waveform="/audio/interview.png" />
 </>;
 ```
 
@@ -36,6 +36,10 @@ import { AudioTrack } from 'volta';
 - **Loading:** a `Loader` (bars) replaces the controls and the root is `aria-busy`.
 - **Error:** an empty `src` or a file that fails to load shows "Could not load audio file" with an error icon, as `role="alert"`.
 - **Playing:** the play button becomes pause and the bar fills as it plays. At the end it returns to 0:00 (unless `loop`).
+
+## AudioTrack
+
+`AudioTrack` is the old name of `AudioPlayer` (`AudioTrack === AudioPlayer`), kept so existing code keeps working. Use `AudioPlayer` in new code.
 
 ## Accessibility
 

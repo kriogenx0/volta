@@ -227,3 +227,39 @@ describe('ColorPicker show', () => {
     expect(container.querySelector('.color_picker-palette')).toHaveClass('showing');
   });
 });
+
+describe('ColorPicker with its own picker', () => {
+  it('uses the square and hue slider instead of the browser chooser', () => {
+    render(<ColorPicker picker="custom" initialValue="#FF0000" />);
+    expect(screen.queryByLabelText('Choose color')).toBeNull();
+    expect(screen.getByRole('slider', { name: 'Saturation and brightness' })).toBeInTheDocument();
+    expect(screen.getByRole('slider', { name: 'Hue' })).toHaveAttribute('aria-valuenow', '0');
+  });
+
+  it('changes the hue from the keyboard and reports the new colour', () => {
+    const onChange = jest.fn();
+    render(<ColorPicker picker="custom" initialValue="#FF0000" onChange={onChange} />);
+    fireEvent.keyDown(screen.getByRole('slider', { name: 'Hue' }), { key: 'ArrowRight', shiftKey: true });
+    expect(onChange).toHaveBeenLastCalledWith('#FF2B00');
+    expect(hexBox()).toHaveValue('#FF2B00');
+  });
+
+  it('changes saturation and brightness from the keyboard', () => {
+    const onChange = jest.fn();
+    render(<ColorPicker picker="custom" initialValue="#FF0000" onChange={onChange} />);
+    fireEvent.keyDown(screen.getByRole('slider', { name: 'Saturation and brightness' }), { key: 'ArrowDown', shiftKey: true });
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange.mock.calls[0][0]).toBe('#E60000');
+  });
+
+  it('keeps the hue when the colour passes through grey', () => {
+    render(<ColorPicker picker="custom" initialValue="#FF0000" />);
+    fireEvent.change(hexBox(), { target: { value: '#808080' } });
+    expect(screen.getByRole('slider', { name: 'Hue' })).toHaveAttribute('aria-valuenow', '0');
+  });
+
+  it('puts the picker at the top of the popover', () => {
+    const { container } = render(<ColorPicker picker="custom" popover initialValue="#FF0000" />);
+    expect(container.querySelector('.color_picker-palette .cpr_square')).toBeInTheDocument();
+  });
+});

@@ -39,7 +39,7 @@ const PopoverControlled = () => {
 
 export default {
   name: 'ColorPicker',
-  description: 'Choose a color with the native picker, a typed hex value (or color name), or a row of preset swatches. Control it with value and onChange, or let it keep its own state from initialValue. show picks the picker (chooser and text box), the palette, or both (the default). With popover the palette opens from a swatch button instead of always showing. ColorPalettePicker is the popover form with 20 presets.',
+  description: 'Choose a color with the native picker, a typed hex value (or color name), or a row of preset swatches. picker chooses the colour chooser: the native browser chooser (native, the default) or Volta\'s own square and hue slider (custom). Control it with value and onChange, or let it keep its own state from initialValue. show picks the picker (chooser and text box), the palette, or both (the default). With popover the palette opens from a swatch button instead of always showing. ColorPalettePicker is the popover form with 20 presets.',
   examples: [
     {
       name: 'Controlled with state',
@@ -52,6 +52,16 @@ export default {
       name: 'Starting color and change callback',
       code: `<ColorPicker initialValue="#9060F0" onValueChange={(hex) => console.log(hex)} />`,
       output: <WithStartingColor />
+    },
+    {
+      name: 'Its own picker',
+      code: `<ColorPicker picker="custom" initialValue="#4A90E2" />`,
+      output: <ColorPicker picker="custom" initialValue="#4A90E2" />
+    },
+    {
+      name: 'Its own picker in a popover',
+      code: `<ColorPicker picker="custom" popover initialValue="#9060F0" />`,
+      output: <ColorPicker picker="custom" popover initialValue="#9060F0" />
     },
     {
       name: 'Custom palette',

@@ -1,46 +1,72 @@
 import './MultiSelect.scss';
 import React from 'react'
 import { components } from 'react-select'
-import colors from '../../styles/_shared/colors';
 
+// react-select styles itself with fixed colours, so every colour here is a theme
+// token (a CSS variable): the control follows light and dark mode, and a custom accent.
 // https://react-select.com/styles#overriding-the-theme
+const text = 'var(--v-color-trim)';
+const subtle = 'var(--v-color-trim-subtle)';
+const border = 'var(--v-color-base-less-subtle)';
+
 export const customStyles = {
-  control: (baseStyles) => ({
+  control: (baseStyles, state) => ({
     ...baseStyles,
-    borderColor: colors.multiselect.border,
-    boxShadow: 'none',
+    backgroundColor: 'var(--v-color-base)',
+    minHeight: 40,
+    borderColor: state.isFocused ? 'var(--v-accent)' : border,
+    boxShadow: state.isFocused ? '0 0 0 2px var(--v-accent)' : 'none',
     lineHeight: 1,
-    ':focused': {
-      borderColor: colors.multiselect.border,
-    },
     ':hover': {
-      borderColor: colors.multiselect.border,
+      borderColor: state.isFocused ? 'var(--v-accent)' : 'var(--v-color-trim-less-subtle)',
     },
   }),
   valueContainer: (styles) => ({
     ...styles,
     paddingLeft: '1em',
   }),
-  option: (baseStyles) => ({
+  input: (baseStyles) => ({
+    ...baseStyles,
+    color: text,
+  }),
+  singleValue: (baseStyles) => ({
+    ...baseStyles,
+    color: text,
+  }),
+  menu: (baseStyles) => ({
+    ...baseStyles,
+    backgroundColor: 'var(--v-color-base)',
+    border: `1px solid ${border}`,
+    boxShadow: 'var(--v-shadow-md)',
+  }),
+  option: (baseStyles, state) => ({
     ...baseStyles,
     cursor: 'pointer',
-    color: colors.multiselect.text,
-    ':hover': {
-      color: colors.multiselect.text,
+    color: state.isSelected ? 'var(--v-on-accent)' : text,
+    backgroundColor: state.isSelected
+      ? 'var(--v-accent)'
+      : state.isFocused ? 'var(--v-color-base-subtle)' : 'transparent',
+    ':active': {
+      backgroundColor: 'var(--v-accent-subtle)',
     },
   }),
   placeholder: (baseStyles) => ({
     ...baseStyles,
-    color: colors.text.bodyCopy,
+    color: subtle,
+  }),
+  noOptionsMessage: (baseStyles) => ({
+    ...baseStyles,
+    color: subtle,
   }),
   multiValue: (baseStyles) => ({
     ...baseStyles,
-    border: `1px solid ${colors.border}`,
+    backgroundColor: 'var(--v-color-base-subtle)',
+    border: `1px solid ${border}`,
     borderRadius: 4,
   }),
   multiValueLabel: (baseStyles) => ({
     ...baseStyles,
-    color: colors.multiselect.text,
+    color: text,
     fontSize: '1rem',
     paddingLeft: '6px',
     paddingRight: '6px',
@@ -54,15 +80,22 @@ export const customStyles = {
       : {
         ...baseStyles,
         cursor: 'pointer',
+        color: subtle,
         ':hover': {
-          backgroundColor: colors.background,
-          color: colors.multiselect.text,
+          backgroundColor: 'var(--v-color-base-more-subtle)',
+          color: text,
         },
       }
   },
   dropdownIndicator: (baseStyles) => ({
     ...baseStyles,
-    color: colors.border,
+    color: subtle,
+    ':hover': { color: text },
+  }),
+  clearIndicator: (baseStyles) => ({
+    ...baseStyles,
+    color: subtle,
+    ':hover': { color: text },
   }),
   indicatorSeparator: (baseStyles) => ({
     ...baseStyles,
@@ -73,12 +106,6 @@ export const customStyles = {
 export function initTheme(theme) {
   return {
     ...theme,
-    colors: {
-      ...theme.colors,
-      primary25: colors.multiselect.primary25,
-      primary: colors.multiselect.primary25,
-      neutral10: colors.multiselect.neutral10,
-    },
     spacing: {
       baseUnit: 4,
       controlHeight: 36,
@@ -87,16 +114,17 @@ export function initTheme(theme) {
   }
 }
 
+// The glyphs take their colour from the control (currentColor), so they follow the theme too
 export const MultiValueRemove = (props) => (
   <components.MultiValueRemove {...props}>
-    <span className="volta-multiselect-icon" style={{ color: colors.multiselect.iconColor }}>{'\uF049'}</span>
+    <span className="volta-multiselect-icon">{'\uF049'}</span>
   </components.MultiValueRemove>
 )
 
 export const DropdownIndicator = (props) =>
   components.DropdownIndicator && (
     <components.DropdownIndicator {...props}>
-      <span className="volta-multiselect-icon volta-multiselect-icon--indicator" style={{ color: colors.multiselect.text }}>
+      <span className="volta-multiselect-icon volta-multiselect-icon--indicator">
         {'\uF000'}
       </span>
     </components.DropdownIndicator>

@@ -29,6 +29,7 @@ import { ColorPicker } from 'volta';
 | `onChange` | `function` | | Called with the new colour as uppercase `#RRGGBB`. |
 | `palette` | `array` of `string` | 12 preset colours | The swatches, in order. Any CSS colour string. |
 | `show` | `'both'` \| `'picker'` \| `'palette'` | `'both'` | What is there. `picker` is the colour chooser and the hex text box; `palette` is the swatches. With only the palette there is no text box to carry the value in a form, so a hidden input with the `name` does. |
+| `picker` | `'native'` \| `'custom'` | `'native'` | The colour chooser. `native` is the browser's own, as [`NativeColorPicker`](../NativeColorPicker/README.md). `custom` is Volta's own: a saturation and brightness square over a hue slider, above the text box (or at the top of the popover with `popover`). Ignored with `show="palette"`, which has no chooser. |
 | `popover` | `bool` | `false` | Shows a text box with a swatch button instead of the native chooser (ignored with `show="picker"`, which has no palette), and the palette opens under it when the text box gets focus or the button is pressed, rather than always showing. See ColorPalettePicker. |
 | `name` | `string` | `'color'` | The `name` of the hex text box, for a native form post. |
 | `onValueChange` | `function` | no-op | Legacy: called with the same value as `onChange`. |
@@ -47,9 +48,13 @@ Other props (`placeholder`, `disabled`, `className`, `aria-label`, ...) go to th
 
 `ColorPalettePicker` is `<ColorPicker popover />` with a palette of 20 presets (`ColorPalettePicker.colors`) and its text box named "Color", kept for existing code. It takes the same props. Unlike before, it checks what is typed: only a valid colour reaches `onChange`, reported as `#RRGGBB`, and an invalid entry goes back to the current colour when the box loses focus. Without a `value` it starts at `#FFFFFF`, where it used to start empty.
 
+## The custom picker
+
+With `picker="custom"` the square and the hue slider are real sliders: Tab to each, then the arrow keys move by 1 (10 with Shift), Home and End go to the edges, and a drag with the mouse works too. The hue is remembered when the colour passes through white, black or a grey, which have none. It is the same `onChange`, so the rest of the field behaves as before.
+
 ## Accessibility
 
-- The native chooser is named "Choose color". The text box is named "Hex color" unless you pass `aria-label`. With `popover` there is no native chooser, and the button is named "Toggle color palette" with `aria-expanded`.
+- The native chooser is named "Choose color"; the custom square is named "Saturation and brightness" and the slider "Hue". The text box is named "Hex color" unless you pass `aria-label`. With `popover` there is no native chooser, and the button is named "Toggle color palette" with `aria-expanded`.
 - The swatches are a `role="group"` named "Color palette". Each is a button named "Select #F06060" with `aria-pressed` when it is the current colour.
 - Everything is reachable with Tab, and Enter or Space chooses a swatch. The browser's own colour dialog is as accessible as the browser makes it.
 - The current swatch gets a ring as well as the pressed state. Swatches are 30px round, a little under a comfortable touch size.

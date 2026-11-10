@@ -1,6 +1,6 @@
 import ActionMenuExamples from '../../../examples/ActionMenu/ActionMenu-examples';
 import AutoCompleteExamples from '../../../examples/AutoComplete/AutoComplete-examples';
-import AudioTrackExamples from '../../../examples/AudioTrack/AudioTrack-examples';
+import AudioPlayerExamples from '../../../examples/AudioPlayer/AudioPlayer-examples';
 import AvatarExamples from '../../../examples/Avatar/Avatar-examples';
 import BadgeExamples from '../../../examples/Badge/Badge-examples';
 import ButtonExamples from '../../../examples/Button/Button-examples';
@@ -53,6 +53,7 @@ import ModalExamples from '../../../examples/Modal/Modal-examples';
 import AlertExamples from '../../../examples/ModalAlert/Alert-examples';
 import MultiSelectExamples from '../../../examples/MultiSelect/MultiSelect-examples';
 import NavBarExamples from '../../../examples/NavBar/NavBar-examples';
+import NativeColorPickerExamples from '../../../examples/NativeColorPicker/NativeColorPicker-examples';
 import NavSidebarExamples from '../../../examples/NavSidebar/NavSidebar-examples';
 import NumericFieldExamples from '../../../examples/NumericField/NumericField-examples';
 import OverlayExamples from '../../../examples/Overlay/Overlay-examples';
@@ -83,7 +84,7 @@ import VideoUploadPlayerExamples from '../../../examples/VideoUploadPlayer/Video
 const curated = [
   ActionMenuExamples,
   AutoCompleteExamples,
-  AudioTrackExamples,
+  AudioPlayerExamples,
   AvatarExamples,
   BadgeExamples,
   ButtonExamples,
@@ -136,6 +137,7 @@ const curated = [
   AlertExamples,
   MultiSelectExamples,
   NavBarExamples,
+  NativeColorPickerExamples,
   NavSidebarExamples,
   NumericFieldExamples,
   OverlayExamples,

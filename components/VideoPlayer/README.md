@@ -5,7 +5,7 @@ An HTML5 `<video>` that plays or pauses when clicked, with a no-video icon when 
 ## When to use
 
 - **Playing one video** from a URL, inline in a page: a lesson, a recording, a preview.
-- Use [`AudioTrack`](../AudioTrack/README.md) for sound only, [`VideoUploadPlayer`](../VideoUploadPlayer/README.md) when the user also uploads the file, and [`Thumb`](../Thumb/README.md) for a still image.
+- Use [`AudioPlayer`](../AudioPlayer/README.md) for sound only, [`VideoUploadPlayer`](../VideoUploadPlayer/README.md) when the user also uploads the file, and [`Thumb`](../Thumb/README.md) for a still image.
 - It fills the width of its container. There is no playlist, no captions input and no custom control bar: add the `controls` prop for the browser's.
 
 ## Usage

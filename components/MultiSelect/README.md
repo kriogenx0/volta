@@ -50,7 +50,7 @@ An option with `fixed: true` is shown first and cannot be removed or cleared. Th
 
 ## Theming
 
-Colours come from the `--v-*` tokens through `styles/_shared/colors.js`, so the control follows the active theme and accent. Style inner parts with the `multi-select__` class names.
+Every colour is a `--v-*` token set through react-select's `styles`, so the control, its menu, chips and icons follow light and dark mode and the accent. Style inner parts with the `multi-select__` class names.
 
 ## Accessibility
 

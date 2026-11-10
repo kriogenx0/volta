@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import tinycolor from 'tinycolor2';
 
+import NativeColorPicker from '../NativeColorPicker/NativeColorPicker';
+import ColorPickerSquare from './color-picker-square';
+import ColorPickerSlider from './color-picker-slider';
+
 import './ColorPicker.scss';
 
 const DEFAULT_PALETTE = [
@@ -19,10 +23,12 @@ const normalize = (color, fallback = '#FFFFFF') => {
 // swatch still lands.
 const CLOSE_DELAY = 200;
 
-// A colour field: a native colour chooser, a hex text box and a palette of presets,
-// or with `popover` a text box with a swatch button that opens the palette. `show`
-// picks what is there: the picker (chooser and text box), the palette, or both. What
-// is typed is checked, and a valid colour is reported as #RRGGBB.
+// A colour field: a colour chooser, a hex text box and a palette of presets, or with
+// `popover` a text box with a swatch button that opens the palette. `show` picks what
+// is there: the picker (chooser and text box), the palette, or both. `picker` picks the
+// chooser: the browser's own (NativeColorPicker) or Volta's, a saturation and
+// brightness square over a hue slider. What is typed is checked, and a valid colour is
+// reported as #RRGGBB.
 const ColorPicker = ({
   name = 'color',
   value: controlledValue,
@@ -30,6 +36,7 @@ const ColorPicker = ({
   palette = DEFAULT_PALETTE,
   popover = false,
   show = 'both',
+  picker = 'native',
   onChange,
   onValueChange = () => {},
   updateColor,
@@ -47,9 +54,19 @@ const ColorPicker = ({
   const showPalette = show !== 'picker';
   // Only a palette can open in a popover
   const inPopover = popover && showPalette;
+  const custom = picker === 'custom' && showPicker;
+
+  // The hue is kept apart from the colour: white, black and greys have none, and
+  // dragging the square to one would otherwise lose it.
+  const [hue, setHue] = useState(() => Math.round(tinycolor(normalize(externalValue)).toHsl().h));
 
   // Don't let a pending close fire after the picker is gone
   useEffect(() => () => clearTimeout(closing.current), []);
+
+  useEffect(() => {
+    const { h, s, l } = tinycolor(color).toHsl();
+    if (s > 0 && l > 0 && l < 1) setHue(Math.round(h));
+  }, [color]);
 
   useEffect(() => {
     if (!controlled) return;
@@ -106,6 +123,29 @@ const ColorPicker = ({
   // form, an invalid one goes back to the current color.
   const handleBlur = () => setText(normalize(text, null) || color);
 
+  const handleSquare = ({ saturation, lightness }) => {
+    commit(tinycolor({ h: hue, s: saturation, l: lightness }).toHexString());
+  };
+
+  const handleHue = (nextHue) => {
+    setHue(nextHue);
+    const { s, l } = tinycolor(color).toHsl();
+    commit(tinycolor({ h: nextHue, s: s * 100, l: l * 100 }).toHexString());
+  };
+
+  const hsl = tinycolor(color).toHsl();
+  const customPanel = custom && (
+    <div className="color_picker-custom">
+      <ColorPickerSquare
+        hue={hue}
+        saturation={hsl.s * 100}
+        lightness={hsl.l * 100}
+        onColorChange={handleSquare}
+      />
+      <ColorPickerSlider hue={hue} onHueChange={handleHue} />
+    </div>
+  );
+
   const swatches = palette.map((swatch, index) => {
     const normalized = normalize(swatch);
     return (
@@ -128,16 +168,11 @@ const ColorPicker = ({
       onBlur={inPopover ? scheduleClose : undefined}
       onKeyDown={inPopover ? handleKeyDown : undefined}
     >
+      {!inPopover && customPanel}
       {(showPicker || inPopover) && (
         <div className="color_picker-control">
-          {showPicker && !inPopover && (
-            <input
-              className="color_picker-native"
-              type="color"
-              value={color}
-              aria-label="Choose color"
-              onChange={(event) => commit(event.target.value)}
-            />
+          {showPicker && !inPopover && !custom && (
+            <NativeColorPicker className="color_picker-native" value={color} onChange={commit} />
           )}
           {showPicker && (
             <input
@@ -175,6 +210,7 @@ const ColorPicker = ({
           onFocus={open}
           onMouseDown={inPopover ? () => setTimeout(cancelClose, 10) : undefined}
         >
+          {inPopover && customPanel}
           {swatches}
         </div>
       )}
@@ -191,6 +227,8 @@ ColorPicker.propTypes = {
   popover: PropTypes.bool,
   // What to show: the picker (the colour chooser and the hex text box), the palette, or both
   show: PropTypes.oneOf(['both', 'palette', 'picker']),
+  // The colour chooser: the browser's own (NativeColorPicker), or Volta's own square and hue slider
+  picker: PropTypes.oneOf(['native', 'custom']),
   onChange: PropTypes.func,
   onValueChange: PropTypes.func,
   updateColor: PropTypes.func,

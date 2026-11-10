@@ -11,43 +11,8 @@
     padding-right: 10px;
     transition: all $anim-speed-normal;
 
-    // Theme
-    background-color: transparent;
-    border: 1px solid $color_base_subtle;
-    color: $color_trim_subtle;
-
-    @include dark {
-      border-color: $color_base_subtle_dark;
-      color: $color_trim_subtle_dark;
-    }
-
-    &:hover,
-    &:focus {
-      background-color: $color_base_more_subtle;
-      color: $color_trim;
-
-      @include dark {
-        background-color: $color_base_more_subtle_dark;
-        color: $color_trim_dark;
-      }
-    }
-
-    &:hover {
-      border-color: $color_base_less_subtle;
-      @include dark {
-        border-color: $color_base_less_subtle_dark;
-      }
-    }
-
-    &:focus {
-      border-color: $color_active;
-
-      @include dark {
-        border-color: $color_active_dark;
-      }
-
-      outline: 0;
-    }
+    @include field-surface;
+    min-height: $field-height;
 
     &:-webkit-autofill,
     &:-webkit-autofill:focus,
@@ -91,6 +56,7 @@
       &:hover,
       &:focus {
         border-color: var(--v-color-danger);
+        outline-color: var(--v-color-danger);
       }
     }
   }

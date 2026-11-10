@@ -1,3 +1,5 @@
+@use '../../mixins' as *;
+
 // *************************************
 //
 //   Autocomplete module
@@ -17,21 +19,9 @@
   box-sizing: border-box;
   min-width: min(300px, 100%);
   padding: 4px;
-  border: 1px solid var(--v-color-base-less-subtle);
+  @include field-surface;
+  min-height: $field-height;
   border-radius: var(--v-radius-md);
-  background: var(--v-color-base);
-  color: var(--v-color-trim);
-  transition: border-color var(--v-anim-speed) var(--v-anim-ease);
-
-  &:hover {
-    border-color: var(--v-color-trim-less-subtle);
-  }
-
-  &:focus-within {
-    border-color: var(--v-accent);
-    outline: 2px solid var(--v-accent);
-    outline-offset: -1px;
-  }
 
   // Search text, after the pills
   .twd_input {

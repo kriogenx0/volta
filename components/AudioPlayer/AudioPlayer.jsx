@@ -4,7 +4,7 @@ import { Howl } from 'howler';
 
 import Loader from '../Loader/Loader';
 
-import './AudioTrack.scss';
+import './AudioPlayer.scss';
 
 // Seconds the arrow keys move the playhead
 const SEEK_STEP = 5;
@@ -22,7 +22,7 @@ export const formatTime = (secs) => {
 // Drawn here (not an icon font) so the controls show wherever the page does.
 // Everything takes its colour from the text.
 const Glyph = ({ children }) => (
-  <svg className="audio_track-icon" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+  <svg className="audio_player-icon" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
     {children}
   </svg>
 );
@@ -43,7 +43,7 @@ const ErrorIcon = () => <Glyph><circle cx="12" cy="12" r="9" /><path d="M9 9l6 6
 // click or drag to seek (arrow keys too), the length and, with `volume`, a mute
 // button. `loop`, `volume` and `autoplay` are read when the file loads, and a
 // new `src` loads a new file.
-const AudioTrack = ({ src, autoplay = false, loop = false, volume = false, waveform }) => {
+const AudioPlayer = ({ src, autoplay = false, loop = false, volume = false, waveform }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [playing, setPlaying] = useState(false);
@@ -196,7 +196,7 @@ const AudioTrack = ({ src, autoplay = false, loop = false, volume = false, wavef
     const percent = duration ? clamp(100 * position / duration, 0, 100) : 0;
 
     return (
-      <div className='audio_track-controls'>
+      <div className='audio_player-controls'>
         <button type='button' className='play control' aria-label={playing ? 'Pause' : 'Play'} onClick={handleTogglePlay}>
           {playing ? <PauseIcon /> : <PlayIcon />}
         </button>
@@ -235,13 +235,13 @@ const AudioTrack = ({ src, autoplay = false, loop = false, volume = false, wavef
   };
 
   return (
-    <div className='volta-audio_track no_select' aria-busy={loading || undefined}>
+    <div className='volta-audio_player no_select' aria-busy={loading || undefined}>
       {renderContents()}
     </div>
   );
 };
 
-AudioTrack.propTypes = {
+AudioPlayer.propTypes = {
   // URL of the audio file (a data URI works too)
   src: PropTypes.string.isRequired,
   // Start playing as soon as it loads (browsers may block this until the page has been clicked)
@@ -253,4 +253,8 @@ AudioTrack.propTypes = {
   waveform: PropTypes.string
 };
 
-export default AudioTrack;
+// AudioTrack is the old name, kept for existing callers
+const AudioTrack = AudioPlayer;
+
+export { AudioPlayer, AudioTrack };
+export default AudioPlayer;

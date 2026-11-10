@@ -1,18 +1,14 @@
+@use '../../mixins' as *;
+
 // The editor: a toolbar over an editable area, in one bordered box. Colours are
 // theme tokens, so light and dark need no overrides.
 .volta-rich_text {
-  border: 1px solid var(--v-color-base-subtle);
+  @include field-surface;
   border-radius: var(--v-radius-md);
-  background: var(--v-color-base);
-  color: var(--v-color-trim);
-  transition: border-color var(--v-anim-speed) var(--v-anim-ease);
-
-  &:hover { border-color: var(--v-color-base-less-subtle); }
-  &:focus-within { border-color: var(--v-accent); }
 
   // Showing text, not editing it (click to edit, read only, disabled)
   &--static { border-color: transparent; }
-  &--static:hover { border-color: var(--v-color-base-subtle); }
+  &--static:hover { border-color: var(--v-color-base-less-subtle); }
   &--disabled { opacity: 0.5; }
   &--disabled:hover { border-color: transparent; }
 }

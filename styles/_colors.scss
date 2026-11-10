@@ -16,6 +16,9 @@
 // tests/themePreset.test.js fails until all three agree.
 
 :root {
+  // Tells the browser which scheme to draw its own parts in: number spinner
+  // arrows, scrollbars, date pickers, native select lists
+  color-scheme: light;
   --v-accent: #4A90E2;
   --v-accent-hover: #2F90FB;
   --v-accent-subtle: #E5F0FC;
@@ -107,6 +110,7 @@
 }
 
 @mixin dark-palette {
+  color-scheme: dark;
   --v-color-base: #050505;
   --v-color-base-subtle: #292929;
   --v-color-base-less-subtle: #404040;

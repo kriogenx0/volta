@@ -16,7 +16,7 @@ export default [
     // Anything you pick, toggle, press or edit in place
     label: 'Controls',
     components: [
-      'Button', 'Checkbox', 'CheckboxGroup', 'ColorPicker', 'Radio', 'RadioGroup',
+      'Button', 'Checkbox', 'CheckboxGroup', 'ColorPicker', 'NativeColorPicker', 'Radio', 'RadioGroup',
       'SegmentedControl', 'Slider', 'TagInput', 'Toggle',
     ],
   },
@@ -70,7 +70,7 @@ export default [
     // Components whose job is to put a third-party library behind Volta's props
     label: 'External Libraries',
     components: [
-      'AudioTrack', 'Code', 'Map', 'MapSelector',
+      'AudioPlayer', 'Code', 'Map', 'MapSelector',
     ],
   },
   {

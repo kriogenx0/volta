@@ -1,29 +1,29 @@
 // One row: [play] time [seek bar] length [mute]. The row is 50px tall.
-$audio_track-height: 50px;
+$audio_player-height: 50px;
 
-.volta-audio_track
+.volta-audio_player
 {
   box-sizing: border-box;
   display: block;
   width: 100%;
-  min-height: $audio_track-height;
+  min-height: $audio_player-height;
   overflow: hidden; // BORDER CORNERS
   border: 1px solid var(--v-color-base-subtle);
   border-radius: var(--v-radius-md);
   background: var(--v-color-base);
   color: var(--v-color-trim-less-subtle);
-  line-height: $audio_track-height - 2px;
+  line-height: $audio_player-height - 2px;
 
-  .audio_track-controls
+  .audio_player-controls
   {
     display: flex;
     align-items: stretch;
-    height: $audio_track-height - 2px;
+    height: $audio_player-height - 2px;
     font-size: 18px;
     text-align: center;
   }
 
-  .audio_track-icon
+  .audio_player-icon
   {
     display: block;
   }
@@ -35,7 +35,7 @@ $audio_track-height: 50px;
     flex: none;
     align-items: center;
     justify-content: center;
-    width: $audio_track-height;
+    width: $audio_player-height;
     margin: 0;
     padding: 0;
     border: 0;
@@ -64,7 +64,7 @@ $audio_track-height: 50px;
   {
     flex: none;
     box-sizing: border-box;
-    min-width: $audio_track-height;
+    min-width: $audio_player-height;
     padding: 0 4px;
     font-size: 14px;
     font-variant-numeric: tabular-nums;
@@ -113,7 +113,7 @@ $audio_track-height: 50px;
     color: var(--v-color-danger);
     font-size: 14px;
 
-    .audio_track-icon
+    .audio_player-icon
     {
       font-size: 18px;
     }

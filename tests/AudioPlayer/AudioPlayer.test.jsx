@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
 
-import AudioTrack, { formatTime } from '../../components/AudioTrack/AudioTrack';
-import examples from '../../examples/AudioTrack/AudioTrack-examples';
+import AudioPlayer, { formatTime } from '../../components/AudioPlayer/AudioPlayer';
+import examples from '../../examples/AudioPlayer/AudioPlayer-examples';
 
 // A stand-in for Howler's Howl: it records what the component asks for and lets
 // each test fire the callbacks the real player would (load, play, end, ...).
@@ -37,7 +37,7 @@ jest.mock('howler', () => ({
 const lastHowl = () => mockHowls[mockHowls.length - 1];
 const loaded = () => act(() => { lastHowl().options.onload(); });
 const loadedTrack = (props = {}) => {
-  const view = render(<AudioTrack src="/song.mp3" {...props} />);
+  const view = render(<AudioPlayer src="/song.mp3" {...props} />);
   loaded();
   return view;
 };
@@ -73,34 +73,34 @@ describe('formatTime', () => {
   });
 });
 
-describe('AudioTrack', () => {
+describe('AudioPlayer', () => {
   it('renders without crashing', () => {
-    const { container } = render(<AudioTrack src="/song.mp3" />);
+    const { container } = render(<AudioPlayer src="/song.mp3" />);
     expect(container).toBeInTheDocument();
   });
 
   describe('loading the file', () => {
     it('asks the player for the file, with the options it was given', () => {
-      render(<AudioTrack src="/song.mp3" autoplay loop volume={0.4} />);
+      render(<AudioPlayer src="/song.mp3" autoplay loop volume={0.4} />);
       expect(lastHowl().options).toMatchObject({ src: ['/song.mp3'], autoplay: true, loop: true, volume: 0.4 });
     });
 
     it('is quiet, not looping and full volume by default', () => {
-      render(<AudioTrack src="/song.mp3" />);
+      render(<AudioPlayer src="/song.mp3" />);
       expect(lastHowl().options).toMatchObject({ autoplay: false, loop: false, volume: 1 });
     });
 
     it('keeps the starting volume between 0 and 1, and full for true or false', () => {
-      render(<AudioTrack src="/a.mp3" volume={3} />);
+      render(<AudioPlayer src="/a.mp3" volume={3} />);
       expect(lastHowl().options.volume).toBe(1);
-      render(<AudioTrack src="/b.mp3" volume={-1} />);
+      render(<AudioPlayer src="/b.mp3" volume={-1} />);
       expect(lastHowl().options.volume).toBe(0);
-      render(<AudioTrack src="/c.mp3" volume />);
+      render(<AudioPlayer src="/c.mp3" volume />);
       expect(lastHowl().options.volume).toBe(1);
     });
 
     it('shows a loader until the file has loaded, then the controls', () => {
-      const { container } = render(<AudioTrack src="/song.mp3" />);
+      const { container } = render(<AudioPlayer src="/song.mp3" />);
       expect(container.querySelector('.volta-loader')).toBeInTheDocument();
       expect(container.firstChild).toHaveAttribute('aria-busy', 'true');
       expect(screen.queryByRole('button', { name: 'Play' })).toBeNull();
@@ -118,14 +118,14 @@ describe('AudioTrack', () => {
     });
 
     it('shows an error when the file cannot be loaded', () => {
-      render(<AudioTrack src="/missing.mp3" />);
+      render(<AudioPlayer src="/missing.mp3" />);
       act(() => { lastHowl().options.onloaderror(); });
       expect(screen.getByRole('alert')).toHaveTextContent('Could not load audio file');
       expect(screen.queryByRole('button', { name: 'Play' })).toBeNull();
     });
 
     it('shows the error rather than throwing when there is no file', () => {
-      render(<AudioTrack />);
+      render(<AudioPlayer />);
       expect(screen.getByRole('alert')).toHaveTextContent('Could not load audio file');
       expect(mockHowls).toHaveLength(0);
     });
@@ -133,7 +133,7 @@ describe('AudioTrack', () => {
     it('loads a new file when src changes and drops the old one', () => {
       const { rerender } = loadedTrack();
       const first = lastHowl();
-      rerender(<AudioTrack src="/other.mp3" />);
+      rerender(<AudioPlayer src="/other.mp3" />);
       expect(first.unload).toHaveBeenCalledTimes(1);
       expect(lastHowl().options.src).toEqual(['/other.mp3']);
       expect(screen.queryByRole('button', { name: 'Play' })).toBeNull();
@@ -142,9 +142,9 @@ describe('AudioTrack', () => {
     });
 
     it('ignores a late answer from a file that was replaced or removed', () => {
-      const { rerender, unmount } = render(<AudioTrack src="/song.mp3" />);
+      const { rerender, unmount } = render(<AudioPlayer src="/song.mp3" />);
       const first = lastHowl();
-      rerender(<AudioTrack src="/other.mp3" />);
+      rerender(<AudioPlayer src="/other.mp3" />);
       act(() => { first.options.onload(); });
       expect(screen.queryByRole('button', { name: 'Play' })).toBeNull();
       unmount();
@@ -160,7 +160,7 @@ describe('AudioTrack', () => {
     it('does not use the deprecated componentWillMount', () => {
       const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
       const error = jest.spyOn(console, 'error').mockImplementation(() => {});
-      render(<AudioTrack src="/song.mp3" />);
+      render(<AudioPlayer src="/song.mp3" />);
       const messages = [...warn.mock.calls, ...error.mock.calls].map((args) => String(args[0]));
       expect(messages.filter((message) => message.includes('componentWillMount'))).toEqual([]);
       warn.mockRestore();
@@ -345,7 +345,7 @@ describe('AudioTrack', () => {
   });
 });
 
-describe('AudioTrack examples', () => {
+describe('AudioPlayer examples', () => {
   it('play a tune that is a well-formed WAV file', () => {
     const { src } = examples.examples[0].output.props;
     expect(src).toMatch(/^data:audio\/wav;base64,/);

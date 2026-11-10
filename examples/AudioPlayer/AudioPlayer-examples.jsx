@@ -1,4 +1,4 @@
-import AudioTrack from '../../components/AudioTrack/AudioTrack';
+import AudioPlayer from '../../components/AudioPlayer/AudioPlayer';
 
 // A short tune built here as a WAV data URI, so the player has something to
 // play without a network or an audio file in the repo.
@@ -50,33 +50,33 @@ const TUNE = makeTune();
 const WAVEFORM = makeWaveform();
 
 export default {
-  name: 'AudioTrack',
+  name: 'AudioPlayer',
   description: 'A compact player for one audio file: play or pause, the time played, a bar to click, drag or arrow-key through, and the length. It loads the file when it mounts and shows an error if it cannot. Add volume for a mute button; autoplay starts it on load, though browsers often block that until the page has been clicked.',
   examples: [
     {
       name: 'Player',
-      code: '<AudioTrack src={tuneUrl} />',
-      output: <AudioTrack src={TUNE} />
+      code: '<AudioPlayer src={tuneUrl} />',
+      output: <AudioPlayer src={TUNE} />
     },
     {
       name: 'With a mute button',
-      code: '<AudioTrack src={tuneUrl} volume={0.5} />',
-      output: <AudioTrack src={TUNE} volume={0.5} />
+      code: '<AudioPlayer src={tuneUrl} volume={0.5} />',
+      output: <AudioPlayer src={TUNE} volume={0.5} />
     },
     {
       name: 'Looping',
-      code: '<AudioTrack src={tuneUrl} loop volume />',
-      output: <AudioTrack src={TUNE} loop volume />
+      code: '<AudioPlayer src={tuneUrl} loop volume />',
+      output: <AudioPlayer src={TUNE} loop volume />
     },
     {
       name: 'With a waveform',
-      code: '<AudioTrack src={tuneUrl} waveform={waveformUrl} />',
-      output: <AudioTrack src={TUNE} waveform={WAVEFORM} />
+      code: '<AudioPlayer src={tuneUrl} waveform={waveformUrl} />',
+      output: <AudioPlayer src={TUNE} waveform={WAVEFORM} />
     },
     {
       name: 'File that cannot load',
-      code: '<AudioTrack src="/audio/missing.mp3" />',
-      output: <AudioTrack src="/audio/missing.mp3" />
+      code: '<AudioPlayer src="/audio/missing.mp3" />',
+      output: <AudioPlayer src="/audio/missing.mp3" />
     }
   ]
 };

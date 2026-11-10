@@ -30,6 +30,33 @@
   }
 }
 
+// Fields
+//
+// One look for everything you type or choose in (the AutoComplete box is the
+// reference): the same border, ground, hover and focus colours, in light and
+// dark. Padding, radius and size stay with each component, as does the height
+// of a single-line field (`$field-height`).
+$field-height: 40px;
+
+@mixin field-surface {
+  box-sizing: border-box;
+  border: 1px solid var(--v-color-base-less-subtle);
+  background: var(--v-color-base);
+  color: var(--v-color-trim);
+  transition: border-color var(--v-anim-speed) var(--v-anim-ease);
+
+  &:hover {
+    border-color: var(--v-color-trim-less-subtle);
+  }
+
+  &:focus,
+  &:focus-within {
+    border-color: var(--v-accent);
+    outline: 2px solid var(--v-accent);
+    outline-offset: -1px;
+  }
+}
+
 // Browser Compatibility
 @mixin no_select {
   -webkit-touch-callout: none;

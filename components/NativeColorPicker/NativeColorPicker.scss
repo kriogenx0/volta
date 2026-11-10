@@ -1,0 +1,29 @@
+@use '../../mixins' as *;
+
+.volta-native_color_picker {
+  @include field-surface;
+  width: 46px;
+  height: $field-height;
+  padding: var(--v-space-1);
+  border-radius: var(--v-radius-md);
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  &::-webkit-color-swatch {
+    border: 0;
+    border-radius: var(--v-radius-sm);
+  }
+
+  &::-moz-color-swatch {
+    border: 0;
+    border-radius: var(--v-radius-sm);
+  }
+}
