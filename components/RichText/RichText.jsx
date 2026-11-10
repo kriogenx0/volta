@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { asButton } from '../../util/keyboard';
 import { safeHref, sanitizeHtml } from '../../util/sanitizeHtml';
 import Button from '../Button/Button';
-import Select from '../Select/Select';
+import NativeSelect from '../NativeSelect/NativeSelect';
 import TextBox from '../TextBox/TextBox';
 import {
   CLEAR_STYLE, INLINE_STYLES, LIST_STYLES, PARAGRAPH_STYLES,
@@ -365,7 +365,7 @@ const RichText = ({
     >
       {showToolbar && (
         <div className="volta-rich_text-toolbar" role="toolbar" aria-label="Formatting" onMouseDown={keepSelection}>
-          <Select
+          <NativeSelect
             fieldSize="sm"
             aria-label="Paragraph style"
             disabled={disabled}

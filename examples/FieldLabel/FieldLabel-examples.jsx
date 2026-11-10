@@ -2,7 +2,7 @@ import { useId, useState } from 'react';
 
 import FieldLabel from '../../components/FieldLabel/FieldLabel';
 import TextBox from '../../components/TextBox/TextBox';
-import Select from '../../components/Select/Select';
+import NativeSelect from '../../components/NativeSelect/NativeSelect';
 
 // Each demo makes its own id so several can sit on one page and the label
 // always points at its own control.
@@ -23,7 +23,7 @@ const PlanField = () => {
   return (
     <div>
       <FieldLabel htmlFor={id}>Plan</FieldLabel>
-      <Select id={id} value={plan} onChange={(e) => setPlan(e.target.value)} options={[
+      <NativeSelect id={id} value={plan} onChange={(e) => setPlan(e.target.value)} options={[
         { label: 'Personal', value: 'personal' },
         { label: 'Team', value: 'team' },
         { label: 'Enterprise', value: 'enterprise' }
@@ -48,14 +48,14 @@ const REGIONS = [
   { label: 'Europe', value: 'eu' }
 ];
 
-// TextBox and Select draw their own FieldLabel when given a label.
+// TextBox and NativeSelect draw their own FieldLabel when given a label.
 const Labelled = () => {
   const [email, setEmail] = useState('');
   const [region, setRegion] = useState('eu');
   return (
     <div className="example-stack">
       <TextBox label="Email" optional value={email} onChange={(e) => setEmail(e.target.value)} />
-      <Select label="Region" value={region} onChange={(e) => setRegion(e.target.value)} options={REGIONS} />
+      <NativeSelect label="Region" value={region} onChange={(e) => setRegion(e.target.value)} options={REGIONS} />
     </div>
   );
 };
@@ -79,7 +79,7 @@ export default {
     {
       name: 'Label for a select',
       code: `<FieldLabel htmlFor="plan">Plan</FieldLabel>
-<Select id="plan" value={plan} onChange={handleChange} options={plans} />`,
+<NativeSelect id="plan" value={plan} onChange={handleChange} options={plans} />`,
       output: <PlanField />
     },
     {
@@ -91,7 +91,7 @@ export default {
     {
       name: 'Rendered by TextBox and Select',
       code: `<TextBox label="Email" optional value={email} onChange={handleChange} />
-<Select label="Region" value={region} onChange={handleChange} options={regions} />`,
+<NativeSelect label="Region" value={region} onChange={handleChange} options={regions} />`,
       output: <Labelled />
     }
   ]

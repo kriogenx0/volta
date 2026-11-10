@@ -6,7 +6,7 @@
   padding: 8px 12px;
   overflow-wrap: anywhere;
   border: 1px solid var(--v-color-base-subtle);
-  border-radius: $border_radius;
+  border-radius: var(--v-radius-md);
   background-color: transparent;
   color: var(--v-color-trim);
   transition: border-color $anim-speed-normal, background-color $anim-speed-normal;

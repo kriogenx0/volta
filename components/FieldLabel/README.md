@@ -4,7 +4,7 @@ The label above a form control: a styled `<label>` tied to its control, with an 
 
 ## When to use
 
-- **A caption for a control you build yourself.** Give the control an `id` and point `htmlFor` at it. `TextField` and `Select` already draw a `FieldLabel` when you pass them `label` (and `optional`), so use it directly only for other controls.
+- **A caption for a control you build yourself.** Give the control an `id` and point `htmlFor` at it. `TextField` and `NativeSelect` already draw a `FieldLabel` when you pass them `label` (and `optional`), so use it directly only for other controls.
 - A label that wraps its control, with no ids needed, is [`Label`](../Label/README.md).
 - A layout wrapper that spaces a labelled control is [`Field`](../Field/README.md); a ruled settings row with the label at the left is [`FieldRow`](../FieldRow/README.md).
 
@@ -41,5 +41,5 @@ It renders a block `<label class="volta-field_label">` at 14px, weight 500, in `
 - Do mark the exception: label optional fields "(optional)" and leave required ones plain.
 - Do write short noun labels ("Full name"), not instructions.
 - Don't use it without `htmlFor` for a form control; it would not name the control.
-- Don't label a control twice (once with `FieldLabel` and again with a `label` prop on `TextField` or `Select`).
+- Don't label a control twice (once with `FieldLabel` and again with a `label` prop on `TextField` or `NativeSelect`).
 - Don't use it as a heading or a caption for a group of radios; it names one control.

@@ -31,13 +31,13 @@
     font-size: 14px;
     width: 100%;
     margin-left: 5px;
-    border-radius: 3px;
+    border-radius: var(--v-radius-md);
 
     span {
       display: inline-block;
       margin: 0 0 5px 5px;
       padding: 3px 5px;
-      border-radius: 3px;
+      border-radius: var(--v-radius-md);
       // cursor: pointer;
       cursor: default;
       @include no_select;
@@ -56,7 +56,7 @@
     @include dark {
       border-color: var(--v-color-trim);
     }
-    border-radius: 3px;
+    border-radius: var(--v-radius-md);
     font-size: 14px;
     height: 300px;
     overflow-y: auto;

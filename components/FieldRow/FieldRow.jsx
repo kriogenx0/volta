@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ErrorText from '../ErrorText/ErrorText';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import FieldHint from '../FieldHint/FieldHint';
 import { FieldContext, useFieldSetup } from '../Field/fieldContext';
 
@@ -21,7 +21,7 @@ const FieldRow = ({ label, hint, error, htmlFor, children, centered }) => {
         <div className="field_row-body" {...groupProps}>
           {content}
           {hint && <FieldHint id={hintId}>{hint}</FieldHint>}
-          {error && <div id={errorId} className="field_row-error"><ErrorText message={error} /></div>}
+          {error && <div id={errorId} className="field_row-error"><ErrorMessage message={error} role={null} /></div>}
         </div>
       </div>
     </FieldContext.Provider>

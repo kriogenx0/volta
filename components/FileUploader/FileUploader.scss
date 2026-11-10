@@ -20,7 +20,7 @@
 
     background-color: var(--v-color-base);
     border: 1px solid var(--v-color-base-subtle);
-    border-radius: 4px;
+    border-radius: var(--v-radius-md);
     height: 35px;
     position: relative; // for percent
 
@@ -46,7 +46,7 @@
       line-height: 36px;
       padding-left: 10px;
       padding-right: 10px;
-      border-radius: 4px;
+      border-radius: var(--v-radius-md);
 
       white-space: nowrap;
       overflow: hidden;
@@ -61,7 +61,7 @@
       left: 0;
 
       background-color: var(--v-accent);
-      border-radius: 4px;
+      border-radius: var(--v-radius-md);
 
       transition: width $anim-speed-normal;
     }

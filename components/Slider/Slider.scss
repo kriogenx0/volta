@@ -14,14 +14,17 @@ $thumb-size: 18px;
   .volta-slider-track {
     position: relative;
     height: 6px;
-    border-radius: 3px;
+    border-radius: var(--v-radius-md);
     background: var(--v-color-base-subtle);
   }
 
+  // The fill and thumb slide to a new value over the global animation speed, so
+  // that follows the speed setting and the OS "reduce motion" preference.
   .volta-slider-fill {
     height: 100%;
     border-radius: inherit;
     background: var(--v-accent);
+    transition: width var(--v-anim-speed) var(--v-anim-ease);
   }
 
   // Hover and focus add a ring; the thumb itself never changes size or position
@@ -36,7 +39,7 @@ $thumb-size: 18px;
     background: var(--v-color-base);
     box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
     transform: translate(-50%, -50%);
-    transition: box-shadow var(--v-anim-speed);
+    transition: box-shadow var(--v-anim-speed), left var(--v-anim-speed) var(--v-anim-ease);
 
     &:focus-visible {
       outline: 0;
@@ -47,6 +50,15 @@ $thumb-size: 18px;
   &:hover:not(.volta-slider--disabled) .volta-slider-thumb,
   &.volta-slider--dragging .volta-slider-thumb {
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--v-accent) 25%, transparent);
+  }
+
+  // While the pointer drags, the thumb follows it with no delay
+  &.volta-slider--tracking .volta-slider-fill {
+    transition: none;
+  }
+
+  &.volta-slider--tracking .volta-slider-thumb {
+    transition: box-shadow var(--v-anim-speed);
   }
 
   &.volta-slider--disabled {

@@ -15,7 +15,7 @@ Rules for any AI agent (or human) writing UI with Volta. Read `tokens.json` for 
 6. **Keep contrast.** Body text 4.5:1 on its ground in both themes. `text-subtle` and `inactive` never carry essential information. Never convey state by colour alone.
 7. **Motion uses the global speed.** `transition: … var(--v-anim-speed) var(--v-anim-ease)`. Respect `prefers-reduced-motion`.
 8. **Every interactive element has** a visible focus state, a hover state, a disabled state, and works from the keyboard. Icon-only buttons need `aria-label`.
-9. **Forms:** wrap controls in `Field` (label + hint + error). Errors use `danger` plus message text, shown via `ErrorText`.
+9. **Forms:** wrap controls in `Field` (label + hint + error). Errors use `danger` plus message text, shown via `ErrorMessage`.
 10. **New component checklist:** `components/<Name>/<Name>.jsx`, `<Name>.scss`, `index.js`, PropTypes, an `<Name>-examples.jsx` for the styleguide, export in `components/index.js`, a test if it has logic.
 
 11. **Hover everything interactive** with a subtle change (a step of `surface-muted`, `border-strong` or `accent-hover`), and keep animations to the global speed.
@@ -46,7 +46,7 @@ Rules for any AI agent (or human) writing UI with Volta. Read `tokens.json` for 
 | On/off setting, applies immediately | `Toggle` |
 | On/off choice submitted with a form | `Checkbox` |
 | One of 2-5 | `RadioGroup` or `SegmentedControl` |
-| One of many | `Select` / `ComboBox` / `AutoComplete` |
+| One of many | `NativeSelect` / `ComboBox` / `AutoComplete` |
 | Blocking decision | `Dialog` / `ModalAlert` |
 | Side form or detail | `Drawer` |
 | Transient message | `Message` |

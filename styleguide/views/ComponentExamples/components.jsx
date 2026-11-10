@@ -1,4 +1,3 @@
-import ActionLinkExamples from '../../../examples/ActionLink/ActionLink-examples';
 import ActionMenuExamples from '../../../examples/ActionMenu/ActionMenu-examples';
 import AutoCompleteExamples from '../../../examples/AutoComplete/AutoComplete-examples';
 import AudioTrackExamples from '../../../examples/AudioTrack/AudioTrack-examples';
@@ -12,7 +11,6 @@ import CheckboxGroupExamples from '../../../examples/CheckboxGroup/CheckboxGroup
 import ClipboardHoverExamples from '../../../examples/ClipboardHover/ClipboardHover-examples';
 import CloseButtonExamples from '../../../examples/CloseButton/CloseButton-examples';
 import CodeExamples from '../../../examples/Code/Code-examples';
-import ColorPalettePickerExamples from '../../../examples/ColorPalettePicker/ColorPalettePicker-examples';
 import ColorPickerExamples from '../../../examples/ColorPicker/ColorPicker-examples';
 import ComboBoxExamples from '../../../examples/ComboBox/ComboBox-examples';
 import ContentEditableExamples from '../../../examples/ContentEditable/ContentEditable-examples';
@@ -22,7 +20,7 @@ import DrawerExamples from '../../../examples/Drawer/Drawer-examples';
 import DropdownExamples from '../../../examples/Dropdown/Dropdown-examples';
 import DropdownListExamples from '../../../examples/DropdownList/DropdownList-examples';
 import EmptyExamples from '../../../examples/Empty/Empty-examples';
-import ErrorTextExamples from '../../../examples/ErrorText/ErrorText-examples';
+import ErrorMessageExamples from '../../../examples/ErrorMessage/ErrorMessage-examples';
 import FieldExamples from '../../../examples/Field/Field-examples';
 import FileManagerExamples from '../../../examples/FileManager/FileManager-examples';
 import FilePickerExamples from '../../../examples/FilePicker/FilePicker-examples';
@@ -32,7 +30,6 @@ import FieldHintExamples from '../../../examples/FieldHint/FieldHint-examples';
 import FieldLabelExamples from '../../../examples/FieldLabel/FieldLabel-examples';
 import FieldRowExamples from '../../../examples/FieldRow/FieldRow-examples';
 import FullViewExamples from '../../../examples/FullView/FullView-examples';
-import GlobalNavExamples from '../../../examples/GlobalNav/GlobalNav-examples';
 import IconExamples from '../../../examples/Icon/Icon-examples';
 import ImageCropExamples from '../../../examples/ImageCrop/ImageCrop-examples';
 import ImageDropZoneExamples from '../../../examples/ImageDropZone/ImageDropZone-examples';
@@ -44,7 +41,6 @@ import LabelExamples from '../../../examples/Label/Label-examples';
 import LayerExamples from '../../../examples/Layer/Layer-examples';
 import LazyExamples from '../../../examples/Lazy/Lazy-examples';
 import LinkExamples from '../../../examples/Link/Link-examples';
-import ListCardExamples from '../../../examples/ListCard/ListCard-examples';
 import ListDefinitionsExamples from '../../../examples/ListDefinitions/ListDefinitions-examples';
 import ListExamples from '../../../examples/List/List-examples';
 import LoaderExamples from '../../../examples/Loader/Loader-examples';
@@ -58,6 +54,7 @@ import AlertExamples from '../../../examples/ModalAlert/Alert-examples';
 import ModalDialogExamples from '../../../examples/ModalDialog/ModalDialog-examples';
 import MultiSelectExamples from '../../../examples/MultiSelect/MultiSelect-examples';
 import NavBarExamples from '../../../examples/NavBar/NavBar-examples';
+import NavSidebarExamples from '../../../examples/NavSidebar/NavSidebar-examples';
 import NumericFieldExamples from '../../../examples/NumericField/NumericField-examples';
 import OverlayExamples from '../../../examples/Overlay/Overlay-examples';
 import PageHeadingExamples from '../../../examples/PageHeading/PageHeading-examples';
@@ -67,14 +64,11 @@ import ProgressBarExamples from '../../../examples/ProgressBar/ProgressBar-examp
 import RadioExamples from '../../../examples/Radio/Radio-examples';
 import RadioGroupExamples from '../../../examples/RadioGroup/RadioGroup-examples';
 import RichTextExamples from '../../../examples/RichText/RichText-examples';
-import SearchSelectorExamples from '../../../examples/SearchSelector/SearchSelector-examples';
 import SegmentedControlExamples from '../../../examples/SegmentedControl/SegmentedControl-examples';
-import SelectExamples from '../../../examples/Select/Select-examples';
+import NativeSelectExamples from '../../../examples/NativeSelect/NativeSelect-examples';
 import SliderExamples from '../../../examples/Slider/Slider-examples';
 import SplitViewExamples from '../../../examples/SplitView/SplitView-examples';
-import TabBarExamples from '../../../examples/TabBar/TabBar-examples';
 import TabsExamples from '../../../examples/Tabs/Tabs-examples';
-import TabsRoutedExamples from '../../../examples/TabsRouted/TabsRouted-examples';
 import TagExamples from '../../../examples/Tag/Tag-examples';
 import TagInputExamples from '../../../examples/TagInput/TagInput-examples';
 import TextEditableExamples from '../../../examples/TextEditable/TextEditable-examples';
@@ -88,7 +82,6 @@ import VideoPlayerExamples from '../../../examples/VideoPlayer/VideoPlayer-examp
 import VideoUploadPlayerExamples from '../../../examples/VideoUploadPlayer/VideoUploadPlayer-examples';
 
 const curated = [
-  ActionLinkExamples,
   ActionMenuExamples,
   AutoCompleteExamples,
   AudioTrackExamples,
@@ -102,7 +95,6 @@ const curated = [
   ClipboardHoverExamples,
   CloseButtonExamples,
   CodeExamples,
-  ColorPalettePickerExamples,
   ColorPickerExamples,
   ComboBoxExamples,
   ContentEditableExamples,
@@ -112,7 +104,7 @@ const curated = [
   DropdownExamples,
   DropdownListExamples,
   EmptyExamples,
-  ErrorTextExamples,
+  ErrorMessageExamples,
   FieldExamples,
   FileManagerExamples,
   FilePickerExamples,
@@ -122,7 +114,6 @@ const curated = [
   FieldLabelExamples,
   FieldRowExamples,
   FullViewExamples,
-  GlobalNavExamples,
   IconExamples,
   ImageCropExamples,
   ImageDropZoneExamples,
@@ -134,7 +125,6 @@ const curated = [
   LayerExamples,
   LazyExamples,
   LinkExamples,
-  ListCardExamples,
   ListDefinitionsExamples,
   ListExamples,
   LoaderExamples,
@@ -148,6 +138,7 @@ const curated = [
   ModalDialogExamples,
   MultiSelectExamples,
   NavBarExamples,
+  NavSidebarExamples,
   NumericFieldExamples,
   OverlayExamples,
   PageHeadingExamples,
@@ -157,14 +148,11 @@ const curated = [
   RadioExamples,
   RadioGroupExamples,
   RichTextExamples,
-  SearchSelectorExamples,
   SegmentedControlExamples,
-  SelectExamples,
+  NativeSelectExamples,
   SliderExamples,
   SplitViewExamples,
-  TabBarExamples,
   TabsExamples,
-  TabsRoutedExamples,
   TagExamples,
   TagInputExamples,
   TextEditableExamples,

@@ -5,7 +5,7 @@ import './FieldHint.scss';
 
 // Help text under a form control ("Use your work email"). Give it an `id` and
 // point the control's aria-describedby at it, so a screen reader reads it with
-// the control. Field, TextBox and Select do this for you.
+// the control. Field, TextBox and NativeSelect do this for you.
 const FieldHint = ({ id, children }) => (
   <p className="volta-field_hint" id={id}>{children}</p>
 );

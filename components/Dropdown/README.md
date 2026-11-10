@@ -5,7 +5,7 @@ A button that reveals a floating panel of any contents below it.
 ## When to use
 
 - **A panel of your own content under a button:** a few links, a small filter form, account details.
-- **Choosing one option from a list** is [`DropdownList`](../DropdownList/README.md), which is built on `Dropdown`. A menu of actions is [`ActionMenu`](../ActionMenu/README.md). A form field that submits a value is [`Select`](../Select/README.md).
+- **Choosing one option from a list** is [`DropdownList`](../DropdownList/README.md), which is built on `Dropdown`. A menu of actions is [`ActionMenu`](../ActionMenu/README.md). A form field that submits a value is [`NativeSelect`](../NativeSelect/README.md).
 - A blocking decision or a larger form belongs in a [`Dialog`](../Dialog/README.md) or [`Drawer`](../Drawer/README.md).
 
 ## Usage

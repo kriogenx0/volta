@@ -9,7 +9,7 @@ $audio_track-height: 50px;
   min-height: $audio_track-height;
   overflow: hidden; // BORDER CORNERS
   border: 1px solid var(--v-color-base-subtle);
-  border-radius: 4px;
+  border-radius: var(--v-radius-md);
   background: var(--v-color-base);
   color: var(--v-color-trim-less-subtle);
   line-height: $audio_track-height - 2px;

@@ -21,7 +21,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--v-accent);
-  color: var(--v-on-accent);
+  // The accent unless the avatar was given a colour (the color prop)
+  background: var(--volta-avatar-background, var(--v-accent));
+  color: var(--volta-avatar-color, var(--v-on-accent));
   font-weight: 600;
 }

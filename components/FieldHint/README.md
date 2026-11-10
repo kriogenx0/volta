@@ -4,7 +4,7 @@ Small help text under a form control ("Use your work email"), readable by a scre
 
 ## When to use
 
-- **Guidance that applies before the user makes a mistake:** a format, a limit, who will see the value. Corrections after a mistake are an `error`, shown with [`ErrorText`](../ErrorText/README.md).
+- **Guidance that applies before the user makes a mistake:** a format, a limit, who will see the value. Corrections after a mistake are an `error`, shown with [`ErrorMessage`](../Message/README.md).
 - `Field`, `FieldRow` and `TextBox` draw one for you from their `hint` prop. Use `FieldHint` itself when you build the layout by hand, or place it inside a [`Field`](../Field/README.md) where you want it.
 
 ## Usage

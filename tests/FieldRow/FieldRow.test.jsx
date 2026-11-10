@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
 import FieldRow from '../../components/FieldRow/FieldRow';
-import Select from '../../components/Select/Select';
+import NativeSelect from '../../components/NativeSelect/NativeSelect';
 import TextField from '../../components/TextBox/TextBox';
 
 describe('FieldRow', () => {
@@ -31,7 +31,7 @@ describe('FieldRow', () => {
   it('names a Select, and a control with its own id', () => {
     render(
       <>
-        <FieldRow label="Role"><Select options={[]} /></FieldRow>
+        <FieldRow label="Role"><NativeSelect options={[]} /></FieldRow>
         <FieldRow label="Native"><input id="plain" /></FieldRow>
       </>
     );

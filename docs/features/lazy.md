@@ -1,6 +1,6 @@
 # Lazy
 
-`Lazy` holds back its children until it is near the screen, then renders them and keeps them. It is for long pages made of heavy parts, where rendering everything at once makes the page slow to open. Guideline: `components/Lazy/README.md`; examples under Layout & Overlays in the styleguide.
+`Lazy` holds back its children until it is near the screen, then renders them and keeps them. It is for long pages made of heavy parts, where rendering everything at once makes the page slow to open. Guideline: `components/Lazy/README.md`; examples under Layout in the styleguide.
 
 ## What it does
 

@@ -8,6 +8,7 @@ describe('Theme', () => {
     Theme.resetTheme();
     Theme.resetAccentColor();
     Theme.resetAnimationSpeed();
+    Theme.resetShape();
     Theme.setColorScheme('system');
   });
 
@@ -201,6 +202,52 @@ describe('Theme', () => {
       Theme.setColorScheme('dark');
       Theme.applyTheme({ id: 'light-only', light: { '--v-accent': '#123456' } });
       expect(token('--v-accent')).toBe('');
+    });
+  });
+
+  describe('shape', () => {
+    const root = document.documentElement;
+
+    it('lists the three shapes', () => {
+      expect(Theme.shapes).toEqual(['square', 'rounded', 'pill']);
+    });
+
+    it('is rounded until one is chosen, and puts nothing on the page for it', () => {
+      expect(Theme.getShape()).toBe('rounded');
+      expect(root.hasAttribute('data-shape')).toBe(false);
+    });
+
+    it('sets square and pill on the root element', () => {
+      Theme.setShape('square');
+      expect(Theme.getShape()).toBe('square');
+      expect(root.getAttribute('data-shape')).toBe('square');
+      Theme.setShape('pill');
+      expect(Theme.getShape()).toBe('pill');
+      expect(root.getAttribute('data-shape')).toBe('pill');
+    });
+
+    it('goes back to the default with rounded or reset', () => {
+      Theme.setShape('pill');
+      Theme.setShape('rounded');
+      expect(root.hasAttribute('data-shape')).toBe(false);
+      Theme.setShape('square');
+      Theme.resetShape();
+      expect(Theme.getShape()).toBe('rounded');
+    });
+
+    it('refuses a shape that does not exist, naming the ones that do', () => {
+      expect(() => Theme.setShape('hexagon')).toThrow(/square, rounded, pill/);
+      expect(Theme.getShape()).toBe('rounded');
+    });
+
+    it('is independent of the theme, the accent and the colour scheme', () => {
+      Theme.setShape('pill');
+      Theme.applyTheme('ocean');
+      Theme.setAccentColor('#e0405c');
+      Theme.setColorScheme('dark');
+      expect(Theme.getShape()).toBe('pill');
+      Theme.resetTheme();
+      expect(Theme.getShape()).toBe('pill');
     });
   });
 });

@@ -50,8 +50,11 @@
   --v-space-5: 24px;
   --v-space-6: 32px;
 
-  // Radius: sm for tiny things, md by default, lg for overlays, pill for toggles
-  // and avatars. A true circle stays `border-radius: 50%`.
+  // Radius: sm for tiny things (tooltips, tags in a field), md for controls and
+  // small surfaces (buttons, fields, tabs, messages), lg for big surfaces (cards,
+  // dialogs, drawers), pill for toggles and badges. A true circle stays
+  // `border-radius: 50%`. These are the "rounded" shape; the shapes below
+  // (docs/features/theming.md, "Shape") change them for every component at once.
   --v-radius-sm: 2px;
   --v-radius-md: 4px;
   --v-radius-lg: 10px;
@@ -83,6 +86,24 @@
   :root {
     --v-anim-speed: 0.01ms;
   }
+}
+
+// Shapes: set with Theme.setShape(), which puts data-shape on <html>. "rounded"
+// is the default above. Only the radius tokens change.
+:root[data-shape='square'] {
+  --v-radius-sm: 0;
+  --v-radius-md: 0;
+  --v-radius-lg: 0;
+  --v-radius-pill: 0;
+}
+
+// Controls become pills: 20px is more than half a button's or a field's height, so
+// they are fully rounded, while a tall box (a textarea, a card) only gets soft corners.
+:root[data-shape='pill'] {
+  --v-radius-sm: 6px;
+  --v-radius-md: 20px;
+  --v-radius-lg: 24px;
+  --v-radius-pill: 999px;
 }
 
 @mixin dark-palette {

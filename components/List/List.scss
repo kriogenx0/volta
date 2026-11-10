@@ -17,7 +17,8 @@
   }
 
   .lst_row {
-    > span {
+    > span,
+    > div {
       display: block;
       padding: 8px 12px;
     }
@@ -51,6 +52,35 @@
     &.is-selected > button {
       background: var(--v-accent-subtle);
       font-weight: 500;
+    }
+  }
+}
+
+// card: the same list in a bordered, rounded card with a divider between rows. Each row
+// is a flex line with its parts (a label, a value or hint) spread apart.
+.volta-list.volta-list--card {
+  border: 1px solid var(--v-color-base-subtle);
+  border-radius: var(--v-radius-lg);
+  // Keeps a row's hover background inside the rounded corners
+  overflow: hidden;
+
+  .lst_row + .lst_row {
+    border-top: 1px solid var(--v-color-base-subtle);
+  }
+
+  .lst_row {
+    > span,
+    > div,
+    > a,
+    > button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 12px 16px;
+      text-align: left;
     }
   }
 }

@@ -6,8 +6,9 @@ import './Icon.scss';
 
 // An icon is drawn one of three ways, found by `type`: inline SVG (svgIcons.js,
 // needs no font), a glyph from the "Volta Icons" font (icons.js), or an SF
-// Symbols character (unicodeIcons). The last two only show where those fonts are
-// available; the library doesn't load them.
+// Symbols character (unicodeIcons). SVG is tried first and covers the icons the
+// library and its examples use; the other two only show where those fonts are
+// available, which the library doesn't load.
 const Icon = ({ type, className, size, ...otherProps }) => {
 
   const paths = svgIcons[type];
@@ -42,7 +43,12 @@ const Icon = ({ type, className, size, ...otherProps }) => {
   if (paths) {
     iProps.children = (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
-        {paths.map((d) => <path key={d} d={d} />)}
+        {paths.map((shape) => {
+          if (typeof shape === 'string') return <path key={shape} d={shape} />;
+          // A solid shape, or a stroke in the page colour cut out of one
+          if (shape.fill) return <path key={shape.d} d={shape.d} className="icon-fill" fill="currentColor" stroke="none" />;
+          return <path key={shape.d} d={shape.d} className="icon-knockout" />;
+        })}
       </svg>
     );
   } else if (useUnicode) {

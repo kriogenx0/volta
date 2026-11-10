@@ -5,7 +5,7 @@ A brief notification in the top right corner, shown by calling a function: no co
 ## When to use
 
 - **Confirming something that just happened** without interrupting: "Changes saved", "Link copied", or a failed background action.
-- Use [`Message`](../Message/README.md) for text that stays in the page (a form error, a banner), [`ErrorText`](../ErrorText/README.md) under a field, and [`Dialog`](../Dialog/README.md) or [`Alert`](../ModalAlert/README.md) when the user must decide or acknowledge something.
+- Use [`Message`](../Message/README.md) for text that stays in the page (a form error, a banner), [`ErrorMessage`](../Message/README.md) under a field, and [`Dialog`](../Dialog/README.md) or [`Alert`](../ModalAlert/README.md) when the user must decide or acknowledge something.
 - Don't put anything the user must act on in a toast; it goes away on its own.
 
 ## Usage

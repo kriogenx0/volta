@@ -177,6 +177,28 @@ export function setColorScheme(scheme) {
   render();
 }
 
+// The shape of the corners. 'rounded' is the stock look; 'square' has none; 'pill'
+// rounds controls (buttons, fields, tabs) all the way and soft-corners big surfaces
+// (cards, dialogs). Only the --v-radius-* tokens change, by data-shape on <html>
+// (styles/_colors.scss), so it is independent of the theme and the colour scheme.
+export const shapes = ['square', 'rounded', 'pill'];
+
+export function setShape(shape) {
+  if (!shapes.includes(shape)) {
+    throw new Error(`No shape "${shape}". Shapes: ${shapes.join(', ')}.`);
+  }
+  if (shape === 'rounded') root().removeAttribute('data-shape');
+  else root().setAttribute('data-shape', shape);
+}
+
+export function getShape() {
+  return root().getAttribute('data-shape') || 'rounded';
+}
+
+export function resetShape() {
+  root().removeAttribute('data-shape');
+}
+
 // Global speed for every transition/animation built on $anim-speed-normal /
 // --v-anim-speed (150ms by default). Accepts a number (ms) or a CSS
 // duration string ('0.2s').

@@ -1,6 +1,6 @@
 # Icon
 
-A single glyph from the library's icon fonts, picked by name, that takes the colour and size of the text around it.
+A single icon, drawn as SVG and picked by name, that takes the colour and size of the text around it.
 
 ## When to use
 
@@ -23,15 +23,23 @@ import { Icon } from 'volta';
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `type` | `string` | | Required. The icon name: a key of the legacy font map (`chevrondown`, `close`, `check`, `plus`, ...) or an SF-Symbols style name (`chevron.down`, `xmark`, `trash`, ...). Both lists are in `icons.js`. |
+| `type` | `string` | | Required. The icon name: any key of `svgIcons.js` (`chevron.down`, `xmark`, `trash`, `checkmark.circle.fill`, ...; the styleguide shows them all), or one of the older font names in `icons.js` that have no drawing yet. |
 | `size` | `'small'` | | `Icon.sizes` lists the options. `'small'` is 80% of the surrounding text size; without it the glyph is the text size. |
 | `className` | `string` | | Added to the `<i>`. |
 
-Any other prop (`aria-hidden`, `role`, `aria-label`, `title`, `data-*`) goes to the `<i>`. The legacy font map is checked first, so a name in both lists (`plus`, `clock`) uses the legacy glyph. An unknown name logs "Icon type not recognized" and renders an empty `<i>`.
+Any other prop (`aria-hidden`, `role`, `aria-label`, `title`, `data-*`) goes to the `<i>`. A name is looked up as an SVG drawing first, then in the legacy font map, then as an SF Symbol. An unknown name logs "Icon type not recognized" and renders an empty `<i>`.
+
+## The drawings
+
+About 60 icons are drawn on a 24 x 24 grid with a 1.75 stroke and round ends (`components/Icon/svgIcons.js`): arrows and chevrons, `xmark`, `plus`, `minus`, `checkmark`, circles and status marks, a document, folder, gear, bell, person, envelope, phone, star, heart, bookmark, flag, globe, clock, image, clipboard, camera, trash, pencil, search and more. Names follow SF Symbols, and the older names for the same thing (`close`, `multiply`, `times`, `x` for `xmark`; `check`; `search`; `mail`) draw the same icon.
+
+A **filled** icon (`circle.fill`, `checkmark.circle.fill`, `star.fill`, `folder.fill`, ...) is a solid shape in the text colour with its glyph cut out in the page colour (`--v-icon-knockout`, which is `--v-color-base` unless you set it). `spinner` is an open ring that turns, and holds still for reduced motion.
+
+Names with no drawing yet (brand logos such as `facebook`, devices such as `applewatch`) still use the fonts below.
 
 ## Theming
 
-The glyph is drawn with the text colour of its parent, so it follows the theme: set the colour on the parent, not on the icon. Legacy names use the `Volta Icons` font; SF-Symbols style names use the `SF_Symbol` and `SF Pro` fonts. The library names these fonts but does not load them (it has no `@font-face` for them), so the host page has to supply them or the glyphs do not show.
+The icon is drawn with the text colour of its parent, so it follows the theme: set the colour on the parent, not on the icon. A drawn icon needs no font. The few names with no drawing use the `Volta Icons` font (legacy names) or the `SF_Symbol` and `SF Pro` fonts (SF-Symbols characters); the library names these fonts but does not load them (it has no `@font-face` for them), so the host page has to supply them or those glyphs do not show.
 
 ## Accessibility
 
@@ -41,7 +49,7 @@ The glyph is drawn with the text colour of its parent, so it follows the theme: 
 
 ## Do and don't
 
-- Do use the icon's name from `icons.js`; check it exists, because an unknown name shows nothing.
+- Do use a name from the styleguide's grid; an unknown name shows nothing.
 - Do pair an icon with a text label wherever space allows.
 - Don't set the colour or size with inline `style`; use the parent's text colour and `size`.
 - Don't use an icon as a button by itself; use `IconButton`.

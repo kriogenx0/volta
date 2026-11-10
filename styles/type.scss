@@ -24,7 +24,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
   display: inline;
   padding: 0.15em 0.4em;
-  border-radius: 4px;
+  border-radius: var(--v-radius-md);
   font-size: 0.9em;
   background-color: var(--v-color-base-subtle);
   color: var(--v-color-trim);

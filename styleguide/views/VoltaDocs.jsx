@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { SegmentedControl } from '../../components';
 
+import Logo from './Logo';
 import ThemeSwitcher from './ThemeSwitcher';
 import Home from './Home/Home';
 import Components from './ComponentExamples/Components-examples';
@@ -67,7 +68,7 @@ const VoltaDocs = () => {
     <div className="v-docs" ref={rootRef}>
       <header className="v-docs-header" ref={headerRef}>
         <button className="v-docs-brand" type="button" onClick={() => showPage('Home')}>
-          <span className="v-docs-brand_mark" aria-hidden="true">V</span>
+          <Logo />
           <span>
             <strong>Volta</strong>
             <small>Component library</small>

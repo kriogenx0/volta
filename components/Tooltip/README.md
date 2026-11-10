@@ -5,7 +5,7 @@ A short hint that appears beside an element on hover or keyboard focus.
 ## When to use
 
 - **A short explanation of something that is already clear enough to use without it:** what a button's keyboard shortcut is, why something is disabled, the full text of a truncated label.
-- Use [`PopOver`](../PopOver/README.md) or [`Drawer`](../Drawer/README.md) for content with links or buttons, [`Message`](../Message/README.md) or [`ErrorText`](../ErrorText/README.md) for text everyone must see, and [`ToastMessage`](../ToastMessage/README.md) for a result that just happened.
+- Use [`PopOver`](../PopOver/README.md) or [`Drawer`](../Drawer/README.md) for content with links or buttons, [`Message`](../Message/README.md) or [`ErrorMessage`](../Message/README.md) for text everyone must see, and [`ToastMessage`](../ToastMessage/README.md) for a result that just happened.
 - It wraps whatever you give it in an inline-block `<span>`. Without a `title` nothing is shown.
 
 ## Usage

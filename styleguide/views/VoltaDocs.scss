@@ -43,19 +43,6 @@
   text-align: left;
   cursor: pointer;
 
-  .v-docs-brand_mark {
-    display: grid;
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    background: $color_active;
-    color: white;
-    box-shadow: 0 6px 16px color-mix(in srgb, $color_active 28%, transparent);
-    font-size: 15px;
-    font-weight: 750;
-    place-items: center;
-  }
-
   strong, small { display: block; }
   strong { font-size: 14px; letter-spacing: -0.01em; }
   small { margin-top: 1px; color: $color_trim_subtle; font-size: 10px; }

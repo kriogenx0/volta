@@ -27,6 +27,11 @@ import { Avatar } from 'volta';
 | `name` | `string` | | The person's name. Gives the initials when there is no photo, and the accessible name in both cases. |
 | `photoUrl` | `string` | | URL of the picture. When it is set, the picture is shown and the initials are not. |
 | `size` | `'sm'` \| `'md'` | `'md'` | 28px or 36px across. `Avatar.sizes` lists them. |
+| `color` | `string` | `'accent'` | The background of the initials. `'accent'` is the theme's accent; `'auto'` makes a colour from the name; any CSS colour is used as it is. Ignored when there is a photo. |
+
+## Colour from the name
+
+With `color="auto"` the background is worked out from the name, so a person is the same colour on every screen and every visit, with nothing stored. The name is normalised first (case, extra spaces and accents are ignored: "José Núñez" and "jose nunez" match), hashed to a hue, and the lightness is lowered until white initials read on it at 4.5:1. A blank name has no colour and falls back to the accent. The functions are in `components/Avatar/avatarColor.js`. The text colour for a colour you give is white or near-black, whichever reads better.
 
 ## Variants and states
 

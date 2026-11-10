@@ -6,7 +6,7 @@ Every interactive component needs to work from the keyboard and show where focus
 
 1. **Anything that reacts to a click works without a mouse.** The test renders every example and finds each element with a click handler (React keeps an element's props on its DOM node). It must be a native control (button, link with an `href`, input, select, textarea, label, summary), or have a role and a tab stop. For the roles whose items take turns being the tab stop (tab, option, menu item, radio, tree item, grid cell), `tabindex="-1"` on the others is accepted: they are reached with the arrow keys.
 2. **No positive `tabindex`**, which pulls an element out of the natural order.
-3. **A stylesheet that removes the focus outline puts something visible back**: a border, a shadow, or a focus ring on a container. (`TextBox`, `Select`, `ComboBox` swap in an accent border, `Slider` a ring, `AutoComplete` the container's `:focus-within`.)
+3. **A stylesheet that removes the focus outline puts something visible back**: a border, a shadow, or a focus ring on a container. (`TextBox`, `NativeSelect`, `ComboBox` swap in an accent border, `Slider` a ring, `AutoComplete` the container's `:focus-within`.)
 
 It is a ratchet. A new click-only element fails the test: make it a control, or add it to the reviewed list with a reason. An exception that is no longer found fails it too, so the list can't go stale. The audit checks itself (a clickable `div`, `span` and `li` are flagged; a button, a link and a role with a tab stop are not), and it flagged the old `Tabs` when that was put back.
 
@@ -20,14 +20,14 @@ It is a ratchet. A new click-only element fails the test: make it a control, or 
 
 ## What is left, by design
 
-Each is listed with its reason in `EXCEPTIONS` in the test. They are containers that hear clicks from keyboard-operable controls inside them (the panels of Dropdown, DropdownList, ActionMenu, DatePicker, the AutoComplete list); backdrops and scrims that close on a click outside, where Escape does the same (Dialog, PopOver, ModalDialog, Drawer, SearchSelector); react-select's remove control (not ours); a disabled item (not meant to take focus); `VideoPlayer`'s `<video>` (native controls, or the keyboard handling it adds); the wrapper `ImageUploader` puts around the control you pass it; and one example's own parent.
+Each is listed with its reason in `EXCEPTIONS` in the test. They are containers that hear clicks from keyboard-operable controls inside them (the panels of Dropdown, DropdownList, ActionMenu, DatePicker, the AutoComplete list); backdrops and scrims that close on a click outside, where Escape does the same (Dialog, PopOver, ModalDialog, Drawer; `SearchSelector`'s popover was one too, until it left the styleguide); react-select's remove control (not ours); a disabled item (not meant to take focus); `VideoPlayer`'s `<video>` (native controls, or the keyboard handling it adds); the wrapper `ImageUploader` puts around the control you pass it; and one example's own parent.
 
 ## Not audited (needs a browser)
 
 jsdom has no CSS, so these were not checked:
 
 - that hover, focus and disabled states look right and are visible in light and dark, and under a non-default theme;
-- how strong the focus indication is. `TextBox`, `Select` and `ComboBox` show focus only by changing the 1px border to the accent colour, which is easy to miss; a ring would be clearer.
+- how strong the focus indication is. `TextBox`, `NativeSelect` and `ComboBox` show focus only by changing the 1px border to the accent colour, which is easy to miss; a ring would be clearer.
 
 ## Observations
 

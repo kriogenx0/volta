@@ -5,7 +5,7 @@ A button that opens a list of options to pick one from, showing the chosen optio
 ## When to use
 
 - **Choosing one option from a short list** where a styled popup fits better than a native control, or where picking an option should also run an action (`option.action`).
-- A form field that submits a value is [`Select`](../Select/README.md). Search-as-you-type is [`ComboBox`](../ComboBox/README.md). A menu of commands, with no selection, is [`ActionMenu`](../ActionMenu/README.md).
+- A form field that submits a value is [`NativeSelect`](../NativeSelect/README.md). Search-as-you-type is [`ComboBox`](../ComboBox/README.md). A menu of commands, with no selection, is [`ActionMenu`](../ActionMenu/README.md).
 - A panel of your own content is a [`Dropdown`](../Dropdown/README.md), which `DropdownList` is built on.
 
 ## Usage

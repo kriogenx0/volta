@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 
-import ErrorText from '../ErrorText/ErrorText';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import FieldHint from '../FieldHint/FieldHint';
 import { FieldContext, useFieldSetup } from './fieldContext';
 
 import './Field.scss';
 
 // A label, a control, and optionally a hint and an error, connected for
-// assistive technology. With one control inside (TextBox, Select, or any control
+// assistive technology. With one control inside (TextBox, NativeSelect, or any control
 // given `htmlFor`'s id) the label points at it, the control is described by the
 // hint and error, and it is marked invalid when there is an error. With several
 // controls inside, the label names the group instead.
@@ -25,7 +25,7 @@ const Field = ({ className, type, stack, label, hint, error, htmlFor, children }
   const notes = (
     <>
       {hint && <FieldHint id={hintId}>{hint}</FieldHint>}
-      {error && <div id={errorId} className="field-error"><ErrorText message={error} /></div>}
+      {error && <div id={errorId} className="field-error"><ErrorMessage message={error} role={null} /></div>}
     </>
   );
 

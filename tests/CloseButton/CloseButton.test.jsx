@@ -74,3 +74,13 @@ describe('CloseButton', () => {
     expect(screen.getByRole('button')).toHaveAttribute('data-dismiss', 'dialog');
   });
 });
+
+describe('CloseButton icon', () => {
+  it('is the xmark icon, hidden from assistive technology', () => {
+    const { container } = render(<CloseButton />);
+    const icon = container.querySelector('.volta-icon');
+    expect(icon).toHaveAttribute('data-type', 'xmark');
+    expect(icon).toHaveClass('icon-svg');
+    expect(icon).toHaveAttribute('aria-hidden', 'true');
+  });
+});

@@ -60,4 +60,13 @@ describe('Message', () => {
     consoleError.mockRestore();
     expect(screen.getByText('Odd')).toBeInTheDocument();
   });
+
+  it('lets role replace the one the type gives, or leave it off', () => {
+    const { rerender } = render(<Message type="error" message="Bad" role="status" />);
+    expect(screen.getByRole('status')).toHaveTextContent('Bad');
+    expect(screen.queryByRole('alert')).toBeNull();
+    rerender(<Message type="error" message="Bad" role={null} />);
+    expect(screen.queryByRole('alert')).toBeNull();
+    expect(screen.getByText('Bad')).toHaveClass('volta-message-error');
+  });
 });

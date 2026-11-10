@@ -2,7 +2,7 @@
 // theme tokens, so light and dark need no overrides.
 .volta-rich_text {
   border: 1px solid var(--v-color-base-subtle);
-  border-radius: 4px;
+  border-radius: var(--v-radius-md);
   background: var(--v-color-base);
   color: var(--v-color-trim);
   transition: border-color var(--v-anim-speed) var(--v-anim-ease);
@@ -25,11 +25,11 @@
   padding: 8px;
   border-bottom: 1px solid var(--v-color-base-subtle);
   background: var(--v-color-base-more-subtle);
-  border-radius: 4px 4px 0 0;
+  border-radius: var(--v-radius-md) var(--v-radius-md) 0 0;
   -webkit-user-select: none;
   user-select: none;
 
-  .volta-select { min-width: 128px; }
+  .volta-native_select { min-width: 128px; }
 }
 
 .volta-rich_text-group {
@@ -120,7 +120,7 @@
   pre {
     margin: 0 0 12px;
     padding: 12px;
-    border-radius: 4px;
+    border-radius: var(--v-radius-md);
     background: var(--v-color-base-subtle);
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
     font-size: 0.9em;

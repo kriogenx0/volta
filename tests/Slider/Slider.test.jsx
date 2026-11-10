@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 import Slider from '../../components/Slider/Slider';
@@ -119,5 +121,33 @@ describe('Slider', () => {
     expect(onChange).not.toHaveBeenCalled();
     expect(thumb()).toHaveAttribute('aria-disabled', 'true');
     expect(thumb()).toHaveAttribute('tabindex', '-1');
+  });
+});
+
+describe('Slider animation', () => {
+  const rootOf = (container) => container.firstChild;
+
+  it('slides to a clicked place, and follows the pointer at once only after it moves', () => {
+    const { container } = render(<Slider defaultValue={0} min={0} max={100} />);
+    expect(rootOf(container)).not.toHaveClass('volta-slider--tracking');
+
+    fireEvent.mouseDown(rootOf(container).firstChild, { clientX: 250, button: 0 });
+    expect(rootOf(container)).toHaveClass('volta-slider--dragging');
+    expect(rootOf(container)).not.toHaveClass('volta-slider--tracking');
+
+    fireEvent.mouseMove(document, { clientX: 300 });
+    expect(rootOf(container)).toHaveClass('volta-slider--tracking');
+
+    fireEvent.mouseUp(document);
+    expect(rootOf(container)).not.toHaveClass('volta-slider--dragging');
+    expect(rootOf(container)).not.toHaveClass('volta-slider--tracking');
+  });
+
+  it('animates the fill and the thumb with the global speed, and not while tracking', () => {
+    const scss = fs.readFileSync(path.join(__dirname, '../../components/Slider/Slider.scss'), 'utf8');
+    expect(scss).toMatch(/\.volta-slider-fill\s*\{[^}]*transition:\s*width var\(--v-anim-speed\) var\(--v-anim-ease\)/);
+    expect(scss).toMatch(/\.volta-slider-thumb\s*\{[^}]*transition:[^;]*left var\(--v-anim-speed\) var\(--v-anim-ease\)/);
+    expect(scss).toMatch(/--tracking \.volta-slider-fill\s*\{\s*transition:\s*none/);
+    expect(scss).not.toMatch(/transition:[^;]*\d+m?s\b/);
   });
 });

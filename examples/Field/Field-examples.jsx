@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import Field from '../../components/Field/Field';
 import TextBox from '../../components/TextBox/TextBox';
-import Select from '../../components/Select/Select';
+import NativeSelect from '../../components/NativeSelect/NativeSelect';
 import Checkbox from '../../components/Checkbox/Checkbox';
 import Toggle from '../../components/Toggle/Toggle';
 
@@ -22,7 +22,7 @@ const ProfileForm = () => {
         <TextBox name="name" defaultValue="Alex Morgan" />
       </Field>
       <Field label="Role">
-        <Select
+        <NativeSelect
           name="role"
           options={roles}
           value={role}
@@ -79,7 +79,7 @@ export default {
     <TextBox name="name" defaultValue="Alex Morgan" />
   </Field>
   <Field label="Role">
-    <Select name="role" options={roles} />
+    <NativeSelect name="role" options={roles} />
   </Field>
   <Field label="Bio">
     <TextBox multiline name="bio" rows={3} resize="y" />
@@ -93,11 +93,11 @@ export default {
     {
       name: 'Select field',
       code: `<Field label="Team role">
-  <Select name="role" options={roles} defaultValue="engineering" />
+  <NativeSelect name="role" options={roles} defaultValue="engineering" />
 </Field>`,
       output: (
         <Field label="Team role">
-          <Select name="role" options={roles} defaultValue="engineering" />
+          <NativeSelect name="role" options={roles} defaultValue="engineering" />
         </Field>
       )
     },

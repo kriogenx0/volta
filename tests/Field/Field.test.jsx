@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 
 import Field from '../../components/Field/Field';
 import Checkbox from '../../components/Checkbox/Checkbox';
-import Select from '../../components/Select/Select';
+import NativeSelect from '../../components/NativeSelect/NativeSelect';
 import TextField from '../../components/TextBox/TextBox';
 import Toggle from '../../components/Toggle/Toggle';
 
@@ -29,7 +29,7 @@ describe('Field', () => {
     it('names a Select, and a multiline TextField', () => {
       render(
         <>
-          <Field label="Role"><Select options={[{ value: 'a', label: 'Admin' }]} /></Field>
+          <Field label="Role"><NativeSelect options={[{ value: 'a', label: 'Admin' }]} /></Field>
           <Field label="Bio"><TextField multiline /></Field>
         </>
       );
@@ -97,7 +97,7 @@ describe('Field', () => {
     });
 
     it('marks a Select invalid too', () => {
-      render(<Field label="Role" error="Pick one"><Select options={[]} /></Field>);
+      render(<Field label="Role" error="Pick one"><NativeSelect options={[]} /></Field>);
       expect(screen.getByRole('combobox')).toBeInvalid();
       expect(screen.getByRole('combobox')).toHaveAccessibleDescription('Pick one');
     });

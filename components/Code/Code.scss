@@ -1,6 +1,6 @@
 .volta-code {
   // Block only: inline code is a bare <code> and is styled in styles/type.scss
-  border-radius: 6px;
+  border-radius: var(--v-radius-md);
   overflow: hidden;
   font-size: 12px;
 }

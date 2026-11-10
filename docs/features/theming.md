@@ -8,7 +8,8 @@ A theme is a small piece of data that restyles every component at once. The whol
 - **Fourteen ready-made themes** (`Theme.presets`), from the stock blue (and an accessible version of it) to teal, green, orange, pink, purple, amber, magenta, indigo, blue-gray, graphite, warm sepia and a navy-and-cyan "midnight". All but the stock one are checked against WCAG AA contrast in light and dark.
 - **Light and dark come with the theme.** Each theme says what it looks like in both; the scheme that is showing (an explicit `light` or `dark`, or the OS preference) picks the half.
 - **A custom accent on top.** `Theme.setAccentColor('#e0405c')` recolours the accent only, derives the hover, tint and label colour, and survives a scheme change.
-- **In the styleguide**, the header has a **Theme** dropdown listing every theme with a light-and-dark colour chip, next to the custom accent picker, the Auto/Light/Dark control and the animation speed.
+- **Three shapes** for the corners, independent of the theme: `square` (no rounding), `rounded` (the stock look) and `pill` (controls rounded all the way, big surfaces softly rounded). `Theme.setShape('pill')` changes every component at once.
+- **In the styleguide**, the header has a **Theme** dropdown listing every theme with a light-and-dark colour chip, next to the custom accent picker, the Auto/Light/Dark control, the Square/Rounded/Pill control and the animation speed.
 
 ## The theme format
 
@@ -45,11 +46,23 @@ Spacing, radius, shadow and layer values are tokens too, declared in `styles/_co
 | Token | Value | Use |
 | --- | --- | --- |
 | `--v-space-1` to `--v-space-6` | 4, 8, 12, 16, 24, 32 px | every margin, padding and gap |
-| `--v-radius-sm`, `-md`, `-lg`, `-pill` | 2, 4, 10 px, 999 px | tiny things, the default, overlays, toggles and avatars (a true circle stays `50%`) |
+| `--v-radius-sm`, `-md`, `-lg`, `-pill` | 2, 4, 10 px, 999 px | tiny things, controls, big surfaces, toggles and badges (a true circle stays `50%`); the shape changes these (see Shape) |
 | `--v-shadow-sm`, `-md`, `-lg` | `0 1px 3px`, `0 4px 16px`, `0 8px 24px` in black at 20, 16, 14% | controls, popovers, modals; heavier in dark mode (60, 55, 50%) |
 | `--v-z-nav`, `-modal`, `-popover` | 100, 1000, 1100 | the page bar, modals, and popovers (above modals, so one inside a modal shows) |
 
 The spacing and radius values are the design system's scale (`docs/project/design-system.md`), and a test keeps the spacing in step with it. **The shadow and layer values are provisional**: `tokens.json`, which the design system names as the source of truth, is not in this repository, so they were taken from the values already in use (the shadows are exact copies of existing ones, the layers are the common z-index values 100 and 1000, with popover at 1100 to sit above a modal, the same as the toast now uses). Confirm them against `tokens.json` before components are switched over (`docs/backlog/add-missing-design-tokens.md`). No component uses these tokens yet.
+
+## Shape
+
+The corner radius is set by four tokens, `--v-radius-sm`, `-md`, `-lg` and `-pill`, and every component stylesheet takes its corners from them (a test fails on a literal radius). The shape chooses their values by putting `data-shape` on `<html>`:
+
+| Shape | sm | md | lg | pill | Looks like |
+| --- | --- | --- | --- | --- | --- |
+| `square` | 0 | 0 | 0 | 0 | no rounding anywhere, toggles and badges included |
+| `rounded` (default) | 2px | 4px | 10px | 999px | the stock look |
+| `pill` | 6px | 20px | 24px | 999px | buttons, fields, selects, tabs and messages rounded all the way (20px is more than half their height); cards, dialogs and drawers softly rounded; a tall textarea gets large corners, not a capsule |
+
+`md` is for controls and small surfaces, `lg` for big surfaces, `sm` for tiny things, and `pill` for toggles and badges. A true circle (an avatar, a spinner dot) stays `border-radius: 50%` and does not change. `Theme.setShape()` does not touch the theme, the accent or the scheme, and none of them touch it.
 
 ## Replacing the theme
 
@@ -158,6 +171,7 @@ These are the rules the built-in themes were generated against: for each hue, th
 | `setAccentColor(color)` / `resetAccentColor()` | A custom accent over the theme. Derives hover, tint (a lightened accent in light, the accent sunk into the page colour in dark) and a readable label colour. |
 | `setColorScheme('light' \| 'dark' \| 'system')` / `getColorScheme()` | The scheme. `system` follows the OS and updates when it changes. |
 | `setAnimationSpeed(ms \| '0.2s')` / `resetAnimationSpeed()` / `getAnimationSpeed()` | Global transition speed. |
+| `setShape('square' \| 'rounded' \| 'pill')` / `getShape()` / `resetShape()` | The corner shape; `Theme.shapes` lists them. Anything else throws, naming the shapes. |
 | `presets`, `tokens` | The preset list and the list of settable tokens. |
 
 Everything is applied by one function, `render()`, from three inputs (the theme, the scheme that is showing, the accent override), so any change to one of them keeps the others consistent.
@@ -175,16 +189,20 @@ It runs in the browser, in whatever page loads the library; there is no server s
 
 - `tests/theme.test.js`: applying by object and by id, light and dark halves, following the OS and its changes, removing tokens the next theme leaves out, reset, the custom accent over a theme and across a scheme change, the dark tint, the label colour, and the error messages.
 - `tests/themePreset.test.js`: the token list equals the colours in `styles/_colors.scss` in both directions; `volta` equals the stylesheet; every preset is valid and meets the contrast rules in light and dark.
+- `tests/shape.test.js`: the values of the three shapes in `styles/_colors.scss`, and that no component stylesheet has a literal corner radius (the `MobilePhone` mock-up and the `Loader` animations are drawings, not UI, and are left out).
 - `tests/ThemePicker/ThemePicker.test.jsx`, `tests/ThemeSwitcher/ThemeSwitcher.test.jsx`: the dropdown (roles, keyboard, outside click, per-theme colours) and that choosing a theme applies it.
 
 ## Known limits
 
-- **Components with hard-coded colours don't follow a theme.** Two component stylesheets still have hex literals, `GlobalNav.scss` (a dark bar with fixed text colours) and `Loader.scss` (the animations' own colours), and they keep those colours in every theme. Everything else is built on the `--v-*` tokens (or the `$color_*` Sass aliases, which resolve to them) and follows fully. A hex literal in new code is a theming bug.
+- **Components with hard-coded colours don't follow a theme.** Two component stylesheets still have hex literals, `NavBar.scss`'s top bar (`variant="global"`, a dark bar with fixed text colours) and `Loader.scss` (the animations' own colours), and they keep those colours in every theme. Everything else is built on the `--v-*` tokens (or the `$color_*` Sass aliases, which resolve to them) and follows fully. A hex literal in new code is a theming bug.
 - **A flash of the stock colours is possible** when a theme is applied from JavaScript after first paint. Use a stylesheet (level 2 above), or apply the theme before first paint.
 - **`setAccentColor` is only as accessible as the colour it is given.** It picks a readable label colour but doesn't check the accent against the page.
-- The shadow, spacing, radius, layer and type scales are not themeable, and the type scale has no tokens yet.
+- The shadow, spacing, layer and type scales are not themeable, and the type scale has no tokens yet. The radius is, but only through the three shapes, not per theme.
+- **Not looked at in a browser.** The three shapes were checked in the stylesheet source and the API in jsdom; how each component looks in `square` and `pill` is unchecked. Radii that were hard-coded were snapped to the scale (3, 4, 5 and 6px became `md` = 4px; 8, 10 and 14px became `lg` = 10px; 20px and over became `pill`), so a few corners differ by a pixel or two from before, even in `rounded`.
 
 ## History
+
+- 2026-11-10 (local, not merged or deployed): the shapes, `setShape`, `getShape`, `resetShape`, `shapes`; every component radius moved onto the tokens; the styleguide Shape control.
 
 - Implemented 2026-11-05: `applyTheme`, `resetTheme`, `getTheme`, `presets`, `tokens`; the thirteen presets; per-scheme accent derivation; the styleguide Theme dropdown. Not committed or deployed when this was written.
 - Checked 2026-11-05 (branch `backlog/fix-dark-mixin`): the `dark` mixin already honoured an explicit `data-theme`; the backlog task describing it as broken was stale. Added `tests/darkMixin.test.js` so it stays that way.

@@ -4,7 +4,7 @@ A label, a control and optionally a hint and an error, laid out and connected so
 
 ## When to use
 
-- **A labelled control in a form.** Wrap each `TextBox`, `Select`, `Toggle` or `Checkbox` in a `Field`. Leave out `label` for a control that carries its own text, like a `Checkbox`.
+- **A labelled control in a form.** Wrap each `TextBox`, `NativeSelect`, `Toggle` or `Checkbox` in a `Field`. Leave out `label` for a control that carries its own text, like a `Checkbox`.
 - A full-width ruled row for a settings page, with the label in a column at the left, is [`FieldRow`](../FieldRow/README.md). A row with helper text and error lines is `FormRow` (see [`BaseForm`](../Form/README.md)).
 - Just the label, tied to a control by `htmlFor`, is [`FieldLabel`](../FieldLabel/README.md); just the help text is [`FieldHint`](../FieldHint/README.md). Both can go inside a `Field`.
 

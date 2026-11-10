@@ -165,7 +165,7 @@ body.is_overlay-visible
     height: $icr-control-height;
     margin: 0 auto;
     border: 1px solid var(--v-color-base-less-subtle);
-    border-radius: 0 0 4px 4px;
+    border-radius: 0 0 var(--v-radius-md) var(--v-radius-md);
     background: var(--v-color-base);
   }
 
@@ -219,7 +219,7 @@ body.is_overlay-visible
     margin: 0;
     padding: 0;
     border: 0;
-    border-radius: 4px;
+    border-radius: var(--v-radius-md);
     background: transparent;
     color: var(--v-color-trim-subtle);
     font-size: 20px;

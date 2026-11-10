@@ -55,9 +55,36 @@ describe('the sidebar', () => {
 
   it('keeps each group in alphabetical order', () => {
     const unsorted = groups
+      .filter((group) => !group.ordered)
       .filter((group) => group.components.some((name, i) => i > 0 && name.localeCompare(group.components[i - 1]) < 0))
       .map((group) => group.label);
     expect(unsorted).toEqual([]);
+  });
+
+  it('keeps the Inputs in the order written: the text fields first, then the pickers', () => {
+    const inputs = groups.find((group) => group.label === 'Inputs');
+    expect(inputs.ordered).toBe(true);
+    expect(inputs.components).toEqual([
+      'TextBox', 'AutoComplete', 'ComboBox', 'NumericField',
+      'MultiSelect', 'NativeSelect', 'TimePicker', 'DatePicker', 'TextEditable'
+    ]);
+  });
+
+  it('does not list an input again under Controls', () => {
+    const inputs = groups.find((group) => group.label === 'Inputs').components;
+    const controls = groups.find((group) => group.label === 'Controls').components;
+    expect(controls.filter((name) => inputs.includes(name))).toEqual([]);
+  });
+
+  it('has the Inputs, Controls and Forms sections, in that order', () => {
+    const labels = groups.map((group) => group.label);
+    expect(labels.slice(0, 3)).toEqual(['Inputs', 'Controls', 'Forms']);
+    expect(labels).not.toContain('Form Controls');
+  });
+
+  it('has a Forms section', () => {
+    expect(groups.map((group) => group.label)).toEqual(expect.arrayContaining(['Inputs', 'Forms']));
+    expect(groups.find((group) => group.label === 'Forms').components).toContain('Field');
   });
 
   it('lists each component once', () => {
@@ -147,6 +174,69 @@ describe('the styleguide under each theme', () => {
     });
     expect(errorBoxes(container)).toBe(0);
     expect(loggedErrors()).toEqual([]);
+  });
+});
+
+describe('the component search', () => {
+  const search = () => screen.getByRole('searchbox', { name: 'Search components' });
+  const names = (container) => [...container.querySelectorAll('.component_examples-list .clickable')].map((button) => button.textContent);
+  const open = () => {
+    const view = showStyleguide();
+    openPage('Components');
+    return view;
+  };
+  afterEach(() => { window.location.hash = ''; });
+
+  it('sits at the top of the sidebar, before the groups', () => {
+    const { container } = open();
+    const list = container.querySelector('.component_examples-list');
+    expect(list.firstElementChild).toContainElement(search());
+  });
+
+  it('lists every component until something is typed', () => {
+    const { container } = open();
+    expect(names(container).length).toBe(registered.length);
+  });
+
+  it('keeps the components whose name contains the text, ignoring case, in group order', () => {
+    const { container } = open();
+    fireEvent.change(search(), { target: { value: 'TEXT' } });
+    expect(names(container)).toEqual(expect.arrayContaining(['TextBox', 'TextEditable']));
+    names(container).forEach((name) => expect(name.toLowerCase()).toContain('text'));
+    expect(names(container).indexOf('TextBox')).toBeLessThan(names(container).indexOf('TextEditable'));
+  });
+
+  it('hides a group that has nothing left', () => {
+    const { container } = open();
+    fireEvent.change(search(), { target: { value: 'combobox' } });
+    const labels = [...container.querySelectorAll('.component_examples-group_label')].map((label) => label.textContent);
+    expect(labels).toEqual(['Inputs']);
+  });
+
+  it('says so when nothing matches', () => {
+    const { container } = open();
+    fireEvent.change(search(), { target: { value: 'zzzz' } });
+    expect(names(container)).toEqual([]);
+    expect(screen.getByRole('status')).toHaveTextContent('No components match');
+  });
+
+  it('opens the first match on Enter and clears on Escape', () => {
+    const { container } = open();
+    fireEvent.change(search(), { target: { value: 'slider' } });
+    fireEvent.keyDown(search(), { key: 'Enter' });
+    expect(container.querySelector('.component-doc-header h2')).toHaveTextContent('Slider');
+
+    fireEvent.keyDown(search(), { key: 'Escape' });
+    expect(search()).toHaveValue('');
+    expect(names(container).length).toBe(registered.length);
+  });
+
+  it('keeps the open component when the search no longer lists it', () => {
+    const { container } = open();
+    fireEvent.change(search(), { target: { value: 'slider' } });
+    fireEvent.keyDown(search(), { key: 'Enter' });
+    fireEvent.change(search(), { target: { value: 'toggle' } });
+    expect(container.querySelector('.component-doc-header h2')).toHaveTextContent('Slider');
   });
 });
 

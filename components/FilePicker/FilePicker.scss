@@ -6,7 +6,7 @@
   }
   .file_picker-file
   {
-    border-radius: 3px;
+    border-radius: var(--v-radius-md);
     border: 1px solid var(--v-color-base-subtle);
     background: var(--v-color-base);
     color: var(--v-color-trim-less-subtle);

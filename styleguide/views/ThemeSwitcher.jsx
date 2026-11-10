@@ -14,6 +14,7 @@ const ThemeSwitcher = () => {
   const [accent, setAccent] = useState('#4A90E2');
   const [scheme, setScheme] = useState(Theme.getColorScheme());
   const [speed, setSpeed] = useState(150);
+  const [shape, setShape] = useState(Theme.getShape());
 
   // A theme replaces the whole look, including a custom accent.
   const handleThemeChange = (theme) => {
@@ -31,6 +32,11 @@ const ThemeSwitcher = () => {
     setScheme(value);
     Theme.setColorScheme(value);
     setAccent(currentAccent());
+  };
+
+  const handleShapeChange = (value) => {
+    setShape(value);
+    Theme.setShape(value);
   };
 
   const handleSpeedChange = (e) => {
@@ -58,6 +64,14 @@ const ThemeSwitcher = () => {
           { label: 'Light', value: 'light' },
           { label: 'Dark', value: 'dark' },
         ]}
+      />
+
+      <SegmentedControl
+        size="sm"
+        value={shape}
+        onChange={handleShapeChange}
+        ariaLabel="Shape"
+        options={Theme.shapes.map((name) => ({ label: name.charAt(0).toUpperCase() + name.slice(1), value: name }))}
       />
 
       <label className="v-theme_switcher-speed" title="Animation speed">

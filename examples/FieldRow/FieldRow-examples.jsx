@@ -1,6 +1,6 @@
 import FieldRow from '../../components/FieldRow/FieldRow';
 import TextBox from '../../components/TextBox/TextBox';
-import Select from '../../components/Select/Select';
+import NativeSelect from '../../components/NativeSelect/NativeSelect';
 
 export default {
   name: 'FieldRow',
@@ -20,14 +20,14 @@ export default {
     {
       name: 'Select input',
       code: `<FieldRow label="Country">
-  <Select name="country" options={[
+  <NativeSelect name="country" options={[
     { label: 'United States', value: 'us' },
     { label: 'Canada', value: 'ca' },
   ]} />
 </FieldRow>`,
       output: (
         <FieldRow label="Country">
-          <Select name="country" options={[
+          <NativeSelect name="country" options={[
             { label: 'United States', value: 'us' },
             { label: 'Canada', value: 'ca' },
           ]} />

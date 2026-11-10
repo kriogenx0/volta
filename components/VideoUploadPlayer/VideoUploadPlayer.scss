@@ -17,7 +17,7 @@ $videoExistsHeight: 35px;
   {
     background-color: var(--v-color-base);
     border: 1px solid var(--v-color-base-subtle);
-    border-radius: 4px;
+    border-radius: var(--v-radius-md);
     height: $height;
     min-height: $height;
     line-height: $height;
@@ -49,7 +49,7 @@ $videoExistsHeight: 35px;
 
       padding-left: 10px;
       padding-right: 10px;
-      border-radius: 4px;
+      border-radius: var(--v-radius-md);
 
       white-space: nowrap;
       overflow: hidden;
@@ -64,7 +64,7 @@ $videoExistsHeight: 35px;
       left: 0;
 
       background-color: var(--v-accent);
-      border-radius: 4px;
+      border-radius: var(--v-radius-md);
 
       transition: width $anim-speed-normal;
     }

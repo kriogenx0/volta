@@ -1,0 +1,17 @@
+.v-logo {
+  display: block;
+  flex: none;
+  filter: drop-shadow(0 6px 10px color-mix(in srgb, var(--v-accent) 28%, transparent));
+
+  .v-logo-badge {
+    fill: var(--v-accent);
+  }
+
+  .v-logo-mark {
+    fill: none;
+    stroke: var(--v-on-accent);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}

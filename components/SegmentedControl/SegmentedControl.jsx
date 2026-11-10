@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import TabBar from '../TabBar/TabBar';
+import Tabs from '../Tabs/Tabs';
 
 import './SegmentedControl.scss';
 
@@ -13,7 +13,7 @@ import './SegmentedControl.scss';
 // highlight that slides to the new option (and stays put when motion is reduced).
 // `navigation` makes it a <nav> whose selected option is aria-current="page"
 // instead of a pressed button, for switching between pages. Without `options` or `mini`, this
-// renders the legacy TabBar form.
+// renders the legacy Tabs form.
 const SegmentedControl = ({
   value, onChange, options, size = 'md', mini = false, disabled = false, ariaLabel, className, navigation = false,
   tabs, selectedTabIndex, ...legacyProps
@@ -46,7 +46,7 @@ const SegmentedControl = ({
   if (!options && !mini) {
     return (
       <div className="volta-segmented_control no_select">
-        <TabBar tabs={tabs} selectedTabIndex={selectedTabIndex} onChange={onChange} {...legacyProps} />
+        <Tabs tabs={tabs} selectedTabIndex={selectedTabIndex} onChange={onChange} {...legacyProps} />
       </div>
     );
   }

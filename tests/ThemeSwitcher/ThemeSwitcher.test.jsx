@@ -8,6 +8,7 @@ const token = (name) => document.documentElement.style.getPropertyValue(name);
 describe('ThemeSwitcher', () => {
   afterEach(() => {
     Theme.resetTheme();
+    Theme.resetShape();
     Theme.setColorScheme('system');
   });
 
@@ -65,5 +66,19 @@ describe('ThemeSwitcher', () => {
     const midnight = Theme.presets.find((preset) => preset.id === 'midnight');
     fireEvent.click(screen.getByRole('button', { name: 'Dark' }));
     expect(token('--v-accent')).toBe(midnight.dark['--v-accent']);
+  });
+
+  it('has a shape control: rounded to start, then square or pill', () => {
+    render(<ThemeSwitcher />);
+    const group = screen.getByRole('group', { name: 'Shape' });
+    expect(screen.getByRole('button', { name: 'Rounded' })).toHaveAttribute('aria-pressed', 'true');
+    expect(group).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Pill' }));
+    expect(Theme.getShape()).toBe('pill');
+    expect(screen.getByRole('button', { name: 'Pill' })).toHaveAttribute('aria-pressed', 'true');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Square' }));
+    expect(Theme.getShape()).toBe('square');
   });
 });

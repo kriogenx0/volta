@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import List, { ListHeader, FilterSectionListItem } from '../../components/List';
+import List, { ListHeader, ListRow, FilterSectionListItem } from '../../components/List';
 
 const STATUSES = [
   { name: 'All', value: 'all' },
@@ -40,9 +40,29 @@ const FilterList = () => {
   );
 };
 
+const PROJECTS = ['Apollo', 'Borealis', 'Cascade'];
+
+const ProjectPicker = () => {
+  const [project, setProject] = useState('Apollo');
+
+  return (
+    <div className="example-stack">
+      <List card>
+        {PROJECTS.map((name) => (
+          <ListRow key={name} onClick={() => setProject(name)}>
+            <span>{name}</span>
+            <span>{project === name ? 'Current' : 'Switch'}</span>
+          </ListRow>
+        ))}
+      </List>
+      <p>Current project: {project}</p>
+    </div>
+  );
+};
+
 export default {
   name: 'List',
-  description: 'A simple list built from an items array. An item with an action is a button that calls it with (index, item, event); one without is plain text. ListHeader and FilterSectionListItem build sectioned, selectable lists.',
+  description: 'A vertical list of rows, each plain text or a button, with optional section headers and selectable rows. With card it is the same list in a bordered card with dividers, and ListRow lets you write the rows yourself: buttons by default (they react to the cursor), or as="div" for static lines. ListCard is List with card.',
   examples: [
     {
       name: 'Plain items',
@@ -95,6 +115,61 @@ export default {
   ))}
 </ul>`,
       output: <FilterList />
+    },
+    {
+      name: 'In a card: clickable rows',
+      code: `const [project, setProject] = useState('Apollo');
+
+<List card>
+  {['Apollo', 'Borealis', 'Cascade'].map((name) => (
+    <ListRow key={name} onClick={() => setProject(name)}>
+      <span>{name}</span>
+      <span>{project === name ? 'Current' : 'Switch'}</span>
+    </ListRow>
+  ))}
+</List>`,
+      output: <ProjectPicker />
+    },
+    {
+      name: 'In a card: static rows',
+      code: `<List card>
+  <ListRow as="div"><span>Plan</span><span>Team</span></ListRow>
+  <ListRow as="div"><span>Seats</span><span>12</span></ListRow>
+  <ListRow as="div"><span>Renews</span><span>Jan 1, 2027</span></ListRow>
+</List>`,
+      output: (
+        <List card>
+          <ListRow as="div"><span>Plan</span><span>Team</span></ListRow>
+          <ListRow as="div"><span>Seats</span><span>12</span></ListRow>
+          <ListRow as="div"><span>Renews</span><span>Jan 1, 2027</span></ListRow>
+        </List>
+      )
+    },
+    {
+      name: 'Static header over actions',
+      code: `<List card>
+  <ListRow as="div"><span>Billing</span></ListRow>
+  <ListRow onClick={updateCard}><span>Update payment method</span></ListRow>
+  <ListRow onClick={downloadInvoices}><span>Download invoices</span></ListRow>
+</List>`,
+      output: (
+        <List card>
+          <ListRow as="div"><span>Billing</span></ListRow>
+          <ListRow onClick={() => {}}><span>Update payment method</span></ListRow>
+          <ListRow onClick={() => {}}><span>Download invoices</span></ListRow>
+        </List>
+      )
+    },
+    {
+      name: 'Single row',
+      code: `<List card>
+  <ListRow onClick={invite}><span>Invite a teammate</span></ListRow>
+</List>`,
+      output: (
+        <List card>
+          <ListRow onClick={() => {}}><span>Invite a teammate</span></ListRow>
+        </List>
+      )
     }
   ]
 };

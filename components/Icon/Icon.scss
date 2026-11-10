@@ -29,6 +29,11 @@
     }
   }
 
+  // The cut-out glyph of a solid icon is drawn in the page colour
+  .icon-knockout {
+    stroke: var(--v-icon-knockout, var(--v-color-base));
+  }
+
   // The loading ring turns; with reduced motion it stays still
   &.icon-spinner svg {
     animation: volta-icon-spin 1s linear infinite;

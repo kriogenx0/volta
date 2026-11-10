@@ -43,3 +43,16 @@ describe('TagInput', () => {
     expect(screen.getByText('New')).toBeInTheDocument();
   });
 });
+
+describe('TagInput remove buttons', () => {
+  it('draw the X with the xmark icon', () => {
+    const { container } = render(<TagInput tags={['a', 'b']} removable />);
+    const icons = container.querySelectorAll('.tag_input-remove .volta-icon');
+    expect(icons).toHaveLength(2);
+    icons.forEach((icon) => {
+      expect(icon).toHaveAttribute('data-type', 'xmark');
+      expect(icon).toHaveClass('icon-svg');
+      expect(icon).toHaveAttribute('aria-hidden', 'true');
+    });
+  });
+});

@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
 
+import Radio from '../Radio/Radio';
+
 import './RadioGroup.scss';
 import { map } from '../../util/collection';
 
+// A set of Radio buttons built from an options array; one of them can be chosen.
 const RadioGroup = ({ options, value, onChange, name, className }) => {
   const handleSelect = (e) => {
     if (onChange) onChange(e);
@@ -15,10 +18,15 @@ const RadioGroup = ({ options, value, onChange, name, className }) => {
   return (
     <div className={`volta-radiogroup${className ? ' ' + className : ''}`}>
       {map(options, (option, i) => (
-        <label key={i} className='radiogroup-option'>
-          <input type='radio' name={name} value={option.value} onChange={handleSelect} checked={isSelected(option.value)} />
-          <span>{option.label}</span>
-        </label>
+        <Radio
+          key={i}
+          title={option.label}
+          name={name}
+          value={option.value}
+          disabled={option.disabled}
+          onChange={handleSelect}
+          checked={isSelected(option.value)}
+        />
       ))}
     </div>
   );
@@ -29,7 +37,9 @@ RadioGroup.propTypes = {
   name: PropTypes.any.isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
-    value: PropTypes.any
+    value: PropTypes.any,
+    // This option can't be chosen
+    disabled: PropTypes.bool
   })),
   className: PropTypes.string,
   onChange: PropTypes.func

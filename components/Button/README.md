@@ -4,7 +4,7 @@ A button for an action: save, cancel, delete, open. A native `<button>` with Vol
 
 ## When to use
 
-- **An action on the page.** Something happens when it is pressed. Use [`ActionLink`](../ActionLink/README.md) or `Link` to go to another page, and `Toggle` for an on/off setting that applies immediately.
+- **An action on the page.** Something happens when it is pressed. Use [`ActionLink`](../Link/README.md) or `Link` to go to another page, and `Toggle` for an on/off setting that applies immediately.
 - **One `primary` per view region.** It is the main action; everything else is `default` or `link`.
 - **`default`** for a secondary action, **`link`** for a low-emphasis one (toolbars, "Cancel" next to a primary), **`danger`** for a destructive one, behind a confirmation `Dialog`.
 - An icon on its own with no text is an `IconButton`, not a `Button`.

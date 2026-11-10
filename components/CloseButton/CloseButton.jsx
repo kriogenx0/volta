@@ -15,7 +15,7 @@ const CloseButton = ({ 'aria-label': ariaLabel = 'Close', size = 'md', className
     aria-label={ariaLabel}
     {...props}
   >
-    <Icon type="multiply" aria-hidden="true"/>
+    <Icon type="xmark" aria-hidden="true" />
   </Button>
 );
 

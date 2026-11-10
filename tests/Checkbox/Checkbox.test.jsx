@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 import Checkbox from '../../components/Checkbox/Checkbox';
@@ -54,5 +56,22 @@ describe('Checkbox', () => {
   it('does not mark the wrapper disabled by default', () => {
     const { container } = render(<Checkbox label="Open" />);
     expect(container.firstChild).not.toHaveClass('checkbox-disabled');
+  });
+});
+
+// jsdom loads no CSS, so the label colour is checked in the stylesheet's source.
+describe('Checkbox label colour', () => {
+  const scss = fs.readFileSync(path.join(__dirname, '../../components/Checkbox/Checkbox.scss'), 'utf8');
+  const rootRule = scss.match(/\.volta-checkbox \{[\s\S]*?\n  input \{/)[0];
+
+  it('is the subtle text colour, not the full-strength one, so it sits closer to the border', () => {
+    expect(rootRule).toMatch(/color:\s*\$color_trim_subtle;/);
+    expect(rootRule).not.toMatch(/color:\s*\$color_trim;/);
+  });
+
+  it('keeps the box border at its own colour and the hover and disabled colours', () => {
+    expect(scss).toMatch(/border:\s*1\.5px solid \$color_base_less_subtle;/);
+    expect(scss).toMatch(/&:hover \{\s*color:\s*\$color_active;/);
+    expect(scss).toMatch(/span \{\s*color:\s*\$color_inactive;/);
   });
 });

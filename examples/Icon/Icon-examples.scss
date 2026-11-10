@@ -26,3 +26,8 @@
   &--ok { color: var(--v-color-success); }
   &--error { color: var(--v-color-danger); }
 }
+
+// Other names for the same drawing, under the main name
+.example-icon_tile-aliases {
+  opacity: .7;
+}

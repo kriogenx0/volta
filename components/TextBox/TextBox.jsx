@@ -1,7 +1,7 @@
 import React, { useId } from 'react';
 import PropTypes from 'prop-types';
 
-import ErrorText from '../ErrorText/ErrorText';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import FieldHint from '../FieldHint/FieldHint';
 import FieldLabel from '../FieldLabel/FieldLabel';
 import { useFieldControl } from '../Field/fieldContext';
@@ -49,7 +49,7 @@ const TextBox = ({ disabled, multiline, resize = 'both', height, style, validate
       {label && <FieldLabel htmlFor={fieldId} optional={optional}>{label}</FieldLabel>}
       {field}
       {hint && <FieldHint id={hintId}>{hint}</FieldHint>}
-      {error && <div id={errorId} className="volta-textbox-error_message"><ErrorText message={error} /></div>}
+      {error && <div id={errorId} className="volta-textbox-error_message"><ErrorMessage message={error} role={null} /></div>}
     </div>
   );
 };

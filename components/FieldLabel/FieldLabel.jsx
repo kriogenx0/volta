@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './FieldLabel.scss';
 
-// The label above a form control (TextBox, Select). Inside a Field it is
+// The label above a form control (TextBox, NativeSelect). Inside a Field it is
 // connected to the control for you. Not the same as Label,
 // which wraps a control and its caption in one <label>.
 const FieldLabel = ({ id, htmlFor, optional, children }) => (

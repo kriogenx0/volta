@@ -5,7 +5,7 @@ A text input, one line or with `multiline` a textarea, with an optional label, h
 ## When to use
 
 - **Any short typed answer:** a name, an email, a search term. Set `type` for `email`, `password`, `url` and the like.
-- Add `multiline` for longer free text: a bio, a comment, a few lines to a few paragraphs. Use [`NumericField`](../NumericField/README.md) for numbers, [`DatePicker`](../DatePicker/README.md) for dates, [`Select`](../Select/README.md) or [`ComboBox`](../ComboBox/README.md) when the answer comes from a list, and [`TagInput`](../TagInput/README.md) for several keywords.
+- Add `multiline` for longer free text: a bio, a comment, a few lines to a few paragraphs. Use [`NumericField`](../NumericField/README.md) for numbers, [`DatePicker`](../DatePicker/README.md) for dates, [`NativeSelect`](../NativeSelect/README.md) or [`ComboBox`](../ComboBox/README.md) when the answer comes from a list, and [`TagInput`](../TagInput/README.md) for several keywords.
 - Give it a `label`. To lay a label beside a control instead, wrap it in [`Field`](../Field/README.md).
 
 ## Usage

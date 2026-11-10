@@ -9,7 +9,7 @@
   transition: background-color var(--v-anim-speed), border-color var(--v-anim-speed), color var(--v-anim-speed);
 
   border: 1px solid $color_base_less_subtle;
-  border-radius: 4px;
+  border-radius: var(--v-radius-md);
 
   background-color: $color_base_more_subtle;
   color: $color_trim_subtle;

@@ -5,7 +5,7 @@ A single styled radio button with its label, for one option in a set where only 
 ## When to use
 
 - **One option you lay out yourself**, such as radios with extra content beside them. Give the radios of one set the same `name`.
-- Use [`RadioGroup`](../RadioGroup/README.md) for a set built from an options array with a controlled `value`, which is the usual case. Use [`SegmentedControl`](../SegmentedControl/README.md) for two to five short choices that read as a toggle bar, and [`Select`](../Select/README.md) for many choices.
+- Use [`RadioGroup`](../RadioGroup/README.md) for a set built from an options array with a controlled `value`, which is the usual case. Use [`SegmentedControl`](../SegmentedControl/README.md) for two to five short choices that read as a toggle bar, and [`NativeSelect`](../NativeSelect/README.md) for many choices.
 - For an on or off choice use [`Toggle`](../Toggle/README.md) (applies immediately) or [`Checkbox`](../Checkbox/README.md) (submitted with a form). A lone radio cannot be turned off again.
 
 ## Usage
@@ -41,5 +41,5 @@ Every other prop goes to the native `<input type="radio">`: `name`, `value`, `ch
 - Do give each radio in a set the same `name` and its own `value`.
 - Do start with one option chosen when a choice is required, so the group is never empty by accident.
 - Don't use radios for a yes or no setting; use a `Toggle` or `Checkbox`.
-- Don't use one radio on its own, or more than about five in a row; use a `Select`.
+- Don't use one radio on its own, or more than about five in a row; use a `NativeSelect`.
 - Don't hide the label; `title` is the text users read and screen readers announce.

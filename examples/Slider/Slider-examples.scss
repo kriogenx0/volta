@@ -1,0 +1,22 @@
+// A small track the demo box slides along, to feel the animation speed
+.example-slider_stage {
+  position: relative;
+  height: 32px;
+  border-radius: var(--v-radius-md);
+  background: var(--v-color-base-more-subtle);
+}
+
+.example-slider_box {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--v-radius-md);
+  background: var(--v-accent);
+  transition: left var(--v-anim-speed) var(--v-anim-ease);
+
+  &--right {
+    left: calc(100% - 28px);
+  }
+}

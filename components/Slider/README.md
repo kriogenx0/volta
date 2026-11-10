@@ -5,7 +5,7 @@ A horizontal slider for picking a number in a range by dragging a thumb, clickin
 ## When to use
 
 - **A value on a scale** where the rough position matters more than the exact number: volume, zoom, a rating from 1 to 5.
-- Use [`NumericField`](../NumericField/README.md) when the user needs to type an exact number, and pair the two when both matter. Use [`Select`](../Select/README.md) or [`SegmentedControl`](../SegmentedControl/README.md) for a few named choices, and [`ProgressBar`](../ProgressBar/README.md) to show progress the user doesn't set.
+- Use [`NumericField`](../NumericField/README.md) when the user needs to type an exact number, and pair the two when both matter. Use [`NativeSelect`](../NativeSelect/README.md) or [`SegmentedControl`](../SegmentedControl/README.md) for a few named choices, and [`ProgressBar`](../ProgressBar/README.md) to show progress the user doesn't set.
 - Always show the current value near it as text when it matters; the slider doesn't print it.
 
 ## Usage

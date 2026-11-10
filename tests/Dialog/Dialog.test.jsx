@@ -152,3 +152,11 @@ describe('Dialog', () => {
     });
   });
 });
+
+describe('Dialog close button icon', () => {
+  it('is the xmark icon', () => {
+    render(<Dialog isOpen title="Title" handleClose={() => {}} handleSave={() => {}}>Body</Dialog>);
+    const button = screen.getByRole('button', { name: 'Close' });
+    expect(button.querySelector('.volta-icon')).toHaveAttribute('data-type', 'xmark');
+  });
+});

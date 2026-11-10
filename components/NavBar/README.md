@@ -1,57 +1,57 @@
 # NavBar
 
-A vertical, router-aware navigation list built from `NavItem` objects, with collapsible groups.
+The navigation bar at the top of an app: the app name on the left and a row of page links on the right. `GlobalNav` is another name for it.
 
 ## When to use
 
-- **The side navigation of an app or section**: a short list of pages, optionally grouped. The item matching the current path is highlighted.
-- Use [`GlobalNav`](../GlobalNav/README.md) for the app's header links, [`Tabs`](../Tabs/README.md) or [`TabBar`](../TabBar/README.md) for switching between views of one page, and [`List`](../List/README.md) for a list that is not navigation.
-- It must be rendered inside a react-router `Router`, because linked items use react-router's `Link` and `useLocation`.
+- **App-wide navigation at the top of every page.** One bar, with a handful of short links, the current one marked.
+- A nested, expandable side navigation is [`NavSidebar`](../NavSidebar/README.md). Switching between views inside one page is [`Tabs`](../Tabs/README.md). A link to a route in the page body is [`Link`](../Link/README.md).
 
 ## Usage
 
 ```jsx
 import { NavBar } from 'volta';
 
-// NavItem lives in components/NavBar/NavItem.js; it is not exported from 'volta'.
-const reports = new NavItem('Reports');
-reports.add(new NavItem('Weekly', '/reports/weekly'));
-reports.add(new NavItem('Monthly', '/reports/monthly'));
-const items = [new NavItem('Overview', '/'), reports];
-
-<NavBar navItems={items} onActiveState={setActive} />;
+<NavBar
+  appName="My App"
+  appSubtitle="Beta"
+  links={{ Home: '/', Dashboard: '/dashboard', Reports: '/reports' }}
+  activeLinkKey="Dashboard"
+  onLinkClick={(link, key) => goTo(link, key)}
+/>;
 ```
 
 ## Props
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `navItems` | `NavItem[]` | `[]` | The top-level items, in order. Keep them in state or memoise them: a group's open or closed state lives on its `NavItem`, so rebuilding the items resets it. |
-| `onActiveState` | `function` | | Called with the `NavItem` whose link matches the current path, when it becomes active. |
+| `links` | `object` | | `{ 'Title': url }`. The key is the visible text and the React key, so it must be unique; the value is the `href` when it is a string. |
+| `activeLinkKey` | `any` | | The key of the current page. That link gets the `active` class and `aria-current="page"`. |
+| `onLinkClick` | `function` | | Called with `(link, key)`. When it is set, every link click is cancelled (`preventDefault`) and handed to it, including string urls, so you can route in the app. |
+| `appName` | `string` | | The app name, shown as a link to `homeLink`. Without it the left side is empty. |
+| `appSubtitle` | `string` | | Small text after the app name, such as "Beta". Only shown with `appName`. |
+| `homeLink` | `string` | `'/'` | Where the app name goes. It is never intercepted by `onLinkClick`. |
 
-## NavItem
+If a `links` value is not a string (a route object, for example) the link has an empty `href`, and `onLinkClick` has to navigate. Without `links` nothing is rendered in the nav area.
 
-`new NavItem(title, linkTo, key, extraClass, subHeading)`. `title` defaults to `'untitled'` and `key` to the title, so give a `key` when two items share a title.
+## GlobalNav
 
-- **With `linkTo`**, the item is a link. It is active when the location's pathname equals `linkTo` exactly. Set `item.query = { tab: 'a' }` to add a query string to the link.
-- **Without `linkTo` but with children** (`item.add(child)`), the item is a group that toggles open and closed. It starts expanded; `setExpanded(false)` starts it closed.
-- **With neither**, it is a plain text row.
-- `extraClass` adds a class to the row. Children are indented one step per level.
+`GlobalNav` is `NavBar` itself (`GlobalNav === NavBar`), kept for existing code. New code uses `NavBar`.
 
-## Theming
+## Variants and states
 
-Hover and the active item use the `--v-accent` and `--v-color-*` tokens. Item and link text is currently hard-coded black, so on a dark theme it needs overriding before it can be read.
+The bar is 48px tall with a fixed dark grey background and white text in both light and dark themes; it is not coloured from the theme tokens. Links sit at the right with 40px of padding, or 20px below 1000px wide. There is no narrow-screen layout of its own, so keep the links few and short.
 
 ## Accessibility
 
-- Linked items are real links (Tab, Enter). Groups are `role="button"` with `tabIndex` 0 and `aria-expanded`, toggled by click, Enter and Space; the arrow glyph is hidden from screen readers.
-- The bar is a plain `<div>`, not a `<nav>`, and the active link has no `aria-current`. Wrap it in `<nav aria-label="...">`, and note the active page is shown by background and an accent edge.
-- Keep link titles short and unique, since the title is the accessible name.
+- It renders a `<header>` with real anchors inside a `<nav>`, so links work with Tab and Enter. The current page is exposed with `aria-current="page"`, and also shown by a brighter link colour.
+- The `<nav>` has no label. If the page has another navigation landmark, tell them apart in your own markup.
+- Each link is 48px tall, so it is a comfortable touch target. The links do not wrap or collapse, so check them at 375px wide.
 
 ## Do and don't
 
-- Do keep grouping shallow; indentation is styled for up to three levels.
-- Do give each group a title that names its pages ("Reports"), and let links carry the destinations.
-- Don't give a group a `linkTo`: an item with a link is a plain link and does not toggle.
-- Don't rebuild the `NavItem`s on every render.
-- Don't use `NavBar` outside a `Router`.
+- Do keep the links to the few top-level places in the app and mark the current one with `activeLinkKey`.
+- Do pass `onLinkClick` when links are routes in a single-page app, and navigate from it.
+- Don't use it for in-page actions; use `Button`.
+- Don't add more links than fit on a phone; there is no overflow menu.
+- Don't try to recolour the bar with `className`; it takes none.

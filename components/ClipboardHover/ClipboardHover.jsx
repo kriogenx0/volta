@@ -28,8 +28,8 @@ const ClipboardHover = ({ children }) => {
         {children}
       </div>
       <div className='clipboard_hover-icon'>
-        <Button size="tiny" onClick={handleClick}>
-          <Icon type='list.clipboard' />
+        <Button size="tiny" onClick={handleClick} aria-label="Copy to clipboard" title="Copy to clipboard">
+          <Icon type='list.clipboard' aria-hidden="true" />
         </Button>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import Label from '../../components/Label/Label';
-import Select from '../../components/Select/Select';
+import NativeSelect from '../../components/NativeSelect/NativeSelect';
 import TextBox from '../../components/TextBox/TextBox';
 
 const PLANS = [
@@ -23,7 +23,7 @@ const PlanSelect = () => {
   const [plan, setPlan] = useState('team');
   return (
     <Label text="Plan">
-      <Select name="plan" options={PLANS} value={plan} onChange={(e) => setPlan(e.target.value)} />
+      <NativeSelect name="plan" options={PLANS} value={plan} onChange={(e) => setPlan(e.target.value)} />
     </Label>
   );
 };
@@ -52,7 +52,7 @@ export default {
     {
       name: 'Caption above a select',
       code: `<Label text="Plan">
-  <Select name="plan" options={plans} value={plan} onChange={handleChange} />
+  <NativeSelect name="plan" options={plans} value={plan} onChange={handleChange} />
 </Label>`,
       output: <PlanSelect />
     },

@@ -84,4 +84,23 @@ describe('RadioGroup', () => {
     fireEvent.click(screen.getByLabelText('5 seats'));
     expect(screen.getByLabelText('5 seats')).toBeChecked();
   });
+
+  it('renders each option as a Radio, so it takes the Radio look', () => {
+    const { container } = render(<RadioGroup name="plan" options={options} value="pro" onChange={() => {}} />);
+    const labels = container.querySelectorAll('label.volta-radio');
+    expect(labels).toHaveLength(3);
+    expect([...labels].map((label) => label.textContent)).toEqual(['Free', 'Pro', 'Enterprise']);
+    expect(container.querySelector('.radiogroup-option')).toBeNull();
+  });
+
+  it('disables an option that says so, and only that one', () => {
+    const withLocked = [options[0], { ...options[1], disabled: true }, options[2]];
+    const { container } = render(<RadioGroup name="plan" options={withLocked} value="free" onChange={() => {}} />);
+    // A disabled input takes no clicks in a browser, so its state is what to check
+    expect(screen.getByLabelText('Pro')).toBeDisabled();
+    expect(screen.getByLabelText('Free')).not.toBeDisabled();
+    expect(screen.getByLabelText('Enterprise')).not.toBeDisabled();
+    expect(container.querySelectorAll('label.radio-disabled')).toHaveLength(1);
+    expect(container.querySelector('label.radio-disabled')).toHaveTextContent('Pro');
+  });
 });

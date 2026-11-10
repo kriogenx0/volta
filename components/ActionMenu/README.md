@@ -6,7 +6,7 @@ A "more actions" button that opens a short menu of commands for one row, card or
 
 - **Several secondary commands that don't each deserve a button** ("Rename", "Duplicate", "Delete"), usually at the end of a row or in a card corner.
 - One command is a [`Button`](../Button/README.md) (`link` variant for low emphasis); pick a visible button over a menu when there is room.
-- A labelled dropdown with your own content in it is a [`Dropdown`](../Dropdown/README.md). Choosing a value for a form is a [`Select`](../Select/README.md).
+- A labelled dropdown with your own content in it is a [`Dropdown`](../Dropdown/README.md). Choosing a value for a form is a [`NativeSelect`](../NativeSelect/README.md).
 - Don't hide the main action of a view in a menu.
 
 ## Usage
@@ -46,5 +46,5 @@ import { ActionMenu } from 'volta';
 
 - Do keep items short verbs ("Archive", not "Archive this record now").
 - Do put the destructive item last and confirm it in a `Dialog` before acting.
-- Don't nest a menu inside a menu, or use it for navigation; use [`ActionLink`](../ActionLink/README.md).
+- Don't nest a menu inside a menu, or use it for navigation; use [`ActionLink`](../Link/README.md).
 - Don't rely on `onToggle` to mirror state; the menu owns its own open state.

@@ -1,20 +1,31 @@
 .volta-time_picker
 {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  position: relative;
+  display: inline-block;
 
-  .time_picker-hour,
-  .time_picker-minute
+  .time_picker-fields
   {
-    width: 56px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
 
-    input
-    {
-      box-sizing: border-box;
-      width: 100%;
-      text-align: center;
-    }
+  .time_picker-input
+  {
+    box-sizing: border-box;
+    width: 56px;
+    padding: 6px 10px;
+    border: 1px solid var(--v-color-base-subtle);
+    border-radius: var(--v-radius-md);
+    background: transparent;
+    color: var(--v-color-trim);
+    font: inherit;
+    font-size: 14px;
+    text-align: center;
+    transition: border-color var(--v-anim-speed), background-color var(--v-anim-speed);
+
+    &:hover { border-color: var(--v-color-base-less-subtle); }
+    &:focus { border-color: var(--v-accent); outline: 0; }
   }
 
   .time_picker-div
@@ -25,5 +36,55 @@
   .volta-segmented_control
   {
     margin-left: 8px;
+  }
+
+  // One dropdown under the fields with an hour list and a minute list side by side
+  .time_picker-dropdown
+  {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: var(--v-z-popover);
+    display: flex;
+    gap: 4px;
+    margin-top: 4px;
+    padding: 4px;
+    border: 1px solid var(--v-color-base-subtle);
+    border-radius: var(--v-radius-md);
+    background: var(--v-color-base);
+    box-shadow: var(--v-shadow-md);
+  }
+
+  .time_picker-column
+  {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 56px;
+    max-height: 192px;
+    overflow-y: auto;
+  }
+
+  .time_picker-option
+  {
+    padding: 6px 8px;
+    border: 0;
+    border-radius: var(--v-radius-sm);
+    background: transparent;
+    color: var(--v-color-trim);
+    cursor: pointer;
+    font: inherit;
+    font-size: 14px;
+    text-align: center;
+    transition: background-color var(--v-anim-speed);
+
+    &:hover { background: var(--v-color-base-more-subtle); }
+
+    &.time_picker-option--selected
+    {
+      background: var(--v-accent-subtle);
+      color: var(--v-accent);
+      font-weight: 500;
+    }
   }
 }

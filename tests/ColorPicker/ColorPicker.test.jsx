@@ -164,3 +164,66 @@ describe('ColorPicker building blocks', () => {
     expect(marker.style.top).toBe('0%');
   });
 });
+
+describe('ColorPicker show', () => {
+  const hasChooser = (container) => Boolean(container.querySelector('input[type="color"]'));
+  const hasText = () => Boolean(screen.queryByRole('textbox', { name: 'Hex color' }));
+  const hasPalette = () => Boolean(screen.queryByRole('group', { name: 'Color palette' }));
+
+  it('shows both the picker and the palette by default', () => {
+    const { container } = render(<ColorPicker />);
+    expect(hasChooser(container)).toBe(true);
+    expect(hasText()).toBe(true);
+    expect(hasPalette()).toBe(true);
+  });
+
+  it('shows both with show="both" too', () => {
+    const { container } = render(<ColorPicker show="both" />);
+    expect(hasChooser(container) && hasText() && hasPalette()).toBe(true);
+  });
+
+  it('shows only the chooser and the text box with show="picker"', () => {
+    const { container } = render(<ColorPicker show="picker" />);
+    expect(hasChooser(container)).toBe(true);
+    expect(hasText()).toBe(true);
+    expect(hasPalette()).toBe(false);
+    expect(screen.queryAllByRole('button', { name: /^Select / })).toHaveLength(0);
+  });
+
+  it('shows only the swatches with show="palette", and still carries the value in a form', () => {
+    const onChange = jest.fn();
+    const { container } = render(<ColorPicker show="palette" name="accent" initialValue="#F06060" onChange={onChange} />);
+    expect(hasChooser(container)).toBe(false);
+    expect(hasText()).toBe(false);
+    expect(hasPalette()).toBe(true);
+    const hidden = container.querySelector('input[type="hidden"][name="accent"]');
+    expect(hidden).toHaveValue('#F06060');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Select #000000' }));
+    expect(onChange).toHaveBeenCalledWith('#000000');
+    expect(hidden).toHaveValue('#000000');
+    expect(screen.getByRole('button', { name: 'Select #000000' })).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('has no hidden input when the text box is there to carry the name', () => {
+    const { container } = render(<ColorPicker name="accent" />);
+    expect(container.querySelector('input[type="hidden"]')).toBeNull();
+    expect(container.querySelector('input[type="text"][name="accent"]')).toBeInTheDocument();
+  });
+
+  it('ignores popover when there is no palette to open', () => {
+    const { container } = render(<ColorPicker popover show="picker" />);
+    expect(container.firstChild).not.toHaveClass('volta-color_picker--popover');
+    expect(screen.queryByRole('button', { name: 'Toggle color palette' })).toBeNull();
+    expect(hasChooser(container)).toBe(true);
+  });
+
+  it('opens a palette-only popover from its button', () => {
+    const { container } = render(<ColorPicker popover show="palette" />);
+    expect(hasText()).toBe(false);
+    const toggle = screen.getByRole('button', { name: 'Toggle color palette' });
+    expect(container.querySelector('.color_picker-palette')).not.toHaveClass('showing');
+    fireEvent.click(toggle);
+    expect(container.querySelector('.color_picker-palette')).toHaveClass('showing');
+  });
+});

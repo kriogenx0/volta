@@ -5,7 +5,7 @@
   textarea {
     align-items: center;
     font-size: 14px;
-    border-radius: $border_radius;
+    border-radius: var(--v-radius-md);
     background-clip: padding-box;
     padding-left: 10px;
     padding-right: 10px;
@@ -115,7 +115,7 @@
   input,
   textarea {
     padding: 6px 10px;
-    border-radius: 6px;
+    border-radius: var(--v-radius-md);
   }
 }
 
@@ -123,6 +123,6 @@
   input,
   textarea {
     padding: 8px 12px;
-    border-radius: 8px;
+    border-radius: var(--v-radius-lg);
   }
 }

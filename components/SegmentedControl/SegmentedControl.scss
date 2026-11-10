@@ -2,41 +2,55 @@ $border-rad: 3px;
 
 .volta-segmented_control
 {
-  .volta-tab_bar
+  // The legacy form is a Tabs strip restyled as joined buttons
+  .volta-tabs nav
   {
     border-bottom: 0 none;
+  }
+  .volta-tabs ul
+  {
     margin-bottom: 0;
   }
-  .volta-tab_bar-link
+  // The joined buttons show the selection by their own border
+  .volta-tabs .tab-indicator
+  {
+    display: none;
+  }
+  .volta-tabs .tab
   {
     border: 1px solid var(--v-color-base-less-subtle);
     border-right: 0 none;
     border-radius: 0;
     padding: 10px;
+    margin: 0;
     background: var(--v-color-base);
     font-size: 20px;
     line-height: 20px;
-    margin-bottom: 0;
 
     &:first-child
     {
-      border-radius: $border-rad 0 0 $border-rad;
+      border-radius: var(--v-radius-md) 0 0 var(--v-radius-md);
     }
 
     &:last-child
     {
       border-right: 1px solid var(--v-color-base-less-subtle);
-      border-radius: 0 $border-rad $border-rad 0;
+      border-radius: 0 var(--v-radius-md) var(--v-radius-md) 0;
+    }
+
+    &.tab-selected
+    {
+      border-bottom-color: var(--v-accent);
     }
   }
 }
 
-// Button-based control (the `options` prop, or `mini`). The TabBar-based
+// Button-based control (the `options` prop, or `mini`). The Tabs-based
 // legacy form above is untouched.
 .volta-segmented_control--md,
 .volta-segmented_control--sm,
 .volta-segmented_control--mini {
-  border-radius: 6px;
+  border-radius: var(--v-radius-md);
   background: var(--v-color-base-more-subtle);
   -webkit-user-select: none;
   user-select: none;
@@ -48,14 +62,14 @@ $border-rad: 3px;
   position: absolute;
   top: 0;
   left: 0;
-  border-radius: 4px;
+  border-radius: var(--v-radius-md);
   background: var(--v-color-base);
   box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
   pointer-events: none;
 }
 
 .volta-segmented_control--mini .volta-segmented_control-thumb {
-  border-radius: 6px;
+  border-radius: var(--v-radius-md);
 }
 
 // Not on the first paint, so it doesn't slide in from the corner.
@@ -86,7 +100,7 @@ $border-rad: 3px;
   position: relative; // above the highlight
   padding: 4px 12px;
   border: 0;
-  border-radius: 4px;
+  border-radius: var(--v-radius-md);
   background: transparent;
   color: var(--v-color-trim-less-subtle);
   cursor: pointer;
@@ -125,12 +139,12 @@ $border-rad: 3px;
 .volta-segmented_control--mini {
   display: inline-flex;
   padding: 3px;
-  border-radius: 8px;
+  border-radius: var(--v-radius-lg);
 }
 
 .volta-segmented_control--mini .volta-segmented_control-option {
   padding: 4px 9px;
-  border-radius: 6px;
+  border-radius: var(--v-radius-md);
   font-size: 10px;
   font-weight: 650;
   line-height: 16px;

@@ -5,7 +5,8 @@ import './Badge.scss';
 
 const TONES = ['success', 'warning', 'danger', 'neutral', 'info'];
 
-const Badge = ({ variant, size, style = {}, tone, children, ...otherProps }) => {
+// A text badge (children, with a tone), or an icon badge (variant: a drawn check or cross).
+const Badge = ({ variant, size, tone, children, ...otherProps }) => {
   if (children || tone) {
     const selectedTone = tone || 'neutral';
     return <span className={`volta-badge volta-badge--pill volta-badge--${selectedTone}`} {...otherProps}>{children}</span>;
@@ -14,13 +15,14 @@ const Badge = ({ variant, size, style = {}, tone, children, ...otherProps }) => 
   const variantObj = Badge.variants[variant];
   if (!variantObj) return null;
   const selectedSize = size || Badge.sizes[1];
-  return <Icon className={`volta-badge badge-${selectedSize}`} type={variantObj.icon} style={{ ...style, color: variantObj.color }} {...otherProps} />;
+  return <Icon className={`volta-badge badge-${selectedSize} badge-${variant}`} type={variantObj.icon} {...otherProps} />;
 };
 
+// The colour of each is in Badge.scss, from the theme tokens (success, accent, danger).
 Badge.variants = {
-  check: { color: '#3AA231', icon: 'checkmark.circle.fill' },
-  bluecheck: { color: '#4A90E2', icon: 'checkmark.circle.fill' },
-  x: { color: '#AF1E2D', icon: 'xmark.circle.fill' }
+  check: { icon: 'checkmark.circle.fill' },
+  bluecheck: { icon: 'checkmark.circle.fill' },
+  x: { icon: 'xmark.circle.fill' }
 };
 Badge.sizes = ['small', 'medium', 'large'];
 Badge.tones = TONES;

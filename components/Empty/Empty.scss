@@ -3,12 +3,26 @@
 .volta-empty {
   margin: 0 auto;
   text-align: center;
-  font-size: 150%;
+  font-size: 130%;
+  font-weight: 400;
+  line-height: 1.5;
   padding: 100px 20px;
 
-  color: var(--v-color-base-less-subtle);
-  @include dark {
-    color: var(--v-color-trim);
+  // Soft: a muted text colour, the same step in light and dark (the token flips)
+  color: var(--v-color-trim-less-subtle);
+
+  // The big icon above the message (a question mark, say): about four lines high, soft
+  .volta-icon.volta-empty-icon {
+    display: block;
+    margin: 0 auto 16px;
+    font-size: 4em;
+    line-height: 1;
+    color: var(--v-color-base-less-subtle);
+  }
+
+  // The loader keeps the same space as the message it stands in for
+  &.volta-empty--loading {
+    font-size: 100%;
   }
 }
 

@@ -4,9 +4,9 @@ A search-as-you-type box for choosing one or several items from a list, shown as
 
 ## When to use
 
-- **Picking several items from a long list** (people, tags, recipients) where a `Select` would be unwieldy. With `limit={1}` it is a single-choice search box.
+- **Picking several items from a long list** (people, tags, recipients) where a `NativeSelect` would be unwieldy. With `limit={1}` it is a single-choice search box.
 - **Letting the user add their own entry** (`allowAdd`) or recognising email addresses as they type (`detect="email"`).
-- One choice from a short list is a [`Select`](../Select/README.md). A text field that only suggests values, and keeps whatever is typed, is a [`ComboBox`](../ComboBox/README.md).
+- One choice from a short list is a [`NativeSelect`](../NativeSelect/README.md). A text field that only suggests values, and keeps whatever is typed, is a [`ComboBox`](../ComboBox/README.md).
 - It works on a plain array of options held in memory. There is no remote store and no custom row rendering.
 
 ## Usage
@@ -57,5 +57,5 @@ import { AutoComplete } from 'volta';
 
 - Do give every option a stable, unique `value`.
 - Do keep `selected` in state and pass the same array back until it changes.
-- Don't use it for a short list; a `Select` or checkboxes are simpler.
+- Don't use it for a short list; a `NativeSelect` or checkboxes are simpler.
 - Don't pass `selected={[]}` inline; a new array each render resets the box.

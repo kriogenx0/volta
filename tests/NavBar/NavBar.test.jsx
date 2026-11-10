@@ -1,124 +1,69 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 
-import NavBar from '../../components/NavBar/NavBar';
-import NavItem from '../../components/NavBar/NavItem';
+import NavBar, { GlobalNav } from '../../components/NavBar/NavBar';
 
-const renderNav = (props, path = '/') => render(
-  <MemoryRouter initialEntries={[path]}>
-    <NavBar {...props} />
-  </MemoryRouter>
-);
-
-const buildGroup = () => {
-  const reports = new NavItem('Reports');
-  reports.add(new NavItem('Weekly', '/reports/weekly'));
-  return reports;
-};
-
-describe('NavItem', () => {
-  it('has a link only when linkTo has text', () => {
-    expect(new NavItem('Home', '/').hasLink()).toBe(true);
-    expect(new NavItem('Group').hasLink()).toBe(false);
-    expect(new NavItem('Group', '   ').hasLink()).toBe(false);
-  });
-
-  it('starts expanded, knows its children and uses the title as key', () => {
-    const group = buildGroup();
-    expect(group.isExpanded()).toBe(true);
-    expect(group.hasChildren()).toBe(true);
-    expect(group.key).toBe('Reports');
-    group.setExpanded(false);
-    expect(group.isExpanded()).toBe(false);
-  });
-});
+const links = { Home: '/', Dashboard: '/dashboard', Reports: '/reports' };
 
 describe('NavBar', () => {
   it('renders without crashing', () => {
-    const { container } = renderNav();
+    const { container } = render(<NavBar />);
     expect(container).toBeInTheDocument();
   });
 
-  it('renders nothing but the container with no items', () => {
-    const { container } = renderNav({ navItems: [] });
-    expect(container.querySelector('.volta-navbar')).toBeEmptyDOMElement();
+  it('shows the app name linking home, with an optional subtitle', () => {
+    render(<NavBar appName="My App" appSubtitle="Beta" />);
+    const name = screen.getByRole('link', { name: /My App/ });
+    expect(name).toHaveAttribute('href', '/');
+    expect(screen.getByText('Beta')).toBeInTheDocument();
   });
 
-  it('renders linked items as links, including their query', () => {
-    const search = new NavItem('Search', '/search');
-    search.query = { q: 'volta' };
-    renderNav({ navItems: [new NavItem('Home', '/'), search] });
-    expect(screen.getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/');
-    expect(screen.getByRole('link', { name: 'Search' })).toHaveAttribute('href', '/search?q=volta');
+  it('uses homeLink for the app name link', () => {
+    render(<NavBar appName="My App" homeLink="/start" />);
+    expect(screen.getByRole('link', { name: 'My App' })).toHaveAttribute('href', '/start');
   });
 
-  it('marks the item matching the current path as active', () => {
-    renderNav({ navItems: [new NavItem('Home', '/'), new NavItem('Projects', '/projects')] }, '/projects');
-    expect(screen.getByRole('link', { name: 'Projects' }).parentElement).toHaveClass('is-active');
-    expect(screen.getByRole('link', { name: 'Home' }).parentElement).not.toHaveClass('is-active');
+  it('renders a link per entry in links, using string values as the href', () => {
+    render(<NavBar links={links} />);
+    expect(screen.getAllByRole('link')).toHaveLength(3);
+    expect(screen.getByRole('link', { name: 'Reports' })).toHaveAttribute('href', '/reports');
   });
 
-  it('adds the extra class of an item', () => {
-    renderNav({ navItems: [new NavItem('Home', '/', null, 'special')] });
-    expect(screen.getByRole('link', { name: 'Home' }).parentElement).toHaveClass('special');
-  });
-
-  it('reports the active item to onActiveState', () => {
-    const onActiveState = jest.fn();
-    const projects = new NavItem('Projects', '/projects');
-    renderNav({ navItems: [new NavItem('Home', '/'), projects], onActiveState }, '/projects');
-    expect(onActiveState).toHaveBeenCalledWith(projects);
-  });
-
-  it('lets onActiveState set state in the parent without React warnings', () => {
+  it('renders links whose values are objects without duplicate-key warnings', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    const Parent = () => {
-      const [active, setActive] = React.useState(null);
-      return (
-        <MemoryRouter initialEntries={['/']}>
-          <NavBar navItems={[new NavItem('Home', '/')]} onActiveState={setActive} />
-          <p>Active: {active ? active.title : 'none'}</p>
-        </MemoryRouter>
-      );
-    };
-    render(<Parent />);
-    expect(screen.getByText('Active: Home')).toBeInTheDocument();
+    const { container } = render(<NavBar links={{ Home: {}, Dashboard: {}, Reports: {} }} />);
+    // Object values have no URL, so these anchors have an empty href and no link role.
+    expect(container.querySelectorAll('a.nav-link')).toHaveLength(3);
     expect(consoleError).not.toHaveBeenCalled();
     consoleError.mockRestore();
   });
 
-  it('shows the children of an expanded group, indented', () => {
-    renderNav({ navItems: [buildGroup()] });
-    expect(screen.getByRole('button', { name: /Reports/ })).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getByRole('link', { name: 'Weekly' }).parentElement).toHaveClass('navlevel-indent-1');
+  it('marks only the active link', () => {
+    render(<NavBar links={links} activeLinkKey="Dashboard" />);
+    expect(screen.getByRole('link', { name: 'Dashboard' })).toHaveClass('active');
+    expect(screen.getByRole('link', { name: 'Dashboard' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: 'Home' })).not.toHaveClass('active');
+    expect(screen.getByRole('link', { name: 'Home' })).not.toHaveAttribute('aria-current');
   });
 
-  it('hides the children of a collapsed group', () => {
-    const group = buildGroup();
-    group.setExpanded(false);
-    renderNav({ navItems: [group] });
-    expect(screen.getByRole('button', { name: /Reports/ })).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.queryByRole('link', { name: 'Weekly' })).not.toBeInTheDocument();
+  it('calls onLinkClick with the link and key instead of following the href', () => {
+    const onLinkClick = jest.fn();
+    render(<NavBar links={links} onLinkClick={onLinkClick} />);
+    const notPrevented = fireEvent.click(screen.getByRole('link', { name: 'Reports' }));
+    expect(onLinkClick).toHaveBeenCalledWith('/reports', 'Reports');
+    expect(notPrevented).toBe(false);
   });
 
-  it('toggles a group by click and by keyboard', () => {
-    renderNav({ navItems: [buildGroup()] });
-    const toggle = screen.getByRole('button', { name: /Reports/ });
-
-    fireEvent.click(toggle);
-    expect(screen.queryByRole('link', { name: 'Weekly' })).not.toBeInTheDocument();
-
-    fireEvent.keyDown(screen.getByRole('button', { name: /Reports/ }), { key: 'Enter' });
-    expect(screen.getByRole('link', { name: 'Weekly' })).toBeInTheDocument();
-
-    fireEvent.keyDown(screen.getByRole('button', { name: /Reports/ }), { key: ' ' });
-    expect(screen.queryByRole('link', { name: 'Weekly' })).not.toBeInTheDocument();
+  it('lets the browser follow the href when there is no onLinkClick', () => {
+    render(<NavBar links={links} />);
+    expect(fireEvent.click(screen.getByRole('link', { name: 'Reports' }))).toBe(true);
   });
 
-  it('renders an item without a link or children as plain text', () => {
-    renderNav({ navItems: [new NavItem('Heading')] });
-    expect(screen.getByText('Heading')).toBeInTheDocument();
-    expect(screen.queryByRole('link')).not.toBeInTheDocument();
-    expect(screen.queryByRole('button')).not.toBeInTheDocument();
+  it('is a header with the navbar class', () => {
+    const { container } = render(<NavBar appName="My App" />);
+    expect(container.querySelector('header.volta-navbar')).toBeInTheDocument();
+  });
+
+  it('GlobalNav is NavBar itself', () => {
+    expect(GlobalNav).toBe(NavBar);
   });
 });

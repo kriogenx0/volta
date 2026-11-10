@@ -1,97 +1,70 @@
+@use '../../mixins' as *;
+
+$global_nav_height: 48px;
+
 .volta-navbar {
-  @mixin nav-level($level) {
-    $nav-indent: 20px;
-    $nav-pad: 20px;
+  height: $global_nav_height;
+  background: #333;
+  color: #fff;
 
-    padding-left: $nav-indent * $level + $nav-pad;
-  };
+  > .l-width {
+    display: flex;
+    max-width: none;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
 
-  border-right: 1px solid var(--v-color-base-less-subtle);
-  height: 100%;
+  .header-left {
+    font-size: 20px;
+    line-height: $global_nav_height;
 
-  .component-navbar-item {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    color: black;
+    .app_name {
+      font-size: 20px;
+      line-height: $global_nav_height;
 
-    a {
-      color: black;
-      text-decoration: none;
+      // subtitle
+      small {
+        display: inline-block;
+        color: #888;
+        margin-left: 8px;
+        font-size: 70%;
+        vertical-align: middle;
+      }
     }
 
-    border-width: 1px 0 1px 6px;
-    border-style: solid;
-    border-color: transparent;
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
 
-    &.has-link {
-      border-left-color: rgba(0, 0, 0, 0);
-      a {
-        margin-left: -4px;
+  nav {
+    flex-grow: 1;
+    text-align: right;
+
+    @include no_select;
+
+    > * {
+      display: inline-block;
+      color: #aaa;
+      padding: 0 40px;
+      transition: all $anim-speed-normal;
+      line-height: $global_nav_height;
+      text-decoration: none;
+      cursor: pointer;
+
+      @media (max-width: 1000px) {
+        padding-left: 20px;
+        padding-right: 20px;
       }
 
       &:hover {
-        cursor: pointer;
-        border-left-color: var(--v-color-inactive);
-
-        a {
-            color: var(--v-accent);
-        }
+        text-decoration: none;
+        color: #fff;
       }
 
-      &.is-active {
-        border-top-color: var(--v-color-base-subtle);
-        border-bottom-color: var(--v-color-base-subtle);
-        border-left-color: var(--v-accent);
-        background-color: var(--v-color-base-subtle);
-
-        &:hover {
-          border-left-color: var(--v-color-inactive);
-        }
-
-        a {
-          color: var(--v-accent);
-        }
-      }
-    }
-
-    &.has-children {
-      &.toggle-expand {
-        cursor: pointer;
-
-        span {
-          &:first-child {
-            margin-left: -4px;
-            padding-right: 10px;
-          }
-        }
-      }
-    }
-
-    &.navlevel-indent-0 {
-      @include nav-level(0);
-    }
-
-    &.navlevel-indent-1 {
-      @include nav-level(2);
-
-      &.has-children {
-        @include nav-level(1);
-      }
-    }
-
-    &.navlevel-indent-2 {
-      @include nav-level(3);
-
-      &.has-children {
-        @include nav-level(2);
-      }
-    }
-
-    &.navlevel-indent-3 {
-      @include nav-level(4);
-
-      &.has-children {
-        @include nav-level(3);
+      &.active {
+        color: #fff;
       }
     }
   }

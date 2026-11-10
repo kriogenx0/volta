@@ -14,7 +14,7 @@ const Controlled = () => {
 
 export default {
   name: 'TimePicker',
-  description: 'Pick an hour, minute and am/pm. Type a time or choose from the lists. onChange reports { hour, minute, pm, fullDate, formatted }.',
+  description: 'Pick an hour, minute and am/pm. Type a time, step the fields with the arrow keys, or choose from the dropdown that opens with both lists when either field has focus. onChange reports { hour, minute, pm, fullDate, formatted }.',
   examples: [
     {
       name: 'TimePicker',

@@ -7,11 +7,11 @@ import './Message.scss';
 
 // `type` picks the icon, colour and ARIA role. A missing or unknown type shows
 // the text as a plain message instead of failing.
-const Message = ({ type, message, children }) => {
+const Message = ({ type, message, children, role }) => {
   const details = Object.hasOwn(Message.typeDetails, type) ? Message.typeDetails[type] : null;
 
   return (
-    <div className={classnames('volta-message', details && details.className)} role={details ? details.role : undefined}>
+    <div className={classnames('volta-message', details && details.className)} role={role !== undefined ? role || undefined : (details ? details.role : undefined)}>
       {details && <Icon type={details.icon} aria-hidden="true" />}
       {message || children}
     </div>
@@ -35,7 +35,10 @@ Message.propTypes = {
   type: PropTypes.oneOf(Object.keys(Message.typeDetails)),
   // The text to show; children are shown when there is no message
   message: PropTypes.node,
-  children: PropTypes.node
+  children: PropTypes.node,
+  // Replaces the role the type gives (alert, status). null leaves the role off, for a message
+  // that is described to a control instead of announced.
+  role: PropTypes.string
 };
 
 export default Message;

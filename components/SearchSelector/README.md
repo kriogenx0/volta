@@ -5,7 +5,7 @@ A popover with a search box: type to search, click a result to add it to the sel
 ## When to use
 
 - **Picking one or several items from a list too long to scroll,** where the matches come from a function you supply (a local filter, for example).
-- Use [`Select`](../Select/README.md) for a short list, [`ComboBox`](../ComboBox/README.md) or [`AutoComplete`](../AutoComplete/README.md) to search inside a field without a popover, and [`MultiSelect`](../MultiSelect/README.md) to tick several from a short list.
+- Use [`NativeSelect`](../NativeSelect/README.md) for a short list, [`ComboBox`](../ComboBox/README.md) or [`AutoComplete`](../AutoComplete/README.md) to search inside a field without a popover, and [`MultiSelect`](../MultiSelect/README.md) to tick several from a short list.
 - You open it yourself (for instance from a [`Button`](../Button/README.md)) with `open`; it has no trigger of its own.
 
 ## Usage
@@ -47,6 +47,6 @@ The selection is kept inside the component while it stays mounted and is shown a
 
 - Do keep `onType` fast and synchronous; filter a list you already have.
 - Do show the final selection somewhere in the page too, since the chips only appear inside the popover.
-- Don't use it for a handful of choices; a [`Select`](../Select/README.md) is quicker.
+- Don't use it for a handful of choices; a [`NativeSelect`](../NativeSelect/README.md) is quicker.
 - Don't open it on page load; it covers the window with a backdrop.
 - Don't pass objects as items unless they render as text; each item is shown as is in a button.

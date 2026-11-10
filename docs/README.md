@@ -1,3 +1,5 @@
+<img src="../styleguide/public/logo.svg" alt="Volta" width="64" height="64">
+
 # Volta
 
 A React 19 component library — 92 components covering forms, layout,
@@ -131,7 +133,7 @@ stylesheet instead, with no JavaScript.
 
 **Coverage note:** a component that uses only the tokens (or the `$color_*` Sass
 aliases, which resolve to them) follows every theme and both schemes. Only
-`GlobalNav.scss` and `Loader.scss` still hard-code hex colours, and those keep
+`NavBar.scss`'s top bar and `Loader.scss` still hard-code hex colours, and those keep
 their colours whatever the theme.
 
 ## Releases

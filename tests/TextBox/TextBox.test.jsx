@@ -78,7 +78,7 @@ describe('TextBox', () => {
     it('is not marked invalid and shows no message without an error', () => {
       const { container } = render(<TextField label="Username" />);
       expect(screen.getByLabelText('Username')).not.toHaveAttribute('aria-invalid');
-      expect(container.querySelector('.volta-error_text')).toBeNull();
+      expect(container.querySelector('.volta-message-error')).toBeNull();
       expect(container.querySelector('.textbox-error')).toBeNull();
     });
 

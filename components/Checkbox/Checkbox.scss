@@ -4,7 +4,9 @@
   @include no_select;
 
   align-items: center;
-  color: $color_trim;
+  // One step toward the box's border colour, so the text doesn't outweigh the control.
+  // Not lighter still: it is a label people need to read (4.5:1 on the page).
+  color: $color_trim_subtle;
   display: inline-flex;
   gap: 8px;
   line-height: 1.35;
@@ -13,7 +15,7 @@
     appearance: none;
     background: $color_base;
     border: 1.5px solid $color_base_less_subtle;
-    border-radius: 5px;
+    border-radius: var(--v-radius-md);
     box-sizing: border-box;
     display: inline-grid;
     flex: 0 0 auto;

@@ -15,7 +15,7 @@
   align-items: flex-start;
   gap: 10px;
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: var(--v-radius-lg);
   background: var(--v-color-base);
   box-shadow: 0 4px 16px rgba(0, 0, 0, .16), 0 0 0 1px var(--v-color-base-subtle);
   animation: volta-toast-message-enter var(--v-anim-speed) var(--v-anim-ease);

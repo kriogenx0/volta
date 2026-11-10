@@ -5,7 +5,7 @@ A bordered surface that groups related content, optionally selectable.
 ## When to use
 
 - **A self-contained block of content** that sits on its own: a summary, a choice, a record. Make it `selectable` for a "pick one of these" grid.
-- A list of rows is a `List` or `ListCard`; page structure and columns are layout, not cards.
+- A list of rows is a `List` (with `card` for a bordered one); page structure and columns are layout, not cards.
 - A status label is a [`Badge`](../Badge/README.md). A dialog or panel that floats over the page is a `Dialog` or `Drawer`.
 
 ## Usage

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import Icon from '../Icon';
 import TextBox from '../TextBox';
 
 import './TagInput.scss';
@@ -51,7 +52,7 @@ const TagInput = ({ tags, value, onChange, removable = false, ...props }) => {
                 aria-label={`Remove ${tag}`}
                 onClick={() => handleRemoveTag(tag)}
               >
-                <span aria-hidden="true" />
+                <Icon type="xmark" aria-hidden="true" />
               </button>
             )}
           </span>

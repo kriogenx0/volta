@@ -1,0 +1,79 @@
+@use '../../mixins' as *;
+
+.volta-native_select {
+  > select {
+    font-size: 16px;
+    border-radius: var(--v-radius-md);
+    padding: 10px;
+    min-width: 100px;
+    transition: all $anim-speed-normal;
+
+    // Hide the arrow
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    // Theme
+    background-color: transparent;
+    border: 1px solid $color_base_subtle;
+    color: $color_trim_subtle;
+    @include dark {
+      border-color: $color_base_subtle_dark;
+      color: $color_trim_subtle_dark;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $color_base_more_subtle;
+      border-color: $color_base_less_subtle;
+      color: $color_trim;
+      @include dark {
+        background-color: $color_base_more_subtle_dark;
+        border-color: $color_base_less_subtle_dark;
+        color: $color_trim_dark;
+      }
+    }
+
+    &:focus {
+      border-color: $color_active;
+      @include dark {
+        border-color: $color_active_dark;
+      }
+      outline: 0;
+    }
+  }
+}
+
+// Error: the message is shown under the select (.volta-native_select-error_message) and
+// the control is marked aria-invalid; the border colour backs that up.
+.volta-native_select.native_select-error > select {
+  &,
+  &:hover,
+  &:focus {
+    border-color: var(--v-color-danger);
+  }
+}
+
+.volta-native_select-error_message {
+  margin-top: 4px;
+}
+
+// Sizes (fieldSize prop). Declared after the base rules so they win on
+// equal specificity.
+.volta-native_select--sm,
+.volta-native_select--md {
+  > select {
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
+
+.volta-native_select--sm > select {
+  padding: 6px 10px;
+  border-radius: var(--v-radius-md);
+  font-size: 14px;
+}
+
+.volta-native_select--md > select {
+  padding: 8px 12px;
+  border-radius: var(--v-radius-lg);
+}

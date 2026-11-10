@@ -5,7 +5,7 @@ A searchable select, built on react-select, for choosing several options (or one
 ## When to use
 
 - **Picking several items from a longer list**, with search: teams, tags, recipients. The chosen options show as removable chips.
-- Use [`Select`](../Select/README.md) for one choice from a list, [`CheckboxGroup`](../CheckboxGroup/README.md) for a few options that should all stay visible, [`ComboBox`](../ComboBox/README.md) when the user types free text and picks a suggestion, and [`TagInput`](../TagInput/README.md) for tags the user types.
+- Use [`NativeSelect`](../NativeSelect/README.md) for one choice from a list, [`CheckboxGroup`](../CheckboxGroup/README.md) for a few options that should all stay visible, [`ComboBox`](../ComboBox/README.md) when the user types free text and picks a suggestion, and [`TagInput`](../TagInput/README.md) for tags the user types.
 - Pass `multiselect={false}` for a single choice; `onChange` still gets an array (of one).
 
 ## Usage

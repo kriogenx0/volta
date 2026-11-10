@@ -13,7 +13,7 @@ $padding: 15px;
   // --volta-card-padding is set by the padding prop's modifier below
   padding: var(--volta-card-padding, #{$padding});
   overflow: hidden;
-  transition: border-color $anim-speed-normal, padding $anim-speed-normal;
+  transition: border-color $anim-speed-normal, background-color $anim-speed-normal, padding $anim-speed-normal;
 
   // padding prop: a rounded, themed border plus the matching padding
   &.volta-card--none,
@@ -21,7 +21,7 @@ $padding: 15px;
   &.volta-card--md
   {
     border-color: var(--v-color-base-subtle);
-    border-radius: 8px;
+    border-radius: var(--v-radius-lg);
   }
 
   &.volta-card--none { --volta-card-padding: 0px; }
@@ -34,6 +34,14 @@ $padding: 15px;
     user-select: none;
   }
 
+  // Only a card you can select reacts to the pointer. The border and fill change colour,
+  // never size, so nothing moves under the cursor.
+  &.volta-card-selectable:not(.volta-card-selected):hover
+  {
+    border-color: var(--v-color-base-less-subtle);
+    background-color: var(--v-color-base-more-subtle);
+  }
+
   // Declared after the modifiers so the selected border color wins.
   &.volta-card-selected
   {
@@ -42,5 +50,10 @@ $padding: 15px;
     // One px less than normal: the border is one px thicker, so the card
     // doesn't change size when selected.
     padding: max(0px, calc(var(--volta-card-padding, #{$padding}) - 1px));
+  }
+
+  &.volta-card-selectable.volta-card-selected:hover
+  {
+    border-color: var(--v-accent-hover);
   }
 }

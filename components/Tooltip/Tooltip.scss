@@ -15,7 +15,7 @@ $zindex: 1000;
   color: legacy-color('white');
   z-index: $zindex + 10;
   font-size: 12px;
-  border-radius: 2px;
+  border-radius: var(--v-radius-sm);
   white-space: normal;
   pointer-events: none;
 

@@ -5,7 +5,7 @@ A native `<label>` that wraps a control and its caption together, so clicking th
 ## When to use
 
 - **A caption for a control that sits inside it**, with no ids to manage: `<Label text="Email"><input /></Label>`. The control takes its name from the caption.
-- A styled label above `TextField`, `Select` or another control, tied by `htmlFor`, is [`FieldLabel`](../FieldLabel/README.md); `TextField` and `Select` draw one themselves when given `label`. Spacing around a labelled control is [`Field`](../Field/README.md).
+- A styled label above `TextField`, `NativeSelect` or another control, tied by `htmlFor`, is [`FieldLabel`](../FieldLabel/README.md); `TextField` and `NativeSelect` draw one themselves when given `label`. Spacing around a labelled control is [`Field`](../Field/README.md).
 - A heading or a plain piece of text is not a label; use text or [`PageHeading`](../PageHeading/README.md).
 
 ## Usage

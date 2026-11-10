@@ -6,10 +6,13 @@ import './Slider.scss';
 const clamp = (n, min, max) => Math.min(Math.max(n, min), max);
 
 // Drag the thumb, click the track, or use the keyboard. Works controlled
-// (value + onChange) or uncontrolled (optional defaultValue).
+// (value + onChange) or uncontrolled (optional defaultValue). A click on the track or
+// a key press slides the thumb to its new place; once the pointer moves while pressed
+// ("tracking") it follows the pointer at once, so dragging never lags behind.
 const Slider = ({ value: controlledValue, defaultValue, min = 0, max = 2, step, disabled = false, ariaLabel, onChange = () => {} }) => {
   const [internalValue, setInternalValue] = useState(defaultValue === undefined ? (min + max) / 2 : defaultValue);
   const [dragging, setDragging] = useState(false);
+  const [tracking, setTracking] = useState(false);
   const trackRef = useRef(null);
 
   const value = clamp(controlledValue === undefined ? internalValue : controlledValue, min, max);
@@ -40,9 +43,13 @@ const Slider = ({ value: controlledValue, defaultValue, min = 0, max = 2, step, 
 
     const move = (event) => {
       const point = event.touches ? event.touches[0] : event;
+      setTracking(true);
       updateFromPoint(point.clientX);
     };
-    const stop = () => setDragging(false);
+    const stop = () => {
+      setDragging(false);
+      setTracking(false);
+    };
 
     document.addEventListener('mousemove', move);
     document.addEventListener('mouseup', stop);
@@ -88,7 +95,7 @@ const Slider = ({ value: controlledValue, defaultValue, min = 0, max = 2, step, 
 
   return (
     <div
-      className={`volta-slider${disabled ? ' volta-slider--disabled' : ''}${dragging ? ' volta-slider--dragging' : ''}`}
+      className={`volta-slider${disabled ? ' volta-slider--disabled' : ''}${dragging ? ' volta-slider--dragging' : ''}${tracking ? ' volta-slider--tracking' : ''}`}
       onMouseDown={startDrag}
       onTouchStart={startDrag}
     >

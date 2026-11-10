@@ -1,7 +1,7 @@
 @use "../../mixins" as *;
 
 .volta-text_editable {
-  border-radius: 5px;
+  border-radius: var(--v-radius-md);
   display: inline-block;
   transition: background-color $anim-speed-normal, color $anim-speed-normal;
 

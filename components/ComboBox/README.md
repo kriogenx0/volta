@@ -5,7 +5,7 @@ A text box that suggests values from a list as you type, and keeps whatever text
 ## When to use
 
 - **Free text with suggestions**: a city, a job title, a unit, where the list is a help and not a limit.
-- A choice that must be one of the listed values is a [`Select`](../Select/README.md). Choosing several items, shown as pills, is an [`AutoComplete`](../AutoComplete/README.md) or a [`MultiSelect`](../MultiSelect/README.md).
+- A choice that must be one of the listed values is a [`NativeSelect`](../NativeSelect/README.md). Choosing several items, shown as pills, is an [`AutoComplete`](../AutoComplete/README.md) or a [`MultiSelect`](../MultiSelect/README.md).
 - Options are plain strings. For `{ title, value }` options use `AutoComplete`.
 - `Combobox` (lower-case b) is a legacy alias for the same component, exported from `ComboBox/ComboBox.jsx` but not from `volta`.
 
@@ -53,6 +53,6 @@ import { ComboBox } from 'volta';
 
 - Do give every box a placeholder and a visible label, because that is its only name.
 - Do use `onCommit` to save once, instead of saving on every `onChange`.
-- Don't use it when the value must be from the list; use a `Select`.
+- Don't use it when the value must be from the list; use a `NativeSelect`.
 - Don't pass objects as options; they must be strings.
 - Don't use `items` in new code; use `options`.

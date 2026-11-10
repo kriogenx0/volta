@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { useState } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 
@@ -75,5 +77,24 @@ describe('Toggle', () => {
   it('adds a custom className to the wrapper', () => {
     const { container } = render(<Toggle aria-label="Dark mode" className="extra" />);
     expect(container.firstChild).toHaveClass('volta-toggle', 'extra');
+  });
+});
+
+// jsdom loads no CSS, so the colours are checked in the stylesheet's source.
+describe('Toggle colours follow the theme', () => {
+  const scss = fs.readFileSync(path.join(__dirname, '../../components/Toggle/Toggle.scss'), 'utf8');
+  const rule = (selector) => scss.match(new RegExp(`${selector.replace('.', '\\.')} \\{[^}]*\\}`))[0];
+
+  it('draws the knob in the page colour, so it is dark in dark mode', () => {
+    expect(rule('.toggle-switch')).toMatch(/background-color:\s*\$color_base;/);
+    expect(rule('.toggle-switch')).not.toMatch(/\$color_white/);
+  });
+
+  it('draws the off half of the track in the page colour too', () => {
+    expect(rule('.toggle-bg-negative')).toMatch(/background:\s*\$color_base;/);
+  });
+
+  it('keeps the accent for the on half', () => {
+    expect(rule('.toggle-bg')).toMatch(/background:\s*\$color_active;/);
   });
 });

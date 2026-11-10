@@ -38,7 +38,7 @@ $toggle-pod: $toggle-width - 12.5;
     border: 1px solid $color_border;
     display: inline-block;
     position: relative;
-    border-radius: 50px;
+    border-radius: var(--v-radius-pill);
     transition: border-color $anim-speed-normal;
   }
 
@@ -46,7 +46,8 @@ $toggle-pod: $toggle-width - 12.5;
     width: $toggle-height;
     height: $toggle-height;
     display: inline-block;
-    background-color: $color_white;
+    // The page colour, not white: white in light mode, dark in dark mode
+    background-color: $color_base;
     position: absolute;
     left: -1px;
     top: -1px;
@@ -66,7 +67,7 @@ $toggle-pod: $toggle-width - 12.5;
     bottom: 0;
     @include transform(translateZ(0));
     overflow: hidden;
-    border-radius: 50px;
+    border-radius: var(--v-radius-pill);
   }
 
   .toggle-bg {
@@ -85,7 +86,7 @@ $toggle-pod: $toggle-width - 12.5;
     left: auto;
     right: -10px;
     @include transition(right $anim-slight-bounce $anim-speed-normal);
-    background: $color_white;
+    background: $color_base;
     // background: $color_white url('images/tgl_x.png') center center no-repeat;
     // @include image-2x('images/2x/tgl_x.png', image-width('../../assets/images/tgl_x.png'), image-height('../../assets/images/tgl_x.png'));
   }

@@ -3,7 +3,7 @@
 .volta-message {
   padding: 8px 12px;
   border-left: 4px solid var(--v-color-base-less-subtle);
-  border-radius: 4px;
+  border-radius: var(--v-radius-md);
   background: var(--v-color-base-more-subtle);
   color: var(--v-color-trim);
   font-size: 14px;

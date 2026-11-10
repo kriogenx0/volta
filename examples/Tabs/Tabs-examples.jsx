@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+
 import Tabs from '../../components/Tabs/Tabs';
 
 const TabsExample = () => {
@@ -22,9 +24,48 @@ const TabsRightExample = () => {
   );
 };
 
+const INDEX_TABS = ['Overview', 'Activity', 'Settings'];
+
+const IndexExample = () => {
+  const [index, setIndex] = useState(1);
+  return (
+    <div className="example-stack">
+      <Tabs tabs={INDEX_TABS} selectedTabIndex={index} onChange={setIndex} />
+      <p className="example-note">Selected: {INDEX_TABS[index]}</p>
+    </div>
+  );
+};
+
+const CallbackExample = () => {
+  const [last, setLast] = useState('nothing yet');
+  return (
+    <div className="example-stack">
+      <Tabs tabs={INDEX_TABS} onChange={(index, label) => setLast(`${label} (index ${index})`)} />
+      <p className="example-note">Last change: {last}</p>
+    </div>
+  );
+};
+
+const ROUTED_TABS = [
+  { path: '/', name: 'Overview' },
+  { path: '/reports', name: 'Reports' },
+  { path: '/settings', name: 'Settings' }
+];
+
+// Shows where the router is, so clicking a tab visibly changes something
+const RoutedExample = () => {
+  const { pathname } = useLocation();
+  return (
+    <div className="example-stack">
+      <Tabs tabs={ROUTED_TABS} />
+      <p className="example-note">Current path: {pathname}</p>
+    </div>
+  );
+};
+
 export default {
   name: 'Tabs',
-  description: 'A horizontal navigation bar for switching between content panels.',
+  description: 'A row of tabs for switching between panels, or between sections that each have a URL. Tabs are strings (or elements with a label prop), or { path, name } pairs that are router links and are selected while the route matches. Choose the selection with selectedTabKey (the parent decides) or selectedTabIndex (it also follows clicks), or let the first tab start selected. onSelect gets (key, tab) and onChange gets (index, label). TabBar and TabsRouted are other names for it.',
   examples: [
     {
       name: 'Tabs',
@@ -40,5 +81,29 @@ export default {
       code: `<Tabs tabs={['All', 'Active', 'Archived']} selectedTabKey={0} align="Right" />`,
       output: <TabsRightExample />
     },
+    {
+      name: 'Selected by index, with onChange',
+      code: `const [index, setIndex] = useState(1);
+
+<Tabs tabs={['Overview', 'Activity', 'Settings']} selectedTabIndex={index} onChange={setIndex} />`,
+      output: <IndexExample />
+    },
+    {
+      name: 'Keeping its own selection',
+      code: `<Tabs
+  tabs={['Overview', 'Activity', 'Settings']}
+  onChange={(index, label) => setLast(\`\${label} (index \${index})\`)}
+/>`,
+      output: <CallbackExample />
+    },
+    {
+      name: 'Router links',
+      code: `<Tabs tabs={[
+  { path: '/', name: 'Overview' },
+  { path: '/reports', name: 'Reports' },
+  { path: '/settings', name: 'Settings' }
+]} />`,
+      output: <RoutedExample />
+    }
   ]
 };

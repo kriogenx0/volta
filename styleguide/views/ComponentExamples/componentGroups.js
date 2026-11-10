@@ -1,34 +1,38 @@
-// Logical sidebar groupings for the component list. Each group is alphabetical
-// (the smoke test checks it). Every name here must
-// exist in components/index.js -- Components-examples.jsx asserts this.
+// Logical sidebar groupings for the component list. A group is alphabetical (the
+// smoke test checks it) unless it says `ordered: true`, which keeps the order written
+// here on purpose. Every name here must exist in components/index.js --
+// Components-examples.jsx asserts this.
 export default [
   {
-    // Anything you type into, plus the text around a field (label, hint, error)
-    label: 'Form Text',
+    // The fields people type into or choose a value in, in the order written
+    label: 'Inputs',
+    ordered: true,
     components: [
-      'AutoComplete', 'ComboBox', 'DatePicker', 'Field', 'FieldHint', 'FieldLabel',
-      'FieldRow', 'Label', 'NumericField', 'SearchSelector', 'TagInput', 'TextBox',
-      'TextEditable',
+      'TextBox', 'AutoComplete', 'ComboBox', 'NumericField',
+      'MultiSelect', 'NativeSelect', 'TimePicker', 'DatePicker', 'TextEditable',
     ],
   },
   {
-    // Anything you pick, toggle or press
-    label: 'Form Controls',
+    // Anything you pick, toggle, press or edit in place
+    label: 'Controls',
     components: [
-      'BaseForm', 'Button', 'Checkbox', 'CheckboxGroup', 'ColorPalettePicker',
-      'ColorPicker', 'MultiSelect', 'Radio', 'RadioGroup', 'SegmentedControl', 'Select',
-      'Slider', 'TimePicker', 'Toggle',
+      'Button', 'Checkbox', 'CheckboxGroup', 'ColorPicker', 'Radio', 'RadioGroup',
+      'SegmentedControl', 'Slider', 'TagInput', 'Toggle',
     ],
+  },
+  {
+    // The structure around a field: its label, hint and layout, and whole forms
+    label: 'Forms',
+    components: ['BaseForm', 'Field', 'FieldHint', 'FieldLabel', 'FieldRow', 'Label'],
   },
   {
     label: 'Navigation',
     components: [
-      'ActionLink', 'GlobalNav', 'Link', 'NavBar', 'PageHeading', 'PageWidth', 'TabBar',
-      'Tabs', 'TabsRouted',
+      'Link', 'NavBar', 'NavSidebar', 'PageHeading', 'PageWidth', 'Tabs',
     ],
   },
   {
-    label: 'Layout & Overlays',
+    label: 'Layout',
     components: [
       'Alert', 'Card', 'Dialog', 'Drawer', 'FullView', 'Layer', 'Lazy', 'Modal',
       'ModalDialog', 'Overlay', 'PopOver', 'SplitView',
@@ -37,7 +41,7 @@ export default [
   {
     label: 'Feedback & Status',
     components: [
-      'Badge', 'Empty', 'ErrorList', 'ErrorText', 'IndicatorDot', 'Loader', 'Message',
+      'Badge', 'Empty', 'ErrorList', 'ErrorMessage', 'IndicatorDot', 'Loader', 'Message',
       'ProgressBar', 'ToastMessage', 'Tooltip',
     ],
   },
@@ -65,7 +69,7 @@ export default [
   {
     label: 'Lists',
     components: [
-      'List', 'ListCard', 'ListDefinitions',
+      'List', 'ListDefinitions',
     ],
   },
   {

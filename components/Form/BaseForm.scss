@@ -4,7 +4,7 @@
     width: 100%;
     padding: 8px 16px;
     border: 1px solid transparent;
-    border-radius: 4px;
+    border-radius: var(--v-radius-md);
     background: var(--v-accent);
     color: var(--v-on-accent);
     font: inherit;

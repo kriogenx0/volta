@@ -12,7 +12,7 @@ const PORTRAIT = `data:image/svg+xml,${encodeURIComponent(
 
 export default {
   name: 'Avatar',
-  description: 'A round picture of a person: their photo when there is one, otherwise up to two initials taken from their name. Comes in a small and a medium size.',
+  description: 'A round picture of a person: their photo when there is one, otherwise up to two initials taken from their name. Comes in a small and a medium size. color="auto" makes the background from the name, so a person is the same colour everywhere.',
   examples: [
     {
       name: 'Initials',
@@ -56,6 +56,28 @@ export default {
           <Avatar />
         </div>
       )
+    },
+    {
+      name: 'A colour from the name',
+      code: `<Avatar name="Ada Lovelace" color="auto" />
+<Avatar name="Grace Hopper" color="auto" />
+<Avatar name="Alan Turing" color="auto" />
+<Avatar name="Katherine Johnson" color="auto" />
+<Avatar name="Linus Torvalds" color="auto" />`,
+      output: (
+        <div className="example-row">
+          <Avatar name="Ada Lovelace" color="auto" />
+          <Avatar name="Grace Hopper" color="auto" />
+          <Avatar name="Alan Turing" color="auto" />
+          <Avatar name="Katherine Johnson" color="auto" />
+          <Avatar name="Linus Torvalds" color="auto" />
+        </div>
+      )
+    },
+    {
+      name: 'Your own colour',
+      code: '<Avatar name="Ada Lovelace" color="#9060F0" />',
+      output: <Avatar name="Ada Lovelace" color="#9060F0" />
     }
   ]
 };

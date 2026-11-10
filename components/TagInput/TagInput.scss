@@ -10,7 +10,7 @@
     display: inline-flex;
     padding: 6px 10px;
     margin: 5px;
-    border-radius: 10px;
+    border-radius: var(--v-radius-lg);
     background-color: rgba(0, 0, 0, 0.05);
     user-select: none;
 
@@ -46,24 +46,9 @@
       transition: background-color $anim-speed-normal, color $anim-speed-normal;
       width: 20px;
 
-      span,
-      span::after {
-        background: currentColor;
-        border-radius: 1px;
-        content: '';
-        display: block;
-        height: 2px;
-        position: absolute;
-        transform: rotate(45deg);
-        width: 10px;
-      }
-
-      span {
-        position: relative;
-
-        &::after {
-          transform: rotate(90deg);
-        }
+      // The X is the xmark icon, drawn at the size of the button's text
+      .volta-icon {
+        font-size: 12px;
       }
 
       &:hover {

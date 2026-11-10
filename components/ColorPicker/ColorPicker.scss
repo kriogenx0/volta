@@ -13,7 +13,7 @@
   .color_picker-native {
     background: $color_base;
     border: 1px solid $color_base_subtle;
-    border-radius: $border_radius 0 0 $border_radius;
+    border-radius: var(--v-radius-md) 0 0 var(--v-radius-md);
     box-sizing: border-box;
     cursor: pointer;
     height: 38px;
@@ -26,7 +26,7 @@
 
     &::-webkit-color-swatch {
       border: 0;
-      border-radius: 2px;
+      border-radius: var(--v-radius-sm);
     }
   }
 
@@ -34,7 +34,7 @@
     background: $color_base;
     border: 1px solid $color_base_subtle;
     border-left: 0;
-    border-radius: 0 $border_radius $border_radius 0;
+    border-radius: 0 var(--v-radius-md) var(--v-radius-md) 0;
     box-sizing: border-box;
     color: $color_trim;
     flex: 1;
@@ -79,6 +79,65 @@
     &.is-selected {
       box-shadow: 0 0 0 3px $color_active;
       outline: 0;
+    }
+  }
+
+  // popover: a text box with a swatch button at its right end; the palette opens
+  // under it instead of always showing.
+  &.volta-color_picker--popover {
+    position: relative;
+
+    .color_picker-control {
+      position: relative;
+    }
+
+    .color_picker-input {
+      border-left: 1px solid $color_base_subtle;
+      border-radius: var(--v-radius-md);
+      padding-right: 58px;
+    }
+
+    .color_picker-toggle {
+      border: 1px solid $color_base_subtle;
+      border-radius: 0 var(--v-radius-md) var(--v-radius-md) 0;
+      bottom: 0;
+      cursor: pointer;
+      padding: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      transition: opacity $anim-speed-normal;
+      width: 46px;
+      z-index: 1;
+
+      &:hover {
+        opacity: .85;
+      }
+
+      &:focus-visible {
+        outline: 2px solid $color_active;
+        outline-offset: -2px;
+      }
+    }
+
+    .color_picker-palette {
+      background: $color_base;
+      border: 1px solid $color_base_subtle;
+      border-radius: var(--v-radius-md);
+      box-shadow: var(--v-shadow-md);
+      box-sizing: border-box;
+      display: none;
+      left: 0;
+      margin-top: 4px;
+      padding: 10px;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      z-index: var(--v-z-popover);
+
+      &.showing {
+        display: grid;
+      }
     }
   }
 }

@@ -3,7 +3,7 @@
 {
   // border: 2px dashed var(--v-color-base-less-subtle);
   border: 1px solid var(--v-color-base-subtle);
-  border-radius: 3px;
+  border-radius: var(--v-radius-md);
   position: relative;
   overflow: hidden;
   transition: border $anim-speed-normal;
@@ -74,7 +74,7 @@
     border: 0;
     background-color: var(--v-color-base);
     color: inherit;
-    border-radius: 2px;
+    border-radius: var(--v-radius-sm);
     width: 25px;
     height: 25px;
     cursor: pointer;

@@ -5,7 +5,7 @@ A definition list that shows an object as label and value rows, such as a record
 ## When to use
 
 - **Read-only key and value details**: a profile, a version, an order summary. The object's keys become the labels and its values the content.
-- Use [`ListCard`](../ListCard/README.md) when the rows are pressable or need a card around them, [`List`](../List/README.md) for a plain list of items, and a form (`Field` with an input) when the user can edit the values.
+- Use [`List`](../List/README.md) with `card` when the rows are pressable or need a card around them, [`List`](../List/README.md) for a plain list of items, and a form (`Field` with an input) when the user can edit the values.
 - Keys are shown as written, in the object's order, so pass display-ready labels (`'Last Updated'`, not `last_updated`).
 
 ## Usage

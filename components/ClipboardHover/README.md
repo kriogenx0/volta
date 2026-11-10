@@ -33,7 +33,7 @@ There are no other props: the wrapper takes no `className` and no handler.
 ## Accessibility
 
 - The copy button is `display: none` until the wrapper is hovered, so keyboard and touch users cannot reach it. Do not make it the only way to get the value.
-- The button holds only an icon and has no `aria-label`, so it has no accessible name.
+- The button holds only an icon and is named "Copy to clipboard" (`aria-label`, also its tooltip).
 - Because the change is on hover alone, nothing tells a user that the text can be copied until they point at it.
 
 ## Do and don't

@@ -11,6 +11,11 @@
   &.badge-large {
     font-size: 36px;
   }
+
+  // The icon badges: a filled mark in a status colour
+  &.badge-check { color: var(--v-color-success); }
+  &.badge-bluecheck { color: var(--v-accent); }
+  &.badge-x { color: var(--v-color-danger); }
 }
 
 // Text badge (tone prop). The two-class selector overrides the icon sizing
@@ -18,7 +23,7 @@
 .volta-badge.volta-badge--pill {
   display: inline-block;
   padding: 2px 8px;
-  border-radius: 9999px;
+  border-radius: var(--v-radius-pill);
   font-size: 12px;
   font-weight: 600;
   line-height: 16px;

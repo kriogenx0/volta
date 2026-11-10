@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { act, render, screen, fireEvent } from '@testing-library/react';
 
 import TimePicker from '../../components/TimePicker/TimePicker';
 
@@ -98,5 +98,140 @@ describe('TimePicker', () => {
     expect(hourInput()).toHaveValue('1x');
     fireEvent.blur(hourInput());
     expect(hourInput()).toHaveValue('3');
+  });
+});
+
+describe('TimePicker dropdown', () => {
+  const hours = () => screen.getByRole('group', { name: 'Hours' });
+  const minutes = () => screen.getByRole('group', { name: 'Minutes' });
+  const inside = (group) => [...group.querySelectorAll('button')].map((button) => button.textContent);
+
+  it('is closed until a field has focus', () => {
+    render(<TimePicker />);
+    expect(screen.queryByRole('group', { name: 'Hours' })).toBeNull();
+    expect(screen.queryByRole('group', { name: 'Minutes' })).toBeNull();
+  });
+
+  it.each([['hour', hourInput], ['minute', minuteInput]])('opens one dropdown with both lists when the %s field gets focus', (_name, field) => {
+    render(<TimePicker />);
+    fireEvent.focus(field());
+    expect(inside(hours())).toEqual(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']);
+    expect(inside(minutes())).toEqual(['00', '15', '30', '45']);
+  });
+
+  it('lists 0 to 23 in 24-hour mode and the minutes at the interval asked for', () => {
+    render(<TimePicker twentyFourHour minuteInterval={20} />);
+    fireEvent.focus(hourInput());
+    expect(inside(hours())).toHaveLength(24);
+    expect(inside(hours())[0]).toBe('0');
+    expect(inside(minutes())).toEqual(['00', '20', '40']);
+  });
+
+  it('marks the chosen hour and minute', () => {
+    render(<TimePicker value="3:30 pm" />);
+    fireEvent.focus(minuteInput());
+    expect(screen.getByRole('button', { name: '3' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: '30' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: '4' })).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  it('sets the field and reports the time when an hour or a minute is picked', () => {
+    const onChange = jest.fn();
+    render(<TimePicker onChange={onChange} />);
+    fireEvent.focus(hourInput());
+    fireEvent.click(screen.getByRole('button', { name: '9' }));
+    expect(hourInput()).toHaveValue('9');
+    fireEvent.click(screen.getByRole('button', { name: '45' }));
+    expect(minuteInput()).toHaveValue('45');
+    expect(onChange).toHaveBeenLastCalledWith(expect.objectContaining({ hour: 9, minute: '45', formatted: '9:45 am' }));
+  });
+
+  it('stays open after a pick, so hour and minute can be chosen one after the other', () => {
+    render(<TimePicker />);
+    fireEvent.focus(hourInput());
+    fireEvent.click(screen.getByRole('button', { name: '9' }));
+    expect(screen.getByRole('group', { name: 'Minutes' })).toBeInTheDocument();
+  });
+
+  it('keeps the field focused when the lists are pressed', () => {
+    render(<TimePicker />);
+    fireEvent.focus(hourInput());
+    const notPrevented = fireEvent.mouseDown(screen.getByRole('button', { name: '9' }));
+    expect(notPrevented).toBe(false);
+  });
+
+  it('closes on Escape', () => {
+    render(<TimePicker />);
+    fireEvent.focus(hourInput());
+    fireEvent.keyDown(hourInput(), { key: 'Escape' });
+    expect(screen.queryByRole('group', { name: 'Hours' })).toBeNull();
+  });
+
+  describe('closing when focus leaves', () => {
+    beforeEach(() => jest.useFakeTimers());
+    afterEach(() => jest.useRealTimers());
+
+    it('closes shortly after focus leaves the picker', () => {
+      render(<TimePicker />);
+      fireEvent.focus(hourInput());
+      fireEvent.blur(hourInput());
+      expect(screen.getByRole('group', { name: 'Hours' })).toBeInTheDocument();
+      act(() => { jest.advanceTimersByTime(250); });
+      expect(screen.queryByRole('group', { name: 'Hours' })).toBeNull();
+    });
+
+    it('stays open when focus moves from one field to the other', () => {
+      render(<TimePicker />);
+      fireEvent.focus(hourInput());
+      fireEvent.blur(hourInput());
+      fireEvent.focus(minuteInput());
+      act(() => { jest.advanceTimersByTime(250); });
+      expect(screen.getByRole('group', { name: 'Minutes' })).toBeInTheDocument();
+    });
+
+    it('does not fire a state update after unmounting', () => {
+      const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+      const { unmount } = render(<TimePicker />);
+      fireEvent.focus(hourInput());
+      fireEvent.blur(hourInput());
+      unmount();
+      act(() => { jest.advanceTimersByTime(250); });
+      expect(error).not.toHaveBeenCalled();
+      error.mockRestore();
+    });
+  });
+
+  describe('arrow keys', () => {
+    it('step the hour, wrapping round the clock', () => {
+      render(<TimePicker value="12:00 pm" />);
+      fireEvent.keyDown(hourInput(), { key: 'ArrowUp' });
+      expect(hourInput()).toHaveValue('1');
+      fireEvent.keyDown(hourInput(), { key: 'ArrowDown' });
+      expect(hourInput()).toHaveValue('12');
+      fireEvent.keyDown(hourInput(), { key: 'ArrowDown' });
+      expect(hourInput()).toHaveValue('11');
+    });
+
+    it('step the minute by the interval, wrapping past the hour', () => {
+      const onChange = jest.fn();
+      render(<TimePicker value="3:45 pm" onChange={onChange} />);
+      fireEvent.keyDown(minuteInput(), { key: 'ArrowUp' });
+      expect(minuteInput()).toHaveValue('00');
+      fireEvent.keyDown(minuteInput(), { key: 'ArrowDown' });
+      expect(minuteInput()).toHaveValue('45');
+      expect(onChange).toHaveBeenLastCalledWith(expect.objectContaining({ minute: '45' }));
+    });
+
+    it('start an empty hour field at the ends of the list', () => {
+      render(<TimePicker />);
+      fireEvent.keyDown(hourInput(), { key: 'ArrowUp' });
+      expect(hourInput()).toHaveValue('1');
+    });
+
+    it('are left alone in the fields for other keys', () => {
+      render(<TimePicker value="3:00 pm" />);
+      const notPrevented = fireEvent.keyDown(hourInput(), { key: 'a' });
+      expect(notPrevented).toBe(true);
+    });
   });
 });
