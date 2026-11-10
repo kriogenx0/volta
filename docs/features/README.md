@@ -16,7 +16,7 @@ One doc per feature, as it exists in the code (see [docs/rules/feature-docs.md](
 - [Overlays](overlays.md): Modal, ModalDialog, Dialog, Alert, PopOver, Overlay and Drawer; page scroll lock, focus trap and restore, and which ones are modal.
 - [Icons](icons.md): how `Icon` draws a symbol (inline SVG, icon font, or SF Symbols), which of them show without a font, and `FileUtil.size`.
 - [Motion](motion.md): one speed for every transition, and what the OS reduce-motion setting does.
-- [Rich text: TinyMCE](rich_text_tinymce.md): the props of `RichTextTinyMCE` (disabled, readonly, placeholder, height, script URL, init), and how it handles dark mode.
+- [Rich text](rich_text.md): the `RichText` editor: paragraph and inline styles, keyboard shortcuts, Markdown-style typing, the HTML it keeps, click to edit.
 - [Theming](theming.md): replace the whole look with a theme object or a preset; light and dark; custom accent; the styleguide Theme dropdown.
 - [Volta as a base layer](base_layer.md): apps install a tagged release, theme Volta's tokens, and define their own tokens for anything Volta lacks.
 - [Function components](function_components.md): every component is a function component with hooks except `Map`; how the conversions keep listeners and timers current; the test that stops new classes.

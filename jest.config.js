@@ -12,5 +12,5 @@ module.exports = {
   transform: {
     '^.+\\.jsx?$': 'babel-jest'
   },
-  transformIgnorePatterns: ['/node_modules/(?!react-quill-new|lodash-es|quill|quill-delta|fast-diff|eventemitter3|parchment)']
+  transformIgnorePatterns: ['/node_modules/(?!lodash-es)']
 };

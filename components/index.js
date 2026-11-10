@@ -11,7 +11,6 @@ import Calendar from './Calendar/Calendar';
 import Card from './Card/Card';
 import Checkbox from './Checkbox/Checkbox';
 import CheckboxGroup from './CheckboxGroup/CheckboxGroup';
-import CKEditor from './CKEditor/CKEditor';
 import ClipboardHover from './ClipboardHover/ClipboardHover';
 import CloseButton from './CloseButton';
 import Code from './Code/Code';
@@ -70,10 +69,9 @@ import PageHeading from './PageHeading/PageHeading';
 import PageWidth from './PageWidth/PageWidth';
 import PopOver from './PopOver/PopOver';
 import ProgressBar, { LoaderLinearProgress } from './ProgressBar/ProgressBar';
+import RichText from './RichText/RichText';
 import Radio from './Radio/Radio';
 import RadioGroup from './RadioGroup/RadioGroup';
-import RichTextQuill from './RichTextQuill/RichTextQuill';
-import RichTextTinyMCE from './RichTextTinyMCE/RichTextTinyMCE';
 import SearchSelector from './SearchSelector/SearchSelector';
 import SegmentedControl, { SegmentedControlMini } from './SegmentedControl/SegmentedControl';
 import Select from './Select/Select';
@@ -107,7 +105,6 @@ export {
   Card,
   Checkbox,
   CheckboxGroup,
-  CKEditor,
   ClipboardHover,
   CloseButton,
   Code,
@@ -176,8 +173,7 @@ export {
   ProgressBar,
   Radio,
   RadioGroup,
-  RichTextQuill,
-  RichTextTinyMCE,
+  RichText,
   SearchSelector,
   SegmentedControl,
   SegmentedControlMini,

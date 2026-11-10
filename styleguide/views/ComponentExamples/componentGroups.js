@@ -59,7 +59,7 @@ export default [
   {
     label: 'Rich Text',
     components: [
-      'CKEditor', 'Code', 'ContentEditable', 'RichTextQuill', 'RichTextTinyMCE',
+      'Code', 'ContentEditable', 'RichText',
     ],
   },
   {

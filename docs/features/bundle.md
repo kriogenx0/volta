@@ -17,7 +17,7 @@ writes exactly these two files to `components/compiled/bundle/` (git-ignored, em
 
 The default build empties `components/compiled`, `bundle/` included, so run `make bundle` last.
 
-The default build (`npm run build`, `make build`, `make build-prod`) is unchanged: one `components/compiled/components.js` that injects its own CSS, and a copy of TinyMCE beside it. Both come from the same `vite.config.mjs`; `--mode bundle` only switches the CSS to a file, replaces `process.env.NODE_ENV`, and changes the output folder and file names.
+The default build (`npm run build`, `make build`, `make build-prod`) is unchanged: one `components/compiled/components.js` that injects its own CSS. Both come from the same `vite.config.mjs`; `--mode bundle` only switches the CSS to a file, replaces `process.env.NODE_ENV`, and changes the output folder and file names.
 
 ## What the page has to provide
 
@@ -48,8 +48,6 @@ React 19 no longer ships UMD builds (`react/umd/...` is gone), so there is no fi
 
 (The bare specifiers need an import map or a bundler. The point is only that all three globals exist before `bundle.js` runs.) The bundle must share the page's one copy of React; a second copy breaks hooks.
 
-`RichTextTinyMCE` loads TinyMCE from `tinymce/tinymce.min.js`, relative to the page. The bundle build doesn't copy TinyMCE (the default build does); a page that shows that component serves `node_modules/tinymce` at `tinymce/` itself.
-
 ## Tests and checks
 
 There is no automated test for the bundle; `make bundle` is checked by hand with a throwaway script (not committed) that:
@@ -62,7 +60,7 @@ All three held on 2026-11-06. Before the `react-dom/client` externalization the 
 
 ## Known limits
 
-- **Not verified in a real browser.** The load was checked in jsdom only; the stylesheet was not looked at on a page, and `RichTextTinyMCE` and `ToastMessage` were not exercised from the bundle.
+- **Not verified in a real browser.** The load was checked in jsdom only; the stylesheet was not looked at on a page, and `ToastMessage` was not exercised from the bundle.
 - **Not published anywhere.** This only builds the files. Adding them to the external design-system artifact (live previews there) needs the artifact's account and network access, which this environment doesn't have; see the task file `docs/backlog/publish-design-system-bundle.md`.
 - **The bundle carries its own copies of everything else** (`lodash`, `moment`, `jquery`, `react-select`, `date-fns` and the rest of its dependencies), so it is large (about 750 kB, 234 kB gzipped).
 - **Production only.** There is no unminified or sourcemapped bundle mode; use `make build` for that.

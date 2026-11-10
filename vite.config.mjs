@@ -2,14 +2,13 @@ import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { viteStaticCopy } from 'vite-plugin-static-copy';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Two builds of the library, from the same source:
 // - the default (`npm run build`): components/compiled/components.js, one script
-//   that injects its own CSS (and a copy of TinyMCE beside it);
+//   that injects its own CSS;
 // - `--mode bundle` (`make bundle`): components/compiled/bundle/bundle.js and
 //   bundle.css, for a page that loads them as two files (docs/features/bundle.md).
 export default defineConfig(({ mode }) => {
@@ -29,16 +28,7 @@ export default defineConfig(({ mode }) => {
       // <script> drop-in, no separate stylesheet to remember to link) --
       // matches the previous webpack build's style-loader behavior. The
       // standalone bundle leaves it out, so Vite writes the CSS to its own file.
-      ...(standalone ? [] : [cssInjectedByJsPlugin()]),
-      // TinyMCE self-hosts as static assets loaded via <script>, not an ES
-      // import -- RichTextTinyMCE points tinymceScriptSrc at this copy.
-      ...(standalone ? [] : [
-        viteStaticCopy({
-          targets: [
-            { src: 'node_modules/tinymce/*', dest: 'tinymce' }
-          ]
-        })
-      ])
+      ...(standalone ? [] : [cssInjectedByJsPlugin()])
     ],
     // Vite's library mode leaves `process.env.NODE_ENV` for the consumer's bundler to
     // replace, which is right for an app that bundles the library. A page that loads

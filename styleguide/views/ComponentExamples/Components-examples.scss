@@ -134,10 +134,8 @@
     border-radius: 13px 13px 0 0;
     padding: 12px 18px;
     background-color: $color_base_subtle;
-    border-bottom: 1px solid $color_base_less_subtle;
     @include dark {
       background-color: $color_base_subtle_dark;
-      border-color: $color_base_less_subtle_dark;
     }
 
     .example-name {

@@ -94,13 +94,6 @@ The compiled bundle isn't committed. Installing from Git builds it through the
 (or `make build-prod`) rebuilds after a change. (`make build` produces the same
 bundle unminified with a sourcemap, for development.)
 
-`RichTextTinyMCE` self-hosts TinyMCE (no tiny.cloud API key needed): the
-build copies `node_modules/tinymce` to `components/compiled/tinymce/` and
-the component points `tinymceScriptSrc` at it. If you consume the library
-via `npm link`/`file:` rather than the built bundle, copy that directory
-into your own app's public assets and adjust `tinymceScriptSrc`
-accordingly.
-
 ## Theming
 
 The whole look comes from 19 CSS custom properties (`--v-*`, declared in
@@ -250,7 +243,7 @@ Tests that apply to every component:
 Not covered: nothing is checked in a real browser, so styles and layout are
 unverified by the suite. Components that need a real engine are tested against
 fakes: Google Maps (`tests/Map/fakeGoogleMaps.js`), Howler, canvas and `Image`
-for `ImageCrop`, CKEditor 4, and TinyMCE (whose script is never fetched).
+for `ImageCrop`.
 `UserMap` and `TableList` have no tests because `leaflet` and `jquery` aren't
 installed.
 
@@ -295,9 +288,10 @@ missing:
   were removed: both depend on a version of `immutable` with a
   prototype-pollution/DoS vulnerability that has no upstream fix, and
   both are effectively unmaintained upstream.
-- Use `RichTextQuill` (now on the maintained `react-quill-new` fork) or
-  `RichTextTinyMCE` (now on the official `@tinymce/tinymce-react`,
-  self-hosted) for rich text instead.
+- Use `RichText` (a built-in editor with no editing library) for rich text
+  instead. It also replaced `RichTextQuill`, `RichTextTinyMCE` and
+  `CKEditor`, which were removed along with `react-quill-new`, `tinymce` and
+  `@tinymce/tinymce-react`.
 - **ImageCropPicker** was removed. Its stylesheet depends on a BEM mixin
   framework (`module`/`element`/`state` mixins) that isn't part of this
   repo, so it never compiled standalone.

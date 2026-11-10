@@ -1,0 +1,155 @@
+// The editor: a toolbar over an editable area, in one bordered box. Colours are
+// theme tokens, so light and dark need no overrides.
+.volta-rich_text {
+  border: 1px solid var(--v-color-base-subtle);
+  border-radius: 4px;
+  background: var(--v-color-base);
+  color: var(--v-color-trim);
+  transition: border-color var(--v-anim-speed) var(--v-anim-ease);
+
+  &:hover { border-color: var(--v-color-base-less-subtle); }
+  &:focus-within { border-color: var(--v-accent); }
+
+  // Showing text, not editing it (click to edit, read only, disabled)
+  &--static { border-color: transparent; }
+  &--static:hover { border-color: var(--v-color-base-subtle); }
+  &--disabled { opacity: 0.5; }
+  &--disabled:hover { border-color: transparent; }
+}
+
+.volta-rich_text-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-bottom: 1px solid var(--v-color-base-subtle);
+  background: var(--v-color-base-more-subtle);
+  border-radius: 4px 4px 0 0;
+  -webkit-user-select: none;
+  user-select: none;
+
+  .volta-select { min-width: 128px; }
+}
+
+.volta-rich_text-group {
+  display: flex;
+  gap: 4px;
+}
+
+.volta-rich_text-tool {
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0 8px;
+
+  // On: the style is applied at the caret. The mark is the fill, not only a colour.
+  &--on {
+    background: var(--v-accent-subtle);
+    border-color: var(--v-accent);
+    color: var(--v-accent);
+  }
+
+  &--bold { font-weight: 700; }
+  &--italic { font-style: italic; }
+  &--underline { text-decoration: underline; }
+  &--strike { text-decoration: line-through; }
+  &--code { font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace; }
+}
+
+@media (pointer: coarse) {
+  .volta-rich_text-tool {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+.volta-rich_text-link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px;
+  border-bottom: 1px solid var(--v-color-base-subtle);
+}
+
+.volta-rich_text-link-input {
+  flex: 1 1 240px;
+}
+
+.volta-rich_text-content {
+  min-height: 120px;
+  padding: 12px 16px;
+  line-height: 1.6;
+  outline: none;
+  overflow-wrap: anywhere;
+
+  // The "Click to edit" state is a button
+  &[role='button'] { cursor: text; }
+  &[role='button']:focus-visible {
+    outline: 2px solid var(--v-accent);
+    outline-offset: -2px;
+  }
+
+  // Text shown while there is none
+  &[data-empty][data-placeholder]::before {
+    content: attr(data-placeholder);
+    color: var(--v-color-trim-less-subtle);
+    pointer-events: none;
+  }
+
+  > :first-child { margin-top: 0; }
+  > :last-child { margin-bottom: 0; }
+
+  p { margin: 0 0 12px; }
+
+  h1, h2, h3 {
+    margin: 16px 0 8px;
+    line-height: 1.25;
+  }
+  h1 { font-size: 32px; }
+  h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+
+  blockquote {
+    margin: 0 0 12px;
+    padding-left: 16px;
+    border-left: 4px solid var(--v-color-base-less-subtle);
+    color: var(--v-color-trim-subtle);
+  }
+
+  pre {
+    margin: 0 0 12px;
+    padding: 12px;
+    border-radius: 4px;
+    background: var(--v-color-base-subtle);
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 0.9em;
+    white-space: pre-wrap;
+  }
+
+  ul, ol {
+    margin: 0 0 12px;
+    padding-left: 24px;
+  }
+
+  a {
+    color: var(--v-accent);
+    text-decoration: underline;
+    transition: color var(--v-anim-speed) var(--v-anim-ease);
+
+    &:hover { color: var(--v-accent-hover); }
+  }
+
+  // Code inside a block keeps the block's look
+  pre code {
+    padding: 0;
+    background: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .volta-rich_text,
+  .volta-rich_text-content a {
+    transition: none;
+  }
+}

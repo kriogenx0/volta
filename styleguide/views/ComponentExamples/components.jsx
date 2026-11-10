@@ -9,7 +9,6 @@ import CalendarExamples from '../../../examples/Calendar/Calendar-examples';
 import CardExamples from '../../../examples/Card/Card-examples';
 import CheckboxExamples from '../../../examples/Checkbox/Checkbox-examples';
 import CheckboxGroupExamples from '../../../examples/CheckboxGroup/CheckboxGroup-examples';
-import CKEditorExamples from '../../../examples/CKEditor/CKEditor-examples';
 import ClipboardHoverExamples from '../../../examples/ClipboardHover/ClipboardHover-examples';
 import CloseButtonExamples from '../../../examples/CloseButton/CloseButton-examples';
 import CodeExamples from '../../../examples/Code/Code-examples';
@@ -67,8 +66,7 @@ import PopOverExamples from '../../../examples/PopOver/PopOver-examples';
 import ProgressBarExamples from '../../../examples/ProgressBar/ProgressBar-examples';
 import RadioExamples from '../../../examples/Radio/Radio-examples';
 import RadioGroupExamples from '../../../examples/RadioGroup/RadioGroup-examples';
-import RichTextQuillExamples from '../../../examples/RichTextQuill/RichTextQuill-examples';
-import RichTextTinyMCEExamples from '../../../examples/RichTextTinyMCE/RichTextTinyMCE-examples';
+import RichTextExamples from '../../../examples/RichText/RichText-examples';
 import SearchSelectorExamples from '../../../examples/SearchSelector/SearchSelector-examples';
 import SegmentedControlExamples from '../../../examples/SegmentedControl/SegmentedControl-examples';
 import SelectExamples from '../../../examples/Select/Select-examples';
@@ -101,7 +99,6 @@ const curated = [
   CardExamples,
   CheckboxExamples,
   CheckboxGroupExamples,
-  CKEditorExamples,
   ClipboardHoverExamples,
   CloseButtonExamples,
   CodeExamples,
@@ -159,8 +156,7 @@ const curated = [
   ProgressBarExamples,
   RadioExamples,
   RadioGroupExamples,
-  RichTextQuillExamples,
-  RichTextTinyMCEExamples,
+  RichTextExamples,
   SearchSelectorExamples,
   SegmentedControlExamples,
   SelectExamples,
