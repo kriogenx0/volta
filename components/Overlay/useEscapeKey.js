@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 // Calls `onEscape` when Escape is pressed while `active`. Shared by the
-// dismissible overlays (Modal, Drawer, PopOver) so keyboard users can always
+// dismissible overlays (Modal, Drawer) so keyboard users can always
 // close them. The latest `onEscape` is read from a ref, so an inline arrow
 // function doesn't re-attach the document listener on every render.
 const useEscapeKey = (onEscape, active = true) => {

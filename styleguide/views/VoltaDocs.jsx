@@ -9,6 +9,7 @@ import Components from './ComponentExamples/Components-examples';
 import Colors from './ColorsExample/Colors-examples';
 import TypeExamples from './TypeExamples/Type-examples';
 import Layout from './Layout/Layout-examples';
+import Icons from './Icons/Icons';
 import Naming from './Naming/Naming';
 
 import './VoltaDocs.scss';
@@ -16,6 +17,7 @@ import './VoltaDocs.scss';
 const pages = {
   Home,
   Components,
+  Icons,
   Colors,
   Type: TypeExamples,
   Layout,

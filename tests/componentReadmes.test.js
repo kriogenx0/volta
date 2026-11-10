@@ -73,7 +73,7 @@ const dirs = exportsByDir();
 
 describe('component READMEs', () => {
   it('finds the components that index.js exports', () => {
-    expect(Object.keys(dirs).length).toBeGreaterThan(80);
+    expect(Object.keys(dirs).length).toBeGreaterThan(60);
     Object.values(dirs).flat().forEach(name => expect(volta[name]).toBeDefined());
   });
 

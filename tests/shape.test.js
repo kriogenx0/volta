@@ -63,7 +63,7 @@ describe('component stylesheets', () => {
   });
 
   it('still uses the radius tokens in the places that matter', () => {
-    ['components/Button/Button.scss', 'components/TextBox/TextBox.scss', 'components/Card/Card.scss', 'components/Dialog/Dialog.scss']
+    ['components/Button/Button.scss', 'components/TextBox/TextBox.scss', 'components/Card/Card.scss', 'components/Modal/Modal.scss']
       .forEach((file) => expect(fs.readFileSync(path.join(ROOT, file), 'utf8')).toMatch(/var\(--v-radius-(md|lg)\)/));
   });
 });

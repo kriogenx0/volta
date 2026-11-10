@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { jsx } from 'react/jsx-runtime';
 
-import ModalDialog from '../../components/ModalDialog/ModalDialog';
+import Dialog, { ModalDialog } from '../../components/Dialog/Dialog';
 
 describe('ModalDialog', () => {
   it('renders without crashing', () => {
@@ -55,7 +55,7 @@ describe('ModalDialog', () => {
 
     it('adds the inline-mode and custom classes', () => {
       const { container } = render(<ModalDialog isOpen inlineMode className="my-dialog">Body</ModalDialog>);
-      expect(container.firstChild).toHaveClass('volta-modal_dialog', 'inline-mode', 'my-dialog');
+      expect(container.firstChild).toHaveClass('volta-dialog', 'inline-mode', 'my-dialog');
     });
   });
 
@@ -138,5 +138,25 @@ describe('ModalDialog', () => {
       rerender(<ModalDialog isOpen>Body</ModalDialog>);
       expect(screen.getByText('Body')).toBeInTheDocument();
     });
+  });
+});
+
+describe('ModalDialog is a Dialog under older names', () => {
+  it('is built on the Dialog, with OK and Cancel for Save and Cancel', () => {
+    const { container } = render(<ModalDialog isOpen title="Confirm">Body</ModalDialog>);
+    expect(container.firstChild).toHaveClass('volta-dialog', 'volta-modal');
+    expect(screen.getByRole('button', { name: 'OK' })).toHaveClass('save-button');
+    expect(screen.getByRole('dialog', { name: 'Confirm' })).toBeInTheDocument();
+  });
+
+  it('closes on a click outside by default, where a Dialog does not', () => {
+    const onCancel = jest.fn();
+    const handleClose = jest.fn();
+    const first = render(<ModalDialog isOpen onCancel={onCancel}>Body</ModalDialog>);
+    fireEvent.click(first.container.firstChild);
+    expect(onCancel).toHaveBeenCalledTimes(1);
+    const second = render(<Dialog isOpen handleClose={handleClose}>Body</Dialog>);
+    fireEvent.click(second.container.firstChild);
+    expect(handleClose).not.toHaveBeenCalled();
   });
 });

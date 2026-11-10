@@ -5,10 +5,8 @@ import AlertExamples from '../../examples/ModalAlert/Alert-examples';
 import DialogExamples from '../../examples/Dialog/Dialog-examples';
 import DrawerExamples from '../../examples/Drawer/Drawer-examples';
 import LayerExamples from '../../examples/Layer/Layer-examples';
-import ModalDialogExamples from '../../examples/ModalDialog/ModalDialog-examples';
 import ModalExamples from '../../examples/Modal/Modal-examples';
 import OverlayExamples from '../../examples/Overlay/Overlay-examples';
-import PopOverExamples from '../../examples/PopOver/PopOver-examples';
 import SplitViewExamples from '../../examples/SplitView/SplitView-examples';
 
 // The examples of the overlay components (Drawer, SplitView, Overlay, Layer,
@@ -17,7 +15,7 @@ import SplitViewExamples from '../../examples/SplitView/SplitView-examples';
 // through using it, the way someone in the styleguide would.
 const MODULES = [
   DrawerExamples, SplitViewExamples, OverlayExamples, LayerExamples, DialogExamples,
-  ModalExamples, ModalDialogExamples, AlertExamples, PopOverExamples
+  ModalExamples, AlertExamples
 ];
 
 const show = (module, name) => {
@@ -163,16 +161,16 @@ describe('overlay examples', () => {
     it('opens, saves and can be opened again', () => {
       show(DialogExamples, 'Title, Save and Cancel');
       const dialog = () => document.querySelector('.volta-dialog');
-      expect(dialog()).not.toHaveClass('pop_over-open');
+      expect(dialog()).toBeNull();
       click('Open dialog');
-      expect(dialog()).toHaveClass('pop_over-open');
+      expect(dialog()).toBeInTheDocument();
       click('Save Changes');
-      expect(dialog()).not.toHaveClass('pop_over-open');
+      expect(dialog()).toBeNull();
       expect(screen.getByText('Last action: Saved')).toBeInTheDocument();
       click('Open dialog');
-      expect(dialog()).toHaveClass('pop_over-open');
+      expect(dialog()).toBeInTheDocument();
       click('Cancel');
-      expect(dialog()).not.toHaveClass('pop_over-open');
+      expect(dialog()).toBeNull();
       expect(screen.getByText('Last action: Closed')).toBeInTheDocument();
     });
 
@@ -189,20 +187,20 @@ describe('overlay examples', () => {
       const dialog = () => document.querySelector('.volta-dialog');
       click('Open dialog');
       fireEvent.click(dialog());
-      expect(dialog()).not.toHaveClass('pop_over-open');
+      expect(dialog()).toBeNull();
       click('Open dialog');
       fireEvent.keyDown(document, { key: 'Escape' });
-      expect(dialog()).not.toHaveClass('pop_over-open');
+      expect(dialog()).toBeNull();
     });
 
     it('shows the inline dialog again after it is closed', () => {
       show(DialogExamples, 'Inline mode');
       const dialog = () => document.querySelector('.volta-dialog');
-      expect(dialog()).toHaveClass('pop_over-open', 'inline-mode');
+      expect(dialog()).toHaveClass('inline-mode');
       click('Cancel');
-      expect(dialog()).not.toHaveClass('pop_over-open');
+      expect(dialog()).toBeNull();
       click('Show again');
-      expect(dialog()).toHaveClass('pop_over-open');
+      expect(dialog()).toBeInTheDocument();
     });
   });
 
@@ -240,7 +238,7 @@ describe('overlay examples', () => {
 
   describe('ModalDialog', () => {
     it('opens, answers OK, and can be opened again', () => {
-      show(ModalDialogExamples, 'OK and Cancel');
+      show(DialogExamples, 'OK and Cancel');
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
       click('Open dialog');
       expect(screen.getByRole('dialog')).toHaveTextContent('Apply these changes?');
@@ -253,14 +251,14 @@ describe('overlay examples', () => {
     });
 
     it('cancels from the X', () => {
-      show(ModalDialogExamples, 'Title with a close X');
+      show(DialogExamples, 'Title with a close X');
       click('Open dialog');
       click('Close');
       expect(screen.getByText('Last action: Cancel')).toBeInTheDocument();
     });
 
     it('enables OK once the field is filled in', () => {
-      show(ModalDialogExamples, 'OK disabled until valid');
+      show(DialogExamples, 'OK disabled until valid');
       click('Open dialog');
       expect(screen.getByRole('button', { name: 'Create' })).toBeDisabled();
       fireEvent.change(screen.getByLabelText('Folder name'), { target: { value: 'Reports' } });
@@ -268,7 +266,7 @@ describe('overlay examples', () => {
     });
 
     it('ignores the backdrop and Escape when only the buttons should close it', () => {
-      show(ModalDialogExamples, 'Only the buttons close it');
+      show(DialogExamples, 'Only the buttons close it');
       click('Open dialog');
       fireEvent.click(document.querySelector('.volta-modal'));
       fireEvent.keyDown(document, { key: 'Escape' });
@@ -278,7 +276,7 @@ describe('overlay examples', () => {
     });
 
     it('shows the inline dialog again after it is closed', () => {
-      show(ModalDialogExamples, 'Inline mode');
+      show(DialogExamples, 'Inline mode with OK and Cancel');
       expect(screen.getByRole('dialog')).toBeInTheDocument();
       click('Cancel');
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -328,43 +326,43 @@ describe('overlay examples', () => {
     });
   });
 
-  describe('PopOver', () => {
+  describe('Modal with the PopOver names', () => {
     it('opens and closes from the button, the backdrop and Escape', () => {
-      show(PopOverExamples, 'Full size (default)');
-      const popover = () => document.querySelector('.volta-pop_over');
-      expect(popover()).not.toHaveClass('pop_over-open');
-      click('Open popover');
+      show(ModalExamples, 'With open and handleClose (the PopOver names)');
+      const popover = () => document.querySelector('.volta-modal');
+      expect(popover()).toBeNull();
+      click('Open modal');
       expect(screen.getByRole('dialog', { name: 'Settings' })).toBeInTheDocument();
-      expect(popover()).toHaveClass('pop_over-open');
+      expect(popover()).toBeInTheDocument();
       click('Close');
-      expect(popover()).not.toHaveClass('pop_over-open');
-      click('Open popover');
+      expect(popover()).toBeNull();
+      click('Open modal');
       fireEvent.click(popover());
-      expect(popover()).not.toHaveClass('pop_over-open');
-      click('Open popover');
+      expect(popover()).toBeNull();
+      click('Open modal');
       fireEvent.keyDown(document, { key: 'Escape' });
-      expect(popover()).not.toHaveClass('pop_over-open');
+      expect(popover()).toBeNull();
     });
 
     it('stays open on the backdrop and Escape when only the button should close it', () => {
-      show(PopOverExamples, 'Only the button closes it');
-      const popover = () => document.querySelector('.volta-pop_over');
-      click('Open popover');
+      show(ModalExamples, 'Only a button closes it');
+      const popover = () => document.querySelector('.volta-modal');
+      click('Open modal');
       fireEvent.click(popover());
       fireEvent.keyDown(document, { key: 'Escape' });
-      expect(popover()).toHaveClass('pop_over-open');
+      expect(popover()).toBeInTheDocument();
       click('Close');
-      expect(popover()).not.toHaveClass('pop_over-open');
+      expect(popover()).toBeNull();
     });
 
     it('picks an item from the in-place menu', () => {
-      show(PopOverExamples, 'In place (fullSize off)');
-      const popover = () => document.querySelector('.volta-pop_over');
+      show(ModalExamples, 'In place (fullSize off)');
+      const popover = () => document.querySelector('.volta-modal');
       click('Sort by');
-      expect(popover()).toHaveClass('pop_over-open');
+      expect(popover()).toBeInTheDocument();
       click('Date');
       expect(screen.getByText('Picked: Date')).toBeInTheDocument();
-      expect(popover()).not.toHaveClass('pop_over-open');
+      expect(popover()).toBeNull();
     });
   });
 });

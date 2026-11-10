@@ -75,10 +75,7 @@ const EXCEPTIONS = {
   'AutoComplete: div.autocomplete_chosen': 'a click on the empty space focuses the text box, which is the keyboard way in',
 
   // A dimmed backdrop or scrim, closed by a click outside. Escape does the same.
-  'Dialog: div[role=dialog].volta-pop_over': 'the backdrop: clicking outside closes it, and Escape does too',
-  'PopOver: div[role=dialog].volta-pop_over': 'the backdrop: clicking outside closes it, and Escape does too',
-  'PopOver: div.inner-overlay': 'the click-catcher behind an in-place popover; Escape closes it',
-  'ModalDialog: div.volta-modal': 'the backdrop: clicking outside cancels, and Escape does too',
+  'Dialog: div.volta-modal': 'the backdrop: clicking outside closes it, and Escape does too',
   'Drawer: div.drawer-overlay': 'the scrim: clicking it closes the drawer, and Escape does too',
 
   // Not ours to change, or not meant to be focused

@@ -51,7 +51,6 @@ import ErrorListExamples from '../../../examples/Message/ErrorList-examples';
 import MobilePhoneExamples from '../../../examples/MobilePhone/MobilePhone-examples';
 import ModalExamples from '../../../examples/Modal/Modal-examples';
 import AlertExamples from '../../../examples/ModalAlert/Alert-examples';
-import ModalDialogExamples from '../../../examples/ModalDialog/ModalDialog-examples';
 import MultiSelectExamples from '../../../examples/MultiSelect/MultiSelect-examples';
 import NavBarExamples from '../../../examples/NavBar/NavBar-examples';
 import NavSidebarExamples from '../../../examples/NavSidebar/NavSidebar-examples';
@@ -59,7 +58,6 @@ import NumericFieldExamples from '../../../examples/NumericField/NumericField-ex
 import OverlayExamples from '../../../examples/Overlay/Overlay-examples';
 import PageHeadingExamples from '../../../examples/PageHeading/PageHeading-examples';
 import PageWidthExamples from '../../../examples/PageWidth/PageWidth-examples';
-import PopOverExamples from '../../../examples/PopOver/PopOver-examples';
 import ProgressBarExamples from '../../../examples/ProgressBar/ProgressBar-examples';
 import RadioExamples from '../../../examples/Radio/Radio-examples';
 import RadioGroupExamples from '../../../examples/RadioGroup/RadioGroup-examples';
@@ -135,7 +133,6 @@ const curated = [
   MobilePhoneExamples,
   ModalExamples,
   AlertExamples,
-  ModalDialogExamples,
   MultiSelectExamples,
   NavBarExamples,
   NavSidebarExamples,
@@ -143,7 +140,6 @@ const curated = [
   OverlayExamples,
   PageHeadingExamples,
   PageWidthExamples,
-  PopOverExamples,
   ProgressBarExamples,
   RadioExamples,
   RadioGroupExamples,

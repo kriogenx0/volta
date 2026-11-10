@@ -1,6 +1,6 @@
-// What goes inside a PopOver is up to the caller: the popover only provides the
+// What goes inside a Modal is up to the caller: the modal only provides the
 // backdrop and the show/hide.
-.example-pop_over_card {
+.example-modal_card {
   box-sizing: border-box;
   max-width: 24rem;
   margin: 10vh auto 0;
@@ -16,9 +16,9 @@
   }
 }
 
-// The in-place form: the content appears where the popover is written, so it
+// The in-place form: the content appears where the modal is written, so it
 // needs a surface to read as a floating menu.
-.example-pop_over_menu {
+.example-modal_menu {
   display: inline-flex;
   flex-direction: column;
   gap: 4px;

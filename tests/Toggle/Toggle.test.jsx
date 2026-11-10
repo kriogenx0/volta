@@ -98,3 +98,38 @@ describe('Toggle colours follow the theme', () => {
     expect(rule('.toggle-bg')).toMatch(/background:\s*\$color_active;/);
   });
 });
+
+describe('Toggle marks', () => {
+  it('shows no marks by default', () => {
+    const { container } = render(<Toggle aria-label="Dark mode" />);
+    expect(container.querySelector('.toggle-mark')).toBeNull();
+    expect(container.firstChild).not.toHaveClass('toggle-marks');
+  });
+
+  it('prints an I on the on side and an O on the off side with showMarks', () => {
+    const { container } = render(<Toggle aria-label="Dark mode" showMarks />);
+    expect(container.firstChild).toHaveClass('toggle-marks');
+    expect(container.querySelector('.toggle-mark-on')).toHaveTextContent('I');
+    expect(container.querySelector('.toggle-mark-off')).toHaveTextContent('O');
+  });
+
+  it('hides the marks from assistive technology, so the switch is still just a checkbox', () => {
+    render(<Toggle aria-label="Dark mode" showMarks />);
+    document.querySelectorAll('.toggle-mark').forEach((mark) => expect(mark).toHaveAttribute('aria-hidden', 'true'));
+    expect(screen.getByRole('checkbox', { name: 'Dark mode' })).toBeInTheDocument();
+    expect(screen.getByRole('checkbox', { name: 'Dark mode' })).toHaveAccessibleName('Dark mode');
+  });
+
+  it('puts both marks on the track, whatever the state, so the knob decides which shows', () => {
+    const { container, rerender } = render(<Toggle aria-label="x" showMarks checked onChange={() => {}} />);
+    expect(container.querySelectorAll('.toggle-track .toggle-mark')).toHaveLength(2);
+    rerender(<Toggle aria-label="x" showMarks checked={false} onChange={() => {}} />);
+    expect(container.querySelectorAll('.toggle-track .toggle-mark')).toHaveLength(2);
+  });
+
+  it('draws the on mark in the colour that reads on the accent, and does not let marks take clicks', () => {
+    const scss = fs.readFileSync(path.join(__dirname, '../../components/Toggle/Toggle.scss'), 'utf8');
+    expect(scss).toMatch(/\.toggle-mark-on \{[^}]*color:\s*var\(--v-on-accent\)/);
+    expect(scss).toMatch(/\.toggle-mark \{[^}]*pointer-events:\s*none/);
+  });
+});

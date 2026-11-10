@@ -5,7 +5,7 @@ A dimming layer over the whole window, shown while `showing`, that reports click
 ## When to use
 
 - **Behind something you position yourself**: a custom panel, menu or blocking state that needs the page dimmed and a click-away to dismiss it. You place the content above it; `Overlay` draws only the dim layer and renders nothing in place.
-- Use [`Modal`](../Modal/README.md), [`ModalDialog`](../ModalDialog/README.md) or [`Alert`](../ModalAlert/README.md) for a dialog (they bring their own backdrop), [`Drawer`](../Drawer/README.md) for a side panel, and [`PopOver`](../PopOver/README.md) for a panel with a backdrop and Escape handling. [`Dropdown`](../Dropdown/README.md) already uses an `Overlay` for its click-away.
+- Use [`Modal`](../Modal/README.md), [`Dialog`](../Dialog/README.md) or [`Alert`](../ModalAlert/README.md) for a dialog (they bring their own backdrop), [`Drawer`](../Drawer/README.md) for a side panel, and [`PopOver`](../Modal/README.md) for a panel with a backdrop and Escape handling. [`Dropdown`](../Dropdown/README.md) already uses an `Overlay` for its click-away.
 - Use [`Layer`](../Layer/README.md) when you need content rendered into its own node on `<body>`.
 
 ## Usage

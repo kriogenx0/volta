@@ -1,6 +1,6 @@
 # Drawer
 
-A panel that slides in from the right edge over a scrim, for a side form or a detail view.
+A panel that slides in from an edge (the right by default, or the left, top or bottom) over a scrim, for a side form, a detail view or a bottom sheet.
 
 ## When to use
 
@@ -28,7 +28,9 @@ import { Button, CloseButton, Drawer } from 'volta';
 | --- | --- | --- | --- |
 | `open` | `bool` | `false` | Shows the drawer. The parent owns this state. |
 | `onClose` | `function` | | Called on a click on the scrim and on Escape. It does not close anything itself; set `open` to `false` in it. |
-| `width` | `string` | `'50%'` | Any CSS width (`'320px'`, `'100%'`). A percentage is of the drawer's positioned ancestor. |
+| `edge` | `'trailing'` \| `'leading'` \| `'top'` \| `'bottom'` | `'trailing'` | Which edge it slides in from, named as SwiftUI names an `Edge`: `trailing` is the right (the default), `leading` the left, `top` and `bottom` the others. `Drawer.edges` lists them. |
+| `width` | `string` | `'50%'` | How wide a `leading` or `trailing` drawer is: any CSS width (`'320px'`, `'100%'`). A percentage is of the drawer's positioned ancestor. |
+| `height` | `string` | `'50%'` | How tall a `top` or `bottom` drawer is: any CSS height (`'320px'`, `'60%'`). |
 | `label` | `string` | | The panel's accessible name. |
 | `className` | `string` | | Added to the root, after `volta-drawer`. |
 | `children` | `node` | | The content. It scrolls inside the panel when it is taller. |
@@ -37,7 +39,8 @@ import { Button, CloseButton, Drawer } from 'volta';
 
 - The drawer covers its nearest positioned ancestor (it is `position: absolute` with all four sides at 0), slides the panel in from that ancestor's right edge, and dims the rest with a scrim. Give the container `position: relative`, or it will cover whatever positioned ancestor is next up, up to the whole page.
 - While closed it is `visibility: hidden` after the slide-out, so it is skipped by the pointer, the keyboard and screen readers.
-- The width does not change with the screen. On a phone the default `50%` is narrow; pass `width="100%"` there.
+- The width does not change with the screen. On a phone the default `50%` is narrow; pass `width="100%"` there, or use `edge="bottom"`, which spans the full width and suits a phone.
+- A `bottom` drawer has rounded top corners and a `top` drawer rounded bottom ones (the large radius, so they follow the shape). `leading` and `trailing` are the left and right edges; there is no mirrored layout for right-to-left pages yet.
 
 ## Accessibility
 

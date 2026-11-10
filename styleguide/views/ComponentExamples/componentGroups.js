@@ -35,7 +35,7 @@ export default [
     label: 'Layout',
     components: [
       'Alert', 'Card', 'Dialog', 'Drawer', 'FullView', 'Layer', 'Lazy', 'Modal',
-      'ModalDialog', 'Overlay', 'PopOver', 'SplitView',
+      'Overlay', 'SplitView',
     ],
   },
   {

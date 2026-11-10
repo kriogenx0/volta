@@ -4,6 +4,8 @@ import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal/Modal';
 import TextBox from '../../components/TextBox/TextBox';
 
+import './Modal-examples.scss';
+
 const Titled = () => {
   const [show, setShow] = useState(false);
   const close = () => setShow(false);
@@ -62,9 +64,53 @@ const Container = ({ inside = false }) => {
   );
 };
 
+// Open, close and the label are the caller's: the modal only provides the backdrop and the show/hide
+const FullSize = ({ closeOnOverlayClick, label }) => {
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
+  return (
+    <div>
+      <Button onClick={() => setOpen(true)}>Open modal</Button>
+      <Modal open={open} closeOnOverlayClick={closeOnOverlayClick} handleClose={close} aria-label={label}>
+        <div className="example-modal_card">
+          <h3>{label}</h3>
+          <p>
+            {closeOnOverlayClick
+              ? 'Click outside this card or press Escape to close.'
+              : 'Clicking outside does nothing; use the button.'}
+          </p>
+          <Button variant="primary" onClick={close}>Close</Button>
+        </div>
+      </Modal>
+    </div>
+  );
+};
+
+const InPlace = () => {
+  const [open, setOpen] = useState(false);
+  const [picked, setPicked] = useState('none');
+  const pick = (name) => {
+    setPicked(name);
+    setOpen(false);
+  };
+  return (
+    <div>
+      <Button onClick={() => setOpen(!open)}>Sort by</Button>
+      <p>Picked: {picked}</p>
+      <Modal open={open} fullSize={false} handleClose={() => setOpen(false)} aria-label="Sort by">
+        <div className="example-modal_menu">
+          <Button variant="link" onClick={() => pick('Name')}>Name</Button>
+          <Button variant="link" onClick={() => pick('Date')}>Date</Button>
+          <Button variant="link" onClick={() => pick('Size')}>Size</Button>
+        </div>
+      </Modal>
+    </div>
+  );
+};
+
 export default {
   name: 'Modal',
-  description: 'A dimmed backdrop with a centered panel. Give it a title or onClose for a titled modal with a close button, or leave both off to wrap your own content (with onHide for the backdrop). Hide it by setting show to false; Escape and a click on the backdrop ask the parent to close it. While open it locks page scroll and keeps Tab inside the panel, then returns focus to the control that opened it; modal={false} turns that off for a modal shown in the page flow.',
+  description: 'A dimmed backdrop with a centered panel (PopOver is another name for it). Give it a title or onClose for a titled modal with a close button, or leave both off to wrap your own content (with onHide for the backdrop). Hide it by setting show to false; Escape and a click on the backdrop ask the parent to close it. While open it locks page scroll and keeps Tab inside the panel, then returns focus to the control that opened it; modal={false} turns that off for a modal shown in the page flow. open and handleClose are other names for show and onHide, closeOnOverlayClick={false} stops a click outside and Escape from closing it, and fullSize={false} keeps the panel where it is in the page over a faint click-catcher instead of a backdrop (a light-dismiss layer: it is not modal unless you ask).',
   examples: [
     {
       name: 'Titled modal',
@@ -102,6 +148,31 @@ export default {
   </Modal.inside>
 </Modal>`,
       output: <Container inside />
+    },
+    {
+      name: 'Only a button closes it',
+      code: `<Modal open={open} closeOnOverlayClick={false} handleClose={() => setOpen(false)}>
+  ...
+</Modal>`,
+      output: <FullSize closeOnOverlayClick={false} label="Confirm changes" />
+    },
+    {
+      name: 'With open and handleClose (the PopOver names)',
+      code: `<Modal open={open} handleClose={() => setOpen(false)} aria-label="Settings">
+  <h3>Settings</h3>
+  <Button onClick={() => setOpen(false)}>Close</Button>
+</Modal>`,
+      output: <FullSize closeOnOverlayClick label="Settings" />
+    },
+    {
+      name: 'In place (fullSize off)',
+      code: `<Modal open={open} fullSize={false} handleClose={() => setOpen(false)}>
+  <div className="my-menu">
+    <Button variant="link" onClick={() => pick('Name')}>Name</Button>
+    ...
+  </div>
+</Modal>`,
+      output: <InPlace />
     }
   ]
 };

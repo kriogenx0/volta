@@ -91,6 +91,34 @@ $toggle-pod: $toggle-width - 12.5;
     // @include image-2x('images/2x/tgl_x.png', image-width('../../assets/images/tgl_x.png'), image-height('../../assets/images/tgl_x.png'));
   }
 
+  // I and O: printed on the track, one at each end. The knob sits over the one for the
+  // other state, so only the current one is visible. They are a second cue besides colour.
+  .toggle-mark {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $toggle-height;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    pointer-events: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .toggle-mark-on {
+    left: 0;
+    color: var(--v-on-accent);
+  }
+
+  .toggle-mark-off {
+    right: 0;
+    color: $color_trim_less_subtle;
+  }
+
   &:not(.toggle-disabled):hover {
     .toggle-switch {
       border-color: color-mix(in srgb, $color_border 100%, black 13%);

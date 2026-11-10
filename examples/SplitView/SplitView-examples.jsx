@@ -29,6 +29,20 @@ const Main = ({ lines = 2 }) => (
 // window) is turned off.
 const Frame = ({ children }) => <div className="example-split_view_frame">{children}</div>;
 
+const Held = () => {
+  const [width, setWidth] = useState(220);
+  return (
+    <div className="example-stack">
+      <Frame>
+        <SplitView open side={<Side />} sideWidth={width} onResize={setWidth} setScrollHeight={false}>
+          <Main lines={8} />
+        </SplitView>
+      </Frame>
+      <p className="example-note">Side pane: {width}px</p>
+    </div>
+  );
+};
+
 const Toggle = () => {
   const [open, setOpen] = useState(true);
   return (
@@ -84,6 +98,26 @@ export default {
           </SplitView>
         </Frame>
       )
+    },
+    {
+      name: 'Resizable by a divider',
+      code: `<SplitView open side={<Folders />} defaultSideWidth={200} minSideWidth={120} maxSideWidth={320}>
+  <Messages />
+</SplitView>`,
+      output: (
+        <Frame>
+          <SplitView open side={<Side />} defaultSideWidth={200} minSideWidth={120} maxSideWidth={320} setScrollHeight={false}>
+            <Main lines={8} />
+          </SplitView>
+        </Frame>
+      )
+    },
+    {
+      name: 'Held by the caller, and reported',
+      code: `const [width, setWidth] = useState(220);
+
+<SplitView open side={<Folders />} sideWidth={width} onResize={setWidth}>...</SplitView>`,
+      output: <Held />
     }
   ]
 };

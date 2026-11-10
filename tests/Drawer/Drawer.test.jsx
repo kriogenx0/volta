@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { jsx } from 'react/jsx-runtime';
 
@@ -81,5 +83,54 @@ describe('Drawer', () => {
       fireEvent.click(container.querySelector('.drawer-overlay'));
       fireEvent.keyDown(document, { key: 'Escape' });
     }).not.toThrow();
+  });
+});
+
+describe('Drawer edges', () => {
+  const panel = (container) => container.querySelector('.drawer-contents');
+
+  it('comes in from the trailing (right) edge by default', () => {
+    const { container } = render(<Drawer open>Panel</Drawer>);
+    expect(container.firstChild).toHaveClass('drawer-edge-trailing');
+    expect(panel(container)).toHaveStyle({ width: '50%' });
+  });
+
+  it.each(['leading', 'trailing'])('a %s drawer is as wide as asked and has no height of its own', (edge) => {
+    const { container } = render(<Drawer open edge={edge} width="320px" height="10%">Panel</Drawer>);
+    expect(container.firstChild).toHaveClass(`drawer-edge-${edge}`);
+    expect(panel(container)).toHaveStyle({ width: '320px' });
+    expect(panel(container).style.height).toBe('');
+  });
+
+  it.each(['top', 'bottom'])('a %s drawer is as tall as asked and has no width of its own', (edge) => {
+    const { container } = render(<Drawer open edge={edge} height="60%" width="10px">Panel</Drawer>);
+    expect(container.firstChild).toHaveClass(`drawer-edge-${edge}`);
+    expect(panel(container)).toHaveStyle({ height: '60%' });
+    expect(panel(container).style.width).toBe('');
+  });
+
+  it('is 50% tall by default at the bottom', () => {
+    const { container } = render(<Drawer open edge="bottom">Panel</Drawer>);
+    expect(panel(container)).toHaveStyle({ height: '50%' });
+  });
+
+  it('lists the edges SwiftUI names', () => {
+    expect(Drawer.edges).toEqual(['leading', 'trailing', 'top', 'bottom']);
+  });
+
+  it('closes on Escape and on the scrim from any edge', () => {
+    const onClose = jest.fn();
+    const { container } = render(<Drawer open edge="bottom" onClose={onClose}>Panel</Drawer>);
+    fireEvent.keyDown(document, { key: 'Escape' });
+    fireEvent.click(container.querySelector('.drawer-overlay'));
+    expect(onClose).toHaveBeenCalledTimes(2);
+  });
+
+  it('slides each edge from off-canvas to 0 with the global speed', () => {
+    const scss = fs.readFileSync(path.join(__dirname, '../../components/Drawer/Drawer.scss'), 'utf8');
+    ['right', 'left', 'bottom', 'top'].forEach((side) => {
+      expect(scss).toMatch(new RegExp(`${side}: -100%;`));
+      expect(scss).toMatch(new RegExp(`transition: ${side} var\\(--v-anim-speed\\) var\\(--v-anim-ease\\);`));
+    });
   });
 });

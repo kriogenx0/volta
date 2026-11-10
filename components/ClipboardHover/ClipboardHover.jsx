@@ -9,7 +9,7 @@ const ClipboardHover = ({ children }) => {
 
   const text = useRef(null);
 
-  const handleClick = (e) => {
+  const handleClick = () => {
     const el = text.current;
     const value = el.textContent;
 

@@ -6,6 +6,7 @@ import components from './components';
 import componentGroups from './componentGroups';
 
 import ComponentExample from "./ComponentExample";
+import ComponentOverview from "./ComponentOverview";
 import "./Components-examples.scss";
 
 const componentsByName = Object.fromEntries(components.map((component) => [component.name, component]));
@@ -20,13 +21,14 @@ const filterGroups = (query) => {
 };
 
 const ComponentExamples = () => {
-  const [selectedName, selectName] = useState(components[0].name);
+  // null is the overview of every component, which is where the page opens
+  const [selectedName, selectName] = useState(null);
   const [query, setQuery] = useState('');
   const selectedComponent = componentsByName[selectedName];
   const groups = filterGroups(query);
 
   // The sidebar stays in view while the page is scrolled, so a new component
-  // would otherwise open partway down.
+  // would otherwise open partway down. A null name is the overview.
   const handleComponentClick = (name) => {
     selectName(name);
     window.scrollTo(0, 0);
@@ -57,6 +59,14 @@ const ComponentExamples = () => {
             onKeyDown={handleSearchKeyDown}
           />
         </div>
+        <button
+          type="button"
+          className={`clickable component_examples-all${selectedName === null ? ' pressed' : ''}`}
+          aria-current={selectedName === null ? 'page' : undefined}
+          onClick={() => handleComponentClick(null)}
+        >
+          All components
+        </button>
         {groups.length === 0 && (
           <p className="component_examples-empty" role="status">No components match &ldquo;{query.trim()}&rdquo;</p>
         )}
@@ -81,7 +91,9 @@ const ComponentExamples = () => {
         ))}
       </div>
       <div className="component_examples-detail">
-        <ComponentExample component={selectedComponent} />
+        {selectedComponent
+          ? <ComponentExample component={selectedComponent} />
+          : <ComponentOverview groups={groups} componentsByName={componentsByName} onSelect={handleComponentClick} filtered={query.trim() !== ''} />}
       </div>
     </div>
   );

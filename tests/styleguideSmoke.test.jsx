@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { act, render, screen, fireEvent, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -5,6 +7,7 @@ import { Theme } from '../components';
 import VoltaDocs from '../styleguide/views/VoltaDocs';
 import components from '../styleguide/views/ComponentExamples/components';
 import groups from '../styleguide/views/ComponentExamples/componentGroups';
+import { iconNames } from '../components/Icon/svgIcons';
 
 // A smoke test of the styleguide as a whole, in light and dark: the shell renders,
 // every page opens, every component in the sidebar opens with all of its examples,
@@ -15,7 +18,7 @@ import groups from '../styleguide/views/ComponentExamples/componentGroups';
 // screenshots needs a real browser and tooling the repository does not have
 // (docs/backlog/add-styleguide-smoke-test.md).
 
-const PAGES = ['Home', 'Components', 'Colors', 'Type', 'Layout', 'Naming'];
+const PAGES = ['Home', 'Components', 'Icons', 'Colors', 'Type', 'Layout', 'Naming'];
 
 const listed = groups.flatMap((group) => group.components);
 const registered = components.map((component) => component.name);
@@ -117,7 +120,7 @@ describe.each(['light', 'dark'])('the styleguide in %s', (scheme) => {
 
     const problems = [];
     const sidebar = container.querySelector('.component_examples-list');
-    within(sidebar).getAllByRole('button').forEach((button) => {
+    within(sidebar).getAllByRole('button').filter((button) => !button.classList.contains('component_examples-all')).forEach((button) => {
       fireEvent.click(button);
       const name = button.textContent;
       const component = components.find((candidate) => candidate.name === name);
@@ -179,7 +182,7 @@ describe('the styleguide under each theme', () => {
 
 describe('the component search', () => {
   const search = () => screen.getByRole('searchbox', { name: 'Search components' });
-  const names = (container) => [...container.querySelectorAll('.component_examples-list .clickable')].map((button) => button.textContent);
+  const names = (container) => [...container.querySelectorAll('.component_examples-list .clickable:not(.component_examples-all)')].map((button) => button.textContent);
   const open = () => {
     const view = showStyleguide();
     openPage('Components');
@@ -237,6 +240,117 @@ describe('the component search', () => {
     fireEvent.keyDown(search(), { key: 'Enter' });
     fireEvent.change(search(), { target: { value: 'toggle' } });
     expect(container.querySelector('.component-doc-header h2')).toHaveTextContent('Slider');
+  });
+});
+
+describe('the components overview', () => {
+  const open = () => {
+    const view = showStyleguide();
+    openPage('Components');
+    return view;
+  };
+  const tiles = (container) => [...container.querySelectorAll('.component_overview-tile .component_overview-name')].map((node) => node.textContent);
+  afterEach(() => { window.location.hash = ''; });
+
+  it('is what the Components page opens on, with a tile for every component', () => {
+    const { container } = open();
+    expect(container.querySelector('.component_overview')).toBeInTheDocument();
+    expect(container.querySelector('.component-doc-header h2')).toHaveTextContent('Components');
+    expect(tiles(container).sort()).toEqual([...listed].sort());
+  });
+
+  it('groups the tiles as the sidebar does, in the same order', () => {
+    const { container } = open();
+    const headings = [...container.querySelectorAll('.component_overview-group h3')].map((node) => node.textContent);
+    expect(headings).toEqual(groups.map((group) => group.label));
+    const first = container.querySelector('.component_overview-group');
+    expect([...first.querySelectorAll('.component_overview-name')].map((node) => node.textContent)).toEqual(groups[0].components);
+  });
+
+  it('counts the components and the groups', () => {
+    const { container } = open();
+    expect(container.querySelector('.component-doc-description')).toHaveTextContent(`${listed.length} components in ${groups.length} groups`);
+  });
+
+  it('gives each tile the first sentence of the component\'s description', () => {
+    const { container } = open();
+    const tile = [...container.querySelectorAll('.component_overview-tile')].find((node) => node.textContent.startsWith('Slider'));
+    const description = components.find((component) => component.name === 'Slider').description;
+    expect(tile.querySelector('.component_overview-description').textContent).toBe(description.split(/(?<=[.!?])\s/)[0]);
+  });
+
+  it('opens a component from its tile, and the sidebar button goes back to the overview', () => {
+    const { container } = open();
+    fireEvent.click([...container.querySelectorAll('.component_overview-tile')].find((node) => node.textContent.startsWith('Slider')));
+    expect(container.querySelector('.component-doc-header h2')).toHaveTextContent('Slider');
+    expect(container.querySelector('.component_overview')).toBeNull();
+
+    const all = screen.getByRole('button', { name: 'All components' });
+    expect(all).not.toHaveAttribute('aria-current');
+    fireEvent.click(all);
+    expect(container.querySelector('.component_overview')).toBeInTheDocument();
+    expect(all).toHaveAttribute('aria-current', 'page');
+  });
+
+  it('shows only the components that match the search', () => {
+    const { container } = open();
+    fireEvent.change(screen.getByRole('searchbox', { name: 'Search components' }), { target: { value: 'tab' } });
+    expect(tiles(container).length).toBeGreaterThan(0);
+    tiles(container).forEach((name) => expect(name.toLowerCase()).toContain('tab'));
+    expect(container.querySelector('.component-doc-description')).toHaveTextContent('match your search');
+  });
+
+  it('never changes a tile\'s size on hover', () => {
+    const scss = fs.readFileSync(path.join(__dirname, '../styleguide/views/ComponentExamples/Components-examples.scss'), 'utf8');
+    const hover = scss.match(/\.component_overview-tile \{[\s\S]*?&:hover \{([^}]*)\}/)[1];
+    expect(hover).not.toMatch(/\b(padding|margin|width|height|border-width|transform)\s*:/);
+  });
+});
+
+describe('the Icons page', () => {
+  const open = () => {
+    const view = showStyleguide();
+    openPage('Icons');
+    return view;
+  };
+  const tileNames = (container) => [...container.querySelectorAll('.icons-tile-name')].map((node) => node.textContent);
+  afterEach(() => { window.location.hash = ''; });
+
+  it('is in the header, after Components, and shows a tile for every drawn icon', () => {
+    const { container } = open();
+    const pages = [...within(screen.getByRole('navigation', { name: 'Styleguide sections' })).getAllByRole('button')].map((button) => button.textContent);
+    expect(pages.indexOf('Icons')).toBe(pages.indexOf('Components') + 1);
+    expect(tileNames(container)).toEqual(iconNames);
+    container.querySelectorAll('.icons-tile .icon-svg').forEach((icon) => expect(icon.querySelector('svg path')).toBeInTheDocument());
+    expect(container.querySelectorAll('.icons-tile .icon-svg')).toHaveLength(iconNames.length);
+  });
+
+  it('shows the usage of the chosen icon, and the other names it answers to', () => {
+    const { container } = open();
+    fireEvent.click(screen.getByRole('button', { name: 'xmark' }));
+    expect(screen.getByRole('button', { name: 'xmark' })).toHaveAttribute('aria-pressed', 'true');
+    expect(container.querySelector('.icons-detail h3')).toHaveTextContent('xmark');
+    expect(container.querySelector('.icons-detail')).toHaveTextContent('<Icon type="xmark" aria-hidden="true" />');
+    ['close', 'multiply', 'times'].forEach((alias) => expect(container.querySelector('.icons-detail-aliases')).toHaveTextContent(alias));
+  });
+
+  it('searches by any of an icon\'s names', () => {
+    const { container } = open();
+    fireEvent.change(screen.getByRole('searchbox', { name: 'Search icons' }), { target: { value: 'close' } });
+    expect(tileNames(container)).toEqual(['xmark']);
+    expect(screen.getByRole('status')).toHaveTextContent(`1 of ${iconNames.length} icons`);
+    fireEvent.change(screen.getByRole('searchbox', { name: 'Search icons' }), { target: { value: 'zzzz' } });
+    expect(tileNames(container)).toEqual([]);
+    expect(container).toHaveTextContent('No icons match');
+  });
+
+  it('clears the search on Escape', () => {
+    const { container } = open();
+    const box = screen.getByRole('searchbox', { name: 'Search icons' });
+    fireEvent.change(box, { target: { value: 'star' } });
+    fireEvent.keyDown(box, { key: 'Escape' });
+    expect(box).toHaveValue('');
+    expect(tileNames(container)).toEqual(iconNames);
   });
 });
 

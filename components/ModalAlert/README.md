@@ -5,7 +5,7 @@ A centered confirm or prompt dialog that asks the user to confirm, cancel or typ
 ## When to use
 
 - **A blocking question** that needs an answer before going on: "Delete this project?", or a one-line prompt such as naming a saved view. It is the place to confirm a destructive action.
-- Use [`ModalDialog`](../ModalDialog/README.md) or [`Dialog`](../Dialog/README.md) when the dialog holds a form or more content, [`Modal`](../Modal/README.md) for a panel you fill yourself, and [`ToastMessage`](../ToastMessage/README.md) for a notice that needs no answer.
+- Use [`Dialog`](../Dialog/README.md) when the dialog holds a form or more content, [`Modal`](../Modal/README.md) for a panel you fill yourself, and [`ToastMessage`](../ToastMessage/README.md) for a notice that needs no answer.
 - It is open while it is rendered, so the parent decides when: render it conditionally and remove it in `onConfirm` and `onCancel`.
 
 ## Usage

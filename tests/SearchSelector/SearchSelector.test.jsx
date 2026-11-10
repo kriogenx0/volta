@@ -61,14 +61,14 @@ describe('SearchSelector', () => {
   it('closes and calls onClose when the overlay is clicked', () => {
     const onClose = jest.fn();
     const { container } = render(<SearchSelector open onClose={onClose} />);
-    expect(container.querySelector('.volta-pop_over')).toHaveClass('pop_over-open');
-    fireEvent.click(container.querySelector('.inner-overlay') || container.querySelector('.volta-pop_over'));
+    expect(container.querySelector('.volta-modal')).toBeInTheDocument();
+    fireEvent.click(container.querySelector('.volta-modal'));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('does not put a stray "null" class on the popover', () => {
     const { container } = render(<SearchSelector open />);
-    expect(container.querySelector('.volta-pop_over').className).not.toMatch(/null|undefined/);
+    expect(container.querySelector('.volta-modal').className).not.toMatch(/null|undefined/);
   });
 
   it('names the search box and the popover', () => {
@@ -99,17 +99,17 @@ describe('SearchSelector', () => {
 
   it('follows the open prop, closing and reopening', () => {
     const { container, rerender } = render(<SearchSelector open={false} />);
-    expect(container.querySelector('.volta-pop_over')).not.toHaveClass('pop_over-open');
+    expect(container.querySelector('.volta-modal')).toBeNull();
     rerender(<SearchSelector open />);
-    expect(container.querySelector('.volta-pop_over')).toHaveClass('pop_over-open');
+    expect(container.querySelector('.volta-modal')).toBeInTheDocument();
     rerender(<SearchSelector open={false} />);
-    expect(container.querySelector('.volta-pop_over')).not.toHaveClass('pop_over-open');
+    expect(container.querySelector('.volta-modal')).toBeNull();
   });
 
   it('works without onChange or onClose', () => {
     const { container } = render(<SearchSelector open onType={onType} />);
     type('ap');
     expect(() => fireEvent.click(screen.getByRole('button', { name: 'Apple' }))).not.toThrow();
-    expect(() => fireEvent.click(container.querySelector('.volta-pop_over'))).not.toThrow();
+    expect(() => fireEvent.click(container.querySelector('.volta-modal'))).not.toThrow();
   });
 });

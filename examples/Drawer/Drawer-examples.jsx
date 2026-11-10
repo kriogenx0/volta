@@ -30,7 +30,7 @@ const DrawerDemo = ({ startOpen = false, title = 'Drawer title', children, ...dr
 
 export default {
   name: 'Drawer',
-  description: 'A panel that slides in from the right edge of its nearest positioned ancestor, over a dimmed scrim. The parent owns the open state: onClose fires when the scrim is clicked or Escape is pressed.',
+  description: 'A panel that slides in from an edge of its nearest positioned ancestor, over a dimmed scrim: the right edge by default, or the left, top or bottom with edge (named as SwiftUI names an Edge: leading, trailing, top, bottom). The parent owns the open state: onClose fires when the scrim is clicked or Escape is pressed.',
   examples: [
     {
       name: 'Open and close',
@@ -65,6 +65,24 @@ export default {
   ...
 </Drawer>`,
       output: <DrawerDemo startOpen title="Already open" />
+    },
+    {
+      name: 'A bottom drawer',
+      code: `<Drawer open={open} edge="bottom" height="60%" label="Share" onClose={() => setOpen(false)}>
+  ...
+</Drawer>`,
+      output: <DrawerDemo edge="bottom" height="60%" label="Share" title="Bottom drawer"><p>Slides up from the bottom edge, with rounded top corners.</p></DrawerDemo>
+    },
+    {
+      name: 'From the left, or from the top',
+      code: `<Drawer open={open} edge="leading" width="260px" onClose={...}>...</Drawer>
+<Drawer open={open} edge="top" height="40%" onClose={...}>...</Drawer>`,
+      output: (
+        <div className="example-stack">
+          <DrawerDemo edge="leading" width="260px" title="Leading drawer"><p>From the left edge.</p></DrawerDemo>
+          <DrawerDemo edge="top" height="45%" title="Top drawer"><p>From the top edge.</p></DrawerDemo>
+        </div>
+      )
     }
   ]
 };

@@ -1,10 +1,11 @@
 # The styleguide
 
-The styleguide is the app in `styleguide/` (Vite, `make dev` or `make up`): a shell with six pages (Home, Components, Colors, Type, Layout, Naming), the live examples for every component, and header controls for the theme, light or dark, a custom accent and the animation speed.
+The styleguide is the app in `styleguide/` (Vite, `make dev` or `make up`): a shell with seven pages (Home, Components, Icons, Colors, Type, Layout, Naming), the live examples for every component, and header controls for the theme, light or dark, a custom accent and the animation speed.
 
 ## What it shows
 
-- **Components**: a sidebar of every component by group (`styleguide/views/ComponentExamples/componentGroups.js`) and, for the chosen one, its description and each example, live next to its code. An example that throws is replaced by a "Couldn't render" box instead of taking the page down.
+- **Components**: opens on an overview of every component, a tile for each (its name and the first sentence of its description), grouped as the sidebar is; "All components" at the top of the sidebar comes back to it, and the search filters it. Then a sidebar of every component by group (`styleguide/views/ComponentExamples/componentGroups.js`) and, for the chosen one, its description and each example, live next to its code. An example that throws is replaced by a "Couldn't render" box instead of taking the page down.
+- **Icons**: a tile for every icon the library draws as SVG, a search (by any of an icon's names, so "close" finds the X), and for the chosen one a large preview, its two sizes, how to use it and the other names it answers to (`styleguide/views/Icons/`).
 - **Naming**: the naming conventions and design principles ([Naming conventions](naming_conventions.md)).
 - **The current page** is kept in the URL hash (`#components`), so a refresh, the back button and a pasted link open the same page.
 - **Header**: the page switcher (a `SegmentedControl` in `navigation` mode whose highlight slides to the chosen page), the **Theme** dropdown (`docs/features/theming.md`), a custom accent, Auto / Light / Dark, and the animation speed.

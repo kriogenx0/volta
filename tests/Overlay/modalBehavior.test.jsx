@@ -2,11 +2,9 @@ import { useState } from 'react';
 import { render, screen, fireEvent, within } from '@testing-library/react';
 
 import Alert from '../../components/ModalAlert/Alert';
-import Dialog from '../../components/Dialog/Dialog';
-import Modal from '../../components/Modal/Modal';
-import ModalDialog from '../../components/ModalDialog/ModalDialog';
+import Dialog, { ModalDialog } from '../../components/Dialog/Dialog';
+import Modal, { PopOver } from '../../components/Modal/Modal';
 import Overlay from '../../components/Overlay/Overlay';
-import PopOver from '../../components/PopOver/PopOver';
 
 const escape = () => fireEvent.keyDown(document, { key: 'Escape' });
 const locked = () => document.body.style.overflow === 'hidden';

@@ -30,17 +30,24 @@ import { Dialog } from 'volta';
 | --- | --- | --- | --- |
 | `isOpen` | `bool` | `false` | Opens the dialog. See Behaviour for reopening. |
 | `title` | `string` | `null` | Heading in the header. With no `title` (or `hideHeader`) there is no header and no close "x". |
-| `titleSave` | `string` | `'Save Changes'` | Label of the Save button. |
+| `titleSave` | `string` | `'Save Changes'` | Label of the Save button; `'Confirm'` in a confirmation. |
 | `titleCancel` | `string` | `'Cancel'` | Label of the Cancel button. |
 | `saveEnabled` | `bool` | `true` | When `false`, Save is disabled. |
 | `hideSaveButton` | `bool` | `false` | Leaves only Cancel, for a dialog that just informs. |
 | `hideHeader` | `bool` | `false` | Hides the header, with its title and close button. |
 | `inlineMode` | `bool` | `false` | Shows the panel in the page flow instead of floating over it. |
+| `variant` | `'form'` \| `'confirmation'` | `'form'` | `'confirmation'` is a short question with Confirm and Cancel: narrower, no header X, an alert dialog described by its text, with focus on Cancel so Enter never confirms by accident. `Dialog.variants` lists them. |
+| `danger` | `bool` | `false` | Makes the Save or Confirm button the danger red, for a destructive choice. |
+| `showCloseButton` | `bool` | `true` | The X in the header (never shown in a confirmation). |
 | `closeOnOverlayClick` | `bool` | `false` | A click outside the panel, and Escape, close the dialog. |
 | `className` | `string` | | Added to the root. |
 | `children` | `node` | | The body. |
 | `handleSave` | `function` | | Called when Save is pressed. |
 | `handleClose` | `function` | | Called by Cancel, the header close button, and (with `closeOnOverlayClick`) a click outside or Escape. |
+
+## ModalDialog
+
+`ModalDialog` is a `Dialog` under older names, kept for existing code: `okayButtonLabel` and `cancelButtonLabel` (`'OK'` and `'Cancel'`), `okayEnabled`, `hideOkayButton`, `onOkay` and `onCancel` for the save and close handlers, and `closeX` for the header X. A click outside and Escape cancel by default (`closeOnOverlayClick` is on), where a `Dialog` ignores them unless asked.
 
 ## Behaviour
 

@@ -6,7 +6,7 @@ Renders its children into a new element at the end of the page (a portal), so th
 
 - **An overlay that must sit above everything** and not be cut off by an ancestor's `overflow: hidden`, transform or stacking context: a full-screen cropper, a floating panel.
 - Layers stack in the order they mount, so the one opened last is on top, with no z-index to manage.
-- It is a low-level primitive: it adds no backdrop, no focus handling, no Escape key and no role. For a blocking decision use [`Dialog`](../Dialog/README.md) or [`Modal`](../Modal/README.md); for a side panel [`Drawer`](../Drawer/README.md); for a small floating panel [`PopOver`](../PopOver/README.md).
+- It is a low-level primitive: it adds no backdrop, no focus handling, no Escape key and no role. For a blocking decision use [`Dialog`](../Dialog/README.md) or [`Modal`](../Modal/README.md); for a side panel [`Drawer`](../Drawer/README.md); for a small floating panel [`PopOver`](../Modal/README.md).
 
 ## Usage
 

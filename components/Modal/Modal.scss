@@ -30,6 +30,29 @@
   }
 }
 
+// In place (fullSize={false}): the panel stays where it is in the page. A faint,
+// full-window click-catcher sits behind it, so a click outside closes it.
+.volta-modal.volta-modal--inline {
+  position: static;
+  display: block;
+  padding: 0;
+  background: none;
+  z-index: auto;
+
+  .volta-modal-catcher {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, .05);
+  }
+
+  // Above the click-catcher, so the content isn't covered by it
+  .volta-modal-panel {
+    position: relative;
+    z-index: 1001;
+  }
+}
+
 .volta-modal-panel {
   box-sizing: border-box;
   width: 100%;

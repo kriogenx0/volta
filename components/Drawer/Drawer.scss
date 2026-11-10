@@ -22,22 +22,67 @@
   .drawer-contents
   {
     position: absolute;
-    // Fully off-canvas whatever the width (a percentage is of the drawer's
-    // parent, so -100% clears any width up to 100%).
-    right: -100%;
-    top: 0;
-    bottom: 0;
     z-index: 200;
-    transition: right var(--v-anim-speed) var(--v-anim-ease);
     overflow-y: auto;
     box-shadow: 0 2px 2px rgba(0,0,0,0.2);
     background: var(--v-color-base);
     color: var(--v-color-trim);
   }
 
-  &.drawer-open .drawer-contents
+  // Each edge: the panel sits fully off-canvas (-100% of the drawer's parent clears
+  // any size up to 100%) and slides in to 0 when the drawer is open.
+  &.drawer-edge-trailing .drawer-contents
+  {
+    right: -100%;
+    top: 0;
+    bottom: 0;
+    transition: right var(--v-anim-speed) var(--v-anim-ease);
+  }
+
+  &.drawer-edge-trailing.drawer-open .drawer-contents
   {
     right: 0;
+  }
+
+  &.drawer-edge-leading .drawer-contents
+  {
+    left: -100%;
+    top: 0;
+    bottom: 0;
+    transition: left var(--v-anim-speed) var(--v-anim-ease);
+  }
+
+  &.drawer-edge-leading.drawer-open .drawer-contents
+  {
+    left: 0;
+  }
+
+  &.drawer-edge-bottom .drawer-contents
+  {
+    bottom: -100%;
+    left: 0;
+    right: 0;
+    border-radius: var(--v-radius-lg) var(--v-radius-lg) 0 0;
+    transition: bottom var(--v-anim-speed) var(--v-anim-ease);
+  }
+
+  &.drawer-edge-bottom.drawer-open .drawer-contents
+  {
+    bottom: 0;
+  }
+
+  &.drawer-edge-top .drawer-contents
+  {
+    top: -100%;
+    left: 0;
+    right: 0;
+    border-radius: 0 0 var(--v-radius-lg) var(--v-radius-lg);
+    transition: top var(--v-anim-speed) var(--v-anim-ease);
+  }
+
+  &.drawer-edge-top.drawer-open .drawer-contents
+  {
+    top: 0;
   }
 
   .drawer-overlay

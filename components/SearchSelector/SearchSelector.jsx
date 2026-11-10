@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { TextBox } from '../TextBox/TextBox';
-import PopOver from '../PopOver/PopOver';
+import Modal from '../Modal/Modal';
 
 import './SearchSelector.scss';
 import { map } from '../../util/collection';
@@ -43,7 +43,7 @@ const SearchSelector = ({ open: openProp = false, onType, onChange, onClose, mul
 
   return (
     <div className='volta-search_selector'>
-      <PopOver open={open} handleClose={handleClose} aria-label="Search">
+      <Modal open={open} handleClose={handleClose} aria-label="Search">
         <div className='search_selector-query'>
           <TextBox value={query} onChange={handleOnType} aria-label="Search" />
         </div>
@@ -57,7 +57,7 @@ const SearchSelector = ({ open: openProp = false, onType, onChange, onClose, mul
             <button type='button' className='result_item no_select' key={index} onClick={() => handleResultItemClick(item)}>{item}</button>
           ))}
         </div>
-      </PopOver>
+      </Modal>
     </div>
   );
 };

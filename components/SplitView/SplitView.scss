@@ -17,6 +17,33 @@
     flex-grow: 1;
   }
 
+  // The divider between the panes. The whole strip reacts, not only its line.
+  .split_view-handle {
+    flex: none;
+    width: 6px;
+    background: var(--v-color-base-subtle);
+    cursor: col-resize;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: background-color $anim-speed-normal;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--v-accent);
+      outline: 0;
+    }
+  }
+
+  &.split_view-dragging {
+    cursor: col-resize;
+
+    .split_view-handle { background: var(--v-accent); }
+
+    // The pane follows the pointer with no delay while dragging
+    .split_view-side { transition: none; }
+  }
+
   .split_view-side {
     transition: width $anim-speed-normal;
     word-wrap: break-word;
