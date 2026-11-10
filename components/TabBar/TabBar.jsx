@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import './TabBar.scss';
+import { map } from '../../util/collection';
 
 // A tab is a string, or an element carrying a `label` prop.
 const tabLabel = (tab) => {
@@ -26,7 +26,7 @@ const TabBar = ({ tabs, onChange, selectedTabIndex: selectedTabIndexProp }) => {
 
   return (
     <div className='volta-tab_bar'>
-      {_.map(tabs, (tab, i) => {
+      {map(tabs, (tab, i) => {
         const label = tabLabel(tab);
 
         return (

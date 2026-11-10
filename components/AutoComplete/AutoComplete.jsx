@@ -13,7 +13,6 @@
 // this is the plain-array mode only.
 import { useState, useRef, useEffect, useId } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import Fuzzy from 'fuzzy';
 
 import AutoCompleteRow from './AutoCompleteRow';
@@ -46,7 +45,7 @@ const AutoComplete = ({
 
   // What the list shows: the options not yet chosen that match the text, A-Z.
   // Worked out on every render so new options or text can't leave it stale.
-  const chosenValues = _.map(chosen, 'value');
+  const chosenValues = chosen.map((item) => item.value);
   const matching = options.filter((option) => isValidResult(option) && !chosenValues.includes(option.value));
   const filteredOptions = Fuzzy.filter(value, matching, { extract: (el) => el.title })
     .map((res) => res.original)

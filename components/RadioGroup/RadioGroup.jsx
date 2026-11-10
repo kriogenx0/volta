@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import './RadioGroup.scss';
+import { map } from '../../util/collection';
 
 const RadioGroup = ({ options, value, onChange, name, className }) => {
   const handleSelect = (e) => {
@@ -14,7 +14,7 @@ const RadioGroup = ({ options, value, onChange, name, className }) => {
 
   return (
     <div className={`volta-radiogroup${className ? ' ' + className : ''}`}>
-      {_.map(options, (option, i) => (
+      {map(options, (option, i) => (
         <label key={i} className='radiogroup-option'>
           <input type='radio' name={name} value={option.value} onChange={handleSelect} checked={isSelected(option.value)} />
           <span>{option.label}</span>

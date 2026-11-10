@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
 
 import Dropdown from '../Dropdown';
 import DropdownListItem from './DropdownListItem';
 
 import './DropdownList.scss';
+import { map } from '../../util/collection';
 
 const DropdownList = ({
     items, // deprecated

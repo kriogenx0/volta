@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import fileTyper from './filetyper';
 import Button from '../Button';
 import Icon from '../Icon';
 
 import './FilePicker.scss';
+import { map, each } from '../../util/collection';
 
 const loadType = (fileType) => {
   if (fileType == 'image' || fileType == 'audio') {
@@ -41,13 +41,13 @@ const buildDefaultFiles = (value) => {
   else if (Array.isArray(value)) files = [...value];
   else files = [value];
 
-  _.each(files, (file, i) => {
+  each(files, (file, i) => {
     if (typeof file == 'string') {
       const fileTyperObj = fileTyper(file);
       files[i] = {
         name: file,
         defaultLoaded: true,
-        typeClass: _.get(fileTyperObj, 'fileClass')
+        typeClass: fileTyperObj?.fileClass
         // TODO detectTypeClass
       };
     }
@@ -75,7 +75,7 @@ const FilePicker = ({
     if (multiple) {
       // A new array: React ignores a state update to the array it already has
       updated = [...(files || [])];
-      _.each(newFiles, file => {
+      each(newFiles, file => {
         file.typeClass = detectTypeClass(file.type);
         updated.push(file);
       });
@@ -104,7 +104,7 @@ const FilePicker = ({
   };
 
   const handleRemoveFile = (file) => {
-    const remaining = _.without(files, file);
+    const remaining = files.filter((existing) => existing !== file);
     updateFiles(remaining);
   };
 
@@ -130,7 +130,7 @@ const FilePicker = ({
       >
         {label}
       </Button>
-      {_.map(files, (file, i) => {
+      {map(files, (file, i) => {
         const fileIcon = loadIcon(file);
         return (
           <div className="file_picker-file" key={i}>

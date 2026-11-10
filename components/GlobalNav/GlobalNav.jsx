@@ -1,7 +1,7 @@
-import { map } from "lodash";
 import PropTypes from "prop-types";
 
 import "./GlobalNav.scss";
+import { map } from '../../util/collection';
 
 const GlobalNav = ({
   activeLinkKey,

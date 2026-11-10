@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
+import { map } from '../../util/collection';
 
 import Button from "../Button";
 import Dropdown from "../Dropdown";

@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import { asButton } from '../../util/keyboard';
 import Icon from '../Icon/Icon';
@@ -22,7 +21,7 @@ const FileUploader = ({
   }, []);
 
   const handleWindowDrag = useCallback((e) => {
-    const isFile = _.includes(_.get(e, 'dataTransfer.types'), 'Files');
+    const isFile = Array.from(e?.dataTransfer?.types ?? []).includes('Files');
     if (isFile) {
       e.preventDefault && e.preventDefault();
       setDraggingIn(true);

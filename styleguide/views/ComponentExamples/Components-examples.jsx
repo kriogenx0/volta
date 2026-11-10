@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import _ from 'lodash';
 
 import components from './components';
 import componentGroups from './componentGroups';
@@ -7,7 +6,7 @@ import componentGroups from './componentGroups';
 import ComponentExample from "./ComponentExample";
 import "./Components-examples.scss";
 
-const componentsByName = _.keyBy(components, 'name');
+const componentsByName = Object.fromEntries(components.map((component) => [component.name, component]));
 
 const ComponentExamples = () => {
   const [selectedName, selectName] = useState(components[0].name);

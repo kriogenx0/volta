@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import Checkbox from '../Checkbox';
 
 import './CheckboxGroup.scss';
+import { map } from '../../util/collection';
 
 const CheckboxGroup = ({ name, options, value, onChange, className, ...otherProps }) => {
   const handleChange = (e) => {
@@ -12,13 +12,13 @@ const CheckboxGroup = ({ name, options, value, onChange, className, ...otherProp
 
   return (
     <div className={`volta-checkboxgroup${className ? ' ' + className : ''}`}>
-      {_.map(options, (option, i) => (
+      {map(options, (option, i) => (
         <Checkbox key={i}
           name={name}
           label={option.label}
           value={option.value}
           onChange={handleChange}
-          checked={_.includes(value, option.value)}
+          checked={(value || []).includes(option.value)}
           {...otherProps}
         />
       ))}

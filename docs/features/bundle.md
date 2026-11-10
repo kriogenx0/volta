@@ -62,7 +62,7 @@ All three held on 2026-11-06. Before the `react-dom/client` externalization the 
 
 - **Not verified in a real browser.** The load was checked in jsdom only; the stylesheet was not looked at on a page, and `ToastMessage` was not exercised from the bundle.
 - **Not published anywhere.** This only builds the files. Adding them to the external design-system artifact (live previews there) needs the artifact's account and network access, which this environment doesn't have; see the task file `docs/backlog/publish-design-system-bundle.md`.
-- **The bundle carries its own copies of everything else** (`lodash`, `moment`, `jquery`, `react-select`, `date-fns` and the rest of its dependencies), so it is large (about 750 kB, 234 kB gzipped).
+- **The bundle carries its own copies of everything else** (`moment`, `jquery`, `react-select`, `date-fns` and the rest of its dependencies), so it is large (about 750 kB, 234 kB gzipped).
 - **Production only.** There is no unminified or sourcemapped bundle mode; use `make build` for that.
 
 ## History

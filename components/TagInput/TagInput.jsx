@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import _ from "lodash";
 import PropTypes from 'prop-types';
 
 import TextBox from '../TextBox';
@@ -16,20 +15,20 @@ const TagInput = ({ tags, value, onChange, removable = false, ...props }) => {
   };
 
   const handleInputKeyPress = (e) => {
-    if (!_.includes(TagInput.submitKeys, e.key)) return;
+    if (!TagInput.submitKeys.includes(e.key)) return;
     e.preventDefault();
     const tag = e.target.value;
     if (!tag.length) return;
 
     const newTags = [...(tagState || [])];
-    if (!_.includes(newTags, tag)) newTags.push(tag);
+    if (!newTags.includes(tag)) newTags.push(tag);
 
     setInputText('');
     updateTags(newTags);
   }
 
   const handleRemoveTag = tag => {
-    const newTags = _.without(tagState, tag);
+    const newTags = tagState.filter((existing) => existing !== tag);
     updateTags(newTags);
   };
 
@@ -42,7 +41,7 @@ const TagInput = ({ tags, value, onChange, removable = false, ...props }) => {
     <div className='volta-tag_input'>
       <TextBox name='tags' value={inputText} onChange={handleInputChange} onKeyPress={handleInputKeyPress} {...props} />
       <div className="tag_input-tags">
-        {_.map(tagState, tag => (
+        {tagState.map(tag => (
           <span className={`tag${removable ? ' deletable' : ''}`} key={tag}>
             <span>{tag}</span>
             {removable && (

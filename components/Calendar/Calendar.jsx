@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import Button from '../Button/Button';
 import Dater from '../../util/Dater';
 
 import './Calendar.scss';
+import { map } from '../../util/collection';
 
 // One month at a time. `date` picks the month shown first and the highlighted
 // day (today when missing); it is read again whenever it changes to a different
@@ -52,7 +52,7 @@ const Calendar = ({ date, onDateSelect }) => {
       days.push({ value: i, active: true, current: currentDay === i });
     }
 
-    return _.map(days, (day, i) => {
+    return map(days, (day, i) => {
       // Blank cells before the 1st only keep the weeks lined up
       if (!day.active) {
         return <div className="calendar-day day-inactive" key={`blank-${i}`} aria-hidden="true" />;

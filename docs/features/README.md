@@ -3,7 +3,7 @@
 One doc per feature, as it exists in the code (see [docs/rules/feature-docs.md](../rules/feature-docs.md)). The component overview is in [docs/README.md](../README.md).
 
 - [Accessible names](accessible_names.md): every button and link in every example must have a name for a screen reader; `ActionMenu`'s label.
-- [Dependencies](dependencies.md): moment and lodash stay out of new code (a ratchet lists today's users), and the plan to remove them.
+- [Dependencies](dependencies.md): lodash is gone (its helpers are in `util/`), and moment stays out of new code (a ratchet lists today's users).
 - [Lazy](lazy.md): holds children back until they are near the screen.
 - [Naming conventions](naming_conventions.md): the short-name rule (TextBox, not TextField), aliases, props over variants, files and class names, and the design principles, as a styleguide page.
 - [The styleguide](styleguide.md): what it shows, what the smoke test checks (every page and component, light and dark), and what it can't (how anything looks).

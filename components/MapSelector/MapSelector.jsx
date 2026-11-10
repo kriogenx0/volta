@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import Button from '../Button/Button';
 import Map from '../Map/Map';
@@ -71,7 +70,7 @@ const MapSelector = ({
     setMessage('Location not found.');
   }, []);
 
-  const locationAddress = _.get(location, 'address');
+  const locationAddress = location?.address;
 
   return (
     <div className='volta-map_selector'>

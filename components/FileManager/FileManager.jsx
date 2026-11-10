@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import Button from '../Button';
 import Empty from '../Empty';
@@ -9,13 +8,14 @@ import Icon from '../Icon';
 import FileUtil from '../../util/FileUtil';
 
 import "./FileManager.scss";
+import { map } from '../../util/collection';
 
 // Lists the files of one folder under the path that leads to it. `files` are
 // plain strings, and a name ending in "/" is a folder. `path` is the folder
 // names from the root (or one "a/b/c" string); the root has none.
 const FileManager = ({ files, loadingFiles, onFileSelect, onPathBack, path }) => {
 
-  const pathComponents = _.compact(typeof path === 'string' ? path.split('/') : path);
+  const pathComponents = (typeof path === 'string' ? path.split('/') : path || []).filter(Boolean);
 
   return (
     <div className="volta-file_manager">
@@ -24,7 +24,7 @@ const FileManager = ({ files, loadingFiles, onFileSelect, onPathBack, path }) =>
           <Icon type='chevron.backward.circle.fill' aria-hidden="true" />
         </Button>
         <div className='path'>
-          {pathComponents.length > 0 ? _.map(pathComponents, (p, i) => (
+          {pathComponents.length > 0 ? pathComponents.map((p, i) => (
             <span key={`${i}-${p}`}>
               {p}
             </span>
@@ -34,7 +34,7 @@ const FileManager = ({ files, loadingFiles, onFileSelect, onPathBack, path }) =>
       <div className='files' aria-busy={loadingFiles ? true : undefined}>
         {loadingFiles ? <Loader /> : (
           files && files.length > 0 ?
-            _.map(files, file => (
+            map(files, file => (
               <button type="button" key={file} className='file' onClick={() => onFileSelect && onFileSelect(file)}>
                 <span className='file-icon'>
                   <Icon type={FileUtil.isDirectory(file) ? 'folder.fill' : 'doc.fill'} aria-hidden="true" />

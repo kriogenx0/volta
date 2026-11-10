@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import { TextBox } from '../TextBox/TextBox';
 import PopOver from '../PopOver/PopOver';
 
 import './SearchSelector.scss';
+import { map } from '../../util/collection';
 
 // A popover with a search box. `onType(query)` returns the matching items;
 // clicking one adds it to the selected tags, reported through `onChange`.
@@ -48,12 +48,12 @@ const SearchSelector = ({ open: openProp = false, onType, onChange, onClose, mul
           <TextBox value={query} onChange={handleOnType} aria-label="Search" />
         </div>
         <div className='search_selector-tags'>
-          {_.map(tags, (tag, index) => (
+          {map(tags, (tag, index) => (
             <div className='tag' key={index}>{tag}</div>
           ))}
         </div>
         <div className='search_selector-content'>
-          {_.map(resultItems, (item, index) => (
+          {map(resultItems, (item, index) => (
             <button type='button' className='result_item no_select' key={index} onClick={() => handleResultItemClick(item)}>{item}</button>
           ))}
         </div>

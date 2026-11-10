@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import NavBarItem from "./NavBarItem.jsx";
 
 import './NavBar.scss';
+import { each } from '../../util/collection';
 
 // A shared fallback: a fresh `[]` default on every render would retrigger the
 // effect below forever.
@@ -28,7 +28,7 @@ const NavBar = ({ navItems = NO_ITEMS, onActiveState }) => {
     var navItemElements = [];
     navLevel = navLevel || 0;
 
-    _.each(navItems, (navItem) => {
+    each(navItems, (navItem) => {
       var navBarItem = (<NavBarItem navLevel={navLevel}
                                     navItem={navItem}
                                     key={navItem.key}

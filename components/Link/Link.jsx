@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
-import { escapeRegExp } from 'lodash';
+
+// Text to match as it is, not as a pattern
+const escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 const Link = ({ to, params, className, children, ...rest }) => {
   const buildHref = () => {

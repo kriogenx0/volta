@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
 import ComboBox from '../ComboBox/ComboBox';
 
 import './TimePicker.scss';
+import range from '../../util/range';
 
 const MERIDIEM_OPTIONS = [
   { label: 'am', value: false },
@@ -30,7 +30,7 @@ const parseValue = (value) => {
 };
 
 // What the user may pick: 1-12 on a 12-hour clock, 0-23 on a 24-hour one
-const hourRange = (twentyFourHour) => (twentyFourHour ? _.range(0, 24) : _.range(1, 13));
+const hourRange = (twentyFourHour) => (twentyFourHour ? range(0, 24) : range(1, 13));
 const isNumber = (text) => /^\d{1,2}$/.test(text);
 
 const TimePicker = ({ value = null, twentyFourHour = false, minuteInterval = 15, onChange = () => {} }) => {
@@ -54,7 +54,7 @@ const TimePicker = ({ value = null, twentyFourHour = false, minuteInterval = 15,
   }, [value, twentyFourHour]);
 
   const hourOptions = hourRange(twentyFourHour).map(String);
-  const minuteOptions = _.range(0, 60, minuteInterval).map(pad);
+  const minuteOptions = range(0, 60, minuteInterval).map(pad);
 
   const emit = (shownHour, shownMinute, isPm) => {
     if (shownHour === null) return; // nothing to report until an hour is picked

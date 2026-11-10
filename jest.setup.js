@@ -6,13 +6,12 @@ import { TextEncoder, TextDecoder } from 'util';
 global.TextEncoder = global.TextEncoder || TextEncoder;
 global.TextDecoder = global.TextDecoder || TextDecoder;
 
-// A handful of legacy components reference React/PropTypes/lodash as
+// A handful of legacy components reference React/PropTypes as
 // globals rather than importing them (see webpack.config.js's
 // ProvidePlugin for the production build). Mirror that here so the same
 // components are testable without editing every call site.
 global.React = require('react');
 global.PropTypes = require('prop-types');
-global._ = require('lodash');
 
 // Browser APIs jsdom doesn't implement. Components and styleguide examples use
 // them, so stub them (only when missing) instead of failing on the environment.

@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import { format as formatDate, startOfDay, endOfDay } from 'date-fns';
 
 import { isDate } from '../../util/dateTimeUtils';
@@ -8,6 +7,7 @@ import Button from '../Button/Button';
 import Dater from '../../util/Dater';
 
 import './Calendar.scss';
+import { map } from '../../util/collection';
 
 const sameDay = (a, b) => Boolean(a && b)
   && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
@@ -77,7 +77,7 @@ const Calendar = ({ date, minDate, maxDate, onDateSelect }) => {
       });
     }
 
-    return _.map(days, (day, i) => {
+    return map(days, (day, i) => {
       // Blank cells before the 1st only keep the weeks lined up
       if (!day.value) {
         return <div className="calendar-day day-blank" key={`blank-${i}`} aria-hidden="true" />;

@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
 
 import './Tabs.scss';
+import { map } from '../../util/collection';
 
 // A strip of tabs: `tabs` is an array of labels or an object of key -> label, and
 // `selectedTabKey` is the key of the chosen one (an index, for an array).

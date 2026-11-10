@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 // moment and lodash stay out of new code; date-fns and luxon (already dependencies)
-// and the platform cover what they do. The files that use them today are listed
-// below so they can be removed one at a time.
+// and the platform cover what they do. The files that use moment today are listed
+// below so they can be removed one at a time; lodash has no users left.
 //
 // A ratchet: a new file that imports either fails the test, and so does a listed
 // file that no longer does, so each cleanup shrinks the list. See
@@ -28,37 +28,9 @@ const MOMENT_FILES = [
   'components/DatePicker/DateTimeInput.jsx' // unwired, needs jquery too
 ];
 
-const LODASH_FILES = [
-  'components/ActionMenu/ActionMenu.jsx',
-  'components/AutoComplete/AutoComplete.jsx',
-  'components/Calendar/Calendar.jsx',
-  'components/CheckboxGroup/CheckboxGroup.jsx',
-  'components/ColorPalettePicker/ColorPalettePicker.jsx',
-  'components/ComboBox/ComboBox.jsx',
-  'components/DatePicker/Calendar.jsx',
-  'components/DropdownList/DropdownList.jsx',
-  'components/FileManager/FileManager.jsx',
-  'components/FilePicker/FilePicker.jsx',
-  'components/FilePicker/filetyper.js',
-  'components/FileUploader/FileUploader.jsx',
-  'components/GlobalNav/GlobalNav.jsx',
-  'components/Link/Link.jsx',
-  'components/ListDefinitions/ListDefinitions.jsx',
-  'components/Loader/Loader.jsx',
-  'components/MapSelector/MapSelector.jsx',
-  'components/MultiSelect/MultiSelect.jsx',
-  'components/NavBar/NavBar.jsx',
-  'components/RadioGroup/RadioGroup.jsx',
-  'components/Search/SearchStore.jsx',
-  'components/SearchSelector/SearchSelector.jsx',
-  'components/TabBar/TabBar.jsx',
-  'components/Tabs/Tabs.jsx',
-  'components/TabsRouted/TabsRouted.jsx',
-  'components/TagInput/TagInput.jsx',
-  'components/TimePicker/TimePicker.jsx',
-  'components/VideoUploadPlayer/VideoUploadPlayer.jsx',
-  'styleguide/views/ComponentExamples/Components-examples.jsx'
-];
+// lodash is gone; this stays empty so it can't come back. The helpers that took its place
+// (map and each for arrays and objects, range, debounce, isEqual) are in util/.
+const LODASH_FILES = [];
 
 const using = (pattern) => ['components', 'util', 'styleguide', 'examples']
   .flatMap((dir) => sourceFiles(path.join(ROOT, dir)))

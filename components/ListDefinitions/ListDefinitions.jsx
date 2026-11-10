@@ -1,5 +1,5 @@
 import React from 'react';
-import { map } from 'lodash';
+import { map } from '../../util/collection';
 
 import "./ListDefinitions.scss";
 

@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import times from "lodash/times";
 
 import "./Loader.scss";
 
@@ -30,21 +29,21 @@ const Loader = ({ message, size = 'page', small, tiny, inline, variant = 'spinne
         {variant === 'knob' && (
           <div className="loader-knob">
             <div className="knob-knob" />
-            {times(12, (i) => (
+            {Array.from({ length: 12 }, (_, i) => (
               <div key={i} className="knob-indicator" />
             ))}
           </div>
         )}
         {variant === 'spin' && (
           <div className="loader-spin">
-            {times(12, (i) => (
+            {Array.from({ length: 12 }, (_, i) => (
               <div className="spin-arm" key={i} />
             ))}
           </div>
         )}
         {variant === 'block' && (
           <div className="loader-block">
-            {times(9, (i) => (
+            {Array.from({ length: 9 }, (_, i) => (
               <div key={i} className="block" />
             ))}
           </div>

@@ -6,9 +6,9 @@
 // this repo. Kept for reference/future rewrite against a real data layer.
 import { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import ListHeader from '../List/list-header';
+import debounce from '../../util/debounce';
 
 // Module-level so the defaults keep a stable identity across renders
 // (they feed useCallback/useEffect dependencies below).
@@ -47,7 +47,7 @@ const SearchStore = ({
     });
   }, [stores]);
 
-  const debouncedSearch = useRef(_.debounce(search, 200));
+  const debouncedSearch = useRef(debounce(search, 200));
 
   const handleToggle = useCallback((event) => {
     if (event) {

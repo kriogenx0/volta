@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { each } from '../../util/collection';
 
 const fileTypes = {
   audio: [
@@ -40,8 +40,8 @@ const fileTypes = {
 
 const fileClassFromExtension = (fileExtension) => {
   let fileClass;
-  _.each(fileTypes, (fc, fileClassKey) => {
-    _.each(fc, (fileExt) => {
+  each(fileTypes, (fc, fileClassKey) => {
+    each(fc, (fileExt) => {
       if (fileExt === fileExtension) return fileClass = fileClassKey;
     });
   });

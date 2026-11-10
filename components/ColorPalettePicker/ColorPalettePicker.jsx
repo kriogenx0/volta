@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import { TextBox } from '../TextBox/TextBox';
 
 import './ColorPalettePicker.scss';
+import { map } from '../../util/collection';
 
 const sameColor = (a, b) => typeof a === 'string' && typeof b === 'string' && a.toLowerCase() === b.toLowerCase();
 
@@ -76,7 +76,7 @@ const ColorPalettePicker = ({ value: valueProp = null, onChange = () => {} }) =>
         onClick={toggle}
       />
       <div className={`colors clearfix${showing ? ' showing' : ''}`} role="group" aria-label="Color palette" onFocus={handleFocus} onMouseDown={dontBlur}>
-        {_.map(ColorPalettePicker.colors, (color) => (
+        {map(ColorPalettePicker.colors, (color) => (
           <button
             type="button"
             key={color}
