@@ -1,3 +1,7 @@
+import Code from '../../../components/Code';
+
+import './Layout-examples.scss';
+
 const Layout = () => (
   <section className="view-layout">
     <header className="section-header">
@@ -10,18 +14,18 @@ const Layout = () => (
     <div className="panel">
       <h3>Width Container</h3>
       <p>Use <code>.l-width</code> to constrain content to a readable max-width with auto horizontal margins.</p>
-      <code>{`.l-width { max-width: 1200px; margin: 0 auto; padding: 0 32px; }`}</code>
+      <Code language="scss">{`.l-width { max-width: 1200px; margin: 0 auto; padding: 0 32px; }`}</Code>
     </div>
 
     <div className="panel">
       <h3>Row Layout</h3>
       <p>Use <code>.l-row</code> for a horizontal flex container with <code>align-items: center</code>.</p>
-      <div className="l-row" style={{ gap: 8, padding: '8px 0' }}>
-        <div style={{ background: '#4A90E2', color: '#fff', padding: '8px 16px', borderRadius: 4 }}>Item 1</div>
-        <div style={{ background: '#4A90E2', color: '#fff', padding: '8px 16px', borderRadius: 4 }}>Item 2</div>
-        <div style={{ background: '#4A90E2', color: '#fff', padding: '8px 16px', borderRadius: 4 }}>Item 3</div>
+      <div className="l-row layout-demo_row">
+        <div className="layout-demo_item">Item 1</div>
+        <div className="layout-demo_item">Item 2</div>
+        <div className="layout-demo_item">Item 3</div>
       </div>
-      <code>{`<div className="l-row">...</div>`}</code>
+      <Code>{`<div className="l-row">...</div>`}</Code>
     </div>
 
     <div className="panel">
@@ -31,29 +35,29 @@ const Layout = () => (
 
     <div className="panel">
       <h3>Responsive Breakpoints</h3>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+      <table className="layout-table">
         <thead>
           <tr>
-            <th style={{ textAlign: 'left', padding: '8px 12px', background: '#f2f2f2' }}>Mixin</th>
-            <th style={{ textAlign: 'left', padding: '8px 12px', background: '#f2f2f2' }}>Breakpoint</th>
-            <th style={{ textAlign: 'left', padding: '8px 12px', background: '#f2f2f2' }}>Usage</th>
+            <th>Mixin</th>
+            <th>Breakpoint</th>
+            <th>Usage</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td style={{ padding: '10px 12px', borderBottom: '1px solid #e6e6e6' }}><code>@include mobile</code></td>
-            <td style={{ padding: '10px 12px', borderBottom: '1px solid #e6e6e6' }}><code>max-width: 640px</code></td>
-            <td style={{ padding: '10px 12px', borderBottom: '1px solid #e6e6e6' }}>Phones</td>
+            <td><code>@include mobile</code></td>
+            <td><code>max-width: 640px</code></td>
+            <td>Phones</td>
           </tr>
           <tr>
-            <td style={{ padding: '10px 12px', borderBottom: '1px solid #e6e6e6' }}><code>@include large</code></td>
-            <td style={{ padding: '10px 12px', borderBottom: '1px solid #e6e6e6' }}><code>min-width: 1260px</code></td>
-            <td style={{ padding: '10px 12px', borderBottom: '1px solid #e6e6e6' }}>Large desktops</td>
+            <td><code>@include large</code></td>
+            <td><code>min-width: 1260px</code></td>
+            <td>Large desktops</td>
           </tr>
           <tr>
-            <td style={{ padding: '10px 12px' }}><code>@include dark</code></td>
-            <td style={{ padding: '10px 12px' }}><code>prefers-color-scheme: dark</code></td>
-            <td style={{ padding: '10px 12px' }}>Dark mode</td>
+            <td><code>@include dark</code></td>
+            <td><code>prefers-color-scheme: dark</code></td>
+            <td>Dark mode</td>
           </tr>
         </tbody>
       </table>

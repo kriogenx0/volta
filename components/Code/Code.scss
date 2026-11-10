@@ -1,20 +1,6 @@
-@use "../../mixins" as *;
-
 .volta-code {
+  // Block only: inline code is a bare <code> and is styled in styles/type.scss
   border-radius: 6px;
   overflow: hidden;
   font-size: 12px;
-}
-
-.volta-code-inline {
-  display: inline;
-  border-radius: 4px;
-  padding: 0.15em 0.4em;
-  font-size: 0.9em;
-  background-color: $color_base_subtle;
-  color: $color_trim;
-  @include dark {
-    background-color: $color_base_subtle_dark;
-    color: $color_trim_dark;
-  }
 }

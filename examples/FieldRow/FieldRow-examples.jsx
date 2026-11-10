@@ -1,5 +1,5 @@
 import FieldRow from '../../components/FieldRow/FieldRow';
-import TextField from '../../components/TextField/TextField';
+import TextBox from '../../components/TextBox/TextBox';
 import Select from '../../components/Select/Select';
 
 export default {
@@ -9,11 +9,11 @@ export default {
     {
       name: 'Text input',
       code: `<FieldRow label="First Name">
-  <TextField placeholder="Enter first name" />
+  <TextBox placeholder="Enter first name" />
 </FieldRow>`,
       output: (
         <FieldRow label="First Name">
-          <TextField placeholder="Enter first name" />
+          <TextBox placeholder="Enter first name" />
         </FieldRow>
       )
     },
@@ -37,18 +37,18 @@ export default {
     {
       name: 'Hint and error',
       code: `<FieldRow label="Email" hint="Use your work address">
-  <TextField type="email" />
+  <TextBox type="email" />
 </FieldRow>
 <FieldRow label="Email" error="That doesn't look like an email address">
-  <TextField type="email" defaultValue="alex@" />
+  <TextBox type="email" defaultValue="alex@" />
 </FieldRow>`,
       output: (
         <>
           <FieldRow label="Email" hint="Use your work address">
-            <TextField type="email" />
+            <TextBox type="email" />
           </FieldRow>
           <FieldRow label="Email" error="That doesn't look like an email address">
-            <TextField type="email" defaultValue="alex@" />
+            <TextBox type="email" defaultValue="alex@" />
           </FieldRow>
         </>
       )
@@ -56,11 +56,11 @@ export default {
     {
       name: 'Centered layout',
       code: `<FieldRow label="Accept Terms" centered>
-  <TextField placeholder="Type 'accept'" />
+  <TextBox placeholder="Type 'accept'" />
 </FieldRow>`,
       output: (
         <FieldRow label="Accept Terms" centered>
-          <TextField placeholder="Type 'accept'" />
+          <TextBox placeholder="Type 'accept'" />
         </FieldRow>
       )
     },

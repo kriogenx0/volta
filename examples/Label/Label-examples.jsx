@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import Label from '../../components/Label/Label';
 import Select from '../../components/Select/Select';
-import TextField from '../../components/TextField/TextField';
+import TextBox from '../../components/TextBox/TextBox';
 
 const PLANS = [
   { label: 'Free', value: 'free' },
@@ -14,7 +14,7 @@ const EmailField = () => {
   const [email, setEmail] = useState('');
   return (
     <Label text="Email address">
-      <TextField name="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <TextBox name="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
     </Label>
   );
 };
@@ -33,7 +33,7 @@ const NicknameField = () => {
   return (
     <Label>
       Nickname
-      <TextField name="nickname" value={nickname} onChange={(e) => setNickname(e.target.value)} />
+      <TextBox name="nickname" value={nickname} onChange={(e) => setNickname(e.target.value)} />
     </Label>
   );
 };
@@ -45,7 +45,7 @@ export default {
     {
       name: 'Caption above a text field',
       code: `<Label text="Email address">
-  <TextField name="email" type="email" placeholder="you@example.com" value={email} onChange={handleChange} />
+  <TextBox name="email" type="email" placeholder="you@example.com" value={email} onChange={handleChange} />
 </Label>`,
       output: <EmailField />
     },
@@ -60,7 +60,7 @@ export default {
       name: 'Caption inside the children',
       code: `<Label>
   Nickname
-  <TextField name="nickname" value={nickname} onChange={handleChange} />
+  <TextBox name="nickname" value={nickname} onChange={handleChange} />
 </Label>`,
       output: <NicknameField />
     },

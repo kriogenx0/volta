@@ -1,70 +1,77 @@
-// Logical sidebar groupings for the component list. Every name here must
+// Logical sidebar groupings for the component list. Each group is alphabetical
+// (the smoke test checks it). Every name here must
 // exist in components/index.js -- Components-examples.jsx asserts this.
 export default [
   {
     // Anything you type into, plus the text around a field (label, hint, error)
     label: 'Form Text',
     components: [
-      'TextField', 'Textarea', 'TextEditable', 'NumericField',
-      'TagInput', 'ComboBox', 'AutoComplete', 'SearchSelector', 'DateInput',
-      'DatePicker', 'Label', 'Field', 'FieldLabel', 'FieldHint', 'FieldRow',
+      'AutoComplete', 'ComboBox', 'DatePicker', 'Field', 'FieldHint', 'FieldLabel',
+      'FieldRow', 'Label', 'NumericField', 'SearchSelector', 'TagInput', 'TextBox',
+      'TextEditable',
     ],
   },
   {
     // Anything you pick, toggle or press
     label: 'Form Controls',
     components: [
-      'Button', 'Checkbox', 'CheckboxGroup', 'Radio', 'RadioGroup', 'Select',
-      'MultiSelect', 'Slider', 'Toggle', 'SegmentedControl', 'TimePicker',
-      'ColorPicker', 'ColorPalettePicker', 'BaseForm',
+      'BaseForm', 'Button', 'Checkbox', 'CheckboxGroup', 'ColorPalettePicker',
+      'ColorPicker', 'MultiSelect', 'Radio', 'RadioGroup', 'SegmentedControl', 'Select',
+      'Slider', 'TimePicker', 'Toggle',
     ],
   },
   {
     label: 'Navigation',
     components: [
-      'GlobalNav', 'NavBar', 'TabBar', 'Tabs', 'TabsRouted', 'Link',
-      'ActionLink', 'PageHeading', 'PageWidth',
+      'ActionLink', 'GlobalNav', 'Link', 'NavBar', 'PageHeading', 'PageWidth', 'TabBar',
+      'Tabs', 'TabsRouted',
     ],
   },
   {
     label: 'Layout & Overlays',
     components: [
-      'Card', 'Drawer', 'FullView', 'SplitView', 'Overlay', 'Layer',
-      'Dialog', 'Modal', 'ModalDialog', 'Alert', 'PopOver',
+      'Alert', 'Card', 'Dialog', 'Drawer', 'FullView', 'Layer', 'Lazy', 'Modal',
+      'ModalDialog', 'Overlay', 'PopOver', 'SplitView',
     ],
   },
   {
     label: 'Feedback & Status',
     components: [
-      'Badge', 'Empty', 'IndicatorDot', 'Loader', 'ProgressBar', 'ToastMessage', 'Tooltip',
-      'Message', 'ErrorList', 'ErrorText',
+      'Badge', 'Empty', 'ErrorList', 'ErrorText', 'IndicatorDot', 'Loader', 'Message',
+      'ProgressBar', 'ToastMessage', 'Tooltip',
     ],
   },
   {
     label: 'Media & Files',
     components: [
       'AudioTrack', 'Avatar', 'Calendar', 'FileManager', 'FilePicker', 'FileUploader',
-      'ImageCrop', 'ImageDropZone', 'ImagePicker', 'ImageUploader',
-      'VideoPlayer', 'VideoUploadPlayer', 'MobilePhone', 'Map', 'MapSelector', 'Thumb',
+      'ImageCrop', 'ImageDropZone', 'ImagePicker', 'ImageUploader', 'Map', 'MapSelector',
+      'MobilePhone', 'Thumb', 'VideoPlayer', 'VideoUploadPlayer',
     ],
   },
   {
     label: 'Actions & Menus',
     components: [
-      'ActionMenu', 'ClipboardHover', 'CloseButton', 'IconButton', 'Dropdown',
-      'DropdownList', 'Tag',
+      'ActionMenu', 'ClipboardHover', 'CloseButton', 'Dropdown', 'DropdownList',
+      'IconButton', 'Tag',
     ],
   },
   {
     label: 'Rich Text',
-    components: ['CKEditor', 'ContentEditable', 'RichTextQuill', 'RichTextTinyMCE', 'Code'],
+    components: [
+      'CKEditor', 'Code', 'ContentEditable', 'RichTextQuill', 'RichTextTinyMCE',
+    ],
   },
   {
     label: 'Lists',
-    components: ['ListDefinitions', 'List', 'ListCard'],
+    components: [
+      'List', 'ListCard', 'ListDefinitions',
+    ],
   },
   {
     label: 'Icons',
-    components: ['Icon'],
+    components: [
+      'Icon',
+    ],
   },
 ];

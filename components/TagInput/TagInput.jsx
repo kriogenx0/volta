@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import _ from "lodash";
 import PropTypes from 'prop-types';
 
-import TextField from '../TextField';
+import TextBox from '../TextBox';
 
 import './TagInput.scss';
 
@@ -40,7 +40,7 @@ const TagInput = ({ tags, value, onChange, removable = false, ...props }) => {
 
   return (
     <div className='volta-tag_input'>
-      <TextField name='tags' value={inputText} onChange={handleInputChange} onKeyPress={handleInputKeyPress} {...props} />
+      <TextBox name='tags' value={inputText} onChange={handleInputChange} onKeyPress={handleInputKeyPress} {...props} />
       <div className="tag_input-tags">
         {_.map(tagState, tag => (
           <span className={`tag${removable ? ' deletable' : ''}`} key={tag}>

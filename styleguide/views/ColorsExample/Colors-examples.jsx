@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import Code from '../../../components/Code';
+
 import './Colors-examples.scss';
 
 const colorTokens = [
@@ -91,9 +93,9 @@ const ColorsExample = () => {
 
       <div className="usage-note">
         <strong>Usage in SCSS:</strong>
-        <code>{`@include property-color(background-color, base);`}</code>
-        <code>{`@include text-color(trim);`}</code>
-        <code>{`@include bg-color(active_subtle);`}</code>
+        <Code language="scss" inline>{`@include property-color(background-color, base);`}</Code>
+        <Code language="scss" inline>{`@include text-color(trim);`}</Code>
+        <Code language="scss" inline>{`@include bg-color(active_subtle);`}</Code>
       </div>
 
       {colorTokens.map(group => (

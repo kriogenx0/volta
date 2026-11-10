@@ -1,0 +1,10 @@
+// The icon glyphs inside react-select's remove and dropdown controls. Their
+// colour comes from the theme at runtime, so that one stays an inline style.
+.volta-multiselect-icon {
+  font-family: 'Volta Icons';
+
+  &--indicator {
+    font-size: 21px;
+    margin-right: 7px;
+  }
+}

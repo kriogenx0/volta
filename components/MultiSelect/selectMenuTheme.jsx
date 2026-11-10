@@ -1,3 +1,4 @@
+import './MultiSelect.scss';
 import React from 'react'
 import { components } from 'react-select'
 import colors from '../../styles/_shared/colors';
@@ -88,21 +89,14 @@ export function initTheme(theme) {
 
 export const MultiValueRemove = (props) => (
   <components.MultiValueRemove {...props}>
-    <span style={{ fontFamily: 'Volta Icons', color: colors.multiselect.iconColor }}>{'\uF049'}</span>
+    <span className="volta-multiselect-icon" style={{ color: colors.multiselect.iconColor }}>{'\uF049'}</span>
   </components.MultiValueRemove>
 )
 
 export const DropdownIndicator = (props) =>
   components.DropdownIndicator && (
     <components.DropdownIndicator {...props}>
-      <span
-        style={{
-          color: colors.multiselect.text,
-          fontFamily: 'Volta Icons',
-          fontSize: 21,
-          marginRight: 7,
-        }}
-      >
+      <span className="volta-multiselect-icon volta-multiselect-icon--indicator" style={{ color: colors.multiselect.text }}>
         {'\uF000'}
       </span>
     </components.DropdownIndicator>

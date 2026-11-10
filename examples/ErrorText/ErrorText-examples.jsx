@@ -1,5 +1,5 @@
 import ErrorText from '../../components/ErrorText/ErrorText';
-import TextField from '../../components/TextField/TextField';
+import TextBox from '../../components/TextBox/TextBox';
 
 export default {
   name: 'ErrorText',
@@ -22,8 +22,8 @@ export default {
     },
     {
       name: 'Under a text field',
-      code: '<TextField label="Email" defaultValue="not-an-email" error="Enter a valid email address." />',
-      output: <TextField label="Email" defaultValue="not-an-email" error="Enter a valid email address." />
+      code: '<TextBox label="Email" defaultValue="not-an-email" error="Enter a valid email address." />',
+      output: <TextBox label="Email" defaultValue="not-an-email" error="Enter a valid email address." />
     }
   ]
 };

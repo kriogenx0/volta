@@ -5,7 +5,7 @@ A click-to-edit text field: it shows the text as a paragraph, and clicking it op
 ## When to use
 
 - **Click-to-edit text with CKEditor 4 behind it**, when the page already loads CKEditor 4 and nothing needs the edited text back yet.
-- For rich text in a form that must read the value back, use [`RichTextTinyMCE`](../RichTextTinyMCE/README.md) or [`RichTextQuill`](../RichTextQuill/README.md); they take `value` and `onChange`. To rename a single line in place use [`TextEditable`](../TextEditable/README.md), and for a plain multi-line field in a form [`Textarea`](../Textarea/README.md).
+- For rich text in a form that must read the value back, use [`RichTextTinyMCE`](../RichTextTinyMCE/README.md) or [`RichTextQuill`](../RichTextQuill/README.md); they take `value` and `onChange`. To rename a single line in place use [`TextEditable`](../TextEditable/README.md), and for a plain multi-line field in a form [`Textarea`](../TextBox/README.md).
 - This component has no `onChange` and no way to read the edited text from a parent. See Behaviour.
 
 ## Usage

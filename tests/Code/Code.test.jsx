@@ -30,6 +30,8 @@ describe('Code', () => {
     const el = container.querySelector('code.volta-code-inline');
     expect(el).toBeInTheDocument();
     expect(el).toHaveTextContent('npm install');
+    // Inline code takes its look from the global code style, not the block's
+    expect(el).not.toHaveClass('volta-code');
   });
 
   it('applies a custom className', () => {

@@ -35,7 +35,7 @@ Other props go to the root element (`data-*`, `aria-label`, ...).
 ## Variants and states
 
 - **Block:** a `div.volta-code` holding the highlighted `<pre>`, with 6px corners and 12px text.
-- **Inline:** a `code.volta-code.volta-code-inline` with a tinted background, sized at 0.9em of the text around it.
+- **Inline:** a bare `<code class="volta-code-inline">`. Its look is the global `code` style in `styles/type.scss` (tinted background, 4px corners, 0.9em of the text around it), so `<Code inline>` and a plain `<code>` tag look the same. The block is the component's own, so it isn't affected by it.
 - `theme` is not the app's light or dark mode. The block keeps its own colours whichever mode the page is in, so pick `dark` or `light` to suit the surface it sits on.
 
 ## Accessibility

@@ -41,7 +41,7 @@ const timeZones = [
 ];
 
 const ExampleFrame = ({ children }) => (
-  <div style={{ maxWidth: 420 }}>{children}</div>
+  <div className="example-narrow">{children}</div>
 );
 
 const CitySearch = () => {
@@ -54,7 +54,7 @@ const CitySearch = () => {
         placeholder="Search for a city…"
         onSelect={setSelected}
       />
-      <p style={{ margin: '10px 0 0', color: 'var(--v-color-trim-subtle)', fontSize: 12 }}>
+      <p className="example-note">
         {selected ? `Selected: ${selected}` : 'Start typing or use the arrow keys to browse.'}
       </p>
     </ExampleFrame>
@@ -73,7 +73,7 @@ const AssigneePicker = () => {
         onSelect={setAssignee}
         placeholder="Find a teammate…"
       />
-      <p style={{ margin: '10px 0 0', color: 'var(--v-color-trim-subtle)', fontSize: 12 }}>
+      <p className="example-note">
         Current assignee: {assignee || 'Unassigned'}
       </p>
     </ExampleFrame>

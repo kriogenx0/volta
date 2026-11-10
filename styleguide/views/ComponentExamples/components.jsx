@@ -17,7 +17,6 @@ import ColorPalettePickerExamples from '../../../examples/ColorPalettePicker/Col
 import ColorPickerExamples from '../../../examples/ColorPicker/ColorPicker-examples';
 import ComboBoxExamples from '../../../examples/ComboBox/ComboBox-examples';
 import ContentEditableExamples from '../../../examples/ContentEditable/ContentEditable-examples';
-import DateInputExamples from '../../../examples/DateInput/DateInput-examples';
 import DatePickerExamples from '../../../examples/DatePicker/DatePicker-examples';
 import DialogExamples from '../../../examples/Dialog/Dialog-examples';
 import DrawerExamples from '../../../examples/Drawer/Drawer-examples';
@@ -44,6 +43,7 @@ import IconButtonExamples from '../../../examples/IconButton/IconButton-examples
 import IndicatorDotExamples from '../../../examples/IndicatorDot/IndicatorDot-examples';
 import LabelExamples from '../../../examples/Label/Label-examples';
 import LayerExamples from '../../../examples/Layer/Layer-examples';
+import LazyExamples from '../../../examples/Lazy/Lazy-examples';
 import LinkExamples from '../../../examples/Link/Link-examples';
 import ListCardExamples from '../../../examples/ListCard/ListCard-examples';
 import ListDefinitionsExamples from '../../../examples/ListDefinitions/ListDefinitions-examples';
@@ -80,8 +80,7 @@ import TabsRoutedExamples from '../../../examples/TabsRouted/TabsRouted-examples
 import TagExamples from '../../../examples/Tag/Tag-examples';
 import TagInputExamples from '../../../examples/TagInput/TagInput-examples';
 import TextEditableExamples from '../../../examples/TextEditable/TextEditable-examples';
-import TextFieldExamples from '../../../examples/TextField/TextField-examples';
-import TextareaExamples from '../../../examples/Textarea/Textarea-examples';
+import TextBoxExamples from '../../../examples/TextBox/TextBox-examples';
 import ThumbExamples from '../../../examples/Thumb/Thumb-examples';
 import TimePickerExamples from '../../../examples/TimePicker/TimePicker-examples';
 import ToastMessageExamples from '../../../examples/ToastMessage/ToastMessage-examples';
@@ -110,7 +109,6 @@ const curated = [
   ColorPickerExamples,
   ComboBoxExamples,
   ContentEditableExamples,
-  DateInputExamples,
   DatePickerExamples,
   DialogExamples,
   DrawerExamples,
@@ -137,6 +135,7 @@ const curated = [
   IndicatorDotExamples,
   LabelExamples,
   LayerExamples,
+  LazyExamples,
   LinkExamples,
   ListCardExamples,
   ListDefinitionsExamples,
@@ -173,8 +172,7 @@ const curated = [
   TagExamples,
   TagInputExamples,
   TextEditableExamples,
-  TextFieldExamples,
-  TextareaExamples,
+  TextBoxExamples,
   ThumbExamples,
   TimePickerExamples,
   ToastMessageExamples,

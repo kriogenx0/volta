@@ -11,7 +11,7 @@ import './FieldRow.scss';
 // are: the label points at the one control inside, which is described by the hint
 // and error; with several controls the label names the group.
 const FieldRow = ({ label, hint, error, htmlFor, children, centered }) => {
-  const { controlId, labelId, hintId, errorId, single, describedBy, context } = useFieldSetup({ htmlFor, hint, error, children });
+  const { controlId, labelId, hintId, errorId, single, content, describedBy, context } = useFieldSetup({ htmlFor, label, hint, error, children });
   const groupProps = !single && label ? { role: 'group', 'aria-labelledby': labelId, 'aria-describedby': describedBy } : {};
 
   return (
@@ -19,7 +19,7 @@ const FieldRow = ({ label, hint, error, htmlFor, children, centered }) => {
       <div className={`volta-field_row${centered ? ' field_row-centered' : ''}`}>
         <label className="field_row-label" id={labelId} htmlFor={single ? controlId : undefined}>{label}</label>
         <div className="field_row-body" {...groupProps}>
-          {children}
+          {content}
           {hint && <FieldHint id={hintId}>{hint}</FieldHint>}
           {error && <div id={errorId} className="field_row-error"><ErrorText message={error} /></div>}
         </div>
@@ -27,6 +27,8 @@ const FieldRow = ({ label, hint, error, htmlFor, children, centered }) => {
     </FieldContext.Provider>
   );
 };
+
+FieldRow.fieldPart = 'row';
 
 FieldRow.propTypes = {
   label: PropTypes.node,

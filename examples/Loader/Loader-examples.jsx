@@ -1,5 +1,7 @@
 import Loader from '../../components/Loader/Loader';
 
+import './Loader-examples.scss';
+
 export default {
   name: 'Loader',
   description: 'A loader with several animation variants, selected via the variant prop.',
@@ -37,7 +39,7 @@ export default {
         '<Loader variant="clock" />'
       ),
       output: (
-        <div style={{ height: 80 }}>
+        <div className="example-loader_frame">
           <Loader variant="clock" />
         </div>
       )
@@ -48,7 +50,7 @@ export default {
         '<Loader variant="knob" />'
       ),
       output: (
-        <div style={{ height: 80 }}>
+        <div className="example-loader_frame">
           <Loader variant="knob" />
         </div>
       )
@@ -68,7 +70,7 @@ export default {
         '<Loader variant="block" />'
       ),
       output: (
-        <div style={{ height: 100 }}>
+        <div className="example-loader_frame example-loader_frame--tall">
           <Loader variant="block" />
         </div>
       )

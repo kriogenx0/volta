@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
 import FieldHint from '../../components/FieldHint/FieldHint';
-import TextField from '../../components/TextField/TextField';
+import TextField from '../../components/TextBox/TextBox';
 
 describe('FieldHint', () => {
   it('renders its text as a paragraph with the id it is given', () => {
@@ -59,7 +59,7 @@ describe('TextField hint and error', () => {
 
   it('is still a bare field without a label, hint or error', () => {
     const { container } = render(<TextField aria-label="Email" />);
-    expect(container.firstChild).toHaveClass('volta-textfield');
+    expect(container.firstChild).toHaveClass('volta-textbox');
     expect(screen.getByRole('textbox')).not.toHaveAttribute('aria-describedby');
   });
 

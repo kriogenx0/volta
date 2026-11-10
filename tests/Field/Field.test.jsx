@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import Field from '../../components/Field/Field';
 import Checkbox from '../../components/Checkbox/Checkbox';
 import Select from '../../components/Select/Select';
-import TextField from '../../components/TextField/TextField';
+import TextField from '../../components/TextBox/TextBox';
 import Toggle from '../../components/Toggle/Toggle';
 
 describe('Field', () => {

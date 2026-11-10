@@ -2,8 +2,13 @@ import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import numeral from 'numeral';
 
+import TextBox from '../TextBox/TextBox';
+
 import './NumericField.scss';
 
+// A TextBox that only takes numbers: it keeps what is typed to digits and one
+// point, and formats the value when the box loses focus. Everything else
+// (label, hint, error, fieldSize, ...) is TextBox's.
 const NumericField = ({ onChange = null, onBlurFormat = 'integer', focusValue = null, ...otherProps }) => {
   const props = { ...otherProps, onChange, onBlurFormat, focusValue };
   const previousValue = useRef(null);
@@ -74,14 +79,15 @@ const NumericField = ({ onChange = null, onBlurFormat = 'integer', focusValue = 
   delete inputProps.whenTypingFormat;
 
   return (
-    <div className="volta-numericfield">
-      <input {...inputProps} type="number"
-             onChange={handleOnChange}
-             onFocus={handleOnFocus}
-             onBlur={handleOnBlur}
-             value={value}
-      />
-    </div>
+    <TextBox
+      {...inputProps}
+      wrapperClassName="volta-numericfield"
+      type="number"
+      onChange={handleOnChange}
+      onFocus={handleOnFocus}
+      onBlur={handleOnBlur}
+      value={value}
+    />
   );
 };
 

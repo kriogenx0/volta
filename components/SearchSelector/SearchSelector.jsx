@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { TextBox } from '../TextField/TextField';
+import { TextBox } from '../TextBox/TextBox';
 import PopOver from '../PopOver/PopOver';
 
 import './SearchSelector.scss';

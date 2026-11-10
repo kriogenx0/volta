@@ -5,7 +5,7 @@ Text you click to edit in place, as a `contentEditable` element that looks like 
 ## When to use
 
 - **Renaming or retitling something inline:** a page title, a list item's name, a card heading. Enter saves and Escape cancels.
-- Use [`TextField`](../TextField/README.md) or [`Textarea`](../Textarea/README.md) for a field in a form, [`ContentEditable`](../ContentEditable/README.md) for a `contentEditable` area you drive with `html` and `onChange`, and [`RichTextQuill`](../RichTextQuill/README.md) for formatted text.
+- Use [`TextField`](../TextBox/README.md) or [`Textarea`](../TextBox/README.md) for a field in a form, [`ContentEditable`](../ContentEditable/README.md) for a `contentEditable` area you drive with `html` and `onChange`, and [`RichTextQuill`](../RichTextQuill/README.md) for formatted text.
 - It is single-line by design: Enter leaves the field rather than adding a line break.
 
 ## Usage
@@ -47,6 +47,6 @@ Any other prop (`aria-label`, `role`, `data-*`, `id`) goes to the element. The c
 
 - Do save in `onFinish`, and treat the value as HTML: escape text that came from users before passing it as `value` or `children`, since it is set as markup.
 - Do give it a label, and make the surrounding text say it can be edited.
-- Don't use it for anything submitted with a form; use [`TextField`](../TextField/README.md).
+- Don't use it for anything submitted with a form; use [`TextField`](../TextBox/README.md).
 - Don't expect plain text: strip or escape HTML on the way in and out.
-- Don't use it for long text; use [`Textarea`](../Textarea/README.md).
+- Don't use it for long text; use [`Textarea`](../TextBox/README.md).

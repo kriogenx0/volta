@@ -1,0 +1,16 @@
+.example-full_view {
+  height: 200px;
+  overflow: hidden;
+  border: 1px solid var(--v-color-base-subtle);
+  border-radius: 8px;
+
+  &-content { padding: 16px; }
+
+  &-note {
+    padding: 12px 16px;
+    border-radius: 6px;
+    background: var(--v-color-base-more-subtle);
+    color: var(--v-color-trim-subtle);
+    font-size: 13px;
+  }
+}

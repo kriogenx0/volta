@@ -1,5 +1,7 @@
 import Icon from '../../components/Icon/Icon';
 
+import './Icon-examples.scss';
+
 const iconNames = [
   'chevron.right', 'chevron.left', 'chevron.down', 'chevron.up',
   'xmark', 'plus', 'minus', 'checkmark',
@@ -15,22 +17,22 @@ const iconNames = [
 const DRAWN = ['trash', 'spinner', 'cloud-upload', 'check-circle', 'times-circle', 'arrow-up-circle'];
 
 const DrawnIcons = () => (
-  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+  <div className="example-row example-row--roomy">
     {DRAWN.map(name => (
-      <div key={name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, width: 96, fontSize: 28 }}>
+      <div key={name} className="example-icon_tile example-icon_tile--drawn">
         <Icon type={name} />
-        <span style={{ fontSize: 11, textAlign: 'center', color: 'var(--v-color-trim-subtle)' }}>{name}</span>
+        <span className="example-icon_tile-name">{name}</span>
       </div>
     ))}
   </div>
 );
 
 const IconGrid = () => (
-  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+  <div className="example-row example-row--roomy">
     {iconNames.map(name => (
-      <div key={name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, width: 80 }}>
+      <div key={name} className="example-icon_tile">
         <Icon type={name} />
-        <span style={{ fontSize: 10, textAlign: 'center', wordBreak: 'break-all', color: '#666' }}>{name}</span>
+        <span className="example-icon_tile-name">{name}</span>
       </div>
     ))}
   </div>
@@ -55,9 +57,9 @@ export default {
       code: `<span style={{ color: 'green', fontSize: 32 }}><Icon type="check-circle" aria-hidden="true" /> Saved</span>
 <span style={{ color: 'crimson', fontSize: 32 }}><Icon type="times-circle" aria-hidden="true" /> Failed</span>`,
       output: (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24 }}>
-          <span style={{ color: 'var(--v-color-success)', fontSize: 32 }}><Icon type="check-circle" aria-hidden="true" /> Saved</span>
-          <span style={{ color: 'var(--v-color-danger)', fontSize: 32 }}><Icon type="times-circle" aria-hidden="true" /> Failed</span>
+        <div className="example-row example-row--wide">
+          <span className="example-icon_status example-icon_status--ok"><Icon type="check-circle" aria-hidden="true" /> Saved</span>
+          <span className="example-icon_status example-icon_status--error"><Icon type="times-circle" aria-hidden="true" /> Failed</span>
         </div>
       )
     },
@@ -72,7 +74,7 @@ export default {
 <Icon type="star" />
 <Icon type="star" size="large" />`,
       output: (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div className="example-row example-row--cozy">
           <Icon type="star" size="small" />
           <Icon type="star" />
           <Icon type="star" size="large" />

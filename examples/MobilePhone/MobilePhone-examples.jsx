@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import MobilePhone from '../../components/MobilePhone/MobilePhone';
 import Button from '../../components/Button/Button';
-import TextField from '../../components/TextField/TextField';
+import TextBox from '../../components/TextBox/TextBox';
 import Toggle from '../../components/Toggle/Toggle';
 
 const SignIn = () => {
@@ -13,8 +13,8 @@ const SignIn = () => {
     <MobilePhone>
       <form className="example-stack" onSubmit={(e) => e.preventDefault()}>
         <h2>Sign in</h2>
-        <TextField label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <TextField label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <TextBox label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <TextBox label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <Button type="submit" variant="primary" full>Sign in</Button>
       </form>
     </MobilePhone>
@@ -66,8 +66,8 @@ export default {
       code: `<MobilePhone>
   <form>
     <h2>Sign in</h2>
-    <TextField label="Email" type="email" value={email} onChange={handleEmail} />
-    <TextField label="Password" type="password" value={password} onChange={handlePassword} />
+    <TextBox label="Email" type="email" value={email} onChange={handleEmail} />
+    <TextBox label="Password" type="password" value={password} onChange={handlePassword} />
     <Button type="submit" variant="primary" full>Sign in</Button>
   </form>
 </MobilePhone>`,

@@ -7,12 +7,15 @@ import { FieldContext, useFieldSetup } from './fieldContext';
 import './Field.scss';
 
 // A label, a control, and optionally a hint and an error, connected for
-// assistive technology. With one control inside (TextField, Textarea, Select, or
-// any control given `htmlFor`'s id) the label points at it, the control is
-// described by the hint and error, and it is marked invalid when there is an
-// error. With several controls inside, the label names the group instead.
+// assistive technology. With one control inside (TextBox, Select, or any control
+// given `htmlFor`'s id) the label points at it, the control is described by the
+// hint and error, and it is marked invalid when there is an error. With several
+// controls inside, the label names the group instead.
+//
+// The label and hint can be given as props or placed inside as FieldLabel and
+// FieldHint; FieldRows inside make the Field a group of rows.
 const Field = ({ className, type, stack, label, hint, error, htmlFor, children }) => {
-  const { controlId, labelId, hintId, errorId, single, describedBy, context } = useFieldSetup({ htmlFor, hint, error, children });
+  const { controlId, labelId, hintId, errorId, single, hasLabel, content, describedBy, context } = useFieldSetup({ htmlFor, label, hint, error, children });
 
   // ironyoung-compat: c-field is the class name its own view-level scss targets directly.
   let fieldClassName = 'volta-field c-field' + (className ? ' ' + className : '');
@@ -27,7 +30,7 @@ const Field = ({ className, type, stack, label, hint, error, htmlFor, children }
   );
 
   // Several controls share the label as a group; one is reached by `for`.
-  const groupProps = !single && label ? { role: 'group', 'aria-labelledby': labelId, 'aria-describedby': describedBy } : {};
+  const groupProps = !single && hasLabel ? { role: 'group', 'aria-labelledby': labelId, 'aria-describedby': describedBy } : {};
 
   const body = label ? (
     <>
@@ -35,21 +38,21 @@ const Field = ({ className, type, stack, label, hint, error, htmlFor, children }
         {label}
       </label>
       <div className='field-child' {...groupProps}>
-        {children}
+        {content}
         {notes}
       </div>
       <div className='field-clear' />
     </>
   ) : (
     <>
-      {children}
+      {content}
       {notes}
     </>
   );
 
   return (
     <FieldContext.Provider value={context}>
-      <div className={fieldClassName}>{body}</div>
+      <div className={fieldClassName} {...(label ? {} : groupProps)}>{body}</div>
     </FieldContext.Provider>
   );
 };

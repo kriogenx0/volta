@@ -1,6 +1,6 @@
 @use '../../mixins' as *;
 
-.volta-textfield {
+.volta-textbox {
   input,
   textarea {
     align-items: center;
@@ -64,7 +64,7 @@
     }
   }
 
-  &.textfield-disabled input {
+  &.textbox-disabled input {
     cursor: not-allowed;
   }
 
@@ -72,7 +72,7 @@
     resize: none;
     box-sizing: border-box;
 
-    // Set by Textarea's `resize` prop
+    // Set by the multiline resize prop's `resize` prop
     &.resize-y {
       resize: vertical;
     }
@@ -82,9 +82,9 @@
     }
   }
 
-  // Error: the message is shown under the field (see .volta-textfield-error_message)
+  // Error: the message is shown under the field (see .volta-textbox-error_message)
   // and the control is marked aria-invalid; the border colour backs that up.
-  &.textfield-error {
+  &.textbox-error {
     input,
     textarea {
       &,
@@ -96,14 +96,14 @@
   }
 }
 
-.volta-textfield-error_message {
+.volta-textbox-error_message {
   margin-top: 4px;
 }
 
 // Sizes (fieldSize prop). Declared after the base rules so they win on
 // equal specificity.
-.volta-textfield--sm,
-.volta-textfield--md {
+.volta-textbox--sm,
+.volta-textbox--md {
   input,
   textarea {
     box-sizing: border-box;
@@ -111,7 +111,7 @@
   }
 }
 
-.volta-textfield--sm {
+.volta-textbox--sm {
   input,
   textarea {
     padding: 6px 10px;
@@ -119,7 +119,7 @@
   }
 }
 
-.volta-textfield--md {
+.volta-textbox--md {
   input,
   textarea {
     padding: 8px 12px;

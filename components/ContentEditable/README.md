@@ -5,7 +5,7 @@ A multi-line box the user types straight into, as an editable `<div>` that repor
 ## When to use
 
 - **A small area of lightly formatted text** where the browser's own editing (line breaks, paste, undo) is enough and the value is HTML.
-- Formatting toolbars are [`RichTextQuill`](../RichTextQuill/README.md) or [`RichTextTinyMCE`](../RichTextTinyMCE/README.md). Plain text in a form is a [`Textarea`](../Textarea/README.md). A single line that is edited in place is a [`TextEditable`](../TextEditable/README.md).
+- Formatting toolbars are [`RichTextQuill`](../RichTextQuill/README.md) or [`RichTextTinyMCE`](../RichTextTinyMCE/README.md). Plain text in a form is a [`Textarea`](../TextBox/README.md). A single line that is edited in place is a [`TextEditable`](../TextEditable/README.md).
 - It has no toolbar, so formatting is only what the browser's own shortcuts give, and pasted text keeps its markup.
 
 ## Usage

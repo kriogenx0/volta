@@ -4,12 +4,14 @@ One doc per feature, as it exists in the code (see [docs/rules/feature-docs.md](
 
 - [Accessible names](accessible_names.md): every button and link in every example must have a name for a screen reader; `ActionMenu`'s label.
 - [Dependencies](dependencies.md): moment and lodash stay out of new code (a ratchet lists today's users), and the plan to remove them.
+- [Lazy](lazy.md): holds children back until they are near the screen.
+- [Naming conventions](naming_conventions.md): the short-name rule (TextBox, not TextField), aliases, props over variants, files and class names, and the design principles, as a styleguide page.
 - [The styleguide](styleguide.md): what it shows, what the smoke test checks (every page and component, light and dark), and what it can't (how anything looks).
 - [Interactive states](interactive_states.md): the keyboard and focus audit over every example, what it fixed (Tabs, FileUploader, VideoUploadPlayer), and what still needs a browser.
 - [Date helpers](date_helpers.md): `Dater`, the date class behind the Calendar and DatePicker month grids; one copy in `util/`.
 - [Dropdown](dropdown.md): the floating panel behind DropdownList, ActionMenu and DatePicker; where it opens and what closes it.
 - [Map and MapSelector](map.md): a Google Map and an address search; the API key is set by the app with `setGoogleMapsKey`, and without one a message replaces the map.
-- [Form fields](form_fields.md): label, hint and error connected to the control for assistive technology: Field, FieldRow, FieldHint, TextField, Select, Toggle, Checkbox.
+- [Form fields](form_fields.md): label, hint and error connected to the control for assistive technology: Field, FieldRow, FieldHint, TextBox, Select, Toggle, Checkbox.
 - [Button](button.md): `variant`, `size` and `type`, and the deprecated `bsStyle`, `tiny` and `type="primary"` (they warn once and still work).
 - [Overlays](overlays.md): Modal, ModalDialog, Dialog, Alert, PopOver, Overlay and Drawer; page scroll lock, focus trap and restore, and which ones are modal.
 - [Icons](icons.md): how `Icon` draws a symbol (inline SVG, icon font, or SF Symbols), which of them show without a font, and `FileUtil.size`.

@@ -35,3 +35,31 @@ describe('SegmentedControl', () => {
     expect(screen.getByText('Light')).toBeDisabled();
   });
 });
+
+describe('SegmentedControl highlight and navigation', () => {
+  const options = [{ label: 'One', value: 1 }, { label: 'Two', value: 2 }];
+
+  it('draws a sliding highlight behind the selected option, and none when nothing is selected', () => {
+    const { container, rerender } = render(<SegmentedControl options={options} value={1} onChange={() => {}} />);
+    expect(container.querySelector('.volta-segmented_control-thumb')).toBeInTheDocument();
+    expect(container.querySelector('.volta-segmented_control-thumb')).toHaveAttribute('aria-hidden', 'true');
+
+    rerender(<SegmentedControl options={options} value={3} onChange={() => {}} />);
+    expect(container.querySelector('.volta-segmented_control-thumb')).toBeNull();
+  });
+
+  it('only animates the highlight after it has first been placed', () => {
+    const { container, rerender } = render(<SegmentedControl options={options} value={1} onChange={() => {}} />);
+    rerender(<SegmentedControl options={options} value={2} onChange={() => {}} />);
+    expect(container.querySelector('.volta-segmented_control-thumb')).toHaveClass('volta-segmented_control-thumb--animate');
+  });
+
+  it('is a nav with aria-current on the selected option in navigation mode', () => {
+    render(<SegmentedControl navigation ariaLabel="Pages" className="mine" options={options} value={2} onChange={() => {}} />);
+    const nav = screen.getByRole('navigation', { name: 'Pages' });
+    expect(nav).toHaveClass('volta-segmented_control', 'mine');
+    expect(screen.getByText('Two')).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByText('One')).not.toHaveAttribute('aria-current');
+    expect(screen.getByText('Two')).not.toHaveAttribute('aria-pressed');
+  });
+});

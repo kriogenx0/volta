@@ -25,8 +25,7 @@ const ptUses = (text) => (withoutComments(text).match(/(?<![\w.-])\d*\.?\d+pt\b/
 // stylesheet -> how many pt values it has today
 const KNOWN = {
   'components/Button/Button.scss': 3,
-  'components/IndicatorDot/IndicatorDot.scss': 2,
-  'styles/type.scss': 1
+  'components/IndicatorDot/IndicatorDot.scss': 2
 };
 
 const counts = () => Object.fromEntries(

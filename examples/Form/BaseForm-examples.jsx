@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import Button from '../../components/Button/Button';
 import Checkbox from '../../components/Checkbox/Checkbox';
-import TextField from '../../components/TextField/TextField';
+import TextBox from '../../components/TextBox/TextBox';
 import { BaseForm, BaseInput, FormRow } from '../../components/Form';
 
 const LOGIN_FIELDS = [
@@ -113,18 +113,18 @@ export default {
     {
       name: 'FormRow with details, help and an error',
       code: `<FormRow label="Display name" optionalText="Optional" helperText="Shown on your public profile.">
-  <TextField name="displayName" aria-label="Display name" />
+  <TextBox name="displayName" aria-label="Display name" />
 </FormRow>
 <FormRow label="Username" showError errors={['That username is already taken.']}>
-  <TextField name="username" aria-label="Username" defaultValue="alex" />
+  <TextBox name="username" aria-label="Username" defaultValue="alex" />
 </FormRow>`,
       output: (
         <div>
           <FormRow label="Display name" optionalText="Optional" helperText="Shown on your public profile.">
-            <TextField name="displayName" aria-label="Display name" />
+            <TextBox name="displayName" aria-label="Display name" />
           </FormRow>
           <FormRow label="Username" showError errors={['That username is already taken.']}>
-            <TextField name="username" aria-label="Username" defaultValue="alex" />
+            <TextBox name="username" aria-label="Username" defaultValue="alex" />
           </FormRow>
         </div>
       )

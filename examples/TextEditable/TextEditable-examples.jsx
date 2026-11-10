@@ -6,7 +6,7 @@ const TextEditableExample = () => {
   return (
     <div>
       <TextEditable value={value} onChange={setValue} />
-      <p style={{ marginTop: 8, fontSize: 12, color: '#888' }}>
+      <p className="example-note">
         Current value: {value}
       </p>
     </div>

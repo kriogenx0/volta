@@ -5,7 +5,7 @@ Pick a time of day: type an hour and minute or choose them from lists, and set a
 ## When to use
 
 - **A time of day on its own:** an appointment slot, an opening time, a reminder.
-- Use [`DateInput`](../DateInput/README.md) or [`DatePicker`](../DatePicker/README.md) to choose a date, and [`Select`](../Select/README.md) when only a few fixed times are allowed. For a duration or a plain number use [`NumericField`](../NumericField/README.md).
+- Use [`DateInput`](../DatePicker/README.md) or [`DatePicker`](../DatePicker/README.md) to choose a date, and [`Select`](../Select/README.md) when only a few fixed times are allowed. For a duration or a plain number use [`NumericField`](../NumericField/README.md).
 - It holds hour, minute and am or pm in its own state; you read the result in `onChange` and can seed it with `value`.
 
 ## Usage

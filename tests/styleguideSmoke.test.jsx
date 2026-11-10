@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, within } from '@testing-library/react';
+import { act, render, screen, fireEvent, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import { Theme } from '../components';
@@ -15,7 +15,7 @@ import groups from '../styleguide/views/ComponentExamples/componentGroups';
 // screenshots needs a real browser and tooling the repository does not have
 // (docs/backlog/add-styleguide-smoke-test.md).
 
-const PAGES = ['Home', 'Components', 'Colors', 'Type', 'Layout'];
+const PAGES = ['Home', 'Components', 'Colors', 'Type', 'Layout', 'Naming'];
 
 const listed = groups.flatMap((group) => group.components);
 const registered = components.map((component) => component.name);
@@ -39,6 +39,7 @@ afterEach(() => {
   consoleWarn.mockRestore();
   Theme.resetTheme();
   Theme.setColorScheme('system');
+  window.location.hash = '';
 });
 
 const loggedErrors = () => consoleError.mock.calls.map((args) => String(args[0]).split('\n')[0]);
@@ -50,6 +51,13 @@ describe('the sidebar', () => {
 
   it('lists only components that exist: an unknown name is skipped without a word', () => {
     expect(listed.filter((name) => !registered.includes(name))).toEqual([]);
+  });
+
+  it('keeps each group in alphabetical order', () => {
+    const unsorted = groups
+      .filter((group) => group.components.some((name, i) => i > 0 && name.localeCompare(group.components[i - 1]) < 0))
+      .map((group) => group.label);
+    expect(unsorted).toEqual([]);
   });
 
   it('lists each component once', () => {
@@ -98,6 +106,37 @@ describe.each(['light', 'dark'])('the styleguide in %s', (scheme) => {
   });
 });
 
+describe('the current page', () => {
+  afterEach(() => { window.location.hash = ''; });
+
+  it('is kept in the URL, so a refresh opens the same page', () => {
+    const first = showStyleguide();
+    openPage('Components');
+    expect(window.location.hash).toBe('#components');
+    first.unmount();
+
+    // A refresh: a new copy of the styleguide reading the same URL
+    showStyleguide();
+    expect(screen.getByRole('button', { name: 'Components', current: 'page' })).toBeInTheDocument();
+  });
+
+  it('follows the URL when it changes, as with the back button', () => {
+    showStyleguide();
+    openPage('Colors');
+    act(() => {
+      window.location.hash = '#type';
+      window.dispatchEvent(new HashChangeEvent('hashchange'));
+    });
+    expect(screen.getByRole('button', { name: 'Type', current: 'page' })).toBeInTheDocument();
+  });
+
+  it('falls back to Home for an unknown page', () => {
+    window.location.hash = '#nope';
+    showStyleguide();
+    expect(screen.getByRole('button', { name: 'Home', current: 'page' })).toBeInTheDocument();
+  });
+});
+
 describe('the styleguide under each theme', () => {
   it.each(Theme.presets.map((preset) => [preset.name, preset]))('shows the shell, Home and Colors under %s', (_name, preset) => {
     Theme.applyTheme(preset);
@@ -108,5 +147,19 @@ describe('the styleguide under each theme', () => {
     });
     expect(errorBoxes(container)).toBe(0);
     expect(loggedErrors()).toEqual([]);
+  });
+});
+
+describe('the Naming page', () => {
+  it('states the short-name convention and the design principles', () => {
+    const { container } = showStyleguide();
+    openPage('Naming');
+    expect(screen.getByRole('heading', { name: 'Naming conventions' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Design principles' })).toBeInTheDocument();
+    expect(screen.getByText('Prefer the shorter name')).toBeInTheDocument();
+    expect(container.querySelector('.naming-names--prefer')).toHaveTextContent('TextBox');
+    expect(container.querySelector('.naming-names--avoid')).toHaveTextContent('TextField');
+    expect(container.querySelectorAll('.naming-list li').length).toBeGreaterThanOrEqual(11);
+    window.location.hash = '';
   });
 });

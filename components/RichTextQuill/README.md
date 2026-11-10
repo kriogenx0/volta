@@ -5,7 +5,7 @@ A Quill (snow theme) rich text editor with a fixed toolbar, for editing formatte
 ## When to use
 
 - **Longer formatted text:** descriptions, notes, release notes, anything that needs bold, lists, links or images.
-- Use [`RichTextTinyMCE`](../RichTextTinyMCE/README.md) when you want TinyMCE's HTML source button and plugins instead. Use [`Textarea`](../Textarea/README.md) for plain text, and [`TextEditable`](../TextEditable/README.md) to edit a short label in place.
+- Use [`RichTextTinyMCE`](../RichTextTinyMCE/README.md) when you want TinyMCE's HTML source button and plugins instead. Use [`Textarea`](../TextBox/README.md) for plain text, and [`TextEditable`](../TextEditable/README.md) to edit a short label in place.
 - The toolbar is fixed (fonts, sizes, alignment, bold, italic, underline, strike, colours, sub and superscript, quote, code block, lists, indent, link, image, video, clear). You can't change it per use.
 
 ## Usage
@@ -43,6 +43,6 @@ Every other prop is passed to ReactQuill (from `react-quill-new`). `modules` is 
 
 - Do store and display the value as HTML from a source you trust. The value is markup, so sanitise anything that came from another user before rendering it elsewhere.
 - Do use `readOnly` to preview content rather than hiding the toolbar with CSS.
-- Don't use it for short single-line text; use [`TextField`](../TextField/README.md).
+- Don't use it for short single-line text; use [`TextField`](../TextBox/README.md).
 - Don't add toolbar buttons by overriding `modules`; it is fixed.
 - Don't recolour the editor with literals in `className`; the container takes its background from the `--v-color-base` token.

@@ -20,15 +20,15 @@
       vertical-align: middle;
       @include dark { border-color: $color_base_subtle_dark; }
 
-      code {
-        display: inline;
-        padding: 2px 6px;
-        font-size: 11px;
-        white-space: nowrap;
-      }
     }
 
     tr:last-child td { border-bottom: none; }
+
+    // The headings' font stack, shown as a sample
+    .type-sample--heading {
+      font-family: "SF Pro Display", -apple-system, "Helvetica Neue", sans-serif;
+      font-weight: 500;
+    }
   }
 
   .type-scale {

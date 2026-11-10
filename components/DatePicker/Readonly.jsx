@@ -10,7 +10,7 @@ const Readonly = ({ 'data-qa-id': dataQaId, className, style, children, ...props
   })
 
   return (
-    <span data-qa-id={qaId} className={classnames({ [className]: className })} style={{ ...style }} {...props}>
+    <span data-qa-id={qaId} className={classnames({ [className]: className })} style={style} {...props}>
       {children}
     </span>
   )

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import Button from '../../components/Button/Button';
 import ModalDialog from '../../components/ModalDialog/ModalDialog';
-import TextField from '../../components/TextField/TextField';
+import TextBox from '../../components/TextBox/TextBox';
 
 // A button that opens a ModalDialog, plus a line saying what the user did.
 // OK and Cancel close the dialog themselves; the parent's open state is reset
@@ -32,7 +32,7 @@ const NeedsName = () => {
   const [name, setName] = useState('');
   return (
     <Demo title="New folder" okayButtonLabel="Create" okayEnabled={name.trim() !== ''}>
-      <TextField label="Folder name" value={name} onChange={(e) => setName(e.target.value)} />
+      <TextBox label="Folder name" value={name} onChange={(e) => setName(e.target.value)} />
     </Demo>
   );
 };
@@ -88,7 +88,7 @@ export default {
   onOkay={create}
   onCancel={close}
 >
-  <TextField label="Folder name" value={name} onChange={(e) => setName(e.target.value)} />
+  <TextBox label="Folder name" value={name} onChange={(e) => setName(e.target.value)} />
 </ModalDialog>`,
       output: <NeedsName />
     },

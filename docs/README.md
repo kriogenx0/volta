@@ -78,8 +78,11 @@ Each component's directory has a `README.md` guideline (when to use it, usage,
 props, accessibility, do and don't); see
 [docs/features/component_guidelines.md](features/component_guidelines.md).
 
-`TextBox` is an alias for `TextField` (it adds a `c-text_box` wrapper class for
-ironyoung-web's own styles); both are exported. `SegmentedControlMini` is an
+`TextField` and `Textarea` are other names for `TextBox` (`TextField === TextBox`;
+`Textarea` is `<TextBox multiline />`), and `DateInput` is another name for
+`DatePicker`; all are exported. `NumericField` is a `TextBox` with number
+formatting. The wrapper carries `c-text_box` (`c-textarea` when multiline) for
+ironyoung-web's own styles. `SegmentedControlMini` is an
 alias for `<SegmentedControl mini />`; both are exported. `LoaderLinearProgress`
 is an alias for `<ProgressBar fixed variant="flowing" />` (a bar pinned to the
 top of the window; its `progress` prop is `ProgressBar`'s `percent`); both are

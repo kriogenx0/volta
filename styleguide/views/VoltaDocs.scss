@@ -62,7 +62,7 @@
 }
 
 .v-docs-nav {
-  display: flex;
+  // The SegmentedControl in the header; only what differs from the component
   gap: 3px;
   padding: 4px;
   border: 1px solid $color_base_subtle;
@@ -73,25 +73,16 @@
     background: color-mix(in srgb, $color_base-more-subtle_dark 72%, transparent);
   }
 
-  button {
+  .volta-segmented_control-option {
     padding: 7px 12px;
-    border: 0;
     border-radius: 8px;
-    color: $color_trim-subtle;
-    background: transparent;
-    font: inherit;
     font-size: 12px;
     font-weight: 560;
-    cursor: pointer;
-    transition: color var(--v-anim-speed), background var(--v-anim-speed), box-shadow var(--v-anim-speed);
+  }
 
-    &:hover { color: $color_trim; }
-    &.active {
-      color: $color_trim;
-      background: $color_base;
-      box-shadow: 0 1px 2px rgb(0 0 0 / 8%), 0 0 0 1px rgb(0 0 0 / 3%);
-      @include dark { background: $color_base_less_subtle_dark; }
-    }
+  .volta-segmented_control-thumb {
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 8%), 0 0 0 1px rgb(0 0 0 / 3%);
   }
 }
 
@@ -131,7 +122,7 @@
 
 @media (max-width: 560px) {
   .v-docs-brand small { display: none; }
-  .v-docs-nav button { padding-inline: 10px; }
+  .v-docs-nav .volta-segmented_control-option { padding-inline: 10px; }
 }
 
 // Shared section header used by Colors, Type, Layout

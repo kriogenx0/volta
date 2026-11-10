@@ -179,3 +179,14 @@ describe('NumericField with the automatic JSX runtime', () => {
     expect(field()).not.toHaveAttribute('onblurformat');
   });
 });
+
+describe('NumericField as a TextBox', () => {
+  it('takes the TextBox label, hint and error', () => {
+    const { container } = render(<NumericField label="Quantity" hint="Whole numbers" error="Too many" value={3} />);
+    const input = screen.getByLabelText('Quantity');
+    expect(input).toHaveAttribute('type', 'number');
+    expect(input).toHaveAccessibleDescription('Whole numbers Too many');
+    expect(input).toBeInvalid();
+    expect(container.querySelector('.volta-textbox.volta-numericfield')).toBeInTheDocument();
+  });
+});

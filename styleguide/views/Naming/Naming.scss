@@ -1,0 +1,104 @@
+// Page of notes: conventions as cards, then the design principles. Colours come
+// from the theme tokens, so it follows light and dark with no overrides.
+.view-naming {
+  max-width: 820px;
+  padding: 12px 0 56px;
+
+  .naming-hero {
+    padding: 56px 0 32px;
+
+    h1 {
+      margin: 12px 0 16px;
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 680;
+      letter-spacing: -0.045em;
+      line-height: 1.05;
+    }
+  }
+
+  .naming-eyebrow {
+    color: var(--v-accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .naming-tagline,
+  .naming-intro {
+    margin: 0;
+    max-width: 640px;
+    color: var(--v-color-trim-subtle);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  .naming-section {
+    margin-top: 32px;
+
+    > h2 {
+      margin: 0 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--v-color-base-subtle);
+      font-size: 21px;
+      letter-spacing: -0.02em;
+    }
+  }
+
+  .naming-card {
+    margin-bottom: 16px;
+    padding: 16px 24px;
+    border: 1px solid var(--v-color-base-subtle);
+    border-radius: 10px;
+
+    h3 { margin: 0 0 8px; font-size: 15px; }
+    p { margin: 0 0 8px; font-size: 14px; line-height: 1.6; }
+
+    .naming-note {
+      margin: 12px 0 0;
+      color: var(--v-color-trim-subtle);
+      font-size: 12px;
+    }
+  }
+
+  .naming-compare {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+  }
+
+  // The label is text as well as colour, so the meaning is not carried by colour alone.
+  .naming-label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    &--prefer { color: var(--v-color-success); }
+    &--avoid { color: var(--v-color-danger); }
+  }
+
+  .naming-names {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li { margin: 4px 0; overflow-wrap: anywhere; }
+
+    &--avoid code { text-decoration: line-through; }
+  }
+
+  .naming-list {
+    margin: 0 0 24px;
+    padding-left: 24px;
+    font-size: 14px;
+    line-height: 1.6;
+
+    li { margin-bottom: 4px; }
+  }
+
+  .naming-subhead { margin: 24px 0 8px; font-size: 15px; }
+}

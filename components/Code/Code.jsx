@@ -20,7 +20,7 @@ const Code = ({ children, language = 'jsx', theme = 'dark', inline = false, clas
 
   if (inline) {
     return (
-      <code className={['volta-code', 'volta-code-inline', className].filter(Boolean).join(' ')} {...otherProps}>
+      <code className={['volta-code-inline', className].filter(Boolean).join(' ')} {...otherProps}>
         {code}
       </code>
     );
@@ -31,7 +31,7 @@ const Code = ({ children, language = 'jsx', theme = 'dark', inline = false, clas
       <SyntaxHighlighter
         language={language}
         style={THEMES[theme] || THEMES.dark}
-        customStyle={{ margin: 0 }}
+        customStyle={{ margin: 0, borderRadius: 'inherit' }}
       >
         {code}
       </SyntaxHighlighter>

@@ -5,7 +5,7 @@ An address search box above a Google map: the user searches, and you get the pla
 ## When to use
 
 - **Letting the user pick a location by address**, such as a store, an event venue or a delivery address. `onChange` gets the found place.
-- Use [`Map`](../Map/README.md) directly when you only display a place or bring your own search UI. Use [`TextField`](../TextField/README.md) when you only need the address as text.
+- Use [`Map`](../Map/README.md) directly when you only display a place or bring your own search UI. Use [`TextField`](../TextBox/README.md) when you only need the address as text.
 - It needs a network connection, because the map and the address suggestions come from Google. Offline, the search box still works but the map area stays blank.
 
 ## Usage

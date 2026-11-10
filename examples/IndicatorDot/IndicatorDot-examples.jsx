@@ -21,12 +21,12 @@ export default {
     },
     {
       name: 'Row of indicators',
-      code: `<div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+      code: `<div className="example-row">
   <IndicatorDot variant="complete" /> Complete
   <IndicatorDot /> In Progress
 </div>`,
       output: (
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <div className="example-row">
           <IndicatorDot variant="complete" /> Complete
           &nbsp;&nbsp;
           <IndicatorDot /> In Progress

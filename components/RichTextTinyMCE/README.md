@@ -5,7 +5,7 @@ A TinyMCE rich text editor, self-hosted, with a small toolbar and an HTML source
 ## When to use
 
 - **Formatted text that people may also want to edit as HTML:** the toolbar has a `code` button that opens the source.
-- Use [`RichTextQuill`](../RichTextQuill/README.md) for a lighter editor with a wider toolbar (fonts, colours, lists, media). Use [`Textarea`](../Textarea/README.md) for plain text.
+- Use [`RichTextQuill`](../RichTextQuill/README.md) for a lighter editor with a wider toolbar (fonts, colours, lists, media). Use [`Textarea`](../TextBox/README.md) for plain text.
 - The toolbar is fixed: undo, redo, bold, italic, left, centre and right alignment, and code. The `link` and `image` plugins are loaded.
 
 ## Usage
@@ -37,4 +37,4 @@ No other prop is read. The toolbar, plugins and the GPL license key are fixed in
 - Do sanitise HTML that came from another user before rendering it elsewhere; the value is markup.
 - Don't add a TinyMCE API key or Tiny Cloud script; it is self-hosted under the GPL license.
 - Don't expect to configure plugins or the toolbar through props; extend the component instead.
-- Don't use it for short text; use [`TextField`](../TextField/README.md).
+- Don't use it for short text; use [`TextField`](../TextBox/README.md).

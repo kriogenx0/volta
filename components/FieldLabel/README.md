@@ -23,7 +23,8 @@ import { FieldLabel, TextField } from 'volta';
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `htmlFor` | `string` | | The `id` of the control this labels. Clicking the label focuses it. |
+| `id` | `string` | | The label's own id. A `Field` sets it for you so its group can point at the label. |
+| `htmlFor` | `string` | | The `id` of the control this labels. Clicking the label focuses it. Inside a [`Field`](../Field/README.md) it is set for you. |
 | `optional` | `bool` | | Adds an " (optional)" marker, in a lighter weight and colour, after the text. |
 | `children` | `node` | | The label text, or text with a little markup such as `<strong>`. |
 

@@ -40,6 +40,33 @@ $border-rad: 3px;
   background: var(--v-color-base-more-subtle);
   -webkit-user-select: none;
   user-select: none;
+  position: relative;
+}
+
+// The highlight behind the selected option; it slides when the selection changes.
+.volta-segmented_control-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 4px;
+  background: var(--v-color-base);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
+  pointer-events: none;
+}
+
+.volta-segmented_control--mini .volta-segmented_control-thumb {
+  border-radius: 6px;
+}
+
+// Not on the first paint, so it doesn't slide in from the corner.
+.volta-segmented_control-thumb--animate {
+  transition: transform var(--v-anim-speed) var(--v-anim-ease), width var(--v-anim-speed) var(--v-anim-ease), height var(--v-anim-speed) var(--v-anim-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .volta-segmented_control-thumb--animate {
+    transition: none;
+  }
 }
 
 .volta-segmented_control--md {
@@ -56,6 +83,7 @@ $border-rad: 3px;
 }
 
 .volta-segmented_control-option {
+  position: relative; // above the highlight
   padding: 4px 12px;
   border: 0;
   border-radius: 4px;
@@ -64,7 +92,7 @@ $border-rad: 3px;
   cursor: pointer;
   font: inherit;
   font-weight: 500;
-  transition: background-color var(--v-anim-speed), box-shadow var(--v-anim-speed), color var(--v-anim-speed);
+  transition: color var(--v-anim-speed);
 
   &:hover:not(:disabled):not(.volta-segmented_control-option--active) {
     color: var(--v-color-trim);
@@ -80,9 +108,8 @@ $border-rad: 3px;
     opacity: .5;
   }
 
+  // The background comes from the sliding highlight
   &.volta-segmented_control-option--active {
-    background: var(--v-color-base);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
     color: var(--v-color-trim);
     cursor: default;
   }

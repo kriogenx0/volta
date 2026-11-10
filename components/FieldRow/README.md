@@ -27,10 +27,13 @@ import { FieldRow, TextField } from 'volta';
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
 | `label` | `node` | | The left column. Text, or markup. |
-| `children` | `node` | | The right column. It grows to fill the rest of the row. |
+| `hint` | `string` | | Help text under the control, read with it by a screen reader. |
+| `error` | `string` | | An error message under the control. Marks the control invalid. |
+| `htmlFor` | `string` | | The id of a control the row doesn't make (a native `<input id="...">`). |
+| `children` | `node` | | The right column. It grows to fill the rest of the row. A direct `FieldLabel` or `FieldHint` is connected to the control the way it is in [`Field`](../Field/README.md). |
 | `centered` | `bool` | `false` | Centres the label and the body vertically. Without it they align to the top. |
 
-`FieldRow` has no `propTypes` and takes no `className` or other props.
+`FieldRow` takes no `className` or other props.
 
 ## Variants and states
 
@@ -38,9 +41,9 @@ On desktop the label column is 25% of the row, between 150px and 280px wide, and
 
 ## Accessibility
 
-- The label is a `div`, not a `<label>`. It is not tied to the control, so it does not name it for a screen reader and clicking it does not focus the control.
-- Give the control an accessible name of its own, such as `aria-label` on it, matching the row label.
-- The row adds no roles or keyboard behaviour; the control inside keeps its own.
+- The label is a real `<label>`. With one control inside it is tied to it, so it names the control and clicking it focuses the control; the hint and error describe it and an error marks it invalid.
+- With several controls the label names a `role="group"` instead; give each control its own name.
+- The row adds no keyboard behaviour; the control inside keeps its own.
 
 ## Do and don't
 

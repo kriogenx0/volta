@@ -179,6 +179,30 @@
     gap: 16px;
   }
 
+  // A row of things side by side; the modifiers set the gap (default 8px).
+  .example-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+
+    &--cozy { gap: 12px; }
+    &--roomy { gap: 16px; }
+    &--wide { gap: 24px; }
+  }
+
+  // A line of small muted text under an example's output
+  .example-note {
+    margin: 8px 0 0;
+    color: var(--v-color-trim-subtle);
+    font-size: 12px;
+  }
+
+  // Keeps a form or field example to a readable width
+  .example-narrow {
+    max-width: 440px;
+  }
+
   // Holds a `position: fixed` example (a page-level loader) inside its own box:
   // a transform makes this the fixed element's containing block.
   .example-fixed_frame {
@@ -199,11 +223,13 @@
       outline-offset: -2px;
     }
 
-    // Let the code background fill the panel when the example is taller
+    // Let the code background fill the panel when the example is taller. The panel
+    // beside the output has square corners; the card's own corner clips the last one.
     .volta-code,
     .volta-code pre {
       box-sizing: border-box;
       height: 100%;
+      border-radius: 0;
     }
   }
 }

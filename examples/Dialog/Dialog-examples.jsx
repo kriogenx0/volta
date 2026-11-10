@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import Button from '../../components/Button/Button';
 import Dialog from '../../components/Dialog/Dialog';
-import TextField from '../../components/TextField/TextField';
+import TextBox from '../../components/TextBox/TextBox';
 
 // A button that opens a Dialog, plus a line saying what the user did. Save and
 // Close close the dialog themselves, so the parent's open state is reset in both
@@ -32,7 +32,7 @@ const NeedsName = () => {
   const [name, setName] = useState('');
   return (
     <Demo title="Add tag" titleSave="Add" saveEnabled={name.trim() !== ''}>
-      <TextField label="Tag name" value={name} onChange={(e) => setName(e.target.value)} />
+      <TextBox label="Tag name" value={name} onChange={(e) => setName(e.target.value)} />
     </Demo>
   );
 };
@@ -81,7 +81,7 @@ export default {
   handleSave={add}
   handleClose={close}
 >
-  <TextField label="Tag name" value={name} onChange={(e) => setName(e.target.value)} />
+  <TextBox label="Tag name" value={name} onChange={(e) => setName(e.target.value)} />
 </Dialog>`,
       output: <NeedsName />
     },

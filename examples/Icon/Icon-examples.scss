@@ -1,0 +1,28 @@
+.example-icon_tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 80px;
+
+  &--drawn {
+    width: 96px;
+    font-size: 28px;
+  }
+
+  &-name {
+    color: var(--v-color-trim-subtle);
+    font-size: 10px;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+
+  &--drawn &-name { font-size: 11px; }
+}
+
+.example-icon_status {
+  font-size: 32px;
+
+  &--ok { color: var(--v-color-success); }
+  &--error { color: var(--v-color-danger); }
+}

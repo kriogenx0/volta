@@ -17,26 +17,31 @@ h6,
 }
 
 // Primitive Tags
+// Inline code. This is the one look for code in running text: the Code component's
+// `inline` renders a bare <code> and takes it from here. A block of code is the
+// Code component (a highlighted <pre>), not a <code> on its own.
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-  white-space: pre;
-  color: #666;
-  background-color: #f1f1f1;
-  padding: 15px;
-  display: block;
-
-  font-size: 10pt;
-  background-color: $color_base_subtle;
-  color: $color_base_subtle_dark;
-  @include dark {
-    background-color: $color_base_subtle_dark;
-    color: $color_base_subtle;
-  }
+  display: inline;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+  background-color: var(--v-color-base-subtle);
+  color: var(--v-color-trim);
 
   &.error {
-    background-color: #f9f2f4;
-    color: #c7254e;
+    background-color: var(--v-color-danger-subtle);
+    color: var(--v-color-danger);
   }
+}
+
+// Inside a <pre> the block supplies the look (and the highlighter its own colours)
+pre code {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
 }
 
 a {

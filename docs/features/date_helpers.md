@@ -19,7 +19,7 @@ The changing methods **mutate**. Components therefore make a new `Dater` for eac
 ## Who uses it
 
 - `components/Calendar/Calendar.jsx`: its `onDateSelect` receives a `Dater`, and its `date` prop accepts one.
-- `components/DatePicker/Calendar.jsx`: the calendar inside `DatePicker` and `DateInput`.
+- `components/DatePicker/Calendar.jsx`: the calendar inside `DatePicker` (also exported as `DateInput`).
 
 ## Tests
 

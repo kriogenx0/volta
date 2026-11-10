@@ -46,13 +46,6 @@
 
     strong { font-size: 13px; }
 
-    code {
-      display: inline;
-      padding: 3px 8px;
-      font-size: 12px;
-      background: $color_base_subtle;
-      @include dark { background: $color_base_subtle_dark; }
-    }
   }
 
   .color-group {

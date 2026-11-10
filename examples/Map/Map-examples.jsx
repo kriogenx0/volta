@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import Map from '../../components/Map/Map';
 import Button from '../../components/Button/Button';
-import TextField from '../../components/TextField/TextField';
+import TextBox from '../../components/TextBox/TextBox';
 
 const PLACES = {
   Paris: { lat: 48.8566, lng: 2.3522 },
@@ -24,7 +24,7 @@ const AddressSearch = () => {
 
   return (
     <div className="example-stack">
-      <TextField label="Address" value={draft} onChange={(e) => setDraft(e.target.value)} />
+      <TextBox label="Address" value={draft} onChange={(e) => setDraft(e.target.value)} />
       <div>
         <Button variant="primary" onClick={search}>Find on map</Button>
       </div>
@@ -74,7 +74,7 @@ export default {
       name: 'Search for an address',
       code: `const [address, setAddress] = useState('');
 
-<TextField label="Address" value={draft} onChange={(e) => setDraft(e.target.value)} />
+<TextBox label="Address" value={draft} onChange={(e) => setDraft(e.target.value)} />
 <Button onClick={() => setAddress(draft)}>Find on map</Button>
 <Map
   value={address}

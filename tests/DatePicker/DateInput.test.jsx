@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import DateInput from '../../components/DateInput/DateInput';
-import DatePicker from '../../components/DatePicker/DatePicker';
+import DatePicker, { DateInput } from '../../components/DatePicker/DatePicker';
 
 describe('DateInput', () => {
   it('is a compatibility alias of DatePicker', () => {

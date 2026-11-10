@@ -31,7 +31,7 @@ import { TagInput } from 'volta';
 | `onChange` | `function` | | Called with the full array of tags when one is added or removed, not on each keystroke. |
 | `removable` | `bool` | `false` | Shows an x button on each tag. Without it tags can't be removed. |
 
-Every other prop goes to the [`TextField`](../TextField/README.md) (`label`, `placeholder`, `fieldSize`, `error`, `disabled`, ...), whose `name` defaults to `tags`. Adding a tag that is already in the list, or an empty one, does nothing. The keys that add a tag are listed in `TagInput.submitKeys`. Text that is typed but not submitted is not turned into a tag when the field loses focus.
+Every other prop goes to the [`TextField`](../TextBox/README.md) (`label`, `placeholder`, `fieldSize`, `error`, `disabled`, ...), whose `name` defaults to `tags`. Adding a tag that is already in the list, or an empty one, does nothing. The keys that add a tag are listed in `TagInput.submitKeys`. Text that is typed but not submitted is not turned into a tag when the field loses focus.
 
 ## Accessibility
 

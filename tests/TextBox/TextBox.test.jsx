@@ -1,9 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 
-import TextField, { TextBox } from '../../components/TextField/TextField';
+import TextBox, { TextField } from '../../components/TextBox/TextBox';
 import * as barrel from '../../components';
 
-describe('TextField', () => {
+describe('TextBox', () => {
   it('renders without crashing', () => {
     const { container } = render(<TextField />);
     expect(container).toBeInTheDocument();
@@ -17,9 +17,9 @@ describe('TextField', () => {
 
   it('defaults to the small size and accepts the medium one', () => {
     const { container, rerender } = render(<TextField />);
-    expect(container.firstChild).toHaveClass('volta-textfield--sm');
+    expect(container.firstChild).toHaveClass('volta-textbox--sm');
     rerender(<TextField fieldSize="md" />);
-    expect(container.firstChild).toHaveClass('volta-textfield--md');
+    expect(container.firstChild).toHaveClass('volta-textbox--md');
   });
 
   it('renders a textarea when multiline and passes className to the control', () => {
@@ -41,7 +41,7 @@ describe('TextField', () => {
   it('disables the control and marks the wrapper', () => {
     const { container } = render(<TextField disabled defaultValue="locked" />);
     expect(screen.getByRole('textbox')).toBeDisabled();
-    expect(container.firstChild).toHaveClass('textfield-disabled');
+    expect(container.firstChild).toHaveClass('textbox-disabled');
   });
 
   it('calls validate with the current text on key up', () => {
@@ -67,7 +67,7 @@ describe('TextField', () => {
       expect(screen.getByText('Too short')).toBeInTheDocument();
       expect(input).toHaveAttribute('aria-invalid', 'true');
       expect(input).toHaveAccessibleDescription('Too short');
-      expect(container.querySelector('.volta-textfield')).toHaveClass('textfield-error');
+      expect(container.querySelector('.volta-textbox')).toHaveClass('textbox-error');
     });
 
     it('works without a label and keeps a caller aria-describedby', () => {
@@ -79,7 +79,7 @@ describe('TextField', () => {
       const { container } = render(<TextField label="Username" />);
       expect(screen.getByLabelText('Username')).not.toHaveAttribute('aria-invalid');
       expect(container.querySelector('.volta-error_text')).toBeNull();
-      expect(container.querySelector('.textfield-error')).toBeNull();
+      expect(container.querySelector('.textbox-error')).toBeNull();
     });
 
     it('marks a multiline field invalid too', () => {
@@ -92,14 +92,14 @@ describe('TextField', () => {
     it('renders a TextField with the c-text_box compat class', () => {
       const { container } = render(<TextBox placeholder="Same" />);
       expect(container.querySelector('.c-text_box')).toBeInTheDocument();
-      expect(container.firstChild).toHaveClass('volta-textfield', 'volta-textfield--sm');
+      expect(container.firstChild).toHaveClass('volta-textbox', 'volta-textbox--sm');
       expect(screen.getByPlaceholderText('Same')).toBeInTheDocument();
     });
 
     it('accepts every TextField prop, including its own wrapperClassName', () => {
       const { container } = render(<TextBox label="Name" fieldSize="md" wrapperClassName="mine" />);
       expect(screen.getByLabelText('Name')).toBeInTheDocument();
-      expect(container.querySelector('.volta-textfield--md')).toBeInTheDocument();
+      expect(container.querySelector('.volta-textbox--md')).toBeInTheDocument();
       expect(container.querySelector('.mine')).toBeInTheDocument();
     });
 
@@ -107,5 +107,28 @@ describe('TextField', () => {
       expect(barrel.TextBox).toBe(TextBox);
       expect(barrel.TextField).toBe(TextField);
     });
+  });
+});
+
+describe('TextBox aliases', () => {
+  it('TextField is TextBox itself', () => {
+    expect(TextField).toBe(TextBox);
+    expect(barrel.TextField).toBe(barrel.TextBox);
+  });
+
+  it('Textarea is a multiline TextBox', () => {
+    const { container } = render(<barrel.Textarea placeholder="Write" />);
+    expect(screen.getByPlaceholderText('Write').tagName).toBe('TEXTAREA');
+    expect(container.firstChild).toHaveClass('volta-textbox', 'c-textarea');
+  });
+
+  it('multiline takes resize and height, a single line ignores them', () => {
+    const { rerender } = render(<TextBox multiline resize="y" height={120} aria-label="Notes" />);
+    expect(screen.getByLabelText('Notes')).toHaveClass('resize-y');
+    expect(screen.getByLabelText('Notes')).toHaveStyle({ height: '120px' });
+
+    rerender(<TextBox resize="y" height={120} aria-label="Notes" />);
+    expect(screen.getByLabelText('Notes')).not.toHaveClass('resize-y');
+    expect(screen.getByLabelText('Notes')).not.toHaveAttribute('style');
   });
 });

@@ -2,10 +2,12 @@
 
 A number input that blocks non-numeric typing and formats its value when the user leaves the field.
 
+It is a [`TextBox`](../TextBox/README.md) that overrides the typing, focus and blur handling, so it also takes `label`, `hint`, `error`, `optional` and `fieldSize`, and works inside a `Field`.
+
 ## When to use
 
 - **A quantity, price or measurement** the user types as a number. Pick how it is shown with `onBlurFormat`, and read the result in `onBlurChange`.
-- Use [`TextField`](../TextField/README.md) for text and for numbers that are really identifiers (phone numbers, postal codes, IDs), because formatting drops leading zeros. Use [`Slider`](../Slider/README.md) to pick a value from a range by dragging.
+- Use [`TextBox`](../TextBox/README.md) for text and for numbers that are really identifiers (phone numbers, postal codes, IDs), because formatting drops leading zeros. Use [`Slider`](../Slider/README.md) to pick a value from a range by dragging.
 - It is a bare input. Put it in a [`Field`](../Field/README.md) for a visible caption, and give it `aria-label`.
 
 ## Usage
@@ -51,4 +53,4 @@ Any other prop goes to the `<input type="number">` (`min`, `max`, `step`, `name`
 - Do set `onBlurFormat` when decimals matter; the default rounds to a whole number.
 - Do keep the committed value in state from `onBlurChange`, and use `onChange` only to react while typing.
 - Don't use it for negative numbers without a `whenTypingFormat` that allows `-`.
-- Don't use it for IDs, phone or postal codes; use a `TextField`.
+- Don't use it for IDs, phone or postal codes; use a `TextBox`.

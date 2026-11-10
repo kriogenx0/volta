@@ -1,9 +1,8 @@
 import { useState } from 'react';
 
 import Field from '../../components/Field/Field';
-import TextField from '../../components/TextField/TextField';
+import TextBox from '../../components/TextBox/TextBox';
 import Select from '../../components/Select/Select';
-import Textarea from '../../components/Textarea/Textarea';
 import Checkbox from '../../components/Checkbox/Checkbox';
 import Toggle from '../../components/Toggle/Toggle';
 
@@ -18,9 +17,9 @@ const ProfileForm = () => {
   const [updates, setUpdates] = useState(true);
 
   return (
-    <form style={{ maxWidth: 440 }} onSubmit={(event) => event.preventDefault()}>
+    <form className="example-narrow" onSubmit={(event) => event.preventDefault()}>
       <Field label="Name">
-        <TextField name="name" defaultValue="Alex Morgan" />
+        <TextBox name="name" defaultValue="Alex Morgan" />
       </Field>
       <Field label="Role">
         <Select
@@ -31,7 +30,7 @@ const ProfileForm = () => {
         />
       </Field>
       <Field label="Bio">
-        <Textarea name="bio" rows={3} resize="y" placeholder="A short introduction" />
+        <TextBox multiline name="bio" rows={3} resize="y" placeholder="A short introduction" />
       </Field>
       <Field>
         <Checkbox
@@ -65,11 +64,11 @@ export default {
     {
       name: 'Field with label',
       code: `<Field label="Username">
-  <TextField placeholder="Enter username" />
+  <TextBox placeholder="Enter username" />
 </Field>`,
       output: (
         <Field label="Username">
-          <TextField placeholder="Enter username" />
+          <TextBox placeholder="Enter username" />
         </Field>
       )
     },
@@ -77,13 +76,13 @@ export default {
       name: 'Complete profile form',
       code: `<form>
   <Field label="Name">
-    <TextField name="name" defaultValue="Alex Morgan" />
+    <TextBox name="name" defaultValue="Alex Morgan" />
   </Field>
   <Field label="Role">
     <Select name="role" options={roles} />
   </Field>
   <Field label="Bio">
-    <Textarea name="bio" rows={3} resize="y" />
+    <TextBox multiline name="bio" rows={3} resize="y" />
   </Field>
   <Field>
     <Checkbox label="Send me product updates" />
@@ -105,11 +104,11 @@ export default {
     {
       name: 'Multiline field',
       code: `<Field label="Project notes">
-  <Textarea rows={4} resize="y" placeholder="Add context for your team…" />
+  <TextBox multiline rows={4} resize="y" placeholder="Add context for your team…" />
 </Field>`,
       output: (
         <Field label="Project notes">
-          <Textarea rows={4} resize="y" placeholder="Add context for your team…" />
+          <TextBox multiline rows={4} resize="y" placeholder="Add context for your team…" />
         </Field>
       )
     },
@@ -123,18 +122,18 @@ export default {
     {
       name: 'Hint and error',
       code: `<Field label="Email" hint="Use your work address">
-  <TextField type="email" />
+  <TextBox type="email" />
 </Field>
 <Field label="Email" error="That doesn't look like an email address">
-  <TextField type="email" defaultValue="alex@" />
+  <TextBox type="email" defaultValue="alex@" />
 </Field>`,
       output: (
         <>
           <Field label="Email" hint="Use your work address">
-            <TextField type="email" />
+            <TextBox type="email" />
           </Field>
           <Field label="Email" error="That doesn't look like an email address">
-            <TextField type="email" defaultValue="alex@" />
+            <TextBox type="email" defaultValue="alex@" />
           </Field>
         </>
       )
@@ -142,15 +141,15 @@ export default {
     {
       name: 'Several controls as a group',
       code: `<Field label="Date of birth" hint="As on your passport">
-  <TextField aria-label="Day" />
-  <TextField aria-label="Month" />
-  <TextField aria-label="Year" />
+  <TextBox aria-label="Day" />
+  <TextBox aria-label="Month" />
+  <TextBox aria-label="Year" />
 </Field>`,
       output: (
         <Field label="Date of birth" hint="As on your passport">
-          <TextField aria-label="Day" />
-          <TextField aria-label="Month" />
-          <TextField aria-label="Year" />
+          <TextBox aria-label="Day" />
+          <TextBox aria-label="Month" />
+          <TextBox aria-label="Year" />
         </Field>
       )
     },

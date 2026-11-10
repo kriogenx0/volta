@@ -1,3 +1,5 @@
+import Code from '../../../components/Code';
+
 import './Home.scss';
 
 const Home = () => (
@@ -43,13 +45,13 @@ const Home = () => (
         <h2>Import what you need.</h2>
         <p>The package exposes a single, stable entry point and ships styles with the component bundle.</p>
       </div>
-      <code>{`// 1. Copy volta into your project
+      <Code>{`// 1. Copy volta into your project
 npm install ../path/to/volta
 
 // 2. Import from the library entry point
 import { Button, Card, Theme } from 'volta';
 
-<Button variant="primary">Get Started</Button>`}</code>
+<Button variant="primary">Get Started</Button>`}</Code>
     </div>
   </div>
 );

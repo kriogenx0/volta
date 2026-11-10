@@ -5,7 +5,7 @@ A date field: a text box that shows the chosen date and opens a one-month calend
 ## When to use
 
 - **Picking one calendar day in a form** (a due date, a birthday), optionally limited to a range with `minDate` and `maxDate`.
-- `DateInput` is the older name for the same component (see [`DateInput`](../DateInput/README.md)).
+- `DateInput` is the older name for the same component; see [DateInput](#dateinput).
 - A bare month grid without the text box is `CalendarMini`, below. A grid that returns a `Dater` is [`Calendar`](../Calendar/README.md). A time of day is a [`TimePicker`](../TimePicker/README.md).
 - It picks a date only: no time, no range of two dates, and the user cannot type into the box.
 
@@ -54,6 +54,10 @@ Any other prop goes to the text box through `TextField` (`label`, `placeholder`,
 ## DateFormat
 
 `DateFormat({ date, format, fromNow, empty })` is a plain function that returns a string (use it as `{DateFormat({ date })}`). It uses moment tokens, not the date-fns tokens of `DatePicker`'s `format`. `format` defaults to `'MMMM D, YYYY'`; `fromNow` gives "3 days ago" instead; `empty` (default `''`) is returned when there is no `date`.
+
+## DateInput
+
+`DateInput` is `DatePicker` itself (`DateInput === DatePicker`), kept so existing screens keep working. It has no props or behaviour of its own; new code uses `DatePicker`.
 
 ## Accessibility
 

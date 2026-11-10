@@ -1,3 +1,5 @@
+import Code from '../../../components/Code';
+
 import './Type-examples.scss';
 
 const typeScale = [
@@ -33,7 +35,7 @@ const TypeExamples = () => (
           <tr>
             <td><strong>Headings</strong></td>
             <td><code>SF Pro Display, -apple-system, Helvetica Neue</code></td>
-            <td style={{ fontFamily: '"SF Pro Display", -apple-system, "Helvetica Neue", sans-serif', fontWeight: 500 }}>
+            <td className="type-sample--heading">
               The quick brown fox
             </td>
           </tr>
@@ -91,8 +93,8 @@ const TypeExamples = () => (
       <p>
         Inline code appears like <code>this.value</code> with a subtle background.
       </p>
-      <code>{`const greeting = "Hello, Volta!";
-console.log(greeting);`}</code>
+      <Code>{`const greeting = "Hello, Volta!";
+console.log(greeting);`}</Code>
     </div>
 
     <div className="panel type-section">

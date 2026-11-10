@@ -1,11 +1,13 @@
 # The styleguide
 
-The styleguide is the app in `styleguide/` (Vite, `make dev` or `make up`): a shell with five pages (Home, Components, Colors, Type, Layout), the live examples for every component, and header controls for the theme, light or dark, a custom accent and the animation speed.
+The styleguide is the app in `styleguide/` (Vite, `make dev` or `make up`): a shell with six pages (Home, Components, Colors, Type, Layout, Naming), the live examples for every component, and header controls for the theme, light or dark, a custom accent and the animation speed.
 
 ## What it shows
 
 - **Components**: a sidebar of every component by group (`styleguide/views/ComponentExamples/componentGroups.js`) and, for the chosen one, its description and each example, live next to its code. An example that throws is replaced by a "Couldn't render" box instead of taking the page down.
-- **Header**: the **Theme** dropdown (`docs/features/theming.md`), a custom accent, Auto / Light / Dark, and the animation speed.
+- **Naming**: the naming conventions and design principles ([Naming conventions](naming_conventions.md)).
+- **The current page** is kept in the URL hash (`#components`), so a refresh, the back button and a pasted link open the same page.
+- **Header**: the page switcher (a `SegmentedControl` in `navigation` mode whose highlight slides to the chosen page), the **Theme** dropdown (`docs/features/theming.md`), a custom accent, Auto / Light / Dark, and the animation speed.
 - A new component needs its examples in `examples/<Name>/<Name>-examples.jsx`, registered in `styleguide/views/ComponentExamples/components.jsx` and listed in a group in `componentGroups.js`.
 
 ## What is tested

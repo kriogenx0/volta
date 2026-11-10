@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 
-import Textarea from '../../components/Textarea/Textarea';
+import TextBox, { Textarea } from '../../components/TextBox/TextBox';
 
-describe('Textarea', () => {
+describe('TextBox multiline (Textarea)', () => {
   it('renders without crashing', () => {
     const { container } = render(<Textarea />);
     expect(container).toBeInTheDocument();
@@ -13,7 +13,7 @@ describe('Textarea', () => {
     const textarea = screen.getByPlaceholderText('Write');
     expect(textarea.tagName).toBe('TEXTAREA');
     expect(textarea).toHaveAttribute('rows', '4');
-    expect(container.firstChild).toHaveClass('volta-textfield', 'textfield-multiline', 'c-textarea');
+    expect(container.firstChild).toHaveClass('volta-textbox', 'textbox-multiline', 'c-textarea');
   });
 
   it('is controlled by value and reports changes', () => {

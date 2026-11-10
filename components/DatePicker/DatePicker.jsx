@@ -5,8 +5,8 @@ import { format as formatDate } from 'date-fns';
 import { toQaId } from '../../util/formats';
 import { dateFormat, isDate } from '../../util/dateTimeUtils';
 import Dropdown from '../Dropdown';
-import Readonly from '../DateInput/Readonly';
-import TextField from '../TextField/TextField';
+import Readonly from './Readonly';
+import TextBox from '../TextBox/TextBox';
 import CalendarMini from './CalendarMini';
 
 import './DatePicker.scss';
@@ -46,7 +46,7 @@ const DatePicker = ({
   };
 
   const input = (
-    <TextField
+    <TextBox
       {...inputProps}
       className="volta-date_input"
       data-qa-id={qaId}
@@ -96,4 +96,8 @@ DatePicker.propTypes = {
   value: PropTypes.instanceOf(Date),
 };
 
+// DateInput is another name for DatePicker, kept for existing callers.
+const DateInput = DatePicker;
+
+export { DatePicker, DateInput };
 export default DatePicker;

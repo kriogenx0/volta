@@ -1,0 +1,19 @@
+.example-lazy_scroll {
+  height: 160px;
+  overflow: auto;
+  border: 1px solid var(--v-color-base-subtle);
+  border-radius: 4px;
+}
+
+.example-lazy_spacer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 280px;
+  color: var(--v-color-trim-subtle);
+}
+
+.example-lazy_content {
+  padding: 16px;
+  background: var(--v-accent-subtle);
+}

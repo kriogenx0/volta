@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 
 import FieldRow from '../../components/FieldRow/FieldRow';
 import Select from '../../components/Select/Select';
-import TextField from '../../components/TextField/TextField';
+import TextField from '../../components/TextBox/TextBox';
 
 describe('FieldRow', () => {
   it('renders without crashing', () => {

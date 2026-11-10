@@ -46,6 +46,6 @@ ToastMessage.success('Changes saved');
 
 - Do keep the text to one short sentence, written as the outcome ("Changes saved").
 - Do use `error` for a failed API call so it is not swallowed silently, and set `duration: 0` if there is no other trace of it.
-- Don't use a toast for validation messages beside a field; use `error` on [`TextField`](../TextField/README.md).
+- Don't use a toast for validation messages beside a field; use `error` on [`TextField`](../TextBox/README.md).
 - Don't fire several at once for one action.
 - Don't put buttons or links in a toast; it can disappear before they are used.

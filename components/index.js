@@ -19,8 +19,7 @@ import ColorPalettePicker from './ColorPalettePicker/ColorPalettePicker';
 import ColorPicker from './ColorPicker/ColorPicker';
 import ComboBox from './ComboBox/ComboBox';
 import ContentEditable from './ContentEditable/ContentEditable';
-import DateInput from './DateInput/DateInput';
-import DatePicker from './DatePicker/DatePicker';
+import DatePicker, { DateInput } from './DatePicker/DatePicker';
 import CalendarMini from './DatePicker/CalendarMini';
 import DateFormat from './DatePicker/DateFormat';
 import Dialog from './Dialog/Dialog';
@@ -48,6 +47,7 @@ import IconButton from './IconButton/IconButton';
 import IndicatorDot from './IndicatorDot/IndicatorDot';
 import Label from './Label/Label';
 import Layer from './Layer/Layer';
+import Lazy from './Lazy/Lazy';
 import Link from './Link/Link';
 import ListCard, { ListCardRow } from './ListCard/ListCard';
 import ListDefinitions from './ListDefinitions/ListDefinitions';
@@ -85,8 +85,7 @@ import TabsRouted from './TabsRouted/TabsRouted';
 import Tag from './Tag/Tag';
 import TagInput from './TagInput/TagInput';
 import TextEditable from './TextEditable/TextEditable';
-import TextField, { TextBox } from './TextField/TextField';
-import Textarea from './Textarea/Textarea';
+import TextBox, { TextField, Textarea } from './TextBox/TextBox';
 import Thumb from './Thumb/Thumb';
 import TimePicker from './TimePicker/TimePicker';
 import ToastMessage from './ToastMessage/ToastMessage';
@@ -147,6 +146,7 @@ export {
   IndicatorDot,
   Label,
   Layer,
+  Lazy,
   Link,
   ListCard,
   ListCardRow,

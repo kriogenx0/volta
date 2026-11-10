@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal/Modal';
-import TextField from '../../components/TextField/TextField';
+import TextBox from '../../components/TextBox/TextBox';
 
 const Titled = () => {
   const [show, setShow] = useState(false);
@@ -33,7 +33,7 @@ const WithForm = () => {
       <Button onClick={() => setShow(true)}>Rename</Button>
       <p>Saved name: {saved || 'none yet'}</p>
       <Modal show={show} title="Rename project" onClose={close}>
-        <TextField label="Name" value={name} onChange={(e) => setName(e.target.value)} />
+        <TextBox label="Name" value={name} onChange={(e) => setName(e.target.value)} />
         <p>
           <Button variant="primary" onClick={save}>Save</Button>{' '}
           <Button onClick={close}>Cancel</Button>
@@ -80,7 +80,7 @@ export default {
     {
       name: 'With a form',
       code: `<Modal show={show} title="Rename project" onClose={close}>
-  <TextField label="Name" value={name} onChange={(e) => setName(e.target.value)} />
+  <TextBox label="Name" value={name} onChange={(e) => setName(e.target.value)} />
   <Button variant="primary" onClick={save}>Save</Button>
   <Button onClick={close}>Cancel</Button>
 </Modal>`,

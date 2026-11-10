@@ -7,7 +7,7 @@ const TabsExample = () => {
   return (
     <div>
       <Tabs tabs={tabs} selectedTabKey={selectedKey} onSelect={(key) => setSelectedKey(key)} />
-      <div style={{ padding: '16px 0', fontSize: 13, color: '#666' }}>
+      <div className="example-note">
         Showing: {tabs[selectedKey]}
       </div>
     </div>
