@@ -1,14 +1,5 @@
-// The shapes of the Volta mark: a voltaic pile, the stack of discs Volta built the first
-// battery from, narrowing to a V, with a small spark below it. In a 64 x 64 box. The same
-// geometry is in public/logo.svg and public/logo-mono.svg (tests/logo.test.jsx checks they
+// The shape of the Volta mark: a bold V whose right arm steps like a lightning bolt, so it
+// reads as the letter first and as a charge second. One polygon in a 64 x 64 box. The same
+// points are in public/logo.svg and public/logo-mono.svg (tests/logo.test.jsx checks they
 // agree).
-
-// The three discs, widest at the top: [x, y, width, height]. Each is a pill (rx is half its height).
-export const LOGO_PILLS = [
-  [11, 11, 42, 9],
-  [17, 23, 30, 9],
-  [23, 35, 18, 9]
-];
-
-// The spark under the pile
-export const LOGO_DOT = { cx: 32, cy: 51, r: 3.5 };
+export const LOGO_POINTS = '9,10 22,10 32,34 42,10 55,10 44,28 51,28 32,54';

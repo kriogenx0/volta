@@ -5,7 +5,7 @@ One doc per feature, as it exists in the code (see [docs/rules/feature-docs.md](
 - [Accessible names](accessible_names.md): every button and link in every example must have a name for a screen reader; `ActionMenu`'s label.
 - [Dependencies](dependencies.md): lodash is gone (its helpers are in `util/`), and moment stays out of new code (a ratchet lists today's users).
 - [Lazy](lazy.md): holds children back until they are near the screen.
-- [Logo](logo.md): the Volta mark (a V with a spark in its arm), its two SVG files, the styleguide component and page icon.
+- [Logo](logo.md): the Volta mark (a V whose right arm steps like a bolt), its two SVG files, the styleguide component and page icon.
 - [Naming conventions](naming_conventions.md): the short-name rule (TextBox, not TextField), aliases, props over variants, files and class names, and the design principles, as a styleguide page.
 - [The styleguide](styleguide.md): what it shows, what the smoke test checks (every page and component, light and dark), and what it can't (how anything looks).
 - [Interactive states](interactive_states.md): the keyboard and focus audit over every example, what it fixed (Tabs, FileUploader, VideoUploadPlayer), and what still needs a browser.
