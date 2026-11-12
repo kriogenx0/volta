@@ -1,6 +1,6 @@
-# ListDefinitions
+# Definitions
 
-A definition list that shows an object as label and value rows, such as a record's details or build metadata.
+A definition list (`ListDefinitions` is its old name) that shows an object as label and value rows, such as a record's details or build metadata.
 
 ## When to use
 
@@ -11,9 +11,9 @@ A definition list that shows an object as label and value rows, such as a record
 ## Usage
 
 ```jsx
-import { ListDefinitions } from 'volta';
+import { Definitions } from 'volta';
 
-<ListDefinitions data={{
+<Definitions data={{
   Name: 'Alex Johnson',
   Role: 'Product Designer',
   Team: 'Platform',
@@ -28,6 +28,10 @@ import { ListDefinitions } from 'volta';
 | `data` | `object` | | Label to value pairs. Each key is a `<dt>` and each value a `<dd>`; values can be text or elements. With no `data` the list is empty. |
 
 The component declares no `propTypes`. Each pair is one line: the label takes about a third of the width and the value the rest.
+
+## ListDefinitions
+
+`ListDefinitions` is the old name of `Definitions` (`ListDefinitions === Definitions`), kept so existing code keeps working. Use `Definitions` in new code. The root class is now `volta-definitions` (it was `volta-list_definitions`), so CSS written against the old class needs updating.
 
 ## Accessibility
 

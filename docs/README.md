@@ -146,6 +146,7 @@ the commit and the tag.
 
 | Tag | Notes |
 | --- | --- |
+| `v4.0.0` | Not tagged yet (`package.json` says 4.0.0). Breaking: `RichTextQuill`, `RichTextTinyMCE` and `CKEditor` are gone (use `RichText`), lodash and the Quill, TinyMCE and CKEditor packages are no longer dependencies, `PopOver`, `ModalDialog`, `AudioTrack`, `Select` and others are now aliases of `Modal`, `Dialog`, `AudioPlayer` and `NativeSelect`, `ListCard` is part of `List`, and the styleguide uses path URLs. New: square, rounded and pill shapes, `SideBarList`, `NativeColorPicker`, a custom `ColorPicker`, `Drawer` edges, a resizable `SplitView`, a new logo. |
 | `v3.0.0` | First tagged release. React 19, Vite build, 92 components, runtime theming with 13 presets. Installs from GitHub with the bundle built by `prepare`. |
 
 ## Development

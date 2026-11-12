@@ -1,0 +1,81 @@
+// A native range input drawn like Slider. The filled part of the track follows
+// --native_slider-fill, which the component sets from the value; WebKit has no "filled
+// part" of a range, so a hard colour stop stands in for it (Firefox has its own).
+$track-height: 6px;
+$thumb-size: 18px;
+
+.volta-native_slider {
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  width: 100%;
+  height: $thumb-size + 4px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  touch-action: none;
+
+  &::-webkit-slider-runnable-track {
+    height: $track-height;
+    border-radius: var(--v-radius-md);
+    background: linear-gradient(to right, var(--v-accent) var(--native_slider-fill, 0%), var(--v-color-base-subtle) var(--native_slider-fill, 0%));
+  }
+
+  &::-moz-range-track {
+    height: $track-height;
+    border-radius: var(--v-radius-md);
+    background: var(--v-color-base-subtle);
+  }
+
+  &::-moz-range-progress {
+    height: $track-height;
+    border-radius: var(--v-radius-md);
+    background: var(--v-accent);
+  }
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    width: $thumb-size;
+    height: $thumb-size;
+    margin-top: ($track-height - $thumb-size) * 0.5;
+    border: 2px solid var(--v-accent);
+    border-radius: 50%;
+    background: var(--v-color-base);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+    transition: box-shadow var(--v-anim-speed);
+  }
+
+  &::-moz-range-thumb {
+    box-sizing: border-box;
+    width: $thumb-size;
+    height: $thumb-size;
+    border: 2px solid var(--v-accent);
+    border-radius: 50%;
+    background: var(--v-color-base);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+    transition: box-shadow var(--v-anim-speed);
+  }
+
+  // Hover and focus add a ring; the thumb itself never changes size or position
+  &:hover:not(:disabled)::-webkit-slider-thumb,
+  &:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--v-accent) 25%, transparent);
+  }
+
+  &:hover:not(:disabled)::-moz-range-thumb,
+  &:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--v-accent) 25%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 0;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+}

@@ -41,7 +41,7 @@ Any other prop (`disabled`, for example) is passed to every checkbox in the grou
 
 - It is controlled only. The group keeps no state: it ticks what `value` says, so with no `value` nothing is ticked and clicks change nothing until you pass one.
 - `onChange` gets the event, not the new array. Read `e.target.checked` to see whether the box was ticked and `e.target.value` for which one, and build the next array in your own code. `e.target.value` is always a string, so look the option up by `String(option.value)` when values are numbers.
-- The boxes lay out in a wrapping row with 12px and 24px gaps.
+- The boxes lay out in a wrapping row. Each option has its own padding (8px above and below, 12px at the sides), so there are 24px between options across and 18px between lines (the padding plus a 2px gap).
 
 ## Accessibility
 

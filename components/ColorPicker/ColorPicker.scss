@@ -15,10 +15,15 @@
     border-radius: var(--v-radius-md) 0 0 var(--v-radius-md);
   }
 
-  .color_picker-input {
-    @include field-surface;
+  // Next to the native chooser the two share one border: no left edge, square corners there
+  .color_picker-native + .color_picker-input {
     border-left: 0;
     border-radius: 0 var(--v-radius-md) var(--v-radius-md) 0;
+  }
+
+  .color_picker-input {
+    @include field-surface;
+    border-radius: var(--v-radius-md);
     flex: 1;
     font: inherit;
     font-size: 14px;

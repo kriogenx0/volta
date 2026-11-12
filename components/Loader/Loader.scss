@@ -100,7 +100,7 @@ $loader-small: 30px;
     }
 
     .loader-bars > div {
-      background-color: #333;
+      background-color: var(--v-color-trim-subtle);
       height: 100%;
       width: 6px;
       display: inline-block;
@@ -147,7 +147,7 @@ $loader-small: 30px;
 
   // Clock variant
   &.loader-variant-clock {
-    $clock-main: #09c;
+    $clock-main: var(--v-accent);
     $clock-r: 20;
     $clock-d: $clock-r * 2;
     $clock-t: 4000;
@@ -182,98 +182,6 @@ $loader-small: 30px;
     }
   }
 
-  // Knob variant
-  &.loader-variant-knob {
-    $knob-main: #E08764;
-    $knob-secondary: color-mix(in srgb, $knob-main 90%, black 10%);
-    $knob-r: 20;
-    $knob-d: $knob-r * 2;
-    $knob-t: 5000;
-
-    .loader-knob {
-      position: relative;
-      width: #{$knob-d}px;
-      height: #{$knob-d}px;
-      margin: 0 auto;
-    }
-
-    .knob-knob {
-      width: #{$knob-d}px;
-      height: #{$knob-d}px;
-      position: absolute;
-      border: #{math.div($knob-d, 10)}px solid $knob-secondary;
-      border-radius: 50%;
-
-      &:before {
-        content: "";
-        position: absolute;
-        display: block;
-        width: #{math.div($knob-d, 10)}px;
-        background-color: $knob-secondary;
-        border-radius: #{math.div(math.div($knob-d, 10), 2)}px;
-        transform-origin: 50% 0;
-        height: #{$knob-r - math.div($knob-d, 10) - math.div($knob-d, 10)}px;
-        left: #{$knob-r - math.div(math.div($knob-d, 10), 2)}px;
-        top: 50%;
-        animation: knob-spin #{$knob-t}ms linear infinite;
-      }
-    }
-
-    .knob-indicator {
-      width: 2px;
-      height: 20px;
-      background: #fff;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      margin-top: -10px; /* half of height */
-      border-radius: 2px 2px 0 0;
-      animation: knob-pulsate 1s infinite;
-
-      @for $i from 1 through 12 {
-        &:nth-child(#{$i + 1}) {
-          transform: rotate(#{(30 * $i) - 30}deg) translateY(-100%);
-          animation-delay: #{-1 * math.div(8.3 * $i, 100)}s;
-        }
-      }
-    }
-
-    @keyframes knob-spin {
-      0% {
-        transform: rotate(30deg);
-      }
-      70% {
-        transform: rotate(300deg);
-      }
-      76% {
-        transform: rotate(300deg);
-      }
-      78% {
-        transform: rotate(280deg);
-      }
-      80% {
-        transform: rotate(320deg);
-      }
-      82% {
-        transform: rotate(270deg);
-      }
-      84% {
-        transform: rotate(320deg);
-      }
-      85% {
-        transform: rotate(330deg);
-      }
-      100% {
-        transform: rotate(330deg);
-      }
-    }
-
-    @keyframes knob-pulsate {
-      0% { color: #000; }
-      100% { color: #fff; }
-    }
-  }
-
   // Spin (arm spinner) variant
   &.loader-variant-spin {
     .loader-spin {
@@ -286,13 +194,14 @@ $loader-small: 30px;
     .spin-arm {
       width: 10%;
       height: 25%;
-      background: #888;
+      background: var(--v-color-trim-subtle);
       position: absolute;
       left: 44.5%;
       top: 37%;
       margin-left: -1px;
       border-radius: 2px 2px 0 0;
-      animation: spin-pulsate 1s infinite;
+      opacity: 1;
+      animation: spin-fade 1s infinite linear;
 
       @for $i from 1 through 12 {
         &:nth-child(#{$i}) {
@@ -302,70 +211,10 @@ $loader-small: 30px;
       }
     }
 
-    @keyframes spin-pulsate {
-      0% { color: #000; }
-      100% { color: #fff; }
-    }
-  }
-
-  // Block variant
-  &.loader-variant-block {
-    $blockw: 15px;
-    $blockh: 15px;
-    $blockmargin: 5px;
-    $loaderw: $blockw * 3 + $blockmargin * 2;
-    $loaderh: $blockh * 3 + $blockmargin * 2;
-    $delayenter: 0.3s;
-    $topenter: -10px;
-
-    .loader-block {
-      position: relative;
-      width: $loaderw;
-      height: $loaderh;
-      margin: 0 auto;
-    }
-
-    .loader-block .block {
-      background-color: #1fbeca;
-      width: $blockw;
-      height: $blockh;
-      position: relative;
-      float: left;
-      top: $topenter;
-      margin-right: $blockmargin;
-      margin-top: $blockmargin;
-
-      opacity: 0;
-      animation: block-fade 6s infinite;
-
-      &:nth-child(1) { animation-delay: 6 * $delayenter; }
-      &:nth-child(2) { animation-delay: 7 * $delayenter; }
-      &:nth-child(3) { animation-delay: 8 * $delayenter; }
-      &:nth-child(4) { animation-delay: 3 * $delayenter; clear: both; }
-      &:nth-child(5) { animation-delay: 4 * $delayenter; }
-      &:nth-child(6) { animation-delay: 5 * $delayenter; }
-      &:nth-child(7) { clear: both; }
-      &:nth-child(8) { animation-delay: 1 * $delayenter; }
-      &:nth-child(9) { animation-delay: 2 * $delayenter; }
-    }
-
-    @keyframes block-fade {
-      0% {
-        opacity: 0;
-        top: $topenter;
-      }
-      5% {
-        opacity: 1;
-        top: 0px;
-      }
-      50% {
-        opacity: 1;
-        top: 0px;
-      }
-      55.9% {
-        opacity: 0;
-        top: -$topenter;
-      }
+    // Each arm fades out and comes back as the 12 take turns (see the delays above)
+    @keyframes spin-fade {
+      0% { opacity: 1; }
+      100% { opacity: 0.15; }
     }
   }
 }

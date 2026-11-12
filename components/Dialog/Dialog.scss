@@ -29,12 +29,22 @@
     display: flex;
     justify-content: flex-end;
     gap: 8px;
-    margin-top: 20px;
+    margin-top: 24px;
   }
 
   // A confirmation is a short question: narrower, with room around its buttons
   &.dialog-confirmation .modal-dialog {
-    max-width: 24rem;
+    max-width: 26rem;
+  }
+
+  // An Alert's message and prompt field: spaced from each other and from the buttons
+  .alert-message {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .alert-message + .alert-input {
+    margin-top: 16px;
   }
 
   // In the page flow instead of floating over it

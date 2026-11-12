@@ -36,7 +36,7 @@ With no files (or an empty array) the list shows `Empty` with "No files". The li
 
 ## Accessibility
 
-- Each row is a native `<button>`, so Tab reaches it and Enter or Space selects it. Hover highlights the row in the accent colour and keyboard focus draws an outline.
+- Each row is a native `<button>`, so Tab reaches it and Enter or Space selects it. Hover tints the row with the accent and keyboard focus draws an outline. Every colour is a theme token with no separate dark overrides (the old ones inverted the borders and path chips in dark mode).
 - The back button has the label "Back to the parent folder" and the icons are hidden from assistive technology.
 - The path is plain text, not a landmark or a list.
 - A folder is marked by its icon only: the row's name for a screen reader is the file name without the trailing slash, so it does not say "folder". If that matters, say it in your own text.

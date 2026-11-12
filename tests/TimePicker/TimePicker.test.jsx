@@ -168,36 +168,20 @@ describe('TimePicker dropdown', () => {
   });
 
   describe('closing when focus leaves', () => {
-    beforeEach(() => jest.useFakeTimers());
-    afterEach(() => jest.useRealTimers());
-
-    it('closes shortly after focus leaves the picker', () => {
+    it('closes at once when focus leaves the picker', () => {
       render(<TimePicker />);
       fireEvent.focus(hourInput());
-      fireEvent.blur(hourInput());
       expect(screen.getByRole('group', { name: 'Hours' })).toBeInTheDocument();
-      act(() => { jest.advanceTimersByTime(250); });
+      fireEvent.blur(hourInput());
       expect(screen.queryByRole('group', { name: 'Hours' })).toBeNull();
     });
 
     it('stays open when focus moves from one field to the other', () => {
       render(<TimePicker />);
       fireEvent.focus(hourInput());
-      fireEvent.blur(hourInput());
+      fireEvent.blur(hourInput(), { relatedTarget: minuteInput() });
       fireEvent.focus(minuteInput());
-      act(() => { jest.advanceTimersByTime(250); });
       expect(screen.getByRole('group', { name: 'Minutes' })).toBeInTheDocument();
-    });
-
-    it('does not fire a state update after unmounting', () => {
-      const error = jest.spyOn(console, 'error').mockImplementation(() => {});
-      const { unmount } = render(<TimePicker />);
-      fireEvent.focus(hourInput());
-      fireEvent.blur(hourInput());
-      unmount();
-      act(() => { jest.advanceTimersByTime(250); });
-      expect(error).not.toHaveBeenCalled();
-      error.mockRestore();
     });
   });
 
@@ -233,5 +217,55 @@ describe('TimePicker dropdown', () => {
       const notPrevented = fireEvent.keyDown(hourInput(), { key: 'a' });
       expect(notPrevented).toBe(true);
     });
+  });
+});
+
+describe('TimePicker seconds and 24-hour mode', () => {
+  const secondInput = () => screen.getByRole('textbox', { name: 'Second' });
+
+  it('has no seconds field by default, and shows am and pm', () => {
+    render(<TimePicker />);
+    expect(screen.queryByRole('textbox', { name: 'Second' })).toBeNull();
+    expect(screen.getByRole('group', { name: 'AM or PM' })).toBeInTheDocument();
+  });
+
+  it('adds a seconds field, shown from the value and reported by onChange', () => {
+    const onChange = jest.fn();
+    render(<TimePicker seconds value="3:05:09 pm" onChange={onChange} />);
+    expect(secondInput()).toHaveValue('09');
+    fireEvent.change(secondInput(), { target: { value: '45' } });
+    expect(onChange).toHaveBeenLastCalledWith(expect.objectContaining({ second: '45', fullDate: '15:05:45', formatted: '3:05:45 pm' }));
+  });
+
+  it('offers a seconds list and steps seconds by secondInterval', () => {
+    render(<TimePicker seconds secondInterval={10} />);
+    fireEvent.focus(hourInput());
+    expect(screen.getByRole('group', { name: 'Seconds' })).toBeInTheDocument();
+    fireEvent.keyDown(secondInput(), { key: 'ArrowUp' });
+    expect(secondInput()).toHaveValue('10');
+  });
+
+  it('ignores a second above 59', () => {
+    render(<TimePicker seconds value="3:05:09 pm" />);
+    fireEvent.change(secondInput(), { target: { value: '75' } });
+    fireEvent.blur(secondInput());
+    expect(secondInput()).toHaveValue('09');
+  });
+
+  it('does not report second without the seconds option', () => {
+    const onChange = jest.fn();
+    render(<TimePicker value="3:05 pm" onChange={onChange} />);
+    fireEvent.change(minuteInput(), { target: { value: '10' } });
+    expect(onChange.mock.calls[0][0]).not.toHaveProperty('second');
+    expect(onChange.mock.calls[0][0].fullDate).toBe('15:10');
+  });
+
+  it('twentyFourHour shows hours 0 to 23 and no am or pm', () => {
+    render(<TimePicker twentyFourHour seconds value="15:05:09" />);
+    expect(hourInput()).toHaveValue('15');
+    expect(screen.queryByRole('group', { name: 'AM or PM' })).toBeNull();
+    fireEvent.focus(hourInput());
+    expect(screen.getByRole('button', { name: '0' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '23' })).toBeInTheDocument();
   });
 });

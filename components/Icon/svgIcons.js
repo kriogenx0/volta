@@ -23,6 +23,7 @@ const icons = {
   minus: ['M5 12h14'],
   checkmark: ['M5 12.5l4.5 4.5L19 7.5'],
   ellipsis: ['M5 12h.01M12 12h.01M19 12h.01'],
+  'line.3.horizontal': ['M4 7h16M4 12h16M4 17h16'],
 
   // arrows
   'chevron.right': ['M9 5l7 7-7 7'],

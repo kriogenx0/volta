@@ -1,7 +1,8 @@
-import { useId, useRef } from 'react';
+import { useCallback, useId, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import CloseButton from '../CloseButton/CloseButton';
+import Overlay from '../Overlay/Overlay';
 import useEscapeKey from '../Overlay/useEscapeKey';
 import useModalBehavior from '../Overlay/useModalBehavior';
 
@@ -14,6 +15,9 @@ import './Modal.scss';
 // - Container (neither given): wraps `children` in a panel, shown while `show`
 //   (or `open`) is true. `onHide` (or `handleClose`) is called by a click on the
 //   backdrop and Escape. Dialog builds on this form.
+// The dimmed backdrop is an Overlay (which also holds the page still); the full-window
+// element that centres the panel lets clicks through to it, so a click outside the panel
+// reaches the Overlay's own click.
 // While open it is modal: the page behind doesn't scroll, Tab stays inside the
 // panel, and focus returns to where it was on closing. `modal={false}` turns
 // that off, for a modal shown in the page flow instead of over it.
@@ -37,63 +41,70 @@ const Modal = ({
   const close = onClose || onHide || handleClose;
   const dismiss = closeOnOverlayClick && close ? close : undefined;
 
+  // The Overlay re-attaches its click handler whenever the function changes, so it gets a steady one
+  const dismissRef = useRef(dismiss);
+  dismissRef.current = dismiss;
+  const handleOverlayClick = useCallback(() => { if (dismissRef.current) dismissRef.current(); }, []);
+
   useEscapeKey(dismiss, open);
   useModalBehavior(panelRef, open && isModal);
 
   if (!open) return null;
 
+  // Behind the panel, covering the window, unless it is in place or not modal
+  const backdrop = <Overlay showing={fullSize && isModal} onClick={handleOverlayClick} />;
+
   if (standalone) {
     return (
-      <div className="volta-modal volta-modal--standalone" onClick={dismiss}>
-        <div
-          className={`volta-modal-panel${className ? ` ${className}` : ''}`}
-          ref={panelRef}
-          role={role || 'dialog'}
-          aria-modal={isModal ? 'true' : undefined}
-          aria-labelledby={ariaLabelledby || (title ? titleId : undefined)}
-          aria-label={ariaLabel}
-          aria-describedby={ariaDescribedby}
-          tabIndex={-1}
-          onClick={(event) => event.stopPropagation()}
-          {...otherProps}
-        >
-          <div className="volta-modal-header">
-            <h2 className="volta-modal-title" id={titleId}>{title}</h2>
-            <CloseButton size="sm" onClick={onClose} />
+      <>
+        {backdrop}
+        <div className="volta-modal volta-modal--standalone">
+          <div
+            className={`volta-modal-panel${className ? ` ${className}` : ''}`}
+            ref={panelRef}
+            role={role || 'dialog'}
+            aria-modal={isModal ? 'true' : undefined}
+            aria-labelledby={ariaLabelledby || (title ? titleId : undefined)}
+            aria-label={ariaLabel}
+            aria-describedby={ariaDescribedby}
+            tabIndex={-1}
+            {...otherProps}
+          >
+            <div className="volta-modal-header">
+              <h2 className="volta-modal-title" id={titleId}>{title}</h2>
+              <CloseButton size="sm" onClick={onClose} />
+            </div>
+            {children}
           </div>
-          {children}
         </div>
-      </div>
+      </>
     );
   }
 
-  // Only a click on the backdrop itself hides the modal, not one inside the panel.
-  const handleBackdropClick = (event) => {
-    if (fullSize && dismiss && event.target === event.currentTarget) dismiss();
-  };
-
   return (
-    <div
-      className={`volta-modal${fullSize ? '' : ' volta-modal--inline'}${className ? ` ${className}` : ''}`}
-      onClick={handleBackdropClick}
-      {...otherProps}
-    >
-      {/* In place, the page behind is covered by a faint click-catcher, so a click outside closes it */}
-      {!fullSize && <div className="volta-modal-catcher" onClick={dismiss} />}
+    <>
+      {backdrop}
       <div
-        className="modal-dialog volta-modal-panel"
-        ref={panelRef}
-        role={role || 'dialog'}
-        aria-modal={isModal ? 'true' : undefined}
-        aria-label={ariaLabel || (typeof headerTitle === 'string' ? headerTitle : undefined)}
-        aria-labelledby={ariaLabelledby}
-        aria-describedby={ariaDescribedby}
-        tabIndex={-1}
+        className={`volta-modal${fullSize ? '' : ' volta-modal--inline'}${className ? ` ${className}` : ''}`}
+        {...otherProps}
       >
-        {headerTitle && <div className="modal-header"><div className="modal-title">{headerTitle}</div></div>}
-        <div className="modal-body modal-insides"><div className="modal-inside">{children}</div></div>
+        {/* In place, the page behind is covered by a faint click-catcher, so a click outside closes it */}
+        {!fullSize && <div className="volta-modal-catcher" onClick={dismiss} />}
+        <div
+          className="modal-dialog volta-modal-panel"
+          ref={panelRef}
+          role={role || 'dialog'}
+          aria-modal={isModal ? 'true' : undefined}
+          aria-label={ariaLabel || (typeof headerTitle === 'string' ? headerTitle : undefined)}
+          aria-labelledby={ariaLabelledby}
+          aria-describedby={ariaDescribedby}
+          tabIndex={-1}
+        >
+          {headerTitle && <div className="modal-header"><div className="modal-title">{headerTitle}</div></div>}
+          <div className="modal-body modal-insides"><div className="modal-inside">{children}</div></div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

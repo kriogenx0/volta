@@ -26,25 +26,10 @@ const Loader = ({ message, size = 'page', small, tiny, inline, variant = 'spinne
           </div>
         )}
         {variant === 'clock' && <div className="loader-clock" />}
-        {variant === 'knob' && (
-          <div className="loader-knob">
-            <div className="knob-knob" />
-            {Array.from({ length: 12 }, (_, i) => (
-              <div key={i} className="knob-indicator" />
-            ))}
-          </div>
-        )}
         {variant === 'spin' && (
           <div className="loader-spin">
             {Array.from({ length: 12 }, (_, i) => (
               <div className="spin-arm" key={i} />
-            ))}
-          </div>
-        )}
-        {variant === 'block' && (
-          <div className="loader-block">
-            {Array.from({ length: 9 }, (_, i) => (
-              <div key={i} className="block" />
             ))}
           </div>
         )}
@@ -56,7 +41,7 @@ const Loader = ({ message, size = 'page', small, tiny, inline, variant = 'spinne
 };
 
 Loader.sizes = ['page', 'small', 'large', 'tiny'];
-Loader.variants = ['spinner', 'bars', 'clock', 'knob', 'spin', 'block'];
+Loader.variants = ['spinner', 'bars', 'clock', 'spin'];
 
 Loader.propTypes = {
   size: PropTypes.oneOf(Loader.sizes),

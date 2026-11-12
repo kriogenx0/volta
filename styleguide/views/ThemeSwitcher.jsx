@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { SegmentedControl, Theme } from '../../components';
+import { NativeSlider, SegmentedControl, Theme } from '../../components';
 
 import ThemePicker from './ThemePicker';
 
@@ -39,8 +39,7 @@ const ThemeSwitcher = () => {
     Theme.setShape(value);
   };
 
-  const handleSpeedChange = (e) => {
-    const ms = Number(e.target.value);
+  const handleSpeedChange = (ms) => {
     setSpeed(ms);
     Theme.setAnimationSpeed(ms);
   };
@@ -76,11 +75,11 @@ const ThemeSwitcher = () => {
 
       <label className="v-theme_switcher-speed" title="Animation speed">
         <span className="sr-only">Animation speed</span>
-        <input
-          type="range"
-          min="0"
-          max="500"
-          step="10"
+        <NativeSlider
+          aria-label="Animation speed"
+          min={0}
+          max={500}
+          step={10}
           value={speed}
           onChange={handleSpeedChange}
         />

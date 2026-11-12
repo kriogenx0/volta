@@ -14,10 +14,10 @@
   .nav_sidebar-item {
     padding-top: 12px;
     padding-bottom: 12px;
-    color: black;
+    color: var(--v-color-trim);
 
     a {
-      color: black;
+      color: var(--v-color-trim);
       text-decoration: none;
     }
 
@@ -26,7 +26,7 @@
     border-color: transparent;
 
     &.has-link {
-      border-left-color: rgba(0, 0, 0, 0);
+      border-left-color: transparent;
       a {
         margin-left: -4px;
       }

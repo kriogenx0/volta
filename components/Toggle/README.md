@@ -28,6 +28,7 @@ import { Toggle } from 'volta';
 | `onChange` | `function` | no-op | The native change event: read `event.target.checked`. |
 | `isDisabled` | `bool` | `false` | Disables the checkbox and dims the switch. Use this, not `disabled`. |
 | `showMarks` | `bool` | `false` | Prints an **I** on the on side and an **O** on the off side of the track, as a second cue besides colour. The knob covers the one for the other state, so only the current mark shows. |
+| `knobSize` | `'sm'` \| `'md'` | `'sm'` | The round knob. `sm` is smaller than the track is high and sits inset in it by 2px (23px across with its border). `md` is as tall as the track (27px), the knob the toggle had before the smaller default. The track is 45px by 25px either way. `Toggle.knobSizes` lists them. |
 | `name` | `string` | | The native `name`, for forms. |
 | `value` | `string` | | The native `value`, sent with the form when it is on. |
 | `className` | `string` | | Added to the wrapping `<label>`. |

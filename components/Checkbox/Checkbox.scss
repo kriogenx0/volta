@@ -10,6 +10,7 @@
   display: inline-flex;
   gap: 8px;
   line-height: 1.35;
+  @include choice-surface;
 
   input {
     appearance: none;
@@ -66,7 +67,7 @@
     cursor: pointer;
 
     &:hover {
-      color: $color_active;
+      @include choice-hover;
 
       input {
         border-color: $color_active;

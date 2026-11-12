@@ -117,7 +117,7 @@ describe('Dialog', () => {
     it('stays open on a click outside by default', () => {
       const handleClose = jest.fn();
       const { container } = render(<Dialog isOpen title="Edit" handleClose={handleClose}>Body</Dialog>);
-      fireEvent.click(root(container));
+      fireEvent.click(document.querySelector('.volta-overlay'));
       expect(handleClose).not.toHaveBeenCalled();
       expect(root(container)).toBeInTheDocument();
     });
@@ -125,14 +125,14 @@ describe('Dialog', () => {
     it('closes itself and calls handleClose on a click outside with closeOnOverlayClick', () => {
       const handleClose = jest.fn();
       const { container } = render(<Dialog isOpen closeOnOverlayClick title="Edit" handleClose={handleClose}>Body</Dialog>);
-      fireEvent.click(root(container));
+      fireEvent.click(document.querySelector('.volta-overlay'));
       expect(handleClose).toHaveBeenCalledTimes(1);
       expect(root(container)).toBeNull();
     });
 
     it('closes on a click outside with closeOnOverlayClick even without a handleClose', () => {
       const { container } = render(<Dialog isOpen closeOnOverlayClick title="Edit">Body</Dialog>);
-      fireEvent.click(root(container));
+      fireEvent.click(document.querySelector('.volta-overlay'));
       expect(root(container)).toBeNull();
     });
 
@@ -202,7 +202,7 @@ describe('Dialog confirmation variant', () => {
     const { container } = confirmation();
     expect(container.firstChild).toHaveClass('dialog-confirmation');
     const scss = fs.readFileSync(path.join(__dirname, '../../components/Dialog/Dialog.scss'), 'utf8');
-    expect(scss).toMatch(/dialog-confirmation \.modal-dialog \{\s*max-width:\s*24rem/);
+    expect(scss).toMatch(/dialog-confirmation \.modal-dialog \{\s*max-width:\s*26rem/);
   });
 
   it('puts focus on Cancel, so Enter never confirms by accident', () => {

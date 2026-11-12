@@ -38,6 +38,7 @@ import { Dialog } from 'volta';
 | `inlineMode` | `bool` | `false` | Shows the panel in the page flow instead of floating over it. |
 | `variant` | `'form'` \| `'confirmation'` | `'form'` | `'confirmation'` is a short question with Confirm and Cancel: narrower, no header X, an alert dialog described by its text, with focus on Cancel so Enter never confirms by accident. `Dialog.variants` lists them. |
 | `danger` | `bool` | `false` | Makes the Save or Confirm button the danger red, for a destructive choice. |
+| `autoClose` | `bool` | `true` | Save, Cancel and the X also close the dialog. Off, only the parent closes it, by no longer rendering it (this is how `Alert` uses it). |
 | `showCloseButton` | `bool` | `true` | The X in the header (never shown in a confirmation). |
 | `closeOnOverlayClick` | `bool` | `false` | A click outside the panel, and Escape, close the dialog. |
 | `className` | `string` | | Added to the root. |

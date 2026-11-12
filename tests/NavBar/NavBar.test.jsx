@@ -66,4 +66,50 @@ describe('NavBar', () => {
   it('GlobalNav is NavBar itself', () => {
     expect(GlobalNav).toBe(NavBar);
   });
+
+  describe('collapsing on a narrow screen', () => {
+    it('has a menu button, closed at first, that controls the links', () => {
+      render(<NavBar links={links} />);
+      const button = screen.getByRole('button', { name: 'Menu' });
+      expect(button).toHaveAttribute('aria-expanded', 'false');
+      expect(document.getElementById(button.getAttribute('aria-controls'))).toBe(screen.getByRole('navigation', { name: 'Main' }));
+    });
+
+    it('opens and closes with the button, and names it for what it will do', () => {
+      const { container } = render(<NavBar links={links} />);
+      fireEvent.click(screen.getByRole('button', { name: 'Menu' }));
+      expect(container.querySelector('.volta-navbar')).toHaveClass('volta-navbar--open');
+      expect(screen.getByRole('button', { name: 'Close menu' })).toHaveAttribute('aria-expanded', 'true');
+      fireEvent.click(screen.getByRole('button', { name: 'Close menu' }));
+      expect(container.querySelector('.volta-navbar')).not.toHaveClass('volta-navbar--open');
+    });
+
+    it('closes when a link is chosen, and on Escape', () => {
+      const { container } = render(<NavBar links={links} onLinkClick={() => {}} />);
+      const bar = () => container.querySelector('.volta-navbar');
+      fireEvent.click(screen.getByRole('button', { name: 'Menu' }));
+      fireEvent.click(screen.getByRole('link', { name: 'Reports' }));
+      expect(bar()).not.toHaveClass('volta-navbar--open');
+      fireEvent.click(screen.getByRole('button', { name: 'Menu' }));
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(bar()).not.toHaveClass('volta-navbar--open');
+    });
+
+    it('has no menu button without links, or with collapse off', () => {
+      const { rerender, container } = render(<NavBar appName="My App" />);
+      expect(screen.queryByRole('button')).toBeNull();
+      rerender(<NavBar links={links} collapse={false} />);
+      expect(screen.queryByRole('button')).toBeNull();
+      expect(container.querySelector('.volta-navbar')).not.toHaveClass('volta-navbar--collapse');
+    });
+
+    it('folds the links away at 640px and below, in the stylesheet', () => {
+      const fs = require('fs');
+      const path = require('path');
+      const scss = fs.readFileSync(path.join(__dirname, '../../components/NavBar/NavBar.scss'), 'utf8');
+      expect(scss).toMatch(/volta-navbar--collapse \{\s*@include mobile/);
+      expect(scss).toMatch(/nav \{\s*display: none;/);
+      expect(scss).not.toMatch(/#[0-9a-fA-F]{3,6}\b/);
+    });
+  });
 });

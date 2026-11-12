@@ -1,19 +1,19 @@
-import ListDefinitions from '../../components/ListDefinitions/ListDefinitions';
+import Definitions from '../../components/Definitions/Definitions';
 
 export default {
-  name: 'ListDefinitions',
+  name: 'Definitions',
   description: 'A definition list for displaying key-value metadata.',
   examples: [
     {
       name: 'Basic list',
-      code: `<ListDefinitions data={{
+      code: `<Definitions data={{
   Name: 'Alex Johnson',
   Role: 'Product Designer',
   Team: 'Platform',
   Location: 'Cupertino, CA',
 }} />`,
       output: (
-        <ListDefinitions data={{
+        <Definitions data={{
           Name: 'Alex Johnson',
           Role: 'Product Designer',
           Team: 'Platform',
@@ -23,14 +23,14 @@ export default {
     },
     {
       name: 'Technical metadata',
-      code: `<ListDefinitions data={{
+      code: `<Definitions data={{
   Version: '1.12.1',
   Build: '4502',
   Environment: 'Production',
   'Last Updated': '2026-05-19',
 }} />`,
       output: (
-        <ListDefinitions data={{
+        <Definitions data={{
           Version: '1.12.1',
           Build: '4502',
           Environment: 'Production',

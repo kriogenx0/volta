@@ -40,7 +40,7 @@ const items = [new NavItem('Overview', '/'), reports];
 
 ## Theming
 
-Hover and the active item use the `--v-accent` and `--v-color-*` tokens. Item and link text is currently hard-coded black, so on a dark theme it needs overriding before it can be read.
+Every colour is a `--v-*` token, so the sidebar follows light and dark mode and the accent: item and link text is `--v-color-trim`, hover and the active item use `--v-accent` and the `--v-color-base-*` greys. (Item text used to be hard-coded black and could not be read in dark mode.)
 
 ## Accessibility
 

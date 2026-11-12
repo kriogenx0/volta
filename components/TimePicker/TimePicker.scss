@@ -9,7 +9,13 @@
   {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+  }
+
+  // The hour, minute and second boxes, with the dropdown hanging from them at their width
+  .time_picker-boxes
+  {
+    position: relative;
+    display: inline-flex;
   }
 
   .time_picker-input
@@ -25,9 +31,27 @@
     text-align: center;
   }
 
-  .time_picker-div
+  // The boxes touch and read as one field: the corners where they meet are square and
+  // the shared border is drawn once. The one with the pointer or focus comes forward so
+  // its whole border shows.
+  .time_picker-input:not(:first-of-type)
   {
-    text-align: center;
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .time_picker-input:not(:last-of-type)
+  {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .time_picker-input:hover,
+  .time_picker-input:focus
+  {
+    position: relative;
+    z-index: 1;
   }
 
   .volta-segmented_control
@@ -41,7 +65,9 @@
     position: absolute;
     top: 100%;
     left: 0;
+    right: 0;
     z-index: var(--v-z-popover);
+    box-sizing: border-box;
     display: flex;
     gap: 4px;
     margin-top: 4px;
@@ -57,7 +83,8 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-    width: 56px;
+    flex: 1 1 0;
+    min-width: 0;
     max-height: 192px;
     overflow-y: auto;
   }

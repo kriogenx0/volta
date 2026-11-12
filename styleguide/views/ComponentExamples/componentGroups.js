@@ -16,7 +16,7 @@ export default [
     // Anything you pick, toggle, press or edit in place
     label: 'Controls',
     components: [
-      'Button', 'Checkbox', 'CheckboxGroup', 'ColorPicker', 'NativeColorPicker', 'Radio', 'RadioGroup',
+      'Button', 'Checkbox', 'CheckboxGroup', 'ColorPicker', 'NativeColorPicker', 'NativeSlider', 'Radio', 'RadioGroup',
       'SegmentedControl', 'Slider', 'TagInput', 'Toggle',
     ],
   },
@@ -34,8 +34,14 @@ export default [
   {
     label: 'Layout',
     components: [
-      'Alert', 'Card', 'Dialog', 'Drawer', 'FullView', 'Layer', 'Lazy', 'Modal',
-      'Overlay', 'SplitView',
+      'Card', 'FullView', 'Lazy', 'SplitView',
+    ],
+  },
+  {
+    // What opens over the page: dialogs, alerts, panels and the layers behind them
+    label: 'Modals',
+    components: [
+      'Alert', 'Dialog', 'Drawer', 'Layer', 'Modal', 'Overlay',
     ],
   },
   {
@@ -61,9 +67,10 @@ export default [
     ],
   },
   {
-    label: 'Rich Text',
+    // Text and what it is made of: editable text, rich text, and label and value pairs
+    label: 'Text',
     components: [
-      'ContentEditable', 'RichText',
+      'ContentEditable', 'Definitions', 'RichText',
     ],
   },
   {
@@ -76,7 +83,7 @@ export default [
   {
     label: 'Lists',
     components: [
-      'List', 'ListDefinitions',
+      'List',
     ],
   },
   {

@@ -3,7 +3,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Calendar from '../../components/DatePicker/Calendar';
 
 const days = () => screen.getAllByRole('button', { name: /^[A-Z][a-z]+ \d{1,2}, \d{4}$/ });
-const heading = () => document.querySelector('.cal-month').textContent;
+// The month link and the year list together, as 'Jun 26'
+const yearList = () => screen.getByRole('combobox', { name: 'Year' });
+const heading = () => `${document.querySelector('.cal-month').textContent} ${yearList().value.substr(2)}`;
 
 describe('Calendar', () => {
   it('renders without crashing', () => {
@@ -175,6 +177,42 @@ describe('Calendar', () => {
       render(<Calendar date={new Date(2026, 5, 15)} minDate={new Date(2026, 5, 10)} onDateSelect={onDateSelect} />);
       fireEvent.click(screen.getByRole('button', { name: 'June 9, 2026' }));
       expect(onDateSelect).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('choosing the year', () => {
+    it('has a year list set to the year shown', () => {
+      render(<Calendar date={new Date(2026, 5, 15)} />);
+      expect(yearList()).toHaveValue('2026');
+    });
+
+    it('jumps to the year chosen and keeps the month', () => {
+      render(<Calendar date={new Date(2026, 5, 15)} />);
+      fireEvent.change(yearList(), { target: { value: '2019' } });
+      expect(heading()).toBe('Jun 19');
+      expect(days()[0]).toHaveAccessibleName('June 1, 2019');
+    });
+
+    it('offers a century back and 20 years ahead, and the year shown when it is outside that', () => {
+      const thisYear = new Date().getFullYear();
+      const { rerender } = render(<Calendar />);
+      const values = () => [...yearList().options].map((option) => Number(option.value));
+      expect(values()[0]).toBe(thisYear - 100);
+      expect(values()[values().length - 1]).toBe(thisYear + 20);
+      rerender(<Calendar key="old" date={new Date(1850, 0, 1)} />);
+      expect(values()[0]).toBe(1850);
+    });
+
+    it('offers only the years between minDate and maxDate', () => {
+      render(<Calendar date={new Date(2026, 5, 15)} minDate={new Date(2024, 0, 1)} maxDate={new Date(2027, 11, 31)} />);
+      expect([...yearList().options].map((option) => option.value)).toEqual(['2024', '2025', '2026', '2027']);
+    });
+
+    it('keeps working with the arrows across a year', () => {
+      render(<Calendar date={new Date(2026, 11, 15)} />);
+      fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
+      expect(heading()).toBe('Jan 27');
+      expect(yearList()).toHaveValue('2027');
     });
   });
 });

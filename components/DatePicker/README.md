@@ -42,7 +42,7 @@ Any other prop goes to the text box through `TextField` (`label`, `placeholder`,
 
 ## CalendarMini props
 
-`CalendarMini` is the calendar the picker opens: one month at a time, with "previous month", "next month" and "Mon YY" (jump to the current month) buttons.
+`CalendarMini` is the calendar the picker opens: one month at a time, with "previous month", "next month" and "Mon" (jump to the current month) buttons, and a "Year" list to jump to another year, keeping the month. The list runs from the year of `minDate` to the year of `maxDate`; without them it covers a century back and 20 years ahead, and it always includes the year shown.
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |

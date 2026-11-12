@@ -202,8 +202,8 @@ describe('Alert focus', () => {
     expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
-  it('starts on the first button otherwise', () => {
+  it('starts on Cancel otherwise, so a stray Enter on the button never confirms', () => {
     render(<Alert title="Sure?" />);
-    expect(screen.getByRole('button', { name: 'Confirm' })).toHaveFocus();
+    expect(screen.getByRole('button', { name: 'Cancel' })).toHaveFocus();
   });
 });

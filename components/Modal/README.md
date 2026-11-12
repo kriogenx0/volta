@@ -1,6 +1,6 @@
 # Modal
 
-A dimmed backdrop with a centered panel for content that needs the user's attention, or with `fullSize={false}` a panel kept in place over a click-catcher. `PopOver` is another name for it.
+A dimmed backdrop with a panel for content that needs the user's attention, or with `fullSize={false}` a panel kept in place over a click-catcher. `PopOver` is another name for it.
 
 ## When to use
 
@@ -46,6 +46,10 @@ import { Modal, Button } from 'volta';
 | `children` | `node` | | The panel content. |
 
 There are two forms. **Standalone** is used when `title` or `onClose` is given. **Container** is used when neither is given, and is what `Dialog` is built on. Other props go to the panel (standalone) or the backdrop (container). `Modal.inside` pads its children by 4rem on the left and right.
+
+## Backdrop and position
+
+The dimming is an [`Overlay`](../Overlay/README.md) behind the panel, so a click on it asks to close (unless `closeOnOverlayClick` is off). The full-window element that places the panel lets clicks through to it. The panel is centred across the window and sits a tenth of the window's height down from the top (`10vh`), where an alert reads best, with the same margin allowed below it. It has 24px of padding. A modal that is not modal (`modal={false}`) or is in place (`fullSize={false}`) has no Overlay.
 
 ## PopOver
 

@@ -44,7 +44,7 @@ import Label from './Label/Label';
 import Layer from './Layer/Layer';
 import Lazy from './Lazy/Lazy';
 import Link, { ActionLink } from './Link/Link';
-import ListDefinitions from './ListDefinitions/ListDefinitions';
+import Definitions, { ListDefinitions } from './Definitions/Definitions';
 import List, { ListCard, ListCardRow, ListHeader, ListRow, FilterSectionListItem } from './List';
 import Loader from './Loader/Loader';
 import Map from './Map/Map';
@@ -71,6 +71,7 @@ import RadioGroup from './RadioGroup/RadioGroup';
 import SearchSelector from './SearchSelector/SearchSelector';
 import SegmentedControl, { SegmentedControlMini } from './SegmentedControl/SegmentedControl';
 import NativeColorPicker from './NativeColorPicker/NativeColorPicker';
+import NativeSlider from './NativeSlider/NativeSlider';
 import NativeSelect, { Select } from './NativeSelect/NativeSelect';
 import Slider from './Slider/Slider';
 import SplitView from './SplitView/SplitView';
@@ -143,6 +144,7 @@ export {
   ListCard,
   ListCardRow,
   ListRow,
+  Definitions,
   ListDefinitions,
   List,
   ListHeader,
@@ -164,6 +166,7 @@ export {
   MultiSelect,
   NativeColorPicker,
   NativeSelect,
+  NativeSlider,
   NavBar,
   NavSidebar,
   SideBarList,

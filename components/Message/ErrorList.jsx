@@ -2,6 +2,8 @@
 // errors keyed by field name (e.g. a Django REST Framework error response).
 import PropTypes from 'prop-types';
 
+import Badge from '../Badge/Badge';
+
 import './ErrorList.scss';
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
@@ -13,7 +15,7 @@ const ErrorList = ({ errors }) => (
   <ul className="volta-error_list errorList l-v-spaced">
     {Object.keys(errors || {}).map((key) => (
       <li key={key}>
-        <span className="volta-error_list-dot l-h-right-half-spaced l-v-align-middle" aria-hidden="true" />
+        <Badge variant="x" size="small" aria-hidden="true" />
         {key !== 'non_field_errors' && (
           <strong className="strong l-v-align-middle">{capitalize(key)}: </strong>
         )}

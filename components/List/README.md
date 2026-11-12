@@ -4,7 +4,7 @@ A vertical list of rows, each plain text or a button, with optional section head
 
 ## When to use
 
-- **A short list of text rows or commands.** Rows with an `action` are buttons; rows without are plain text. Add `card` for a bordered card with dividers, and write richer rows as `ListRow`s. Use [`ListDefinitions`](../ListDefinitions/README.md) for label and value pairs, and [`ActionMenu`](../ActionMenu/README.md) for a menu that opens from a trigger.
+- **A short list of text rows or commands.** Rows with an `action` are buttons; rows without are plain text. Add `card` for a bordered card with dividers, and write richer rows as `ListRow`s. Use [`Definitions`](../Definitions/README.md) for label and value pairs, and [`ActionMenu`](../ActionMenu/README.md) for a menu that opens from a trigger.
 - **A filter list.** Build the `<ul className="volta-list">` yourself from `ListHeader` and `FilterSectionListItem` to get a titled, single-choice list.
 - It is not a form control. For picking from many options use [`NativeSelect`](../NativeSelect/README.md) or [`RadioGroup`](../RadioGroup/README.md).
 

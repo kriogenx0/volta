@@ -71,7 +71,7 @@ describe('Checkbox label colour', () => {
 
   it('keeps the box border at its own colour and the hover and disabled colours', () => {
     expect(scss).toMatch(/border:\s*1\.5px solid \$color_base_less_subtle;/);
-    expect(scss).toMatch(/&:hover \{\s*color:\s*\$color_active;/);
+    expect(scss).toMatch(/&:hover \{\s*@include choice-hover;/);
     expect(scss).toMatch(/span \{\s*color:\s*\$color_inactive;/);
   });
 });

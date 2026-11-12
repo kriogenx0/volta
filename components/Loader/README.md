@@ -25,7 +25,7 @@ import { Loader } from 'volta';
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
 | `size` | `'page'` \| `'small'` \| `'large'` \| `'tiny'` | `'page'` | `Loader.sizes` lists them. `page` adds generous vertical margin. |
-| `variant` | `'spinner'` \| `'bars'` \| `'clock'` \| `'knob'` \| `'spin'` \| `'block'` | `'spinner'` | The animation. `Loader.variants` lists them. |
+| `variant` | `'spinner'` \| `'bars'` \| `'clock'` \| `'spin'` | `'spinner'` | The animation. `Loader.variants` lists them. |
 | `small` | `bool` | `false` | Shorthand for `size="small"`; overrides `size`. |
 | `tiny` | `bool` | `false` | Shorthand for `size="tiny"`; overrides `size` and `small`. |
 | `inline` | `bool` | `false` | Lays the loader out inline instead of as a block. |
@@ -47,4 +47,4 @@ Only the default `spinner` changes its diameter with `size`: 80px for `page` and
 - Do say what is loading in `message` for waits that might be long.
 - Don't stack several page-size loaders on one screen; use one per region, or `small` or `tiny`.
 - Don't use a loader for work with a known length; use [`ProgressBar`](../ProgressBar/README.md).
-- Don't try to recolour it; it takes no `className` and each variant carries its own colours.
+- Don't try to recolour it; it takes no `className`. The colours are theme tokens (the accent for the clock, the subtle text colour for the bars and the spin arms), so they follow light and dark mode.

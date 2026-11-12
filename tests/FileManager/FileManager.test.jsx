@@ -110,3 +110,13 @@ describe('FileManager', () => {
     expect(within(container.querySelector('.files')).getAllByRole('button')).toHaveLength(3);
   });
 });
+
+describe('FileManager colours', () => {
+  it('uses theme tokens alone, with no dark-mode overrides that would invert them', () => {
+    const fs = require('fs');
+    const path = require('path');
+    const scss = fs.readFileSync(path.join(__dirname, '../../components/FileManager/FileManager.scss'), 'utf8');
+    expect(scss).not.toMatch(/@include dark/);
+    expect(scss).not.toMatch(/#[0-9a-fA-F]{3,6}\b|\bblack\b|\bwhite\b/);
+  });
+});

@@ -28,7 +28,7 @@ describe('Modal with the PopOver names', () => {
     const { container } = render(<Modal open handleClose={handleClose}>Content</Modal>);
     fireEvent.click(screen.getByText('Content'));
     expect(handleClose).not.toHaveBeenCalled();
-    fireEvent.click(container.firstChild);
+    fireEvent.click(document.querySelector('.volta-overlay'));
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
 
@@ -45,7 +45,7 @@ describe('Modal with the PopOver names', () => {
   it('ignores a click outside and Escape with closeOnOverlayClick off', () => {
     const handleClose = jest.fn();
     const { container } = render(<Modal open closeOnOverlayClick={false} handleClose={handleClose}>Content</Modal>);
-    fireEvent.click(container.firstChild);
+    fireEvent.click(document.querySelector('.volta-overlay'));
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(handleClose).not.toHaveBeenCalled();
     expect(screen.getByText('Content')).toBeInTheDocument();
@@ -54,7 +54,7 @@ describe('Modal with the PopOver names', () => {
   it('does the same for a titled modal with closeOnOverlayClick off, but its X still closes', () => {
     const onClose = jest.fn();
     const { container } = render(<Modal title="Titled" closeOnOverlayClick={false} onClose={onClose}>Content</Modal>);
-    fireEvent.click(container.firstChild);
+    fireEvent.click(document.querySelector('.volta-overlay'));
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(onClose).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole('button', { name: 'Close' }));
@@ -64,7 +64,7 @@ describe('Modal with the PopOver names', () => {
   it('does not throw without a handler', () => {
     const { container } = render(<Modal open>Content</Modal>);
     expect(() => {
-      fireEvent.click(container.firstChild);
+      fireEvent.click(document.querySelector('.volta-overlay'));
       fireEvent.keyDown(document, { key: 'Escape' });
     }).not.toThrow();
   });

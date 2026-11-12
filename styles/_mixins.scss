@@ -64,6 +64,23 @@ $field-height: 40px;
   }
 }
 
+// Checkbox and radio labels
+//
+// The whole label is the target, so a pad of ground behind it shows how far it reaches:
+// a subtle fill when the pointer is over it. The padding is always there, so the fill
+// appearing never moves or resizes anything (set `$hover` to false for a disabled one).
+@mixin choice-surface {
+  padding: var(--v-space-2) var(--v-space-3);
+  border-radius: var(--v-radius-md);
+  background: transparent;
+  transition: background-color var(--v-anim-speed) var(--v-anim-ease);
+}
+
+@mixin choice-hover {
+  background: var(--v-color-base-more-subtle);
+  color: var(--v-color-trim);
+}
+
 // Browser Compatibility
 @mixin no_select {
   -webkit-touch-callout: none;
@@ -96,10 +113,11 @@ $field-height: 40px;
   transition: $args;
 }
 
-// A group of checkboxes / radios: items in a wrapping row with room between
-// them. Both are inline-flex, so without this the items sit flush together.
+// A group of checkboxes / radios: items in a wrapping row. Each item has its own
+// padding (the pad behind its label, see choice-surface), which is most of the room
+// between them, so the gap only keeps neighbouring pads from touching.
 @mixin option_group {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 24px;
+  gap: 2px 0;
 }

@@ -132,4 +132,20 @@ describe('Toggle marks', () => {
     expect(scss).toMatch(/\.toggle-mark-on \{[^}]*color:\s*var\(--v-on-accent\)/);
     expect(scss).toMatch(/\.toggle-mark \{[^}]*pointer-events:\s*none/);
   });
+
+  describe('knob size', () => {
+    it('is small by default, and `md` keeps the larger knob', () => {
+      const { container, rerender } = render(<Toggle aria-label="Alerts" />);
+      expect(container.querySelector('.volta-toggle')).toHaveClass('volta-toggle--knob_sm');
+      rerender(<Toggle aria-label="Alerts" knobSize="md" />);
+      expect(container.querySelector('.volta-toggle')).toHaveClass('volta-toggle--knob_md');
+      expect(Toggle.knobSizes).toEqual(['sm', 'md']);
+    });
+
+    it('insets the small knob and keeps the old 25px knob and positions for md', () => {
+      const scss = fs.readFileSync(path.join(__dirname, '../../components/Toggle/Toggle.scss'), 'utf8');
+      expect(scss).toMatch(/--toggle-knob:\s*21px;\s*--toggle-knob-off:\s*1px;\s*--toggle-knob-on:\s*21px;/);
+      expect(scss).toMatch(/\.volta-toggle--knob_md \{\s*--toggle-knob:\s*25px;\s*--toggle-knob-off:\s*-1px;\s*--toggle-knob-on:\s*20px;/);
+    });
+  });
 });

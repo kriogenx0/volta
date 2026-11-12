@@ -26,16 +26,22 @@ import { TimePicker } from 'volta';
 | --- | --- | --- | --- |
 | `value` | `string` \| `{ fullDate }` | | The time to show: `"15:30"`, `"3:30 pm"`, or the `{ fullDate }` object `onChange` gives. Applied whenever it changes; a value that can't be read is ignored. |
 | `twentyFourHour` | `bool` | `false` | Hours 0 to 23 and no am or pm switch. Otherwise hours 1 to 12 and an am or pm control. |
+| `seconds` | `bool` | `false` | Adds a second field (`ss`) and a seconds list to the dropdown, and `second` to what `onChange` reports. `value` may then include seconds (`"15:30:45"`, `"3:30:45 pm"`). |
 | `minuteInterval` | `number` | `15` | The minutes offered in the dropdown, and the step of the Up and Down keys in the minute field (00, 15, 30, 45 by default). Any minute from 0 to 59 can still be typed. |
+| `secondInterval` | `number` | `15` | The seconds offered in the dropdown and the step of the Up and Down keys in the second field. Any second from 0 to 59 can still be typed. Only with `seconds`. |
 | `onChange` | `function` | | Called with `{ hour, minute, pm, fullDate, formatted }` once an hour has been picked. |
 
-What `onChange` receives: `hour` is a number (1 to 12, or 0 to 23 with `twentyFourHour`); `minute` is a two-digit string; `pm` is a boolean; `fullDate` is the 24-hour time as `"15:05"` (the hour is not zero-padded, so `"9:05"`); `formatted` is `"3:05 pm"`, or `"15:05"` with `twentyFourHour`. The minute defaults to `00` until one is chosen.
+What `onChange` receives: `hour` is a number (1 to 12, or 0 to 23 with `twentyFourHour`); `minute` is a two-digit string; `pm` is a boolean; `second` is a two-digit string, present only with `seconds`; `fullDate` is the 24-hour time as `"15:05"` (the hour is not zero-padded, so `"9:05"`), with `:45` added with `seconds`; `formatted` is `"3:05 pm"`, or `"15:05"` with `twentyFourHour`. The minute defaults to `00` until one is chosen.
 
-Typed text only counts when it is a valid hour (in range) or a minute from 0 to 59; on blur the box shows the last good value again.
+Typed text only counts when it is a valid hour (in range) or a minute or second from 0 to 59; on blur the box shows the last good value again.
+
+## Look
+
+The hour, minute and (with `seconds`) second boxes touch and read as one field: the corners where they meet are square, the shared border is drawn once, and the one with the pointer or focus comes forward so its whole border shows. There is no colon between them; the `hh`, `mm` and `ss` placeholders say which is which. The am or pm control sits 8px to the right.
 
 ## The dropdown
 
-When either the hour or the minute field has focus, one dropdown opens under the picker with an hour list and a minute list side by side. The chosen hour and minute are highlighted and scrolled into view. Pressing an entry sets that field and reports the time, and the dropdown stays open so you can pick the other one. It closes when focus leaves the picker (after about 200ms, so a press on an entry still lands) or on Escape. Pressing an entry does not take focus from the field.
+When any of the fields has focus, one dropdown opens under the boxes, as wide as they are (not counting the am or pm control), with an hour list, a minute list and, with `seconds`, a seconds list side by side. The chosen hour and minute are highlighted and scrolled into view. Pressing an entry sets that field and reports the time, and the dropdown stays open so you can pick the other one. It closes the moment focus leaves the picker, or on Escape; moving between the fields keeps it open. Pressing an entry does not take focus from the field.
 
 ## Accessibility
 

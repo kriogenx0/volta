@@ -18,10 +18,10 @@ const initials = (name) => (name || '')
 // The photo and the initials are named after the person, so a lone avatar still
 // says who it is.
 //
-// `color` is the background of the initials: 'accent' (the theme's accent, the default),
-// 'auto' (a colour made from the name, the same for the same name everywhere), or any
-// CSS colour. It is passed on as custom properties, since the value is worked out at runtime.
-const Avatar = ({ name, photoUrl, size = 'md', color = 'accent' }) => {
+// `color` is the background of the initials: 'auto' (a colour made from the name, the same
+// for the same name everywhere; the default), 'accent' (the theme's accent, also what a blank
+// name gets), or any CSS colour. It is passed on as custom properties, since the value is worked out at runtime.
+const Avatar = ({ name, photoUrl, size = 'md', color = 'auto' }) => {
   if (photoUrl) return <img src={photoUrl} alt={name || ''} className={`volta-avatar volta-avatar--${size}`} />;
 
   const colors = avatarColors(color, name);

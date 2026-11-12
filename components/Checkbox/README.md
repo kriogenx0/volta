@@ -29,6 +29,10 @@ import { Checkbox } from 'volta';
 
 Every other prop goes to the `<input type="checkbox">`: `checked` with `onChange` (controlled) or `defaultChecked` (uncontrolled), `name`, `value`, `id`, `required`, `aria-*`. There is no `className` prop.
 
+## Look
+
+The whole label is the target, so it has padding all round (8px above and below, 12px at the sides), and while the pointer is over it a subtle fill (the `base-more-subtle` token) shows how far it reaches, the text goes to full strength and the checkbox's border takes the accent. The padding is always there, so nothing moves or resizes on hover. A disabled one shows none of this.
+
 ## Accessibility
 
 - The `<input>` is inside a `<label>`, so the label text is its accessible name and clicking the text toggles it.

@@ -23,9 +23,6 @@
 
   .path {
     border: 1px solid var(--v-color-base-less-subtle);
-    @include dark {
-      border-color: var(--v-color-trim);
-    }
     padding-top: 5px;
     color: var(--v-color-trim-less-subtle);
     font-size: 14px;
@@ -44,25 +41,18 @@
 
       background: var(--v-color-base-subtle);
       color: var(--v-color-trim);
-      @include dark {
-        background: var(--v-color-base);
-        color: var(--v-color-base-less-subtle);
-      }
     }
   }
 
   .files {
     border: 1px solid var(--v-color-base-less-subtle);
-    @include dark {
-      border-color: var(--v-color-trim);
-    }
     border-radius: var(--v-radius-md);
     font-size: 14px;
     height: 300px;
     overflow-y: auto;
 
     .v-empty {
-      color: var(--v-color-base-less-subtle);
+      color: var(--v-color-trim-subtle);
     }
 
     // Each file is a native button so it can be tabbed to and pressed from the
@@ -85,7 +75,7 @@
       transition: background-color var(--v-anim-speed) var(--v-anim-ease), color var(--v-anim-speed) var(--v-anim-ease);
 
       &:hover {
-        color: var(--v-accent);
+        color: var(--v-color-trim);
         background-color: var(--v-accent-subtle);
       }
 

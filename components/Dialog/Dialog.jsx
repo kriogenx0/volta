@@ -12,8 +12,8 @@ import './Dialog.scss';
 
 // Opens with `isOpen`. Cancel, the header close button and (with
 // `closeOnOverlayClick`) a click outside call `handleClose`; Save calls
-// `handleSave`. Each also closes the dialog, so a parent that keeps its own open
-// state should update it in those callbacks to be able to reopen it.
+// `handleSave`. Each also closes the dialog (unless `autoClose` is off), so a parent that
+// keeps its own open state should update it in those callbacks to be able to reopen it.
 //
 // `variant="confirmation"` is a short question with a Confirm and a Cancel button, for
 // a decision (delete this? leave without saving?). It is narrower, has no close X, is
@@ -22,7 +22,7 @@ import './Dialog.scss';
 const Dialog = ({
   isOpen = false, saveEnabled = true, hideSaveButton = false, inlineMode = false, hideHeader = false, title = null,
   className, handleSave: onSave, handleClose: onCloseProp, titleSave, titleCancel = 'Cancel',
-  closeOnOverlayClick = false, variant = 'form', danger = false, showCloseButton = true, children
+  closeOnOverlayClick = false, variant = 'form', danger = false, showCloseButton = true, autoClose = true, children
 }) => {
   const titleId = useId();
   const bodyId = useId();
@@ -41,7 +41,8 @@ const Dialog = ({
     setInline(inlineMode);
   }, [isOpen, saveEnabled, hideSaveButton, inlineMode]);
 
-  const closeDialog = () => setOpen(false);
+  // With autoClose off (Alert), only the parent closes it, by no longer rendering it
+  const closeDialog = () => { if (autoClose) setOpen(false); };
 
   const handleSave = () => {
     if (onSave) onSave();
@@ -119,6 +120,8 @@ Dialog.propTypes = {
   danger: PropTypes.bool,
   // The X in the header (never in a confirmation)
   showCloseButton: PropTypes.bool,
+  // Save, Cancel and the X also close it (the default). Off, the parent decides, by not rendering it.
+  autoClose: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.node,
   handleSave: PropTypes.func,

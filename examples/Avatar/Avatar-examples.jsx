@@ -12,7 +12,7 @@ const PORTRAIT = `data:image/svg+xml,${encodeURIComponent(
 
 export default {
   name: 'Avatar',
-  description: 'A round picture of a person: their photo when there is one, otherwise up to two initials taken from their name. Comes in a small and a medium size. color="auto" makes the background from the name, so a person is the same colour everywhere.',
+  description: 'A round picture of a person: their photo when there is one, otherwise up to two initials taken from their name. Comes in a small and a medium size. The background is made from the name by default, so a person is the same colour everywhere; color="accent" or any CSS colour overrides it.',
   examples: [
     {
       name: 'Initials',
@@ -52,27 +52,32 @@ export default {
       code: '<Avatar />',
       output: (
         <div className="example-stack">
-          <p>With no name and no photo the avatar is an empty accent-coloured circle.</p>
+          <p>With no name and no photo the avatar is an empty accent-coloured circle (there is no name to make a colour from).</p>
           <Avatar />
         </div>
       )
     },
     {
-      name: 'A colour from the name',
-      code: `<Avatar name="Ada Lovelace" color="auto" />
-<Avatar name="Grace Hopper" color="auto" />
-<Avatar name="Alan Turing" color="auto" />
-<Avatar name="Katherine Johnson" color="auto" />
-<Avatar name="Linus Torvalds" color="auto" />`,
+      name: 'A colour from the name (the default)',
+      code: `<Avatar name="Ada Lovelace" />
+<Avatar name="Grace Hopper" />
+<Avatar name="Alan Turing" />
+<Avatar name="Katherine Johnson" />
+<Avatar name="Linus Torvalds" />`,
       output: (
         <div className="example-row">
-          <Avatar name="Ada Lovelace" color="auto" />
-          <Avatar name="Grace Hopper" color="auto" />
-          <Avatar name="Alan Turing" color="auto" />
-          <Avatar name="Katherine Johnson" color="auto" />
-          <Avatar name="Linus Torvalds" color="auto" />
+          <Avatar name="Ada Lovelace" />
+          <Avatar name="Grace Hopper" />
+          <Avatar name="Alan Turing" />
+          <Avatar name="Katherine Johnson" />
+          <Avatar name="Linus Torvalds" />
         </div>
       )
+    },
+    {
+      name: 'The theme accent',
+      code: '<Avatar name="Ada Lovelace" color="accent" />',
+      output: <Avatar name="Ada Lovelace" color="accent" />
     },
     {
       name: 'Your own colour',

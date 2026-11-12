@@ -2,16 +2,28 @@
 
 $global_nav_height: 48px;
 
+// The bar is the page colour with a rule under it, and the links are the text colours, so it
+// follows light and dark mode and the accent. At 640px and below the links fold behind a menu
+// button (`.volta-navbar--collapse`) and open as a list under the bar.
 .volta-navbar {
+  position: relative;
   height: $global_nav_height;
-  background: #333;
-  color: #fff;
+  background: var(--v-color-base);
+  border-bottom: 1px solid var(--v-color-base-subtle);
+  box-sizing: content-box;
+  color: var(--v-color-trim);
 
   > .l-width {
     display: flex;
+    align-items: center;
     max-width: none;
     padding-left: 40px;
     padding-right: 40px;
+
+    @include mobile {
+      padding-left: var(--v-space-4);
+      padding-right: var(--v-space-2);
+    }
   }
 
   .header-left {
@@ -25,7 +37,7 @@ $global_nav_height: 48px;
       // subtitle
       small {
         display: inline-block;
-        color: #888;
+        color: var(--v-color-trim-less-subtle);
         margin-left: 8px;
         font-size: 70%;
         vertical-align: middle;
@@ -33,7 +45,7 @@ $global_nav_height: 48px;
     }
 
     a {
-      color: #fff;
+      color: var(--v-color-trim);
       text-decoration: none;
     }
   }
@@ -46,9 +58,9 @@ $global_nav_height: 48px;
 
     > * {
       display: inline-block;
-      color: #aaa;
+      color: var(--v-color-trim-subtle);
       padding: 0 40px;
-      transition: all $anim-speed-normal;
+      transition: color var(--v-anim-speed) var(--v-anim-ease), background-color var(--v-anim-speed) var(--v-anim-ease);
       line-height: $global_nav_height;
       text-decoration: none;
       cursor: pointer;
@@ -60,11 +72,75 @@ $global_nav_height: 48px;
 
       &:hover {
         text-decoration: none;
-        color: #fff;
+        color: var(--v-color-trim);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--v-accent);
+        outline-offset: -2px;
       }
 
       &.active {
-        color: #fff;
+        color: var(--v-accent);
+      }
+    }
+  }
+
+  // The menu button only exists as a control on a narrow screen
+  .navbar-menu_button {
+    display: none;
+    margin-left: auto;
+    width: $global_nav_height;
+    height: $global_nav_height;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--v-color-trim);
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+    transition: background-color var(--v-anim-speed) var(--v-anim-ease);
+
+    &:hover {
+      background: var(--v-color-base-subtle);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--v-accent);
+      outline-offset: -2px;
+    }
+  }
+
+  &.volta-navbar--collapse {
+    @include mobile {
+      .navbar-menu_button {
+        display: block;
+      }
+
+      // The links leave the row and, while the menu is open, stack under the bar
+      nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: var(--v-z-nav);
+        flex-direction: column;
+        padding: var(--v-space-1) 0;
+        background: var(--v-color-base);
+        border-bottom: 1px solid var(--v-color-base-subtle);
+        box-shadow: var(--v-shadow-md);
+        text-align: left;
+
+        > * {
+          display: block;
+          padding: 0 var(--v-space-4);
+          line-height: 44px;
+        }
+      }
+
+      &.volta-navbar--open nav {
+        display: flex;
       }
     }
   }

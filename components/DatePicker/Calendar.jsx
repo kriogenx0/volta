@@ -4,15 +4,21 @@ import { format as formatDate, startOfDay, endOfDay } from 'date-fns';
 
 import { isDate } from '../../util/dateTimeUtils';
 import Button from '../Button/Button';
+import NativeSelect from '../NativeSelect/NativeSelect';
 import Dater from '../../util/Dater';
 
 import './Calendar.scss';
 import { map } from '../../util/collection';
+import range from '../../util/range';
+
+// The years offered when minDate and maxDate don't limit them: a century back (for birthdays) and 20 ahead
+const YEARS_BACK = 100;
+const YEARS_AHEAD = 20;
 
 const sameDay = (a, b) => Boolean(a && b)
   && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
 
-// One month at a time. `date` picks the month shown first and the highlighted
+// One month at a time, with a year list to jump to another year. `date` picks the month shown first and the highlighted
 // day (no day is highlighted without one); minDate and maxDate, whole days
 // inclusive, grey out the days outside them. Choosing a day calls
 // onDateSelect with a Date for it.
@@ -40,6 +46,15 @@ const Calendar = ({ date, minDate, maxDate, onDateSelect }) => {
   const handlePreviousClick = () => setDater(dater.clone().previousMonth());
   const handleNextClick = () => setDater(dater.clone().nextMonth());
   const handleMonthClick = () => setDater(new Dater());
+
+  // Jump to a year, keeping the month shown
+  const handleYearChange = (event) => setDater(new Dater(new Date(Number(event.target.value), dater.month() - 1, 1)));
+
+  // The years in the list: those between minDate and maxDate, or around today, and always the one shown
+  const thisYear = new Date().getFullYear();
+  const firstYear = Math.min(isDate(minDate) ? minDate.getFullYear() : thisYear - YEARS_BACK, dater.year());
+  const lastYear = Math.max(isDate(maxDate) ? maxDate.getFullYear() : thisYear + YEARS_AHEAD, dater.year());
+  const yearOptions = range(firstYear, lastYear + 1).map((year) => ({ value: year, label: String(year) }));
 
   const selectDay = (dayNumber) => {
     const nextDater = dater.clone().day(dayNumber);
@@ -109,8 +124,17 @@ const Calendar = ({ date, minDate, maxDate, onDateSelect }) => {
           &rarr;
         </Button>
         <Button className='cal-month' variant='link' size='small' title='Show the current month' onClick={handleMonthClick}>
-          {dater.monthName().substr(0, 3)} {String(dater.year()).substr(2)}
+          {dater.monthName().substr(0, 3)}
         </Button>
+        <span className='cal-year'>
+          <NativeSelect
+            aria-label='Year'
+            fieldSize='sm'
+            value={dater.year()}
+            options={yearOptions}
+            onChange={handleYearChange}
+          />
+        </span>
       </div>
       {renderCalendarMonth()}
       <div className='clear' />

@@ -84,8 +84,18 @@ describe('Avatar', () => {
 describe('Avatar colour', () => {
   const style = (container) => container.firstChild.style;
 
-  it('uses the accent by default, with no inline style', () => {
+  it('takes a colour from the name by default', () => {
     const { container } = render(<Avatar name="Ada Lovelace" />);
+    expect(style(container).getPropertyValue('--volta-avatar-background')).toBe(colorFromName('Ada Lovelace'));
+  });
+
+  it('uses the accent with color="accent", with no inline style', () => {
+    const { container } = render(<Avatar name="Ada Lovelace" color="accent" />);
+    expect(container.firstChild).not.toHaveAttribute('style');
+  });
+
+  it('is the accent when there is no name to work from', () => {
+    const { container } = render(<Avatar />);
     expect(container.firstChild).not.toHaveAttribute('style');
   });
 

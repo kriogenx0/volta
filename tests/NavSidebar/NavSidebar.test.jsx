@@ -122,3 +122,13 @@ describe('NavSidebar', () => {
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 });
+
+describe('NavSidebar colours', () => {
+  it('uses theme tokens only, so every item can be read in dark mode', () => {
+    const fs = require('fs');
+    const path = require('path');
+    const scss = fs.readFileSync(path.join(__dirname, '../../components/NavSidebar/NavSidebar.scss'), 'utf8');
+    expect(scss).not.toMatch(/\bblack\b|\bwhite\b|#[0-9a-fA-F]{3,6}\b|rgba?\(/);
+    expect(scss).toMatch(/\.nav_sidebar-item \{[^}]*color:\s*var\(--v-color-trim\)/);
+  });
+});

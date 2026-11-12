@@ -62,7 +62,7 @@ describe('SearchSelector', () => {
     const onClose = jest.fn();
     const { container } = render(<SearchSelector open onClose={onClose} />);
     expect(container.querySelector('.volta-modal')).toBeInTheDocument();
-    fireEvent.click(container.querySelector('.volta-modal'));
+    fireEvent.click(document.querySelector('.volta-overlay'));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
@@ -110,6 +110,6 @@ describe('SearchSelector', () => {
     const { container } = render(<SearchSelector open onType={onType} />);
     type('ap');
     expect(() => fireEvent.click(screen.getByRole('button', { name: 'Apple' }))).not.toThrow();
-    expect(() => fireEvent.click(container.querySelector('.volta-modal'))).not.toThrow();
+    expect(() => fireEvent.click(document.querySelector('.volta-overlay'))).not.toThrow();
   });
 });

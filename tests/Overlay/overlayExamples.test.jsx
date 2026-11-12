@@ -186,7 +186,7 @@ describe('overlay examples', () => {
       show(DialogExamples, 'Close on overlay click');
       const dialog = () => document.querySelector('.volta-dialog');
       click('Open dialog');
-      fireEvent.click(dialog());
+      fireEvent.click(document.querySelector('.volta-overlay'));
       expect(dialog()).toBeNull();
       click('Open dialog');
       fireEvent.keyDown(document, { key: 'Escape' });
@@ -231,7 +231,7 @@ describe('overlay examples', () => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
       click('Open modal');
       expect(screen.getByRole('dialog', { name: 'Heading' })).toBeInTheDocument();
-      fireEvent.click(document.querySelector('.volta-modal'));
+      fireEvent.click(document.querySelector('.volta-overlay'));
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
   });
@@ -268,7 +268,7 @@ describe('overlay examples', () => {
     it('ignores the backdrop and Escape when only the buttons should close it', () => {
       show(DialogExamples, 'Only the buttons close it');
       click('Open dialog');
-      fireEvent.click(document.querySelector('.volta-modal'));
+      fireEvent.click(document.querySelector('.volta-overlay'));
       fireEvent.keyDown(document, { key: 'Escape' });
       expect(screen.getByRole('dialog')).toBeInTheDocument();
       click('Got it');
@@ -337,7 +337,7 @@ describe('overlay examples', () => {
       click('Close');
       expect(popover()).toBeNull();
       click('Open modal');
-      fireEvent.click(popover());
+      fireEvent.click(document.querySelector('.volta-overlay'));
       expect(popover()).toBeNull();
       click('Open modal');
       fireEvent.keyDown(document, { key: 'Escape' });
@@ -348,7 +348,7 @@ describe('overlay examples', () => {
       show(ModalExamples, 'Only a button closes it');
       const popover = () => document.querySelector('.volta-modal');
       click('Open modal');
-      fireEvent.click(popover());
+      fireEvent.click(document.querySelector('.volta-overlay'));
       fireEvent.keyDown(document, { key: 'Escape' });
       expect(popover()).toBeInTheDocument();
       click('Close');

@@ -61,6 +61,21 @@ $calendar-size: 40px;
     }
   }
 
+  // The year list beside the month name; smaller than a form field so the header stays compact
+  .cal-year
+  {
+    display: inline-block;
+    vertical-align: middle;
+    width: 5.5rem;
+
+    select
+    {
+      min-height: 32px;
+      min-width: 0;
+      padding: 4px 8px;
+    }
+  }
+
   .cal-prev
   {
     float: left;

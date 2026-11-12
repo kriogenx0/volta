@@ -35,7 +35,7 @@ import { RadioGroup } from 'volta';
 | `onChange` | `function` | | Called with the change event. `event.target.value` is always a string, so convert it back for number or boolean options. |
 | `className` | `string` | | Added to the wrapper after `volta-radiogroup`. |
 
-The wrapper is a flex row that wraps, with 12px between rows and 24px between options. There is no `disabled` prop for the whole group; disable each option, or the fieldset around it.
+The wrapper is a flex row that wraps. Each option has its own padding (8px above and below, 12px at the sides), so there are 24px between options across and 18px between lines (the padding plus a 2px gap). There is no `disabled` prop for the whole group; disable each option, or the fieldset around it.
 
 ## Accessibility
 

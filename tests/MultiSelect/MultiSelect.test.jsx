@@ -170,4 +170,10 @@ describe('MultiSelect', () => {
       expect(onChange.mock.calls[0][0]).toEqual([]);
     });
   });
+
+  it('sets its text to 14px like the other fields, including the chips', () => {
+    const { customStyles } = require('../../components/MultiSelect/selectMenuTheme');
+    expect(customStyles.container({}).fontSize).toBe(14);
+    expect(customStyles.multiValueLabel({}).fontSize).toBe(14);
+  });
 });

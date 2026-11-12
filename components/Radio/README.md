@@ -29,6 +29,10 @@ import { Radio } from 'volta';
 
 Every other prop goes to the native `<input type="radio">`: `name`, `value`, `checked` or `defaultChecked`, `onChange`, `id`, `aria-*`, `className` (the input's, not the label's). It is controlled when you give `checked` and `onChange`, and uncontrolled with `defaultChecked`. The whole `<label>` is the click target.
 
+## Look
+
+The whole label is the target, so it has padding all round (8px above and below, 12px at the sides), and while the pointer is over it a subtle fill (the `base-more-subtle` token) shows how far it reaches, the text goes to full strength and the radio button's border takes the accent. The padding is always there, so nothing moves or resizes on hover. A disabled one shows none of this.
+
 ## Accessibility
 
 - It is a native radio inside a `<label>`, so the label text is its accessible name and clicking the text selects it.

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 // Keeps keyboard focus inside a modal overlay while it is `active`.
 //
@@ -33,11 +33,21 @@ const focusables = (container) => [...container.querySelectorAll(FOCUSABLE)].fil
 const stack = [];
 
 const useFocusTrap = (containerRef, active = true) => {
+  // Where focus was before the overlay opened. Read while rendering, before the commit:
+  // an `autoFocus` inside the overlay moves focus during the commit, ahead of the effect
+  // below, which would then take that button for "where focus was".
+  const before = useRef(null);
+  const wasActive = useRef(false);
+  if (typeof document !== 'undefined' && active && !wasActive.current) before.current = document.activeElement;
+  useEffect(() => { wasActive.current = active; });
+
   useEffect(() => {
     const container = containerRef.current;
     if (!active || !container) return undefined;
 
-    const previous = document.activeElement;
+    // The element read before the commit, unless that was nothing in particular (two
+    // overlays mounting in the same commit): then whatever has focus now
+    const previous = before.current && before.current !== document.body ? before.current : document.activeElement;
     const entry = { container };
     stack.push(entry);
 

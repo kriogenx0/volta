@@ -1,6 +1,6 @@
 # Alert
 
-A centered confirm or prompt dialog that asks the user to confirm, cancel or type a short answer.
+A confirm or prompt dialog that asks the user to confirm, cancel or type a short answer. It is a confirmation [`Dialog`](../Dialog/README.md), which is a [`Modal`](../Modal/README.md), so it has the same panel, padding and position.
 
 ## When to use
 
@@ -44,7 +44,7 @@ showDelete && (
 
 - It has `role="alertdialog"`, labelled by the title and described by the message. The text field is named by the message, or by the title when there is no message.
 - Enter confirms and Escape cancels, from anywhere on the page, except that Enter on one of the alert's own buttons or links presses that button. A held-down key is ignored, and it acts on key press, so the Enter that opened it does not confirm it.
-- It does not trap Tab or restore focus, and only `type="input"` moves focus into it. A click outside does not close it.
+- Being a `Modal`, it keeps the page behind it still, holds Tab inside and gives focus back to what opened it. Focus starts on Cancel (or in the text field for `type="input"`), so a stray Enter on a button never confirms. A click outside does not close it.
 - Make `confirmTitle` say the action ("Delete", "Save"), not "OK".
 
 ## Do and don't

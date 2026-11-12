@@ -45,34 +45,12 @@ export default {
       )
     },
     {
-      name: 'Knob',
-      code: (
-        '<Loader variant="knob" />'
-      ),
-      output: (
-        <div className="example-loader_frame">
-          <Loader variant="knob" />
-        </div>
-      )
-    },
-    {
       name: 'Spin',
       code: (
         '<Loader variant="spin" />'
       ),
       output: (
         <Loader variant="spin" />
-      )
-    },
-    {
-      name: 'Block',
-      code: (
-        '<Loader variant="block" />'
-      ),
-      output: (
-        <div className="example-loader_frame example-loader_frame--tall">
-          <Loader variant="block" />
-        </div>
       )
     }
   ]

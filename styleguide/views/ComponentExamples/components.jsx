@@ -41,7 +41,7 @@ import LabelExamples from '../../../examples/Label/Label-examples';
 import LayerExamples from '../../../examples/Layer/Layer-examples';
 import LazyExamples from '../../../examples/Lazy/Lazy-examples';
 import LinkExamples from '../../../examples/Link/Link-examples';
-import ListDefinitionsExamples from '../../../examples/ListDefinitions/ListDefinitions-examples';
+import DefinitionsExamples from '../../../examples/Definitions/Definitions-examples';
 import ListExamples from '../../../examples/List/List-examples';
 import LoaderExamples from '../../../examples/Loader/Loader-examples';
 import MapExamples from '../../../examples/Map/Map-examples';
@@ -54,6 +54,7 @@ import AlertExamples from '../../../examples/ModalAlert/Alert-examples';
 import MultiSelectExamples from '../../../examples/MultiSelect/MultiSelect-examples';
 import NavBarExamples from '../../../examples/NavBar/NavBar-examples';
 import NativeColorPickerExamples from '../../../examples/NativeColorPicker/NativeColorPicker-examples';
+import NativeSliderExamples from '../../../examples/NativeSlider/NativeSlider-examples';
 import NavSidebarExamples from '../../../examples/NavSidebar/NavSidebar-examples';
 import NumericFieldExamples from '../../../examples/NumericField/NumericField-examples';
 import OverlayExamples from '../../../examples/Overlay/Overlay-examples';
@@ -125,7 +126,7 @@ const curated = [
   LayerExamples,
   LazyExamples,
   LinkExamples,
-  ListDefinitionsExamples,
+  DefinitionsExamples,
   ListExamples,
   LoaderExamples,
   MapExamples,
@@ -138,6 +139,7 @@ const curated = [
   MultiSelectExamples,
   NavBarExamples,
   NativeColorPickerExamples,
+  NativeSliderExamples,
   NavSidebarExamples,
   NumericFieldExamples,
   OverlayExamples,

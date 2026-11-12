@@ -21,7 +21,7 @@ describe('Modal', () => {
     expect(onClose).not.toHaveBeenCalled();
     fireEvent.click(screen.getByLabelText('Close'));
     expect(onClose).toHaveBeenCalledTimes(1);
-    fireEvent.click(container.querySelector('.volta-modal--standalone'));
+    fireEvent.click(document.querySelector('.volta-overlay'));
     expect(onClose).toHaveBeenCalledTimes(2);
   });
 
@@ -96,7 +96,7 @@ describe('Modal', () => {
       const { container } = render(<Modal show onHide={onHide}>Body</Modal>);
       fireEvent.click(screen.getByText('Body'));
       expect(onHide).not.toHaveBeenCalled();
-      fireEvent.click(container.firstChild);
+      fireEvent.click(document.querySelector('.volta-overlay'));
       expect(onHide).toHaveBeenCalledTimes(1);
     });
 
@@ -113,7 +113,7 @@ describe('Modal', () => {
     it('does not throw when dismissed without an onHide', () => {
       const { container } = render(<Modal show>Body</Modal>);
       expect(() => {
-        fireEvent.click(container.firstChild);
+        fireEvent.click(document.querySelector('.volta-overlay'));
         fireEvent.keyDown(document, { key: 'Escape' });
       }).not.toThrow();
     });

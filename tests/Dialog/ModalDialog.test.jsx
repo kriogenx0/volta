@@ -109,7 +109,7 @@ describe('ModalDialog', () => {
       const { container } = render(<ModalDialog isOpen onCancel={onCancel}>Body</ModalDialog>);
       fireEvent.click(screen.getByText('Body'));
       expect(onCancel).not.toHaveBeenCalled();
-      fireEvent.click(container.firstChild);
+      fireEvent.click(document.querySelector('.volta-overlay'));
       expect(onCancel).toHaveBeenCalledTimes(1);
     });
 
@@ -124,7 +124,7 @@ describe('ModalDialog', () => {
     it('ignores the backdrop and Escape with closeOnOverlayClick off', () => {
       const onCancel = jest.fn();
       const { container } = render(<ModalDialog isOpen closeOnOverlayClick={false} onCancel={onCancel}>Body</ModalDialog>);
-      fireEvent.click(container.firstChild);
+      fireEvent.click(document.querySelector('.volta-overlay'));
       fireEvent.keyDown(document, { key: 'Escape' });
       expect(onCancel).not.toHaveBeenCalled();
       expect(screen.getByText('Body')).toBeInTheDocument();
@@ -153,10 +153,10 @@ describe('ModalDialog is a Dialog under older names', () => {
     const onCancel = jest.fn();
     const handleClose = jest.fn();
     const first = render(<ModalDialog isOpen onCancel={onCancel}>Body</ModalDialog>);
-    fireEvent.click(first.container.firstChild);
+    fireEvent.click(document.querySelector('.volta-overlay'));
     expect(onCancel).toHaveBeenCalledTimes(1);
-    const second = render(<Dialog isOpen handleClose={handleClose}>Body</Dialog>);
-    fireEvent.click(second.container.firstChild);
+    render(<Dialog isOpen handleClose={handleClose}>Body</Dialog>);
+    fireEvent.click(document.querySelector('.volta-overlay'));
     expect(handleClose).not.toHaveBeenCalled();
   });
 });

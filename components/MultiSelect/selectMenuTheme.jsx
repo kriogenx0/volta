@@ -10,7 +10,14 @@ const text = 'var(--v-color-trim)';
 const subtle = 'var(--v-color-trim-subtle)';
 const border = 'var(--v-color-base-less-subtle)';
 
+// The same text size as the other fields (14px), for the typed text, the chips and the menu
+const fontSize = 14;
+
 export const customStyles = {
+  container: (baseStyles) => ({
+    ...baseStyles,
+    fontSize,
+  }),
   control: (baseStyles, state) => ({
     ...baseStyles,
     backgroundColor: 'var(--v-color-base)',
@@ -71,7 +78,7 @@ export const customStyles = {
   multiValueLabel: (baseStyles) => ({
     ...baseStyles,
     color: text,
-    fontSize: '1rem',
+    fontSize,
     paddingLeft: '6px',
     paddingRight: '6px',
   }),

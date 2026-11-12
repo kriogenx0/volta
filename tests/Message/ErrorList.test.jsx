@@ -34,10 +34,14 @@ describe('ErrorList', () => {
     expect(screen.getByRole('listitem')).toHaveTextContent('Username: Too short. Already taken.');
   });
 
-  it('hides the decorative dot from assistive tech and styles it from a class, not inline', () => {
-    const { container } = render(<ErrorList errors={{ email: 'Required.' }} />);
-    const dot = container.querySelector('.volta-error_list-dot');
-    expect(dot).toHaveAttribute('aria-hidden', 'true');
-    expect(dot).not.toHaveAttribute('style');
+  it('marks each error with a Badge cross, hidden from assistive tech and styled from a class, not inline', () => {
+    const { container } = render(<ErrorList errors={{ email: 'Required.', name: 'Required.' }} />);
+    const icons = container.querySelectorAll('li .volta-badge.badge-x');
+    expect(icons).toHaveLength(2);
+    icons.forEach((icon) => {
+      expect(icon).toHaveAttribute('aria-hidden', 'true');
+      expect(icon).not.toHaveAttribute('style');
+      expect(icon.querySelector('svg')).toBeInTheDocument();
+    });
   });
 });
