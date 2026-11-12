@@ -50,7 +50,7 @@ An option with `fixed: true` is shown first and cannot be removed or cleared. Th
 
 ## Theming
 
-Text is 14px, the size of the other fields, in the box, the chips and the menu. Every colour is a `--v-*` token set through react-select's `styles`, so the control, its menu, chips and icons follow light and dark mode and the accent. Style inner parts with the `multi-select__` class names.
+The corners of the box, the chips and the menu are the radius tokens, so `Theme.setShape` (square, rounded, pill) applies to them. Text is 14px, the size of the other fields, in the box, the chips and the menu. Every colour is a `--v-*` token set through react-select's `styles`, so the control, its menu, chips and icons follow light and dark mode and the accent. Style inner parts with the `multi-select__` class names.
 
 ## Accessibility
 

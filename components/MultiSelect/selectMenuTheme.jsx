@@ -3,8 +3,9 @@ import React from 'react'
 import { components } from 'react-select'
 import Icon from '../Icon'
 
-// react-select styles itself with fixed colours, so every colour here is a theme
-// token (a CSS variable): the control follows light and dark mode, and a custom accent.
+// react-select styles itself with fixed colours and corners, so every colour and corner here
+// is a theme token (a CSS variable): the control follows light and dark mode, a custom accent,
+// and the square, rounded and pill shapes (Theme.setShape).
 // https://react-select.com/styles#overriding-the-theme
 const text = 'var(--v-color-trim)';
 const subtle = 'var(--v-color-trim-subtle)';
@@ -21,6 +22,7 @@ export const customStyles = {
   control: (baseStyles, state) => ({
     ...baseStyles,
     backgroundColor: 'var(--v-color-base)',
+    borderRadius: 'var(--v-radius-md)',
     minHeight: 40,
     borderColor: state.isFocused ? 'var(--v-accent)' : border,
     boxShadow: state.isFocused ? '0 0 0 2px var(--v-accent)' : 'none',
@@ -48,6 +50,9 @@ export const customStyles = {
     ...baseStyles,
     backgroundColor: 'var(--v-color-base)',
     border: `1px solid ${border}`,
+    borderRadius: 'var(--v-radius-md)',
+    // Keeps the options inside the rounded corners, whatever the shape
+    overflow: 'hidden',
     boxShadow: 'var(--v-shadow-md)',
   }),
   option: (baseStyles, state) => ({
@@ -73,7 +78,8 @@ export const customStyles = {
     ...baseStyles,
     backgroundColor: 'var(--v-color-base-subtle)',
     border: `1px solid ${border}`,
-    borderRadius: 4,
+    borderRadius: 'var(--v-radius-md)',
+    overflow: 'hidden',
   }),
   multiValueLabel: (baseStyles) => ({
     ...baseStyles,

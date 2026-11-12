@@ -176,4 +176,11 @@ describe('MultiSelect', () => {
     expect(customStyles.container({}).fontSize).toBe(14);
     expect(customStyles.multiValueLabel({}).fontSize).toBe(14);
   });
+
+  it('takes its corners from the radius tokens, so square, rounded and pill apply', () => {
+    const { customStyles } = require('../../components/MultiSelect/selectMenuTheme');
+    expect(customStyles.control({}, {}).borderRadius).toBe('var(--v-radius-md)');
+    expect(customStyles.menu({}).borderRadius).toBe('var(--v-radius-md)');
+    expect(customStyles.multiValue({}).borderRadius).toBe('var(--v-radius-md)');
+  });
 });

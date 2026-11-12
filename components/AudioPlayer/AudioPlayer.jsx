@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Howl } from 'howler';
 
 import Loader from '../Loader/Loader';
 
@@ -42,7 +41,7 @@ const ErrorIcon = () => <Glyph><circle cx="12" cy="12" r="9" /><path d="M9 9l6 6
 // A small audio player for one file: play and pause, the time played, a bar to
 // click or drag to seek (arrow keys too), the length and, with `volume`, a mute
 // button. `loop`, `volume` and `autoplay` are read when the file loads, and a
-// new `src` loads a new file.
+// new `src` loads a new file. It plays through the browser's own audio element.
 const AudioPlayer = ({ src, autoplay = false, loop = false, volume = false, waveform }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -73,37 +72,49 @@ const AudioPlayer = ({ src, autoplay = false, loop = false, volume = false, wave
       return undefined;
     }
 
-    const howl = new Howl({
-      src: [src],
-      autoplay,
-      loop,
-      volume: typeof volume === 'number' ? clamp(volume, 0, 1) : 1,
-      onplay: () => active && setPlaying(true),
-      onpause: () => active && setPlaying(false),
-      onstop: () => active && setPlaying(false),
-      onend: () => {
-        // A looping track carries straight on; otherwise it is back at the start
-        if (!active || loop) return;
+    // The browser's own audio element does the playing; it never joins the page
+    const audio = new Audio();
+    audio.preload = 'auto';
+    audio.loop = loop;
+    audio.autoplay = autoplay;
+    audio.volume = typeof volume === 'number' ? clamp(volume, 0, 1) : 1;
+
+    const listeners = {
+      play: () => active && setPlaying(true),
+      pause: () => active && setPlaying(false),
+      ended: () => {
+        // A looping track carries straight on (the browser does not even fire this for one);
+        // otherwise it is back at the start
+        if (!active || audio.loop) return;
         setPlaying(false);
         setPosition(0);
+        audio.currentTime = 0;
       },
-      onload: () => {
+      // The length is known: enough to show the controls. A stream with no length shows 0:00.
+      loadedmetadata: () => {
         if (!active) return;
-        setDuration(howl.duration());
+        setDuration(Number.isFinite(audio.duration) ? audio.duration : 0);
         setLoading(false);
       },
-      onloaderror: () => {
+      error: () => {
         if (!active) return;
         setLoading(false);
         setError(ERROR_MESSAGE);
       }
-    });
-    player.current = howl;
+    };
+    Object.entries(listeners).forEach(([type, listener]) => audio.addEventListener(type, listener));
+
+    audio.src = src;
+    player.current = audio;
 
     return () => {
       active = false;
       player.current = null;
-      howl.unload();
+      Object.entries(listeners).forEach(([type, listener]) => audio.removeEventListener(type, listener));
+      // Stop the download and the sound: pause, drop the source and load nothing
+      audio.pause();
+      audio.removeAttribute('src');
+      audio.load();
     };
   }, [src]);
 
@@ -114,7 +125,7 @@ const AudioPlayer = ({ src, autoplay = false, loop = false, volume = false, wave
     let frame;
     const step = () => {
       if (!player.current) return;
-      setPosition(player.current.seek() || 0);
+      setPosition(player.current.currentTime || 0);
       frame = requestAnimationFrame(step);
     };
     frame = requestAnimationFrame(step);
@@ -125,7 +136,7 @@ const AudioPlayer = ({ src, autoplay = false, loop = false, volume = false, wave
   const seekTo = (secs) => {
     if (!player.current) return;
     const next = clamp(secs, 0, duration);
-    player.current.seek(next);
+    player.current.currentTime = next;
     setPosition(next);
   };
 
@@ -167,13 +178,19 @@ const AudioPlayer = ({ src, autoplay = false, loop = false, volume = false, wave
 
   const handleTogglePlay = () => {
     if (!player.current) return;
-    if (playing) player.current.pause();
-    else player.current.play();
+    if (playing) {
+      player.current.pause();
+    } else {
+      // The browser can refuse (autoplay rules, a file that won't play); the error event or the
+      // stopped button says so, so the rejected promise needs no handling here
+      const started = player.current.play();
+      if (started && started.catch) started.catch(() => {});
+    }
   };
 
   const handleToggleMute = () => {
     if (!player.current) return;
-    player.current.mute(!muted);
+    player.current.muted = !muted;
     setMuted(!muted);
   };
 

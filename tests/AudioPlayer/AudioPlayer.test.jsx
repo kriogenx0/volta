@@ -3,39 +3,40 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import AudioPlayer, { formatTime } from '../../components/AudioPlayer/AudioPlayer';
 import examples from '../../examples/AudioPlayer/AudioPlayer-examples';
 
-// A stand-in for Howler's Howl: it records what the component asks for and lets
-// each test fire the callbacks the real player would (load, play, end, ...).
-const mockHowls = [];
+// A stand-in for the browser's audio element: it records what the component sets and
+// lets each test fire the events the real one would (loadedmetadata, play, ended, ...).
+const mockAudios = [];
 
-jest.mock('howler', () => ({
-  Howl: class MockHowl {
-    constructor(options) {
-      this.options = options;
-      this.time = 0;
-      this.length = 125;
-      this.muted = false;
-      this.unloaded = false;
-      this.play = jest.fn(() => { this.options.onplay(); });
-      this.pause = jest.fn(() => { this.options.onpause(); });
-      this.mute = jest.fn((value) => { this.muted = value; });
-      this.unload = jest.fn(() => { this.unloaded = true; });
-      mockHowls.push(this);
-    }
-
-    seek(value) {
-      if (value === undefined) return this.time;
-      this.time = value;
-      return this;
-    }
-
-    duration() {
-      return this.length;
-    }
+class MockAudio extends EventTarget {
+  constructor() {
+    super();
+    this.currentTime = 0;
+    this.duration = 125;
+    this.muted = false;
+    this.volume = 1;
+    this.loop = false;
+    this.autoplay = false;
+    this.src = '';
+    this.unloaded = false;
+    this.play = jest.fn(() => { this.fire('play'); return Promise.resolve(); });
+    this.pause = jest.fn(() => { this.fire('pause'); });
+    this.load = jest.fn(() => { this.unloaded = !this.src; });
+    mockAudios.push(this);
   }
-}));
 
-const lastHowl = () => mockHowls[mockHowls.length - 1];
-const loaded = () => act(() => { lastHowl().options.onload(); });
+  removeAttribute(name) {
+    if (name === 'src') this.src = '';
+  }
+
+  fire(type) {
+    this.dispatchEvent(new Event(type));
+  }
+}
+
+global.Audio = MockAudio;
+
+const lastAudio = () => mockAudios[mockAudios.length - 1];
+const loaded = () => act(() => { lastAudio().fire('loadedmetadata'); });
 const loadedTrack = (props = {}) => {
   const view = render(<AudioPlayer src="/song.mp3" {...props} />);
   loaded();
@@ -53,7 +54,7 @@ const sizeRail = (rail) => {
 };
 
 beforeEach(() => {
-  mockHowls.length = 0;
+  mockAudios.length = 0;
 });
 
 describe('formatTime', () => {
@@ -82,21 +83,21 @@ describe('AudioPlayer', () => {
   describe('loading the file', () => {
     it('asks the player for the file, with the options it was given', () => {
       render(<AudioPlayer src="/song.mp3" autoplay loop volume={0.4} />);
-      expect(lastHowl().options).toMatchObject({ src: ['/song.mp3'], autoplay: true, loop: true, volume: 0.4 });
+      expect(lastAudio()).toMatchObject({ src: '/song.mp3', autoplay: true, loop: true, volume: 0.4 });
     });
 
     it('is quiet, not looping and full volume by default', () => {
       render(<AudioPlayer src="/song.mp3" />);
-      expect(lastHowl().options).toMatchObject({ autoplay: false, loop: false, volume: 1 });
+      expect(lastAudio()).toMatchObject({ autoplay: false, loop: false, volume: 1 });
     });
 
     it('keeps the starting volume between 0 and 1, and full for true or false', () => {
       render(<AudioPlayer src="/a.mp3" volume={3} />);
-      expect(lastHowl().options.volume).toBe(1);
+      expect(lastAudio().volume).toBe(1);
       render(<AudioPlayer src="/b.mp3" volume={-1} />);
-      expect(lastHowl().options.volume).toBe(0);
+      expect(lastAudio().volume).toBe(0);
       render(<AudioPlayer src="/c.mp3" volume />);
-      expect(lastHowl().options.volume).toBe(1);
+      expect(lastAudio().volume).toBe(1);
     });
 
     it('shows a loader until the file has loaded, then the controls', () => {
@@ -119,7 +120,7 @@ describe('AudioPlayer', () => {
 
     it('shows an error when the file cannot be loaded', () => {
       render(<AudioPlayer src="/missing.mp3" />);
-      act(() => { lastHowl().options.onloaderror(); });
+      act(() => { lastAudio().fire('error'); });
       expect(screen.getByRole('alert')).toHaveTextContent('Could not load audio file');
       expect(screen.queryByRole('button', { name: 'Play' })).toBeNull();
     });
@@ -127,15 +128,16 @@ describe('AudioPlayer', () => {
     it('shows the error rather than throwing when there is no file', () => {
       render(<AudioPlayer />);
       expect(screen.getByRole('alert')).toHaveTextContent('Could not load audio file');
-      expect(mockHowls).toHaveLength(0);
+      expect(mockAudios).toHaveLength(0);
     });
 
     it('loads a new file when src changes and drops the old one', () => {
       const { rerender } = loadedTrack();
-      const first = lastHowl();
+      const first = lastAudio();
       rerender(<AudioPlayer src="/other.mp3" />);
-      expect(first.unload).toHaveBeenCalledTimes(1);
-      expect(lastHowl().options.src).toEqual(['/other.mp3']);
+      expect(first.unloaded).toBe(true);
+      expect(first.pause).toHaveBeenCalled();
+      expect(lastAudio().src).toBe('/other.mp3');
       expect(screen.queryByRole('button', { name: 'Play' })).toBeNull();
       loaded();
       expect(screen.getByRole('button', { name: 'Play' })).toBeInTheDocument();
@@ -143,18 +145,19 @@ describe('AudioPlayer', () => {
 
     it('ignores a late answer from a file that was replaced or removed', () => {
       const { rerender, unmount } = render(<AudioPlayer src="/song.mp3" />);
-      const first = lastHowl();
+      const first = lastAudio();
       rerender(<AudioPlayer src="/other.mp3" />);
-      act(() => { first.options.onload(); });
+      act(() => { first.fire('loadedmetadata'); });
       expect(screen.queryByRole('button', { name: 'Play' })).toBeNull();
       unmount();
-      expect(() => first.options.onloaderror()).not.toThrow();
+      expect(() => first.fire('error')).not.toThrow();
     });
 
     it('releases the player when removed', () => {
       const { unmount } = loadedTrack();
       unmount();
-      expect(lastHowl().unload).toHaveBeenCalledTimes(1);
+      expect(lastAudio().unloaded).toBe(true);
+      expect(lastAudio().pause).toHaveBeenCalled();
     });
 
     it('does not use the deprecated componentWillMount', () => {
@@ -172,15 +175,15 @@ describe('AudioPlayer', () => {
     it('plays and pauses from the same button, which says which', () => {
       loadedTrack();
       fireEvent.click(screen.getByRole('button', { name: 'Play' }));
-      expect(lastHowl().play).toHaveBeenCalledTimes(1);
+      expect(lastAudio().play).toHaveBeenCalledTimes(1);
       fireEvent.click(screen.getByRole('button', { name: 'Pause' }));
-      expect(lastHowl().pause).toHaveBeenCalledTimes(1);
+      expect(lastAudio().pause).toHaveBeenCalledTimes(1);
       expect(screen.getByRole('button', { name: 'Play' })).toBeInTheDocument();
     });
 
     it('shows pause when the player starts by itself, as with autoplay', () => {
       loadedTrack({ autoplay: true });
-      act(() => { lastHowl().options.onplay(); });
+      act(() => { lastAudio().fire('play'); });
       expect(screen.getByRole('button', { name: 'Pause' })).toBeInTheDocument();
     });
 
@@ -189,7 +192,7 @@ describe('AudioPlayer', () => {
       try {
         const { container } = loadedTrack();
         fireEvent.click(screen.getByRole('button', { name: 'Play' }));
-        lastHowl().time = 31.25;
+        lastAudio().currentTime = 31.25;
         act(() => { jest.advanceTimersByTime(40); });
         expect(container.querySelector('.time')).toHaveTextContent('0:31');
         expect(container.querySelector('.rail-elapsed_percent')).toHaveStyle({ width: '25%' });
@@ -204,7 +207,7 @@ describe('AudioPlayer', () => {
         const { container } = loadedTrack();
         fireEvent.click(screen.getByRole('button', { name: 'Play' }));
         fireEvent.click(screen.getByRole('button', { name: 'Pause' }));
-        lastHowl().time = 60;
+        lastAudio().currentTime = 60;
         act(() => { jest.advanceTimersByTime(100); });
         expect(container.querySelector('.time')).toHaveTextContent('0:00');
       } finally {
@@ -217,9 +220,9 @@ describe('AudioPlayer', () => {
       try {
         const { container } = loadedTrack();
         fireEvent.click(screen.getByRole('button', { name: 'Play' }));
-        lastHowl().time = 125;
+        lastAudio().currentTime = 125;
         act(() => { jest.advanceTimersByTime(40); });
-        act(() => { lastHowl().options.onend(); });
+        act(() => { lastAudio().fire('ended'); });
         expect(screen.getByRole('button', { name: 'Play' })).toBeInTheDocument();
         expect(container.querySelector('.time')).toHaveTextContent('0:00');
       } finally {
@@ -230,7 +233,7 @@ describe('AudioPlayer', () => {
     it('keeps playing when a looping track reaches the end', () => {
       loadedTrack({ loop: true });
       fireEvent.click(screen.getByRole('button', { name: 'Play' }));
-      act(() => { lastHowl().options.onend(); });
+      act(() => { lastAudio().fire('ended'); });
       expect(screen.getByRole('button', { name: 'Pause' })).toBeInTheDocument();
     });
   });
@@ -250,7 +253,7 @@ describe('AudioPlayer', () => {
       const rail = screen.getByRole('slider', { name: 'Seek' });
       sizeRail(rail);
       pointer('pointerdown', rail, 200);
-      expect(lastHowl().time).toBe(62.5);
+      expect(lastAudio().currentTime).toBe(62.5);
       expect(container.querySelector('.time')).toHaveTextContent('1:03');
       expect(container.querySelector('.rail-elapsed_percent')).toHaveStyle({ width: '50%' });
       expect(rail).toHaveAttribute('aria-valuetext', '1:03 of 2:05');
@@ -262,15 +265,15 @@ describe('AudioPlayer', () => {
       sizeRail(rail);
       pointer('pointerdown', rail, 100);
       pointer('pointermove', rail, 150);
-      expect(lastHowl().time).toBe(31.25);
+      expect(lastAudio().currentTime).toBe(31.25);
       pointer('pointermove', rail, 900);
-      expect(lastHowl().time).toBe(125);
+      expect(lastAudio().currentTime).toBe(125);
       pointer('pointermove', rail, -50);
-      expect(lastHowl().time).toBe(0);
+      expect(lastAudio().currentTime).toBe(0);
 
       pointer('pointerup', rail, 0);
       pointer('pointermove', rail, 200);
-      expect(lastHowl().time).toBe(0);
+      expect(lastAudio().currentTime).toBe(0);
     });
 
     it('ignores the pointer moving over the bar without being pressed', () => {
@@ -278,34 +281,34 @@ describe('AudioPlayer', () => {
       const rail = screen.getByRole('slider', { name: 'Seek' });
       sizeRail(rail);
       pointer('pointermove', rail, 200);
-      expect(lastHowl().time).toBe(0);
+      expect(lastAudio().currentTime).toBe(0);
     });
 
     it('moves by 5 seconds with the arrow keys and to the ends with Home and End', () => {
       loadedTrack();
       const rail = screen.getByRole('slider', { name: 'Seek' });
       fireEvent.keyDown(rail, { key: 'ArrowRight' });
-      expect(lastHowl().time).toBe(5);
+      expect(lastAudio().currentTime).toBe(5);
       fireEvent.keyDown(rail, { key: 'ArrowRight' });
-      expect(lastHowl().time).toBe(10);
+      expect(lastAudio().currentTime).toBe(10);
       fireEvent.keyDown(rail, { key: 'ArrowLeft' });
-      expect(lastHowl().time).toBe(5);
+      expect(lastAudio().currentTime).toBe(5);
       fireEvent.keyDown(rail, { key: 'ArrowLeft' });
       fireEvent.keyDown(rail, { key: 'ArrowLeft' });
-      expect(lastHowl().time).toBe(0);
+      expect(lastAudio().currentTime).toBe(0);
       fireEvent.keyDown(rail, { key: 'End' });
-      expect(lastHowl().time).toBe(125);
+      expect(lastAudio().currentTime).toBe(125);
       fireEvent.keyDown(rail, { key: 'ArrowRight' });
-      expect(lastHowl().time).toBe(125);
+      expect(lastAudio().currentTime).toBe(125);
       fireEvent.keyDown(rail, { key: 'Home' });
-      expect(lastHowl().time).toBe(0);
+      expect(lastAudio().currentTime).toBe(0);
     });
 
     it('leaves other keys alone', () => {
       loadedTrack();
       const rail = screen.getByRole('slider', { name: 'Seek' });
       expect(fireEvent.keyDown(rail, { key: 'a' })).toBe(true);
-      expect(lastHowl().time).toBe(0);
+      expect(lastAudio().currentTime).toBe(0);
     });
   });
 
@@ -324,10 +327,10 @@ describe('AudioPlayer', () => {
       loadedTrack({ volume: true });
       const button = screen.getByRole('button', { name: 'Mute' });
       fireEvent.click(button);
-      expect(lastHowl().mute).toHaveBeenLastCalledWith(true);
+      expect(lastAudio().muted).toBe(true);
       expect(button).toHaveAttribute('aria-pressed', 'true');
       fireEvent.click(button);
-      expect(lastHowl().mute).toHaveBeenLastCalledWith(false);
+      expect(lastAudio().muted).toBe(false);
       expect(button).toHaveAttribute('aria-pressed', 'false');
     });
   });

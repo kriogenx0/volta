@@ -245,7 +245,7 @@ Tests that apply to every component:
 
 Not covered: nothing is checked in a real browser, so styles and layout are
 unverified by the suite. Components that need a real engine are tested against
-fakes: Google Maps (`tests/Map/fakeGoogleMaps.js`), Howler, canvas and `Image`
+fakes: Google Maps (`tests/Map/fakeGoogleMaps.js`), the audio element, canvas and `Image`
 for `ImageCrop`.
 `UserMap` and `TableList` have no tests because `leaflet` and `jquery` aren't
 installed.

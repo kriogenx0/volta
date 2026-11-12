@@ -21,4 +21,13 @@ describe('NativeColorPicker', () => {
     render(<NativeColorPicker aria-label="Brand" disabled name="brand" />);
     expect(screen.getByLabelText('Brand')).toBeDisabled();
   });
+
+  it('takes its corners from the radius token, with the colour inside following the same curve', () => {
+    const fs = require('fs');
+    const path = require('path');
+    const scss = fs.readFileSync(path.join(__dirname, '../../components/NativeColorPicker/NativeColorPicker.scss'), 'utf8');
+    expect(scss).toMatch(/\.volta-native_color_picker \{[\s\S]*?border-radius:\s*var\(--v-radius-md\)/);
+    expect(scss.match(/color-swatch \{[^}]*border-radius:\s*calc\(var\(--v-radius-md\) \* 0\.8\)/g)).toHaveLength(2);
+    expect(scss).not.toMatch(/--v-radius-sm/);
+  });
 });

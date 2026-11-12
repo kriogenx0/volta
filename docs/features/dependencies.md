@@ -34,3 +34,5 @@
 
 - 2026-11-06 (branch `backlog/drop-moment-and-lodash`, not merged or deployed): the ratchet, and the two follow-up tasks. Nothing was removed.
 - 2026-11-10 (local, not merged or deployed): `lodash` removed from all 30 files that imported it, from `package.json` and the lockfile, and the global `_` from `jest.setup.js`; the four helpers added to `util/`. The suite, lint and both builds pass; nothing was checked in a browser, so the components that changed (the tab, list, menu, calendar, picker and file components) are covered by their jsdom tests only.
+
+`howler` has been removed: `AudioPlayer` plays through the browser's own audio element.

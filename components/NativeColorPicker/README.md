@@ -29,7 +29,7 @@ Other props (`disabled`, `name`, ...) go to the `<input>`.
 
 ## Variants and states
 
-- **Default:** a 46px swatch, as tall as the other fields.
+- **Default:** a 46px swatch, as tall as the other fields. Its corners follow the shape (`Theme.setShape`): square has none, rounded the usual 4px, pill rounds the ends right off. The colour inside takes the same corners a fifth tighter (`radius * 0.8`), so it sits inside the box's curve in every shape.
 - **Hover and focus:** the shared field border colours, and the accent outline on focus.
 - **Disabled:** dimmed, with a not-allowed cursor.
 

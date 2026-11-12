@@ -41,6 +41,10 @@ import { AudioPlayer } from 'volta';
 
 `AudioTrack` is the old name of `AudioPlayer` (`AudioTrack === AudioPlayer`), kept so existing code keeps working. Use `AudioPlayer` in new code.
 
+## How it plays
+
+It plays through the browser's own audio element (`new Audio()`), which is never added to the page, so there is no audio library. It is loaded when `src` is set (`preload` is `auto`), shows the controls once the length is known (`loadedmetadata`) and shows the error message on the element's `error` event. `loop`, `volume` and `autoplay` are the element's own. A file with no known length (a stream) shows 0:00. A refused `play()` (autoplay rules) leaves the button on Play. Changing `src`, or removing the player, pauses it, drops the source and stops the download. It used to use the Howler library for this.
+
 ## Accessibility
 
 - Play and mute are native buttons: "Play" or "Pause", and "Mute" with `aria-pressed`. Their icons are hidden from assistive tech.
