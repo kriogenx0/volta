@@ -21,7 +21,7 @@
       color: $color_trim_subtle_dark;
       border-color: $color_base_subtle_dark;
     }
-    &:hover {
+    &:hover:not([disabled]):not(.button-disabled) {
       background-color: $color_base_more_subtle;
       color: $color_trim;
       border-color: $color_base_less_subtle;
@@ -63,7 +63,7 @@
     background-color: $color_active;
     color: $color_white;
     border-color: transparent;
-    &:hover {
+    &:hover:not([disabled]):not(.button-disabled) {
       background-color: var(--v-accent-hover);
     }
 
@@ -79,7 +79,7 @@
     color: $color_white;
     border-color: transparent;
 
-    &:hover {
+    &:hover:not([disabled]):not(.button-disabled) {
       filter: brightness(0.85);
     }
 
@@ -105,9 +105,16 @@
     padding: 2px 3px;
   }
 
-  // Disabled
+  // Disabled: nothing changes on hover or press (the variants above guard their hover)
+  &[disabled],
   &.button-disabled {
     cursor: not-allowed;
+  }
+
+  &.button-default[disabled],
+  &.button-default.button-disabled {
+    color: var(--v-color-inactive);
+    opacity: .5;
   }
 
   &.button-full {

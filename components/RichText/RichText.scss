@@ -10,6 +10,8 @@
   &--static { border-color: transparent; }
   &--static:hover { border-color: var(--v-color-base-less-subtle); }
   &--disabled { opacity: 0.5; }
+  // Read only and disabled can't be clicked into, so the cursor changes nothing
+  &--readonly:hover,
   &--disabled:hover { border-color: transparent; }
 }
 

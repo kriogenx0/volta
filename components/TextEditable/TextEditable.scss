@@ -5,10 +5,16 @@
   display: inline-block;
   transition: background-color $anim-speed-normal, color $anim-speed-normal;
 
-  &:hover:not(:focus) {
+  &:hover:not(:focus):not(.volta-text_editable--disabled) {
     background-color: $color_base_more_subtle;
     color: $color_trim;
     cursor: pointer;
+  }
+
+  // Not editable: no hover colour, no pointer
+  &--disabled {
+    cursor: not-allowed;
+    opacity: .5;
   }
 
   &:focus {

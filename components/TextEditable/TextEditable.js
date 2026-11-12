@@ -57,7 +57,8 @@ export default function TextEditable({
   return React.createElement(tagName, {
     ...props,
     ref: elRef,
-    className: `volta-text_editable ${className}`,
+    className: `volta-text_editable${disabled ? ' volta-text_editable--disabled' : ''} ${className}`,
+    'aria-disabled': disabled || undefined,
     onKeyDown: handleKeyDown,
     onInput: handleChange,
     onBlur: handleBlur,

@@ -55,7 +55,7 @@ $calendar-size: 40px;
     background-color: var(--v-accent);
     color: var(--v-on-accent);
 
-    &:hover
+    &.day-active:hover
     {
       background-color: var(--v-accent-hover);
     }

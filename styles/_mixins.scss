@@ -45,7 +45,8 @@ $field-height: 40px;
   color: var(--v-color-trim);
   transition: border-color var(--v-anim-speed) var(--v-anim-ease);
 
-  &:hover {
+  // A disabled field takes no part: no hover colour, no focus ring
+  &:hover:not(:disabled):not([aria-disabled='true']) {
     border-color: var(--v-color-trim-less-subtle);
   }
 
@@ -54,6 +55,12 @@ $field-height: 40px;
     border-color: var(--v-accent);
     outline: 2px solid var(--v-accent);
     outline-offset: -1px;
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 }
 

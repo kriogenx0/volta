@@ -360,7 +360,7 @@ const RichText = ({
   return (
     <div
       ref={rootRef}
-      className={`volta-rich_text${editable ? '' : ' volta-rich_text--static'}${disabled ? ' volta-rich_text--disabled' : ''}${className ? ` ${className}` : ''}`}
+      className={`volta-rich_text${editable ? '' : ' volta-rich_text--static'}${disabled ? ' volta-rich_text--disabled' : ''}${readOnly ? ' volta-rich_text--readonly' : ''}${className ? ` ${className}` : ''}`}
       onBlur={handleBlur}
     >
       {showToolbar && (

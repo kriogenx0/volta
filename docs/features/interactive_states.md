@@ -38,3 +38,9 @@ jsdom has no CSS, so these were not checked:
 
 - 2026-11-05 to 06 (branch `backlog/audit-interactive-states`, not merged or deployed): the audit, the `Tabs`, `FileUploader` and `VideoUploadPlayer` fixes, and `asButton`.
 - Not verified in a browser: how the new tab focus ring and the box buttons look, or anything in the "Not audited" list.
+
+## Disabled and read-only controls
+
+A control the user can't use shows no hover or press change (colour, border or size). Found and fixed on 2026-11-12: the default `Button` (hover colours applied while disabled), the shared field look (`field-surface`, so TextBox, NativeSelect, ComboBox and the bare inputs changed border on hover while disabled), `MultiSelect`, a disabled `TextEditable`, a read-only `RichText` (its border changed on hover though it can't be clicked into), and the current-day highlight of a disabled date. Disabled fields are now dimmed with a not-allowed cursor.
+
+`tests/disabledStates.test.js` compiles the stylesheets of the components that can be disabled and fails when a `:hover` or `:active` rule doesn't exclude the disabled state in its selector (the few that can't reach one are listed with the reason). Not covered: components not in that list, and anything that needs a browser to see. `.component-action_list` in `styles/components/lists.scss` still has a hard-coded hover colour; nothing uses it.

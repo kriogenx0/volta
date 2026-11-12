@@ -1,10 +1,10 @@
-// The icon glyphs inside react-select's remove and dropdown controls. They
-// inherit the colour of the control, which is set from theme tokens.
+// The SVG icons inside react-select's remove and dropdown controls. They take the
+// colour of the control, which is set from theme tokens.
 .volta-multiselect-icon {
-  font-family: 'Volta Icons';
+  font-size: 14px;
 
   &--indicator {
-    font-size: 21px;
-    margin-right: 7px;
+    font-size: 20px;
+    margin-right: 4px;
   }
 }

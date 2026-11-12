@@ -45,6 +45,14 @@ describe('MultiSelect', () => {
     expect(screen.getByText('Choose teams')).toBeInTheDocument();
   });
 
+  it('draws the remove X and the dropdown arrow as SVG icons, not font glyphs', () => {
+    const { container } = render(<MultiSelect aria-label="Teams" options={OPTIONS} defaultValue={[OPTIONS[0]]} />);
+    const remove = container.querySelector('.volta-multiselect-icon:not(.volta-multiselect-icon--indicator)');
+    expect(remove.querySelector('svg path')).toBeInTheDocument();
+    expect(container.querySelector('.volta-multiselect-icon--indicator svg path')).toBeInTheDocument();
+    expect(container.textContent).not.toMatch(/[\uF000-\uF0FF]/);
+  });
+
   it('starts with the defaultValue selected', () => {
     render(<MultiSelect aria-label="Teams" options={OPTIONS} defaultValue={[OPTIONS[0]]} />);
     expect(screen.getByText('Design')).toBeInTheDocument();

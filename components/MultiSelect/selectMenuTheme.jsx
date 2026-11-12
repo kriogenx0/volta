@@ -1,6 +1,7 @@
 import './MultiSelect.scss';
 import React from 'react'
 import { components } from 'react-select'
+import Icon from '../Icon'
 
 // react-select styles itself with fixed colours, so every colour here is a theme
 // token (a CSS variable): the control follows light and dark mode, and a custom accent.
@@ -17,9 +18,12 @@ export const customStyles = {
     borderColor: state.isFocused ? 'var(--v-accent)' : border,
     boxShadow: state.isFocused ? '0 0 0 2px var(--v-accent)' : 'none',
     lineHeight: 1,
-    ':hover': {
+    // A disabled control takes no part: no hover colour, dimmed
+    ':hover': state.isDisabled ? {} : {
       borderColor: state.isFocused ? 'var(--v-accent)' : 'var(--v-color-trim-less-subtle)',
     },
+    opacity: state.isDisabled ? 0.5 : 1,
+    cursor: state.isDisabled ? 'not-allowed' : baseStyles.cursor,
   }),
   valueContainer: (styles) => ({
     ...styles,
@@ -114,19 +118,17 @@ export function initTheme(theme) {
   }
 }
 
-// The glyphs take their colour from the control (currentColor), so they follow the theme too
+// SVG icons (no icon font to load), drawn in the colour of the control so they follow the theme
 export const MultiValueRemove = (props) => (
   <components.MultiValueRemove {...props}>
-    <span className="volta-multiselect-icon">{'\uF049'}</span>
+    <Icon type="xmark" className="volta-multiselect-icon" aria-hidden="true" />
   </components.MultiValueRemove>
 )
 
 export const DropdownIndicator = (props) =>
   components.DropdownIndicator && (
     <components.DropdownIndicator {...props}>
-      <span className="volta-multiselect-icon volta-multiselect-icon--indicator">
-        {'\uF000'}
-      </span>
+      <Icon type="chevron.down" className="volta-multiselect-icon volta-multiselect-icon--indicator" aria-hidden="true" />
     </components.DropdownIndicator>
   )
 
