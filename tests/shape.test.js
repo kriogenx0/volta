@@ -67,3 +67,11 @@ describe('component stylesheets', () => {
       .forEach((file) => expect(fs.readFileSync(path.join(ROOT, file), 'utf8')).toMatch(/var\(--v-radius-(md|lg)\)/));
   });
 });
+
+describe('ColorPicker shapes', () => {
+  it('rounds its swatches and handles with the pill token, so square makes them square', () => {
+    const scss = fs.readFileSync(path.join(ROOT, 'components/ColorPicker/ColorPicker.scss'), 'utf8');
+    expect(scss).not.toMatch(/border-radius:\s*50%/);
+    expect(scss).toMatch(/color_picker-swatch \{[\s\S]*?border-radius:\s*var\(--v-radius-pill\)/);
+  });
+});

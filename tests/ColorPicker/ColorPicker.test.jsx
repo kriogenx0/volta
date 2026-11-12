@@ -263,3 +263,82 @@ describe('ColorPicker with its own picker', () => {
     expect(container.querySelector('.color_picker-palette .cpr_square')).toBeInTheDocument();
   });
 });
+
+describe('ColorPicker formats, side and text box', () => {
+  const box = (name) => screen.getByRole('textbox', { name });
+
+  it('reads rgb(), hsl() and colour names typed in, and reports hex by default', () => {
+    const onChange = jest.fn();
+    render(<ColorPicker initialValue="#000000" onChange={onChange} />);
+    fireEvent.change(box('Hex color'), { target: { value: 'rgb(255, 0, 0)' } });
+    expect(onChange).toHaveBeenLastCalledWith('#FF0000');
+    fireEvent.change(box('Hex color'), { target: { value: 'hsl(120, 100%, 50%)' } });
+    expect(onChange).toHaveBeenLastCalledWith('#00FF00');
+    fireEvent.change(box('Hex color'), { target: { value: 'navy' } });
+    expect(onChange).toHaveBeenLastCalledWith('#000080');
+  });
+
+  it('shows and reports rgb with format="rgb"', () => {
+    const onChange = jest.fn();
+    render(<ColorPicker format="rgb" initialValue="#FF0000" onChange={onChange} />);
+    expect(box('RGB color')).toHaveValue('rgb(255, 0, 0)');
+    fireEvent.change(box('RGB color'), { target: { value: '#0000ff' } });
+    expect(onChange).toHaveBeenLastCalledWith('rgb(0, 0, 255)');
+    fireEvent.blur(box('RGB color'));
+    expect(box('RGB color')).toHaveValue('rgb(0, 0, 255)');
+  });
+
+  it('shows and reports hsl with format="hsl", and rewrites the box when the format changes', () => {
+    const onChange = jest.fn();
+    const { rerender } = render(<ColorPicker format="hsl" initialValue="#FF0000" onChange={onChange} />);
+    expect(box('HSL color')).toHaveValue('hsl(0, 100%, 50%)');
+    fireEvent.click(screen.getByRole('button', { name: 'Select #000000' }));
+    expect(onChange).toHaveBeenLastCalledWith('hsl(0, 0%, 0%)');
+    rerender(<ColorPicker format="hex" initialValue="#FF0000" onChange={onChange} />);
+    expect(box('Hex color')).toHaveValue('#000000');
+    expect(ColorPicker.formats).toEqual(['hex', 'rgb', 'hsl']);
+  });
+
+  it('puts the native chooser left of the text box by default, or right with side="right"', () => {
+    const order = (container) => [...container.querySelector('.color_picker-control').children].map((node) => node.className.split(' ')[0]);
+    const { container, rerender } = render(<ColorPicker />);
+    expect(order(container)).toEqual(['volta-native_color_picker', 'color_picker-input']);
+    expect(container.firstChild).toHaveClass('volta-color_picker--chooser_left');
+    rerender(<ColorPicker side="right" />);
+    expect(order(container)).toEqual(['color_picker-input', 'volta-native_color_picker']);
+    expect(container.firstChild).toHaveClass('volta-color_picker--chooser_right');
+  });
+
+  it('puts the popover button right by default and left with side="left"', () => {
+    const order = (container) => [...container.querySelector('.color_picker-control').children].map((node) => node.className.split(' ')[0]);
+    const { container, rerender } = render(<ColorPicker popover />);
+    expect(order(container)).toEqual(['color_picker-input', 'color_picker-toggle']);
+    rerender(<ColorPicker popover side="left" />);
+    expect(order(container)).toEqual(['color_picker-toggle', 'color_picker-input']);
+  });
+
+  it('leaves the text box out with textbox={false}, and still carries the value in a form', () => {
+    const { container } = render(<ColorPicker textbox={false} name="brand" initialValue="#FF0000" />);
+    expect(screen.queryByRole('textbox')).toBeNull();
+    expect(screen.getByLabelText('Choose color')).toBeInTheDocument();
+    expect(container.querySelector('input[type="hidden"][name="brand"]')).toHaveValue('#FF0000');
+    expect(container.firstChild).toHaveClass('volta-color_picker--no_text');
+  });
+
+  it('shows only the swatch when there is no text box and no palette', () => {
+    const { container } = render(<ColorPicker textbox={false} show="picker" />);
+    expect(container.firstChild).toHaveClass('volta-color_picker--compact');
+  });
+
+  it('keeps the palette without a text box', () => {
+    render(<ColorPicker textbox={false} initialValue="#FF0000" />);
+    fireEvent.click(screen.getByRole('button', { name: 'Select #000000' }));
+    expect(screen.getByLabelText('Choose color')).toHaveValue('#000000');
+  });
+
+  it('has the popover button alone without a text box', () => {
+    render(<ColorPicker popover textbox={false} />);
+    expect(screen.getByRole('button', { name: 'Toggle color palette' })).toBeInTheDocument();
+    expect(screen.queryByRole('textbox')).toBeNull();
+  });
+});

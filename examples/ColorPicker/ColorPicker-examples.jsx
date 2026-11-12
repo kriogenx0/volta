@@ -64,6 +64,41 @@ export default {
       output: <ColorPicker picker="custom" popover initialValue="#9060F0" />
     },
     {
+      name: 'RGB and HSL',
+      code: `<ColorPicker format="rgb" initialValue="#4A90E2" />
+<ColorPicker format="hsl" initialValue="#4A90E2" />`,
+      output: (
+        <div className="example-stack">
+          <ColorPicker format="rgb" initialValue="#4A90E2" />
+          <ColorPicker format="hsl" initialValue="#4A90E2" />
+        </div>
+      )
+    },
+    {
+      name: 'The swatch on the right',
+      code: `<ColorPicker side="right" initialValue="#50E3C2" />
+<ColorPicker popover side="left" initialValue="#50E3C2" />`,
+      output: (
+        <div className="example-stack">
+          <ColorPicker side="right" initialValue="#50E3C2" />
+          <ColorPicker popover side="left" initialValue="#50E3C2" />
+        </div>
+      )
+    },
+    {
+      name: 'No text box',
+      code: `<ColorPicker textbox={false} show="picker" initialValue="#F06060" />
+<ColorPicker textbox={false} picker="custom" initialValue="#F06060" />
+<ColorPicker textbox={false} popover initialValue="#F06060" />`,
+      output: (
+        <div className="example-stack">
+          <ColorPicker textbox={false} show="picker" initialValue="#F06060" />
+          <ColorPicker textbox={false} picker="custom" initialValue="#F06060" />
+          <ColorPicker textbox={false} popover initialValue="#F06060" />
+        </div>
+      )
+    },
+    {
       name: 'Custom palette',
       code: `<ColorPicker
   initialValue="#50E3C2"

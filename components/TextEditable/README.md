@@ -41,6 +41,7 @@ Any other prop (`aria-label`, `role`, `data-*`, `id`) goes to the element. The c
 
 - A `contentEditable` element can take focus from the keyboard, but it has no role or name of its own. Pass `aria-label` (and `role="textbox"` if you want it announced as an editable field).
 - Enter ends editing and Escape restores the text from before the edit; tell keyboard and screen-reader users, for instance in a hint or tooltip.
+- It has 8px of padding above and below and 12px at the sides, always, so the hover and focus fill is not tight against the text and nothing moves when it shows.
 - Focus shows a 2px outline; hover only changes the background and the cursor, so keyboard users don't depend on hover.
 
 ## Do and don't

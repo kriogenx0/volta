@@ -10,15 +10,11 @@
     display: flex;
   }
 
-  // Joined to the text box: the chooser is its square left end
-  .color_picker-native {
+  // The swatch (the native chooser) and the text box are one field when they sit together:
+  // the corners where they meet are square and the joint has one border. The corners are
+  // the radius tokens, so square, rounded and pill shapes all apply.
+  .color_picker-native:not(:last-child) {
     border-radius: var(--v-radius-md) 0 0 var(--v-radius-md);
-  }
-
-  // Next to the native chooser the two share one border: no left edge, square corners there
-  .color_picker-native + .color_picker-input {
-    border-left: 0;
-    border-radius: 0 var(--v-radius-md) var(--v-radius-md) 0;
   }
 
   .color_picker-input {
@@ -30,7 +26,32 @@
     height: $field-height;
     min-width: 0;
     padding: 0 10px;
+  }
+
+  // Hex is written in capitals; rgb() and hsl() are not
+  .color_picker-input--hex {
     text-transform: uppercase;
+  }
+
+  // Swatch first (left): the text box has no left edge of its own
+  .color_picker-native + .color_picker-input {
+    border-left: 0;
+    border-radius: 0 var(--v-radius-md) var(--v-radius-md) 0;
+  }
+
+  // Swatch last (right): the swatch has no left edge, and the text box squares its right
+  .color_picker-input + .color_picker-native {
+    border-left: 0;
+    border-radius: 0 var(--v-radius-md) var(--v-radius-md) 0;
+  }
+
+  .color_picker-input:not(:last-child) {
+    border-radius: var(--v-radius-md) 0 0 var(--v-radius-md);
+  }
+
+  // Only the swatch, or only the picker or palette: no text box
+  &.volta-color_picker--compact {
+    width: auto;
   }
 
   // Volta's own chooser: a saturation and brightness square over a hue slider, each
@@ -81,7 +102,7 @@
     height: 16px;
     box-sizing: border-box;
     border: 2px solid var(--v-color-base);
-    border-radius: 50%;
+    border-radius: var(--v-radius-pill);
     box-shadow: var(--v-shadow-sm);
     transform: translate(-50%, -50%);
     pointer-events: none;
@@ -99,7 +120,7 @@
 
   .color_picker-swatch {
     border: 2px solid $color_base;
-    border-radius: 50%;
+    border-radius: var(--v-radius-pill);
     box-shadow: 0 0 0 1px $color_base_less_subtle;
     cursor: pointer;
     height: 30px;
@@ -118,8 +139,8 @@
     }
   }
 
-  // popover: a text box with a swatch button at its right end; the palette opens
-  // under it instead of always showing.
+  // popover: a text box with a swatch button at one end; the palette opens under it
+  // instead of always showing. The button is at the right unless `side` puts it left.
   &.volta-color_picker--popover {
     position: relative;
 
@@ -134,7 +155,7 @@
     }
 
     .color_picker-toggle {
-      border: 1px solid $color_base_subtle;
+      border: 1px solid var(--v-color-base-less-subtle);
       border-radius: 0 var(--v-radius-md) var(--v-radius-md) 0;
       bottom: 0;
       cursor: pointer;
@@ -154,6 +175,27 @@
         outline: 2px solid $color_active;
         outline-offset: -2px;
       }
+    }
+
+    &.volta-color_picker--chooser_left {
+      .color_picker-input {
+        padding-left: 58px;
+        padding-right: 10px;
+      }
+
+      .color_picker-toggle {
+        left: 0;
+        right: auto;
+        border-radius: var(--v-radius-md) 0 0 var(--v-radius-md);
+      }
+    }
+
+    // No text box: the button stands alone, as tall as a field
+    &.volta-color_picker--no_text .color_picker-toggle {
+      position: static;
+      width: 46px;
+      height: $field-height;
+      border-radius: var(--v-radius-md);
     }
 
     .color_picker-palette {

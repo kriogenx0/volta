@@ -3,6 +3,9 @@
 .volta-text_editable {
   border-radius: var(--v-radius-md);
   display: inline-block;
+  // Room around the text, so the hover and focus fill is not tight against it. Always there,
+  // so nothing moves when it shows.
+  padding: var(--v-space-2) var(--v-space-3);
   transition: background-color $anim-speed-normal, color $anim-speed-normal;
 
   &:hover:not(:focus):not(.volta-text_editable--disabled) {

@@ -19,16 +19,28 @@ const normalize = (color, fallback = '#FFFFFF') => {
   return parsed.isValid() ? parsed.toHexString().toUpperCase() : fallback;
 };
 
+// The colours the text box shows and onChange reports: #RRGGBB, rgb(r, g, b) or hsl(h, s%, l%).
+// Anything tinycolor reads can be typed or passed in, whichever form this is.
+const FORMATS = ['hex', 'rgb', 'hsl'];
+const formatColor = (hex, format) => {
+  const parsed = tinycolor(hex);
+  if (format === 'rgb') return parsed.toRgbString();
+  if (format === 'hsl') return parsed.toHslString();
+  return parsed.toHexString().toUpperCase();
+};
+
 // How long the popover waits after focus leaves before it closes, so a click on a
 // swatch still lands.
 const CLOSE_DELAY = 200;
 
-// A colour field: a colour chooser, a hex text box and a palette of presets, or with
+// A colour field: a colour chooser, a text box and a palette of presets, or with
 // `popover` a text box with a swatch button that opens the palette. `show` picks what
 // is there: the picker (chooser and text box), the palette, or both. `picker` picks the
 // chooser: the browser's own (NativeColorPicker) or Volta's, a saturation and
-// brightness square over a hue slider. What is typed is checked, and a valid colour is
-// reported as #RRGGBB.
+// brightness square over a hue slider. `side` puts the swatch (the native chooser, or the
+// popover's button) on the left or right of the text box, and `textbox={false}` leaves the
+// text box out. What is typed is checked: hex, rgb(), hsl(), or a colour name, and a valid
+// colour is shown and reported in `format` (#RRGGBB by default).
 const ColorPicker = ({
   name = 'color',
   value: controlledValue,
@@ -37,6 +49,9 @@ const ColorPicker = ({
   popover = false,
   show = 'both',
   picker = 'native',
+  format = 'hex',
+  textbox = true,
+  side,
   onChange,
   onValueChange = () => {},
   updateColor,
@@ -46,11 +61,12 @@ const ColorPicker = ({
   const controlled = controlledValue !== undefined && controlledValue !== null;
   const externalValue = controlled ? controlledValue : initialValue;
   const [color, setColor] = useState(() => normalize(externalValue));
-  const [text, setText] = useState(() => normalize(externalValue));
+  const [text, setText] = useState(() => formatColor(normalize(externalValue), format));
   const [showing, setShowing] = useState(false);
   const closing = useRef(null);
 
   const showPicker = show !== 'palette';
+  const showText = textbox && showPicker;
   const showPalette = show !== 'picker';
   // Only a palette can open in a popover
   const inPopover = popover && showPalette;
@@ -73,8 +89,11 @@ const ColorPicker = ({
     const next = normalize(controlledValue);
     setColor(next);
     // Keep what the user is typing (e.g. "#fff") while it already means this color
-    setText((current) => (normalize(current, null) === next ? current : next));
-  }, [controlled, controlledValue]);
+    setText((current) => (normalize(current, null) === next ? current : formatColor(next, format)));
+  }, [controlled, controlledValue, format]);
+
+  // A change of format rewrites the text box in the new form
+  useEffect(() => { setText(formatColor(color, format)); }, [format]);
 
   // Reports a valid color. While typing, the text box is left alone so a short
   // form like "#123" doesn't get rewritten to "#112233" mid-keystroke.
@@ -82,11 +101,12 @@ const ColorPicker = ({
     const next = normalize(nextValue, null);
     if (!next) return false;
 
+    const out = formatColor(next, format);
     if (!controlled) setColor(next);
-    if (syncText) setText(next);
-    onChange?.(next);
-    onValueChange(next);
-    updateColor?.(next);
+    if (syncText) setText(out);
+    onChange?.(out);
+    onValueChange(out);
+    updateColor?.(out);
     return true;
   };
 
@@ -121,7 +141,7 @@ const ColorPicker = ({
 
   // Tidy the text once the user is done: a valid entry is shown in full hex
   // form, an invalid one goes back to the current color.
-  const handleBlur = () => setText(normalize(text, null) || color);
+  const handleBlur = () => setText(formatColor(normalize(text, null) || color, format));
 
   const handleSquare = ({ saturation, lightness }) => {
     commit(tinycolor({ h: hue, s: saturation, l: lightness }).toHexString());
@@ -161,47 +181,60 @@ const ColorPicker = ({
     );
   });
 
+  // The swatch that sits by the text box: the native chooser, or the popover's button. It is on
+  // the left, except for the popover's button, which is on the right unless `side` says left.
+  const chooser = inPopover ? (
+    <button
+      type="button"
+      className="color_picker-toggle"
+      style={{ backgroundColor: color }}
+      aria-label="Toggle color palette"
+      aria-expanded={showing}
+      onClick={() => setShowing((current) => !current)}
+    />
+  ) : (showPicker && !custom ? <NativeColorPicker className="color_picker-native" value={color} onChange={commit} /> : null);
+  const chooserFirst = side ? side === 'left' : !inPopover;
+
+  const textInput = showText ? (
+    <input
+      {...inputProps}
+      className={`color_picker-input${format === 'hex' ? ' color_picker-input--hex' : ''} ${inputProps.className || ''}`.trim()}
+      type="text"
+      name={name}
+      value={text}
+      aria-label={inputProps['aria-label'] || (format === 'hex' ? 'Hex color' : `${format.toUpperCase()} color`)}
+      onChange={handleTextChange}
+      onFocus={(event) => { open(); if (inputProps.onFocus) inputProps.onFocus(event); }}
+      onBlur={(event) => { handleBlur(); if (inputProps.onBlur) inputProps.onBlur(event); }}
+      spellCheck="false"
+    />
+  ) : null;
+
+  const classes = [
+    'volta-color_picker',
+    inPopover && 'volta-color_picker--popover',
+    chooser && textInput && `volta-color_picker--chooser_${chooserFirst ? 'left' : 'right'}`,
+    !textInput && 'volta-color_picker--no_text',
+    // Nothing wide to show: just the swatch
+    !textInput && !showPalette && !custom && 'volta-color_picker--compact'
+  ].filter(Boolean).join(' ');
+
   return (
     <div
-      className={`volta-color_picker${inPopover ? ' volta-color_picker--popover' : ''}`}
+      className={classes}
       onFocus={inPopover ? cancelClose : undefined}
       onBlur={inPopover ? scheduleClose : undefined}
       onKeyDown={inPopover ? handleKeyDown : undefined}
     >
       {!inPopover && customPanel}
-      {(showPicker || inPopover) && (
+      {(chooser || textInput) && (
         <div className="color_picker-control">
-          {showPicker && !inPopover && !custom && (
-            <NativeColorPicker className="color_picker-native" value={color} onChange={commit} />
-          )}
-          {showPicker && (
-            <input
-              {...inputProps}
-              className={`color_picker-input ${inputProps.className || ''}`.trim()}
-              type="text"
-              name={name}
-              value={text}
-              aria-label={inputProps['aria-label'] || 'Hex color'}
-              onChange={handleTextChange}
-              onFocus={(event) => { open(); if (inputProps.onFocus) inputProps.onFocus(event); }}
-              onBlur={(event) => { handleBlur(); if (inputProps.onBlur) inputProps.onBlur(event); }}
-              spellCheck="false"
-            />
-          )}
-          {inPopover && (
-            <button
-              type="button"
-              className="color_picker-toggle"
-              style={{ backgroundColor: color }}
-              aria-label="Toggle color palette"
-              aria-expanded={showing}
-              onClick={() => setShowing((current) => !current)}
-            />
-          )}
+          {chooserFirst ? chooser : textInput}
+          {chooserFirst ? textInput : chooser}
         </div>
       )}
-      {/* With only the palette there is no text box to carry the value in a form */}
-      {!showPicker && <input type="hidden" name={name} value={color} />}
+      {/* Without a text box there is nothing to carry the value in a form */}
+      {!textInput && <input type="hidden" name={name} value={formatColor(color, format)} />}
       {showPalette && (
         <div
           className={`color_picker-palette${showing ? ' showing' : ''}`}
@@ -229,6 +262,12 @@ ColorPicker.propTypes = {
   show: PropTypes.oneOf(['both', 'palette', 'picker']),
   // The colour chooser: the browser's own (NativeColorPicker), or Volta's own square and hue slider
   picker: PropTypes.oneOf(['native', 'custom']),
+  // How the colour is written in the text box and reported: #RRGGBB, rgb(r, g, b) or hsl(h, s%, l%)
+  format: PropTypes.oneOf(FORMATS),
+  // Show the text box (on by default); off leaves the swatch, the picker or the palette
+  textbox: PropTypes.bool,
+  // Which side of the text box the swatch is on (left for the native chooser, right for the popover's button by default)
+  side: PropTypes.oneOf(['left', 'right']),
   onChange: PropTypes.func,
   onValueChange: PropTypes.func,
   updateColor: PropTypes.func,
@@ -246,6 +285,8 @@ ColorPalettePicker.colors = [
   '#0011dd', '#4A90E2', '#9060F0', '#800080', '#fc5bca',
   '#ffffff', '#CCCCCC', '#9B9B9B', '#444444', '#000000'
 ];
+
+ColorPicker.formats = FORMATS;
 
 export { ColorPicker, ColorPalettePicker };
 export default ColorPicker;
