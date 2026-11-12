@@ -102,6 +102,29 @@ rules: ## Sync shared agent rules from agent-rules into docs/rules/
 rules-check: ## Show what `make rules` would change (exit 1 if anything)
 	@$(AGENT_RULES)/bin/agent-rules check "$(CURDIR)"
 
+##@ Release
+
+# The version is the latest git tag (vX.Y.Z). package.json carries a copy because npm needs
+# one; `make release` writes it from the tag, so it is never edited by hand.
+version: ## Show the version: the latest git tag, and whether package.json agrees
+	@tag=$$(git describe --tags --match 'v*' --dirty 2>/dev/null || echo none); \
+	 pkg=$$(node -p "require('./package.json').version"); \
+	 echo "git tag:      $$tag"; echo "package.json: $$pkg"; \
+	 case "$$tag" in "v$$pkg"|"v$$pkg-dirty") ;; *) echo "(they differ: commits since the tag, or a tag not cut by make release)";; esac
+
+release: ## Cut a release: BUMP=major|minor|patch from the latest tag; commits package.json and tags it (does not push)
+	@test -n "$(BUMP)" || { echo "Usage: make release BUMP=major|minor|patch"; exit 1; }
+	@test -z "$$(git status --porcelain)" || { echo "The working tree is not clean: commit or stash first"; exit 1; }
+	@latest=$$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null | sed 's/^v//'); \
+	 test -n "$$latest" || { echo "There is no version tag yet: tag the first release with git tag -a v<x.y.z>"; exit 1; }; \
+	 next=$$(echo "$$latest" | awk -F. -v bump="$(BUMP)" '{ if (bump == "major") printf "%d.0.0", $$1 + 1; else if (bump == "minor") printf "%d.%d.0", $$1, $$2 + 1; else if (bump == "patch") printf "%d.%d.%d", $$1, $$2, $$3 + 1 }'); \
+	 test -n "$$next" || { echo "BUMP must be major, minor or patch"; exit 1; }; \
+	 npm version "$$next" --no-git-tag-version --allow-same-version >/dev/null && \
+	 git add package.json package-lock.json && \
+	 git commit -q -m "Release v$$next" && \
+	 git tag -a "v$$next" -m "Volta $$next" && \
+	 echo "Tagged v$$next on $$(git rev-parse --short HEAD). Push with: git push origin HEAD v$$next"
+
 ##@ Help
 
 help: ## Show this help, grouped by category
@@ -109,4 +132,4 @@ help: ## Show this help, grouped by category
 		/^##@/ { printf "\n%s\n", substr($$0, 5) } \
 		/^[a-zA-Z_-]+:.*## / { printf "  %-13s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
-.PHONY: setup install all up down running open dev start run build build-prod bundle build-app watch watch-app docker-build test lint clean rules rules-check help tokens
+.PHONY: setup install all up down running open dev start run build build-prod bundle build-app watch watch-app docker-build test lint clean rules rules-check version release help tokens

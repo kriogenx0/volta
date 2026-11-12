@@ -138,15 +138,24 @@ their colours whatever the theme.
 
 ## Releases
 
-A release is a Git tag on `main` named after the version in `package.json`
-(`v3.0.0` for `3.0.0`). Apps pin the tag (`github:kriogenx0/volta#v3.0.0`), so
-`main` can move on without changing what they install. To cut one: bump
-`version` in `package.json`, commit, tag `v<version>` on that commit, and push
-the commit and the tag.
+The version is the latest Git tag on `main`, named `vX.Y.Z` (`v4.0.0`). Apps pin the
+tag (`github:kriogenx0/volta#v4.0.0`), so `main` can move on without changing what they
+install. `package.json` carries a copy of the version because npm needs one, but it is
+written from the tag and never edited by hand.
+
+```sh
+make version                 # the latest tag, and whether package.json agrees
+make release BUMP=minor      # next version from the latest tag (major, minor or patch):
+                             # writes package.json, commits "Release vX.Y.Z" and tags it
+git push origin HEAD v4.1.0  # publishing is separate: push the commit and the tag
+```
+
+`make release` needs a clean working tree and at least one version tag already, and it
+never pushes.
 
 | Tag | Notes |
 | --- | --- |
-| `v4.0.0` | Not tagged yet (`package.json` says 4.0.0). Breaking: `RichTextQuill`, `RichTextTinyMCE` and `CKEditor` are gone (use `RichText`), lodash and the Quill, TinyMCE and CKEditor packages are no longer dependencies, `PopOver`, `ModalDialog`, `AudioTrack`, `Select` and others are now aliases of `Modal`, `Dialog`, `AudioPlayer` and `NativeSelect`, `ListCard` is part of `List`, and the styleguide uses path URLs. New: square, rounded and pill shapes, `SideBarList`, `NativeColorPicker`, a custom `ColorPicker`, `Drawer` edges, a resizable `SplitView`, a new logo. |
+| `v4.0.0` | Tagged locally on `1a610a0` (annotated), not pushed yet. Breaking: `RichTextQuill`, `RichTextTinyMCE` and `CKEditor` are gone (use `RichText`), lodash and the Quill, TinyMCE and CKEditor packages are no longer dependencies, `PopOver`, `ModalDialog`, `AudioTrack`, `Select` and others are now aliases of `Modal`, `Dialog`, `AudioPlayer` and `NativeSelect`, `ListCard` is part of `List`, and the styleguide uses path URLs. New: square, rounded and pill shapes, `SideBarList`, `NativeColorPicker`, a custom `ColorPicker`, `Drawer` edges, a resizable `SplitView`, a new logo. |
 | `v3.0.0` | First tagged release. React 19, Vite build, 92 components, runtime theming with 13 presets. Installs from GitHub with the bundle built by `prepare`. |
 
 ## Development
