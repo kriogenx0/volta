@@ -30,6 +30,13 @@ describe('Loader with the automatic JSX runtime', () => {
       expect(container.querySelectorAll('.loader-spin .spin-arm')).toHaveLength(12);
     });
 
+    it('colours the spin arms with a theme token, so they read in light and dark mode', () => {
+      const fs = require('fs');
+      const path = require('path');
+      const scss = fs.readFileSync(path.join(__dirname, '../../components/Loader/Loader.scss'), 'utf8');
+      expect(scss).toMatch(/\.spin-arm \{[^}]*background:\s*var\(--v-color-trim-subtle\)/);
+    });
+
     it('fades the spin arms (opacity), where the old keyframes only changed a colour nothing used', () => {
       const fs = require('fs');
       const path = require('path');

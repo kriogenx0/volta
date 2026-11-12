@@ -75,6 +75,7 @@ import TagInputExamples from '../../../examples/TagInput/TagInput-examples';
 import TextEditableExamples from '../../../examples/TextEditable/TextEditable-examples';
 import TextBoxExamples from '../../../examples/TextBox/TextBox-examples';
 import ThumbExamples from '../../../examples/Thumb/Thumb-examples';
+import TextboxDropdownExamples from '../../../examples/TextboxDropdown/TextboxDropdown-examples';
 import TimePickerExamples from '../../../examples/TimePicker/TimePicker-examples';
 import ToastMessageExamples from '../../../examples/ToastMessage/ToastMessage-examples';
 import ToggleExamples from '../../../examples/Toggle/Toggle-examples';
@@ -160,6 +161,7 @@ const curated = [
   TextEditableExamples,
   TextBoxExamples,
   ThumbExamples,
+  TextboxDropdownExamples,
   TimePickerExamples,
   ToastMessageExamples,
   ToggleExamples,

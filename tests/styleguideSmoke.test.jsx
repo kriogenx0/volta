@@ -18,7 +18,7 @@ import { iconNames } from '../components/Icon/svgIcons';
 // screenshots needs a real browser and tooling the repository does not have
 // (docs/backlog/add-styleguide-smoke-test.md).
 
-const PAGES = ['Home', 'Components', 'Icons', 'Colors', 'Type', 'Layout', 'Naming'];
+const PAGES = ['Home', 'Components', 'Examples', 'Icons', 'Colors', 'Type', 'Layout', 'Naming'];
 
 const listed = groups.flatMap((group) => group.components);
 const registered = components.map((component) => component.name);
@@ -64,24 +64,28 @@ describe('the sidebar', () => {
     expect(unsorted).toEqual([]);
   });
 
-  it('keeps the Inputs in the order written: the text fields first, then the pickers', () => {
+  it('keeps the Primitives in the order written: the text box, the select, the checkbox and the radio', () => {
+    const primitives = groups.find((group) => group.label === 'Primitives');
+    expect(primitives.ordered).toBe(true);
+    expect(primitives.components).toEqual(['TextBox', 'NativeSelect', 'Checkbox', 'Radio']);
+  });
+
+  it('keeps the Inputs in the order written, and the multi-select ones apart', () => {
     const inputs = groups.find((group) => group.label === 'Inputs');
     expect(inputs.ordered).toBe(true);
-    expect(inputs.components).toEqual([
-      'TextBox', 'AutoComplete', 'ComboBox', 'NumericField',
-      'MultiSelect', 'NativeSelect', 'TimePicker', 'DatePicker', 'TextEditable'
-    ]);
+    expect(inputs.components).toEqual(['ComboBox', 'NumericField', 'TimePicker', 'DatePicker']);
+    expect(groups.find((group) => group.label === 'Multi-Select Inputs').components).toEqual(['AutoComplete', 'CheckboxGroup', 'MultiSelect', 'TagInput']);
   });
 
-  it('does not list an input again under Controls', () => {
-    const inputs = groups.find((group) => group.label === 'Inputs').components;
+  it('does not list a primitive or an input again under Controls', () => {
+    const others = ['Primitives', 'Inputs', 'Multi-Select Inputs'].flatMap((label) => groups.find((group) => group.label === label).components);
     const controls = groups.find((group) => group.label === 'Controls').components;
-    expect(controls.filter((name) => inputs.includes(name))).toEqual([]);
+    expect(controls.filter((name) => others.includes(name))).toEqual([]);
   });
 
-  it('has the Inputs, Controls and Forms sections, in that order', () => {
+  it('has the Primitives, Inputs, Multi-Select Inputs, Controls and Forms sections, in that order', () => {
     const labels = groups.map((group) => group.label);
-    expect(labels.slice(0, 3)).toEqual(['Inputs', 'Controls', 'Forms']);
+    expect(labels.slice(0, 5)).toEqual(['Primitives', 'Inputs', 'Multi-Select Inputs', 'Controls', 'Forms']);
     expect(labels).not.toContain('Form Controls');
   });
 
@@ -317,10 +321,10 @@ describe('the Icons page', () => {
   const tileNames = (container) => [...container.querySelectorAll('.icons-tile-name')].map((node) => node.textContent);
   afterEach(() => { window.history.replaceState(null, '', '/'); });
 
-  it('is in the header, after Components, and shows a tile for every drawn icon', () => {
+  it('is in the header, after Examples, and shows a tile for every drawn icon', () => {
     const { container } = open();
     const pages = [...within(screen.getByRole('navigation', { name: 'Styleguide sections' })).getAllByRole('button')].map((button) => button.textContent);
-    expect(pages.indexOf('Icons')).toBe(pages.indexOf('Components') + 1);
+    expect(pages.indexOf('Icons')).toBe(pages.indexOf('Examples') + 1);
     expect(tileNames(container)).toEqual(iconNames);
     container.querySelectorAll('.icons-tile .icon-svg').forEach((icon) => expect(icon.querySelector('svg path')).toBeInTheDocument());
     expect(container.querySelectorAll('.icons-tile .icon-svg')).toHaveLength(iconNames.length);

@@ -99,11 +99,11 @@ describe('ActionMenu', () => {
     expect(button).toHaveFocus();
   });
 
-  it('closes when the overlay is clicked outside it', () => {
+  it('closes when something outside it is pressed', () => {
     const { container } = render(<ActionMenu items={['Edit']} />);
     fireEvent.click(screen.getByRole('button', { name: 'Actions' }));
 
-    fireEvent.click(document.querySelector('.volta-overlay'));
+    fireEvent.mouseDown(document.body);
     expect(container.firstChild).not.toHaveClass('is-open');
   });
 });

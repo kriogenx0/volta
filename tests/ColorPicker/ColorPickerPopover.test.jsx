@@ -162,8 +162,12 @@ describe('ColorPalettePicker as a ColorPicker', () => {
     expect(screen.getAllByRole('button', { name: /^Select / })).toHaveLength(12);
   });
 
-  it('the plain ColorPicker is unchanged: native chooser, no toggle, palette always showing', () => {
-    const { container } = render(<ColorPicker />);
+  it('is a popover by default, and popover={false} is the inline form: native chooser, no toggle, palette always showing', () => {
+    const { container, rerender } = render(<ColorPicker />);
+    expect(container.firstChild).toHaveClass('volta-color_picker--popover');
+    expect(screen.getByRole('button', { name: 'Toggle color palette' })).toBeInTheDocument();
+    expect(container.querySelector('input[type="color"]')).toBeNull();
+    rerender(<ColorPicker popover={false} />);
     expect(container.querySelector('input[type="color"]')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Toggle color palette' })).toBeNull();
     expect(container.firstChild).not.toHaveClass('volta-color_picker--popover');

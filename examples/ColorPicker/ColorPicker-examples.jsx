@@ -39,7 +39,7 @@ const PopoverControlled = () => {
 
 export default {
   name: 'ColorPicker',
-  description: 'Choose a color with the native picker, a typed hex value (or color name), or a row of preset swatches. picker chooses the colour chooser: the native browser chooser (native, the default) or Volta\'s own square and hue slider (custom). Control it with value and onChange, or let it keep its own state from initialValue. show picks the picker (chooser and text box), the palette, or both (the default). With popover the palette opens from a swatch button instead of always showing. ColorPalettePicker is the popover form with 20 presets.',
+  description: 'Choose a color. By default it is a text box with a swatch button that opens the palette (and the picker); popover={false} lays the picker and the palette out in the page instead. Choose with the native picker, a typed hex value (or color name), or a row of preset swatches. picker chooses the colour chooser: the native browser chooser (native, the default) or Volta\'s own square and hue slider (custom). Control it with value and onChange, or let it keep its own state from initialValue. show picks the picker (chooser and text box), the palette, or both (the default). With popover the palette opens from a swatch button instead of always showing. ColorPalettePicker is the popover form with 20 presets.',
   examples: [
     {
       name: 'Controlled with state',
@@ -55,13 +55,13 @@ export default {
     },
     {
       name: 'Its own picker',
-      code: `<ColorPicker picker="custom" initialValue="#4A90E2" />`,
-      output: <ColorPicker picker="custom" initialValue="#4A90E2" />
+      code: `<ColorPicker popover={false} picker="custom" initialValue="#4A90E2" />`,
+      output: <ColorPicker popover={false} picker="custom" initialValue="#4A90E2" />
     },
     {
-      name: 'Its own picker in a popover',
-      code: `<ColorPicker picker="custom" popover initialValue="#9060F0" />`,
-      output: <ColorPicker picker="custom" popover initialValue="#9060F0" />
+      name: 'Its own picker in a popover (the default)',
+      code: `<ColorPicker picker="custom" initialValue="#9060F0" />`,
+      output: <ColorPicker picker="custom" initialValue="#9060F0" />
     },
     {
       name: 'RGB and HSL',
@@ -76,11 +76,11 @@ export default {
     },
     {
       name: 'The swatch on the right',
-      code: `<ColorPicker side="right" initialValue="#50E3C2" />
+      code: `<ColorPicker popover={false} side="right" initialValue="#50E3C2" />
 <ColorPicker popover side="left" initialValue="#50E3C2" />`,
       output: (
         <div className="example-stack">
-          <ColorPicker side="right" initialValue="#50E3C2" />
+          <ColorPicker popover={false} side="right" initialValue="#50E3C2" />
           <ColorPicker popover side="left" initialValue="#50E3C2" />
         </div>
       )
@@ -88,23 +88,24 @@ export default {
     {
       name: 'No text box',
       code: `<ColorPicker textbox={false} show="picker" initialValue="#F06060" />
-<ColorPicker textbox={false} picker="custom" initialValue="#F06060" />
-<ColorPicker textbox={false} popover initialValue="#F06060" />`,
+<ColorPicker popover={false} textbox={false} picker="custom" initialValue="#F06060" />
+<ColorPicker textbox={false} initialValue="#F06060" />`,
       output: (
         <div className="example-stack">
           <ColorPicker textbox={false} show="picker" initialValue="#F06060" />
-          <ColorPicker textbox={false} picker="custom" initialValue="#F06060" />
-          <ColorPicker textbox={false} popover initialValue="#F06060" />
+          <ColorPicker popover={false} textbox={false} picker="custom" initialValue="#F06060" />
+          <ColorPicker textbox={false} initialValue="#F06060" />
         </div>
       )
     },
     {
       name: 'Custom palette',
       code: `<ColorPicker
+  popover={false}
   initialValue="#50E3C2"
   palette={['#4A90E2', '#50E3C2', '#F0B460', '#F06060', '#9060F0', '#000000']}
 />`,
-      output: <ColorPicker initialValue="#50E3C2" palette={BRAND_PALETTE} />
+      output: <ColorPicker popover={false} initialValue="#50E3C2" palette={BRAND_PALETTE} />
     },
     {
       name: 'Named form field',
@@ -113,12 +114,12 @@ export default {
     },
     {
       name: 'Only the picker, or only the palette',
-      code: `<ColorPicker show="picker" initialValue="#4A90E2" />
-<ColorPicker show="palette" initialValue="#4A90E2" />`,
+      code: `<ColorPicker popover={false} show="picker" initialValue="#4A90E2" />
+<ColorPicker popover={false} show="palette" initialValue="#4A90E2" />`,
       output: (
         <div className="example-stack">
-          <ColorPicker show="picker" initialValue="#4A90E2" />
-          <ColorPicker show="palette" initialValue="#4A90E2" />
+          <ColorPicker popover={false} show="picker" initialValue="#4A90E2" />
+          <ColorPicker popover={false} show="palette" initialValue="#4A90E2" />
         </div>
       )
     },

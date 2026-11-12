@@ -9,7 +9,7 @@ A theme is a small piece of data that restyles every component at once. The whol
 - **Light and dark come with the theme.** Each theme says what it looks like in both; the scheme that is showing (an explicit `light` or `dark`, or the OS preference) picks the half.
 - **A custom accent on top.** `Theme.setAccentColor('#e0405c')` recolours the accent only, derives the hover, tint and label colour, and survives a scheme change.
 - **Three shapes** for the corners, independent of the theme: `square` (no rounding), `rounded` (the stock look) and `pill` (controls rounded all the way, big surfaces softly rounded). `Theme.setShape('pill')` changes every component at once.
-- **In the styleguide**, the header has a **Theme** dropdown listing every theme with a light-and-dark colour chip, next to the custom accent picker, the Auto/Light/Dark control, the Square/Rounded/Pill control and the animation speed.
+- **In the styleguide**, the header has a **Theme** dropdown listing every theme with a light-and-dark colour chip, next to the custom accent picker, the Auto/Light/Dark control, and the Square/Rounded/Pill control.
 
 ## The theme format
 

@@ -46,7 +46,7 @@ const ColorPicker = ({
   value: controlledValue,
   initialValue = '#FFFFFF',
   palette = DEFAULT_PALETTE,
-  popover = false,
+  popover = true,
   show = 'both',
   picker = 'native',
   format = 'hex',

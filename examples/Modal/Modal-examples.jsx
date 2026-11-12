@@ -64,7 +64,8 @@ const Container = ({ inside = false }) => {
   );
 };
 
-// Open, close and the label are the caller's: the modal only provides the backdrop and the show/hide
+// Open, close and the label are the caller's: the modal provides the backdrop, the panel and the show/hide.
+// The content goes straight into the panel; a card of its own inside would be a modal in a modal.
 const FullSize = ({ closeOnOverlayClick, label }) => {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
@@ -72,15 +73,13 @@ const FullSize = ({ closeOnOverlayClick, label }) => {
     <div>
       <Button onClick={() => setOpen(true)}>Open modal</Button>
       <Modal open={open} closeOnOverlayClick={closeOnOverlayClick} handleClose={close} aria-label={label}>
-        <div className="example-modal_card">
-          <h3>{label}</h3>
-          <p>
-            {closeOnOverlayClick
-              ? 'Click outside this card or press Escape to close.'
-              : 'Clicking outside does nothing; use the button.'}
-          </p>
-          <Button variant="primary" onClick={close}>Close</Button>
-        </div>
+        <h3 className="example-modal_title">{label}</h3>
+        <p>
+          {closeOnOverlayClick
+            ? 'Click outside it or press Escape to close.'
+            : 'Clicking outside does nothing; use the button.'}
+        </p>
+        <Button variant="primary" onClick={close}>Close</Button>
       </Modal>
     </div>
   );

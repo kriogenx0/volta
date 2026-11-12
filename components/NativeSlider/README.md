@@ -4,7 +4,7 @@ The browser's own range input (`<input type="range">`), styled to match [`Slider
 
 ## When to use
 
-- **A setting on a range where the browser's own behaviour is wanted:** its keyboard, touch and screen reader support, and step snapping. The styleguide's animation speed control in the top bar is one.
+- **A setting on a range where the browser's own behaviour is wanted:** its keyboard, touch and screen reader support, and step snapping. The styleguide used it for the animation speed control in its header, before that control was taken out.
 - For a slider that animates to where it is clicked, or that must look identical in every browser's track, use [`Slider`](../Slider/README.md).
 - For a few named choices use `SegmentedControl` or `RadioGroup`; for a typed number use [`NumericField`](../NumericField/README.md).
 

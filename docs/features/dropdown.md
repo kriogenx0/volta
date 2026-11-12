@@ -62,3 +62,9 @@ A click anywhere inside the panel used to close it. It no longer does. Contents 
 
 - 2026-11-05 (branch `backlog/dropdown-panel-position-and-close`, not merged or deployed): panel below the trigger and flipping above; a click inside no longer closes it; `data-dropdown-close` and `closeOnContentClick`; outside-click closing without the overlay; `DatePicker`'s position and click workarounds removed; `DropdownList` and `ActionMenu` report their own close.
 - Not verified: the look and position of the panel in a real browser at desktop and mobile widths, and the flip near the bottom of a short window.
+
+## TextboxDropdown (the same panel under a textbox)
+
+`TextboxDropdown` is a `Dropdown` whose trigger is a textbox: pass the field as `textbox` and the panel as children. It opens when the box is focused or clicked, closes on Escape, a click outside, a `data-dropdown-close` choice and the moment focus leaves the box and the panel, keeps focus in the box when the panel's text is pressed, and makes the panel as wide as the box. The textbox gets `aria-expanded`, `aria-haspopup` and `aria-controls`. Guideline: `components/TextboxDropdown/README.md`; tests: `tests/TextboxDropdown/`. Both are in the styleguide's Utility group.
+
+Not done: the fields that already have a panel under a text box (`TimePicker`, `ColorPicker` with `popover`, `AutoComplete`, `ComboBox`, `DatePicker`) keep their own code; moving them onto `TextboxDropdown` is a possible follow-up. Not checked in a browser.

@@ -36,7 +36,7 @@ import { Dropdown } from 'volta';
 | `constrainWidth` | `bool` | `false` | Makes the panel as wide as the dropdown instead of as wide as its contents. |
 | `onClick` | `function` | | Called when the default trigger is clicked. |
 | `onClose` | `function` | `null` | Called when the dropdown closes: a click in the panel, a click on the overlay, or Escape. |
-| `showOverlay` | `bool` | `true` | Dims the page behind the open panel; a click on it closes the dropdown. |
+| `showOverlay` | `bool` | `false` | Dims the page behind the open panel (an `Overlay`); a click on it closes the dropdown. Off, the page is not dimmed and a press anywhere outside the dropdown closes it. |
 
 Any other prop (`variant`, `size`, `disabled`, ...) goes to the default trigger `Button`. The panel stays in the DOM and is hidden with `display: none` until it opens.
 
@@ -51,6 +51,6 @@ Any other prop (`variant`, `size`, `disabled`, ...) goes to the default trigger 
 
 - Do give the trigger a label that says what is inside ("Account", not "Menu").
 - Do control `open` and ignore `onClose` when the panel holds a form: any click inside the panel closes it.
-- Don't turn off `showOverlay` without another way to close: without the overlay a click outside no longer closes the dropdown, only Escape or a click inside does.
+- Don't turn `showOverlay` on for a plain menu: dimming the whole page for a small panel is heavy. It is for a dropdown that should feel like a blocking choice.
 - Don't put essential navigation only in a dropdown.
 - Don't restyle the panel colours with `className`; they come from the theme tokens.

@@ -1,0 +1,257 @@
+// The Examples page: a list of example pages, and the chosen one in a frame. The pages
+// themselves (`.sample-*`) are laid out here with the theme tokens, so each follows light and
+// dark mode and the shape, as a page built on Volta would.
+.view-examples {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--v-space-6);
+  padding: var(--v-space-6) 0 56px;
+
+  .examples-list {
+    flex: none;
+    position: sticky;
+    top: calc(var(--docs-header-height) + var(--v-space-4));
+    width: 12rem;
+  }
+
+  .examples-detail {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .examples-header {
+    margin-bottom: var(--v-space-4);
+
+    h2 {
+      margin: 0 0 var(--v-space-1);
+      font-size: 32px;
+    }
+
+    p {
+      margin: 0;
+      color: var(--v-color-trim-subtle);
+    }
+  }
+
+  .examples-frame {
+    padding: var(--v-space-6);
+    border: 1px solid var(--v-color-base-subtle);
+    border-radius: var(--v-radius-lg);
+    background: var(--v-color-base);
+
+    &--centered {
+      display: flex;
+      justify-content: center;
+      padding: var(--v-space-6) var(--v-space-4);
+    }
+  }
+
+  // Shared bits of the pages
+  .sample-muted {
+    margin: 0;
+    color: var(--v-color-trim-subtle);
+  }
+
+  .sample-center {
+    text-align: center;
+  }
+
+  .sample-note {
+    margin: 0;
+    padding: var(--v-space-2) var(--v-space-3);
+    border-radius: var(--v-radius-md);
+    background: var(--v-accent-subtle);
+  }
+
+  .sample-row {
+    display: flex;
+    align-items: center;
+    gap: var(--v-space-3);
+
+    > * {
+      flex: 1;
+      min-width: 0;
+    }
+
+    &--between {
+      justify-content: space-between;
+
+      > * {
+        flex: none;
+      }
+    }
+  }
+
+  .sample-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--v-space-4);
+    margin-bottom: var(--v-space-4);
+
+    h2 {
+      margin: 0 0 var(--v-space-1);
+      font-size: 21px;
+    }
+  }
+
+  .sample-person {
+    display: flex;
+    align-items: center;
+    gap: var(--v-space-3);
+  }
+
+  // Sign in and sign up: one narrow column
+  .sample-auth {
+    display: flex;
+    flex-direction: column;
+    gap: var(--v-space-4);
+    width: 100%;
+    max-width: 24rem;
+
+    h2 {
+      margin: 0;
+      font-size: 21px;
+    }
+
+    > :first-child {
+      align-self: flex-start;
+    }
+  }
+
+  // Dashboard
+  .sample-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: var(--v-space-4);
+    margin-bottom: var(--v-space-4);
+  }
+
+  .sample-stat {
+    margin: var(--v-space-1) 0 var(--v-space-2);
+    font-size: 28px;
+    font-weight: 500;
+  }
+
+  .sample-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--v-space-4);
+
+    h3 {
+      margin: 0 0 var(--v-space-3);
+      font-size: 16px;
+    }
+  }
+
+  .sample-goal + .sample-goal {
+    margin-top: var(--v-space-4);
+  }
+
+  // List
+  .sample-list > .volta-textbox,
+  .sample-list > .volta-list,
+  .sample-list > .volta-empty {
+    margin-top: var(--v-space-3);
+  }
+
+  // Table
+  .sample-scroll {
+    margin-top: var(--v-space-4);
+    overflow-x: auto;
+  }
+
+  .sample-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+
+    th,
+    td {
+      padding: var(--v-space-3);
+      border-bottom: 1px solid var(--v-color-base-subtle);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    thead th {
+      color: var(--v-color-trim-subtle);
+      font-weight: 500;
+    }
+
+    tbody th {
+      font-weight: 500;
+    }
+
+    .sample-number {
+      text-align: right;
+    }
+  }
+
+  // Settings
+  .sample-panel {
+    padding-top: var(--v-space-4);
+  }
+
+  .sample-form,
+  .sample-danger {
+    display: flex;
+    flex-direction: column;
+    gap: var(--v-space-4);
+    max-width: 28rem;
+
+    h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .sample-danger button {
+      align-self: flex-start;
+    }
+  }
+
+  .sample-danger > .volta-button {
+    align-self: flex-start;
+  }
+
+  .sample-switches {
+    max-width: 28rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--v-space-4);
+      padding: var(--v-space-3) 0;
+      border-bottom: 1px solid var(--v-color-base-subtle);
+    }
+  }
+
+  // Narrow screens: the list goes above the page
+  @media (max-width: 760px) {
+    flex-direction: column;
+    gap: var(--v-space-4);
+
+    .examples-list {
+      position: static;
+      width: 100%;
+      max-width: none;
+    }
+
+    .examples-frame {
+      padding: var(--v-space-4);
+    }
+
+    .sample-row:not(.sample-row--between) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .sample-heading {
+      flex-direction: column;
+    }
+  }
+}

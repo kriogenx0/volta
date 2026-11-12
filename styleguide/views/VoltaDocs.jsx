@@ -11,12 +11,14 @@ import TypeExamples from './TypeExamples/Type-examples';
 import Layout from './Layout/Layout-examples';
 import Icons from './Icons/Icons';
 import Naming from './Naming/Naming';
+import Examples from './Examples/Examples';
 
 import './VoltaDocs.scss';
 
 const pages = {
   Home,
   Components,
+  Examples,
   Icons,
   Colors,
   Type: TypeExamples,

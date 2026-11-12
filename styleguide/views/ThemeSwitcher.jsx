@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { NativeSlider, SegmentedControl, Theme } from '../../components';
+import { SegmentedControl, Theme } from '../../components';
 
 import ThemePicker from './ThemePicker';
 
@@ -13,7 +13,6 @@ const ThemeSwitcher = () => {
   const [themeId, setThemeId] = useState(Theme.presets[0].id);
   const [accent, setAccent] = useState('#4A90E2');
   const [scheme, setScheme] = useState(Theme.getColorScheme());
-  const [speed, setSpeed] = useState(150);
   const [shape, setShape] = useState(Theme.getShape());
 
   // A theme replaces the whole look, including a custom accent.
@@ -37,11 +36,6 @@ const ThemeSwitcher = () => {
   const handleShapeChange = (value) => {
     setShape(value);
     Theme.setShape(value);
-  };
-
-  const handleSpeedChange = (ms) => {
-    setSpeed(ms);
-    Theme.setAnimationSpeed(ms);
   };
 
   return (
@@ -72,19 +66,6 @@ const ThemeSwitcher = () => {
         ariaLabel="Shape"
         options={Theme.shapes.map((name) => ({ label: name.charAt(0).toUpperCase() + name.slice(1), value: name }))}
       />
-
-      <label className="v-theme_switcher-speed" title="Animation speed">
-        <span className="sr-only">Animation speed</span>
-        <NativeSlider
-          aria-label="Animation speed"
-          min={0}
-          max={500}
-          step={10}
-          value={speed}
-          onChange={handleSpeedChange}
-        />
-        <span className="v-theme_switcher-value">{speed} ms</span>
-      </label>
     </div>
   );
 };

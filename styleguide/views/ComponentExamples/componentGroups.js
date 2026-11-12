@@ -4,20 +4,34 @@
 // Components-examples.jsx asserts this.
 export default [
   {
-    // The fields people type into or choose a value in, in the order written
-    label: 'Inputs',
+    // The basic native controls everything else is built from, in the order written
+    label: 'Primitives',
     ordered: true,
     components: [
-      'TextBox', 'AutoComplete', 'ComboBox', 'NumericField',
-      'MultiSelect', 'NativeSelect', 'TimePicker', 'DatePicker', 'TextEditable',
+      'TextBox', 'NativeSelect', 'Checkbox', 'Radio',
     ],
   },
   {
-    // Anything you pick, toggle, press or edit in place
+    // Fields people type into or choose one value in, in the order written
+    label: 'Inputs',
+    ordered: true,
+    components: [
+      'ComboBox', 'NumericField', 'TimePicker', 'DatePicker',
+    ],
+  },
+  {
+    // Fields that choose several values at once
+    label: 'Multi-Select Inputs',
+    components: [
+      'AutoComplete', 'CheckboxGroup', 'MultiSelect', 'TagInput',
+    ],
+  },
+  {
+    // Anything you pick, toggle or press
     label: 'Controls',
     components: [
-      'Button', 'Checkbox', 'CheckboxGroup', 'ColorPicker', 'NativeColorPicker', 'NativeSlider', 'Radio', 'RadioGroup',
-      'SegmentedControl', 'Slider', 'TagInput', 'Toggle',
+      'Button', 'ColorPicker', 'NativeColorPicker', 'NativeSlider', 'RadioGroup',
+      'SegmentedControl', 'Slider', 'Toggle',
     ],
   },
   {
@@ -62,7 +76,7 @@ export default [
   {
     label: 'Actions & Menus',
     components: [
-      'ActionMenu', 'ClipboardHover', 'CloseButton', 'Dropdown', 'DropdownList',
+      'ActionMenu', 'ClipboardHover', 'CloseButton', 'DropdownList',
       'IconButton', 'Tag',
     ],
   },
@@ -70,7 +84,7 @@ export default [
     // Text and what it is made of: editable text, rich text, and label and value pairs
     label: 'Text',
     components: [
-      'ContentEditable', 'Definitions', 'RichText',
+      'ContentEditable', 'Definitions', 'RichText', 'TextEditable',
     ],
   },
   {
@@ -78,6 +92,14 @@ export default [
     label: 'External Libraries',
     components: [
       'Code', 'Map', 'MapSelector',
+    ],
+  },
+  {
+    // The parts other components are built from: a panel that hangs from a button, and one
+    // that hangs from a textbox
+    label: 'Utility',
+    components: [
+      'Dropdown', 'TextboxDropdown',
     ],
   },
   {

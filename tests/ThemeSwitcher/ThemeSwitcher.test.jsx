@@ -81,4 +81,11 @@ describe('ThemeSwitcher', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Square' }));
     expect(Theme.getShape()).toBe('square');
   });
+
+  it('has no animation speed slider in the header', () => {
+    render(<ThemeSwitcher />);
+    expect(screen.queryByRole('slider')).toBeNull();
+    expect(screen.queryByLabelText('Animation speed')).toBeNull();
+    expect(document.querySelector('input[type="range"]')).toBeNull();
+  });
 });

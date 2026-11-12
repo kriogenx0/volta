@@ -7,13 +7,11 @@
 // border, then its left (and top) offset when off, and its left offset when on.
 $toggle-height: 25px;
 $toggle-width: 45px;
-// How far the coloured halves of the track slide
-$toggle-pod: $toggle-width - 12.5;
 
 .volta-toggle {
-  --toggle-knob: 21px;
-  --toggle-knob-off: 1px;
-  --toggle-knob-on: 21px;
+  --toggle-knob: 17px;
+  --toggle-knob-off: 3px;
+  --toggle-knob-on: 23px;
 
   &.volta-toggle--knob_md {
     --toggle-knob: 25px;
@@ -23,7 +21,9 @@ $toggle-pod: $toggle-width - 12.5;
 
   position: relative;
   display: inline-block;
-  height: $toggle-height;
+  // As tall as the track with its border, so the switch sits level with text beside it
+  height: $toggle-height + 2px;
+  vertical-align: middle;
   cursor: pointer;
   @include transform(translateZ(0));
 
@@ -83,12 +83,15 @@ $toggle-pod: $toggle-width - 12.5;
     border-radius: var(--v-radius-pill);
   }
 
+  // The accent fill. Off, it is entirely out of the track to the left; on, it covers the whole
+  // track. (It used to stop under the knob, which only worked while the knob filled the
+  // track's height: an inset knob showed a patch of accent around it when off.)
   .toggle-bg {
     position: absolute;
-    left: -1 * $toggle-pod;
+    left: calc(-100% - 10px);
     top: 0;
     bottom: 0;
-    width: $toggle-pod + 10; // 10 compensates for animation bounce
+    width: calc(100% + 20px); // 10 each side compensates for the animation's bounce
     @include transition(left $anim-slight-bounce $anim-speed-normal);
     background: $color_active;
     // background: $color_active url('images/tgl_check.png') center center no-repeat;
@@ -157,7 +160,7 @@ $toggle-pod: $toggle-width - 12.5;
 
       &.toggle-bg-negative {
         left: auto;
-        right: -1 * $toggle-pod;
+        right: calc(-100% - 30px);
       }
     }
   }

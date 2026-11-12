@@ -23,7 +23,7 @@ const Dropdown = ({
     onClick,
     onClose = null,
     open,
-    showOverlay = true,
+    showOverlay = false,
     constrainWidth,
     ...otherProps
   }) => {

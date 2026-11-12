@@ -176,7 +176,7 @@ npm run build-app # styleguide production build
 
 The styleguide (`styleguide/`) renders every exported component: curated,
 hand-written examples where they exist, and a default-props render for
-everything else, plus a live accent color / light-dark / speed switcher
+everything else, plus a live theme / light-dark / shape switcher
 (`styleguide/ThemeSwitcher.jsx`).
 
 ### Docker

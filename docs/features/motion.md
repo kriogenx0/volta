@@ -31,7 +31,7 @@ Seven transitions had their own durations and now use the variable: `styles/type
 
 - Under reduce motion the transitions are instant, but nothing slows or stops the `Loader` variants; they are progress indicators, and a user who wants them still can't turn them off.
 - `Theme.getAnimationSpeed()` reads the computed value, so under reduce motion it reports `0.01ms`.
-- The styleguide's animation speed slider starts at 150 whatever the OS setting is.
+- The styleguide's header no longer has an animation speed slider; the Slider example "Animation speed" sets the speed while it is on screen and puts it back when you leave.
 
 ## History
 

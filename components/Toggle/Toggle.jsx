@@ -45,7 +45,7 @@ Toggle.propTypes = {
   isDisabled: PropTypes.bool,
   // Print an I on the on side and an O on the off side, as a second cue besides colour
   showMarks: PropTypes.bool,
-  // The knob: 'sm' (the default, 23px across with the border) or 'md' (27px, as tall as the track, as it used to be)
+  // The knob: 'sm' (the default, 19px across with the border) or 'md' (27px, as tall as the track, as it used to be)
   knobSize: PropTypes.oneOf(['sm', 'md']),
   value: PropTypes.string,
   className: PropTypes.string,

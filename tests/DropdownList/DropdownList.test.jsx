@@ -122,11 +122,11 @@ describe('DropdownList', () => {
       expect(button).toHaveFocus();
     });
 
-    it('closes when the overlay is clicked', () => {
+    it('closes when something outside it is pressed', () => {
       const { container } = render(<DropdownList options={OPTIONS} />);
       fireEvent.click(screen.getByRole('button', { name: 'Select an option' }));
 
-      fireEvent.click(document.querySelector('.volta-overlay'));
+      fireEvent.mouseDown(document.body);
       expect(container.firstChild).not.toHaveClass('is-open');
     });
   });

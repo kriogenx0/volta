@@ -17,7 +17,7 @@ const NONE = []
 
 const MultiSelect = ({
   'aria-label': ariaLabel, className, classNamePrefix = 'multi-select', clearable = false, defaultValue = NONE,
-  disabled, multiselect = true, noOptionsMessage = 'No options available', name, onChange, options, placeholder,
+  closeMenuOnSelect, disabled, multiselect = true, noOptionsMessage = 'No options available', name, onChange, options, placeholder,
   value: valueProp = NONE,
 }) => {
   // We use defaultValue to init and then for things like resetting when clearing
@@ -64,9 +64,12 @@ const MultiSelect = ({
     <ReactSelect
       aria-label={ariaLabel}
       backspaceRemovesValue
+      // react-select blurs the box after a choice on a touch device, which would close the menu again
+      blurInputOnSelect={false}
       className={classnames('volta-multi_select', { [className]: className })}
       classNamePrefix={classNamePrefix}
-      closeMenuOnSelect
+      // Several choices in a row: the menu stays open after each one (a single choice closes it)
+      closeMenuOnSelect={closeMenuOnSelect === undefined ? !multiselect : closeMenuOnSelect}
       components={{ MultiValueRemove, DropdownIndicator }}
       defaultValue={orderedDefaultValue}
       hideSelectedOptions
@@ -90,6 +93,8 @@ MultiSelect.propTypes = {
   'aria-label': PropTypes.string,
   className: PropTypes.string,
   clearable: PropTypes.bool,
+  // Close the menu after each choice. Off by default for a multiple choice, so several can be picked in a row; on for a single choice.
+  closeMenuOnSelect: PropTypes.bool,
   classNamePrefix: PropTypes.string,
   // defaultValue is purely used for init
   defaultValue: PropTypes.arrayOf(

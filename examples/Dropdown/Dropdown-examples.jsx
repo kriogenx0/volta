@@ -139,13 +139,13 @@ export default {
       )
     },
     {
-      name: 'Without the dimming overlay',
-      code: `<Dropdown showOverlay={false} label="Account">
+      name: 'Dimming the page behind it',
+      code: `<Dropdown showOverlay label="Account">
   <DropdownListItem label="Profile" onSelect={handleSelect} />
   ...
 </Dropdown>`,
       output: (
-        <Dropdown showOverlay={false} label="Account">
+        <Dropdown showOverlay label="Account">
           <Choices />
         </Dropdown>
       )

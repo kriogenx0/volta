@@ -1,31 +1,15 @@
-// What goes inside a Modal is up to the caller: the modal only provides the
-// backdrop and the show/hide.
-.example-modal_card {
-  box-sizing: border-box;
-  max-width: 24rem;
-  margin: 10vh auto 0;
-  padding: 24px;
-  border: 1px solid var(--v-color-base-subtle);
-  border-radius: 8px;
-  background: var(--v-color-base);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .15);
-
-  h3,
-  p {
-    margin-top: 0;
-  }
+// What goes inside a Modal is plain content: the modal's own panel is the surface, so nothing
+// here draws another card, border or shadow of its own.
+.example-modal_title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 600;
 }
 
-// The in-place form: the content appears where the modal is written, so it
-// needs a surface to read as a floating menu.
+// The in-place form's menu: the panel is the surface, so this only stacks the choices
 .example-modal_menu {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 4px;
-  margin-top: 8px;
-  padding: 8px;
-  border: 1px solid var(--v-color-base-subtle);
-  border-radius: 8px;
-  background: var(--v-color-base);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .15);
 }

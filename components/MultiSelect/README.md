@@ -38,6 +38,7 @@ import { MultiSelect } from 'volta';
 | `value` | `{ label, value, fixed? }[]` | `[]` | Selected options. When it changes (compared by content) the selection follows it. |
 | `onChange` | `function` | | Called with `(selectedArray, event)`; `event` is react-select's action info. |
 | `multiselect` | `bool` | `true` | `false` makes it a single choice, still reported as an array. |
+| `closeMenuOnSelect` | `bool` | `true` for `multiselect={false}`, otherwise `false` | Close the menu after each choice. With a multiple choice it stays open by default, so several options can be picked one after another; it closes on Escape, on a click outside, or when focus leaves. |
 | `clearable` | `bool` | `false` | Shows a clear control. Clearing keeps the `fixed` options from `defaultValue`. |
 | `disabled` | `bool` | | Disables the control. |
 | `placeholder` | `string` | react-select's | Shown while nothing is selected. |

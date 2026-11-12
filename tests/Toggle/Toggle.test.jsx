@@ -144,8 +144,16 @@ describe('Toggle marks', () => {
 
     it('insets the small knob and keeps the old 25px knob and positions for md', () => {
       const scss = fs.readFileSync(path.join(__dirname, '../../components/Toggle/Toggle.scss'), 'utf8');
-      expect(scss).toMatch(/--toggle-knob:\s*21px;\s*--toggle-knob-off:\s*1px;\s*--toggle-knob-on:\s*21px;/);
+      expect(scss).toMatch(/--toggle-knob:\s*17px;\s*--toggle-knob-off:\s*3px;\s*--toggle-knob-on:\s*23px;/);
       expect(scss).toMatch(/\.volta-toggle--knob_md \{\s*--toggle-knob:\s*25px;\s*--toggle-knob-off:\s*-1px;\s*--toggle-knob-on:\s*20px;/);
+    });
+
+    it('keeps the accent fill out of the track when off and over all of it when on, so an inset knob has no patch of accent around it', () => {
+      const fs = require('fs');
+      const path = require('path');
+      const scss = fs.readFileSync(path.join(__dirname, '../../components/Toggle/Toggle.scss'), 'utf8');
+      expect(scss).toMatch(/\.toggle-bg \{[^}]*left:\s*calc\(-100% - 10px\);[^}]*width:\s*calc\(100% \+ 20px\)/);
+      expect(scss).toMatch(/:checked ~ \.toggle-body \{[\s\S]*?\.toggle-bg \{\s*left:\s*-10px;/);
     });
   });
 });

@@ -1,11 +1,11 @@
 # ColorPicker
 
-A colour field in one block (the picker, the palette, or both): the browser's colour chooser, a hex text box and a grid of swatches, or with `popover` a text box whose swatch button opens the palette. `ColorPalettePicker` is another name for the popover form.
+A colour field: by default a text box with a swatch button that opens a palette (and, with `picker="custom"`, the picker) under it; with `popover={false}` the browser's colour chooser, a text box and a grid of swatches laid out in the page. `ColorPalettePicker` is another name for the popover form with 20 presets.
 
 ## When to use
 
 - **Choosing any colour** and getting back a clean `#RRGGBB` string (a theme accent, a label colour).
-- Add `popover` where there is no room for the swatches to show all the time: a small field in a form or a row of settings. The palette then opens under the text box.
+- It is a popover by default, which suits a small field in a form or a row of settings: the palette opens under the text box when it has focus. Pass `popover={false}` where there is room for the swatches to show all the time.
 - Pick from a few named options with a `RadioGroup` or `SegmentedControl`, not colours.
 
 ## Usage
@@ -16,7 +16,7 @@ import { ColorPicker } from 'volta';
 <>
   <ColorPicker name="accent" value={accent} onChange={setAccent} />
   <ColorPicker initialValue="#4A90E2" palette={['#F06060', '#60AAF0', '#60F06E']} onChange={save} />
-  <ColorPicker popover value={accent} onChange={setAccent} />
+  <ColorPicker popover={false} value={accent} onChange={setAccent} />
 </>;
 ```
 
@@ -33,7 +33,7 @@ import { ColorPicker } from 'volta';
 | `format` | `'hex'` \| `'rgb'` \| `'hsl'` | `'hex'` | How the colour is written in the text box and reported by `onChange`: `#RRGGBB`, `rgb(255, 0, 0)` or `hsl(0, 100%, 50%)`. Typing accepts all of them, and colour names, whichever `format` is set. `ColorPicker.formats` lists them. |
 | `textbox` | `bool` | `true` | Show the text box. `false` leaves the swatch, the picker or the palette on their own; a hidden input with the `name` then carries the value in a form. |
 | `side` | `'left'` \| `'right'` | `'left'` (native chooser), `'right'` (popover button) | Which side of the text box the swatch (the native chooser, or the popover's button) is on. |
-| `popover` | `bool` | `false` | Shows a text box with a swatch button instead of the native chooser (ignored with `show="picker"`, which has no palette), and the palette opens under it when the text box gets focus or the button is pressed, rather than always showing. See ColorPalettePicker. |
+| `popover` | `bool` | `true` | A text box with a swatch button at one end, and the palette opens under it when the text box gets focus or the button is pressed. `false` lays the native chooser (or the custom picker), the text box and the palette out in the page, always showing. Ignored with `show="picker"`, which has no palette. See ColorPalettePicker. |
 | `name` | `string` | `'color'` | The `name` of the hex text box, for a native form post. |
 | `onValueChange` | `function` | no-op | Legacy: called with the same value as `onChange`. |
 | `updateColor` | `function` | | Legacy: called with the same value as `onChange`. |

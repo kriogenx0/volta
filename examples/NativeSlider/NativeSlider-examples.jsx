@@ -14,7 +14,7 @@ const Controlled = () => {
 
 export default {
   name: 'NativeSlider',
-  description: "The browser's own range input, styled like Slider. It keeps the browser's keyboard, touch and screen reader behaviour; the styleguide's animation speed control in the top bar is one. onChange gets the number.",
+  description: "The browser's own range input, styled like Slider. It keeps the browser's keyboard, touch and screen reader behaviour; onChange gets the number.",
   examples: [
     {
       name: 'Controlled with state',

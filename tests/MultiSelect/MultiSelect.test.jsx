@@ -183,4 +183,38 @@ describe('MultiSelect', () => {
     expect(customStyles.menu({}).borderRadius).toBe('var(--v-radius-md)');
     expect(customStyles.multiValue({}).borderRadius).toBe('var(--v-radius-md)');
   });
+
+  describe('keeping the menu open', () => {
+    const menuShows = (label) => screen.queryByText(label);
+
+    it('stays open after a choice, so several can be picked in a row', () => {
+      render(<MultiSelect aria-label="Teams" options={OPTIONS} />);
+      choose('Design');
+      expect(menuShows('Engineering')).toBeInTheDocument();
+      fireEvent.click(screen.getByText('Engineering'));
+      expect(menuShows('Support')).toBeInTheDocument();
+      fireEvent.click(screen.getByText('Support'));
+      expect(screen.getByText('Design')).toBeInTheDocument();
+      expect(screen.getByText('Engineering')).toBeInTheDocument();
+      expect(screen.getByText('Support')).toBeInTheDocument();
+    });
+
+    it('closes after a choice with closeMenuOnSelect', () => {
+      render(<MultiSelect aria-label="Teams" options={OPTIONS} closeMenuOnSelect />);
+      choose('Design');
+      expect(menuShows('Engineering')).toBeNull();
+    });
+
+    it('closes after a choice for a single choice (multiselect={false})', () => {
+      render(<MultiSelect aria-label="Teams" options={OPTIONS} multiselect={false} />);
+      choose('Design');
+      expect(menuShows('Engineering')).toBeNull();
+    });
+
+    it('can be told to stay open for a single choice too', () => {
+      render(<MultiSelect aria-label="Teams" options={OPTIONS} multiselect={false} closeMenuOnSelect={false} />);
+      choose('Design');
+      expect(menuShows('Engineering')).toBeInTheDocument();
+    });
+  });
 });

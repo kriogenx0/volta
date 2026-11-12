@@ -81,6 +81,7 @@ import TagInput from './TagInput/TagInput';
 import TextEditable from './TextEditable/TextEditable';
 import TextBox, { TextField, Textarea } from './TextBox/TextBox';
 import Thumb from './Thumb/Thumb';
+import TextboxDropdown from './TextboxDropdown/TextboxDropdown';
 import TimePicker from './TimePicker/TimePicker';
 import ToastMessage from './ToastMessage/ToastMessage';
 import Toggle from './Toggle/Toggle';
@@ -195,6 +196,7 @@ export {
   TextField,
   Textarea,
   Thumb,
+  TextboxDropdown,
   TimePicker,
   ToastMessage,
   Toggle,

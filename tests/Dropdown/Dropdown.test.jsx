@@ -21,8 +21,19 @@ describe('Dropdown', () => {
   });
 
   describe('when it manages its own state', () => {
+    it('does not dim the page by default, and closes on a click outside it', () => {
+      const onClose = jest.fn();
+      const { container } = render(<Dropdown label="Options" onClose={onClose}>Contents</Dropdown>);
+      fireEvent.click(screen.getByRole('button', { name: 'Options' }));
+      expect(container.firstChild).toHaveClass('is-open');
+      expect(getOverlay()).toBeNull();
+      fireEvent.mouseDown(document.body);
+      expect(container.firstChild).not.toHaveClass('is-open');
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
     it('opens and closes when the button is clicked, without needing onClick', () => {
-      const { container } = render(<Dropdown label="Options">Contents</Dropdown>);
+      const { container } = render(<Dropdown label="Options" showOverlay>Contents</Dropdown>);
       const button = screen.getByRole('button', { name: 'Options' });
 
       fireEvent.click(button);
@@ -44,7 +55,7 @@ describe('Dropdown', () => {
 
     it('closes when the overlay is clicked, calling onClose', () => {
       const onClose = jest.fn();
-      const { container } = render(<Dropdown label="Options" onClose={onClose}>Contents</Dropdown>);
+      const { container } = render(<Dropdown label="Options" showOverlay onClose={onClose}>Contents</Dropdown>);
       fireEvent.click(screen.getByRole('button', { name: 'Options' }));
 
       fireEvent.click(getOverlay());
@@ -119,7 +130,7 @@ describe('Dropdown', () => {
 
     it('leaves outside clicks to the overlay when there is one', () => {
       const onClose = jest.fn();
-      render(<Dropdown label="Options" onClose={onClose}>Contents</Dropdown>);
+      render(<Dropdown label="Options" showOverlay onClose={onClose}>Contents</Dropdown>);
       fireEvent.click(screen.getByRole('button', { name: 'Options' }));
 
       fireEvent.mouseDown(document.body);
@@ -150,7 +161,7 @@ describe('Dropdown', () => {
       const { container } = render(
         <>
           <input aria-label="Elsewhere" />
-          <Dropdown label="Options">Contents</Dropdown>
+          <Dropdown label="Options" showOverlay>Contents</Dropdown>
         </>
       );
       fireEvent.click(screen.getByRole('button', { name: 'Options' }));
@@ -173,7 +184,7 @@ describe('Dropdown', () => {
 
     it('removes its overlay and key listener when unmounted while open', () => {
       const onClose = jest.fn();
-      const { unmount } = render(<Dropdown label="Options" onClose={onClose}>Contents</Dropdown>);
+      const { unmount } = render(<Dropdown label="Options" showOverlay onClose={onClose}>Contents</Dropdown>);
       fireEvent.click(screen.getByRole('button', { name: 'Options' }));
       expect(getOverlay()).not.toBeNull();
 
@@ -200,7 +211,7 @@ describe('Dropdown', () => {
 
     it('calls onClose for the overlay, a choice and Escape, but not for other clicks inside', () => {
       const onClose = jest.fn();
-      render(<Dropdown label="Options" open onClose={onClose}><span>Other</span><span data-dropdown-close>Choice</span></Dropdown>);
+      render(<Dropdown label="Options" open showOverlay onClose={onClose}><span>Other</span><span data-dropdown-close>Choice</span></Dropdown>);
 
       fireEvent.click(screen.getByText('Other'));
       expect(onClose).not.toHaveBeenCalled();
@@ -219,7 +230,7 @@ describe('Dropdown', () => {
     });
 
     it('does not crash on an open dropdown that has no onClose', () => {
-      render(<Dropdown label="Options" open><span>Choice</span></Dropdown>);
+      render(<Dropdown label="Options" open showOverlay><span>Choice</span></Dropdown>);
       fireEvent.click(getOverlay());
       fireEvent.click(screen.getByText('Choice'));
       fireEvent.keyDown(document, { key: 'Escape' });

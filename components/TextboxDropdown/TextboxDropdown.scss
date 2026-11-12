@@ -1,0 +1,13 @@
+// The Dropdown inside is the positioning; this makes the field fill the width and the panel
+// the same width as the field it hangs from.
+.volta-textbox_dropdown {
+  display: block;
+
+  > .volta-dropdown {
+    display: block;
+  }
+
+  .textbox_dropdown-panel {
+    padding: var(--v-space-2);
+  }
+}
