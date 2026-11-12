@@ -26,6 +26,7 @@ import { Slider } from 'volta';
 | `max` | `number` | `2` | Not 100: set `max` for any other range. |
 | `step` | `number` | | Snaps to multiples of `step` from `min`, and the keyboard moves by it. Without it the value is continuous. |
 | `disabled` | `bool` | `false` | Dimmed, ignores the pointer and the keyboard, and leaves the tab order. |
+| `buttons` | `bool` | `false` | Shows a – button at the left end and a + button at the right, each moving the value by one `step` (a tenth of the range when there is no `step`). A button is disabled at its end of the range, and both are disabled with `disabled`. They are named "Decrease …" and "Increase …" followed by `ariaLabel`. |
 | `ariaLabel` | `string` | | Names the slider for screen readers. |
 | `onChange` | `function` | | Called with the new number, only when it actually changes. A controlled slider shows it only once you pass it back as `value`. |
 

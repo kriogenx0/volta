@@ -151,3 +151,63 @@ describe('Slider animation', () => {
     expect(scss).not.toMatch(/transition:[^;]*\d+m?s\b/);
   });
 });
+
+describe('Slider buttons', () => {
+  const minus = () => screen.getByRole('button', { name: 'Decrease Zoom' });
+  const plus = () => screen.getByRole('button', { name: 'Increase Zoom' });
+
+  it('has no buttons by default', () => {
+    render(<Slider ariaLabel="Zoom" />);
+    expect(screen.queryByRole('button')).toBeNull();
+  });
+
+  it('shows a – and a + button named for the slider', () => {
+    render(<Slider ariaLabel="Zoom" buttons />);
+    expect(minus()).toBeInTheDocument();
+    expect(plus()).toBeInTheDocument();
+  });
+
+  it('moves the value by one step each press, and reports it', () => {
+    const onChange = jest.fn();
+    render(<Slider ariaLabel="Zoom" buttons min={0} max={100} step={10} defaultValue={50} onChange={onChange} />);
+    fireEvent.click(plus());
+    expect(thumb()).toHaveAttribute('aria-valuenow', '60');
+    expect(onChange).toHaveBeenLastCalledWith(60);
+    fireEvent.click(minus());
+    fireEvent.click(minus());
+    expect(thumb()).toHaveAttribute('aria-valuenow', '40');
+    expect(onChange).toHaveBeenLastCalledWith(40);
+  });
+
+  it('moves by a tenth of the range when there is no step', () => {
+    render(<Slider ariaLabel="Zoom" buttons min={0} max={2} defaultValue={1} />);
+    fireEvent.click(plus());
+    expect(thumb()).toHaveAttribute('aria-valuenow', '1.2');
+  });
+
+  it('stops at each end, disabling the button there', () => {
+    render(<Slider ariaLabel="Zoom" buttons min={0} max={100} step={50} defaultValue={50} />);
+    fireEvent.click(plus());
+    expect(thumb()).toHaveAttribute('aria-valuenow', '100');
+    expect(plus()).toBeDisabled();
+    expect(minus()).toBeEnabled();
+    fireEvent.click(minus());
+    fireEvent.click(minus());
+    expect(thumb()).toHaveAttribute('aria-valuenow', '0');
+    expect(minus()).toBeDisabled();
+  });
+
+  it('follows a controlled value, only reporting the press', () => {
+    const onChange = jest.fn();
+    render(<Slider ariaLabel="Zoom" buttons min={0} max={100} step={10} value={50} onChange={onChange} />);
+    fireEvent.click(plus());
+    expect(onChange).toHaveBeenCalledWith(60);
+    expect(thumb()).toHaveAttribute('aria-valuenow', '50');
+  });
+
+  it('disables both buttons with the slider', () => {
+    render(<Slider ariaLabel="Zoom" buttons disabled />);
+    expect(minus()).toBeDisabled();
+    expect(plus()).toBeDisabled();
+  });
+});

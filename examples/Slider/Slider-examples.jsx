@@ -72,6 +72,11 @@ export default {
       output: <Slider ariaLabel="Amount" />
     },
     {
+      name: 'With – and + buttons',
+      code: '<Slider ariaLabel="Zoom" buttons min={0} max={100} step={10} defaultValue={50} />',
+      output: <Slider ariaLabel="Zoom" buttons min={0} max={100} step={10} defaultValue={50} />
+    },
+    {
       name: 'Controlled, 0 to 100',
       code: `const [volume, setVolume] = useState(30);
 

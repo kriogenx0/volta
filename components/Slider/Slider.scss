@@ -66,3 +66,49 @@ $thumb-size: 18px;
     opacity: .5;
   }
 }
+
+// With `buttons`: a – and a + button either side of the slider
+.volta-slider_group {
+  display: flex;
+  align-items: center;
+  gap: var(--v-space-2);
+  width: 100%;
+
+  .volta-slider {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .volta-slider-step {
+    flex: none;
+    display: grid;
+    place-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid var(--v-color-base-less-subtle);
+    border-radius: var(--v-radius-md);
+    background: var(--v-color-base);
+    color: var(--v-color-trim);
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color var(--v-anim-speed) var(--v-anim-ease), border-color var(--v-anim-speed) var(--v-anim-ease);
+    -webkit-user-select: none;
+    user-select: none;
+
+    &:hover:not(:disabled) {
+      background: var(--v-color-base-more-subtle);
+      border-color: var(--v-color-trim-less-subtle);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--v-accent);
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: .5;
+    }
+  }
+}

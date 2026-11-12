@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
+import Icon from '../Icon';
+
 import './Slider.scss';
 
 const clamp = (n, min, max) => Math.min(Math.max(n, min), max);
@@ -9,7 +11,7 @@ const clamp = (n, min, max) => Math.min(Math.max(n, min), max);
 // (value + onChange) or uncontrolled (optional defaultValue). A click on the track or
 // a key press slides the thumb to its new place; once the pointer moves while pressed
 // ("tracking") it follows the pointer at once, so dragging never lags behind.
-const Slider = ({ value: controlledValue, defaultValue, min = 0, max = 2, step, disabled = false, ariaLabel, onChange = () => {} }) => {
+const Slider = ({ value: controlledValue, defaultValue, min = 0, max = 2, step, disabled = false, buttons = false, ariaLabel, onChange = () => {} }) => {
   const [internalValue, setInternalValue] = useState(defaultValue === undefined ? (min + max) / 2 : defaultValue);
   const [dragging, setDragging] = useState(false);
   const [tracking, setTracking] = useState(false);
@@ -93,7 +95,10 @@ const Slider = ({ value: controlledValue, defaultValue, min = 0, max = 2, step, 
     update(keys[event.key]);
   };
 
-  return (
+  // The – and + buttons move by one step (a tenth of the range without a step)
+  const stepBy = step || (max - min) / 10;
+
+  const slider = (
     <div
       className={`volta-slider${disabled ? ' volta-slider--disabled' : ''}${dragging ? ' volta-slider--dragging' : ''}${tracking ? ' volta-slider--tracking' : ''}`}
       onMouseDown={startDrag}
@@ -116,6 +121,34 @@ const Slider = ({ value: controlledValue, defaultValue, min = 0, max = 2, step, 
       </div>
     </div>
   );
+
+  if (!buttons) return slider;
+
+  const label = ariaLabel || 'value';
+
+  return (
+    <div className="volta-slider_group">
+      <button
+        type="button"
+        className="volta-slider-step"
+        aria-label={`Decrease ${label}`}
+        disabled={disabled || value <= min}
+        onClick={() => update(value - stepBy)}
+      >
+        <Icon type="minus" aria-hidden="true" />
+      </button>
+      {slider}
+      <button
+        type="button"
+        className="volta-slider-step"
+        aria-label={`Increase ${label}`}
+        disabled={disabled || value >= max}
+        onClick={() => update(value + stepBy)}
+      >
+        <Icon type="plus" aria-hidden="true" />
+      </button>
+    </div>
+  );
 };
 
 Slider.propTypes = {
@@ -128,6 +161,8 @@ Slider.propTypes = {
   // Snap to multiples of step from min; the keyboard moves by it too
   step: PropTypes.number,
   disabled: PropTypes.bool,
+  // Show a – and a + button at the ends, each moving it by one step (a tenth of the range without a step)
+  buttons: PropTypes.bool,
   ariaLabel: PropTypes.string,
   onChange: PropTypes.func
 };
