@@ -1,6 +1,6 @@
 # Dependencies: moment and lodash stay out of new code
 
-`lodash` has been removed. `moment` is still a dependency but shouldn't grow: new code uses the platform, `date-fns` or `luxon` (both already dependencies), and the files that still use `moment` are tracked so they can be removed.
+`lodash` has been removed. `moment` is still a dependency but shouldn't grow: new code uses the platform, `date-fns` (already a dependency), and the files that still use `moment` are tracked so they can be removed.
 
 ## The rule
 
@@ -36,3 +36,5 @@
 - 2026-11-10 (local, not merged or deployed): `lodash` removed from all 30 files that imported it, from `package.json` and the lockfile, and the global `_` from `jest.setup.js`; the four helpers added to `util/`. The suite, lint and both builds pass; nothing was checked in a browser, so the components that changed (the tab, list, menu, calendar, picker and file components) are covered by their jsdom tests only.
 
 `howler` has been removed: `AudioPlayer` plays through the browser's own audio element.
+
+- 2026-11-17 (local, not merged or deployed): `luxon`, `fuzzy` and `classnames` removed; `luxon` had no importers, the other two are replaced by `util/fuzzyMatch.js` and `util/classNames.js`.

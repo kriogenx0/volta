@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-// moment and lodash stay out of new code; date-fns and luxon (already dependencies)
+// moment and lodash stay out of new code; date-fns (already a dependency)
 // and the platform cover what they do. The files that use moment today are listed
 // below so they can be removed one at a time; lodash has no users left.
 //
@@ -64,7 +64,7 @@ describe('the check itself', () => {
       .forEach((line) => expect(importsOf(line, LODASH)).toBe(true));
   });
 
-  it('ignores the platform, date-fns, luxon, a comment, and a name that only starts the same', () => {
+  it('ignores the platform, date-fns, a comment, and a name that only starts the same', () => {
     ["import { format } from 'date-fns';", "import { DateTime } from 'luxon';", "// import _ from 'lodash';", "import x from 'momentum';", "import y from 'lodash.debounce-polyfill';"]
       .forEach((line) => {
         expect(importsOf(line, MOMENT)).toBe(false);

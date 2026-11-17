@@ -13,7 +13,7 @@
 // this is the plain-array mode only.
 import { useState, useRef, useEffect, useId } from 'react';
 import PropTypes from 'prop-types';
-import Fuzzy from 'fuzzy';
+import fuzzyMatch from '../../util/fuzzyMatch';
 
 import AutoCompleteRow from './AutoCompleteRow';
 
@@ -47,8 +47,8 @@ const AutoComplete = ({
   // Worked out on every render so new options or text can't leave it stale.
   const chosenValues = chosen.map((item) => item.value);
   const matching = options.filter((option) => isValidResult(option) && !chosenValues.includes(option.value));
-  const filteredOptions = Fuzzy.filter(value, matching, { extract: (el) => el.title })
-    .map((res) => res.original)
+  const filteredOptions = matching
+    .filter((option) => fuzzyMatch(value, option.title))
     .sort((a, b) => (a.title < b.title ? -1 : a.title > b.title ? 1 : 0));
 
   // Take a new selection from the parent

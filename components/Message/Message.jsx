@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classnames from '../../util/classNames';
 
 import Icon from '../Icon/Icon';
 

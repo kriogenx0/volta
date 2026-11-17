@@ -31,7 +31,7 @@ Rules for any AI agent (or human) writing UI with Volta. Read `tokens.json` for 
 - Never use `!important`, inline `style` for colour/spacing, or `z-index` numbers. Use the `z-*` tokens.
 - Never add gradients, glows, or decorative shadows beyond `shadow-sm/md/lg`.
 - Never use more than one `primary` button per view region.
-- Never use pt units, vendor-prefix mixins, or `lodash`/`moment` in new code (`date-fns`/`luxon` are present; prefer the platform).
+- Never use pt units, vendor-prefix mixins, or `lodash`/`moment` in new code (`date-fns` is present; prefer the platform).
 - Never import from `styles/_colors.scss` legacy names (`$color_*`, `$base_*`, `$active_color`, `legacy-color()`). They are deprecated aliases kept only for old files.
 - Never invent a token. If one is missing, propose it in `tokens.json` first.
 

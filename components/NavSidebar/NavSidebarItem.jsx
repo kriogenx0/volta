@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import ClassNames from 'classnames';
+import ClassNames from '../../util/classNames';
 
 const toRoute = (navItem) => ({
   pathname: navItem.linkTo,
